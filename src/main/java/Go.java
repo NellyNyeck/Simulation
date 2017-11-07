@@ -1,3 +1,4 @@
+import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
 
@@ -19,12 +20,19 @@ public class Go {
             CNode c2 = new CNode(Integer.valueOf(tokens[1]));
             CNode n1= (CNode) g.getNode(c1);
             CNode n2 = (CNode) g.getNode(c2);
+            CEdge e = new CEdge();
             if ((n1!=null) && (n2!=null)){
-
+                g.addEdge(n1, n2, e);
             }
+            else if (n1!=null){
+                g.addEdge(n1,c2,e);
+            }
+            else if(n2!=null){
+                g.addEdge(c1, n2, e);
+            }
+            else g.addEdge(c1, c2, e);
+            text=bf.readLine();
         }
-
-
-
+        bf.close();
     }
 }

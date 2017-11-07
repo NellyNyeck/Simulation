@@ -13,10 +13,4 @@ public class CNode implements INode<Integer> {
         return id;
     }
 
-    @Override
-    public boolean equals(Integer integer) {
-        if(id==integer) return true;
-        else return false;
-    }
-
 }
