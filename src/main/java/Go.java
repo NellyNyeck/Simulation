@@ -71,6 +71,10 @@ public class Go {
     }
     public static void main(String args[]) throws IOException {
         graphInit();
+        for (Object c : g.getNodes()){
+            CNode n = (CNode) c;
+            System.out.println(n.id());
+        }
         Collection<CPOI> pois=genPOI(6);
         List<List> routes=routing(pois);
     }
