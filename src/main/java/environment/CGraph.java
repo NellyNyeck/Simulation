@@ -68,4 +68,11 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
         List<E> r= alg.getPath(p_start, p_end);
         return r;
     }
+
+    public void update(List<E> l){
+        for(E e : l){
+            CEdge ex= (CEdge) getEdge(e);
+            ex.update();
+        }
+    }
 }

@@ -21,4 +21,8 @@ public class CEdge implements IEdge {
     public String about(){
         return about;
     }
+
+    protected void update(){
+        weight=weight-0.01;
+    }
 }

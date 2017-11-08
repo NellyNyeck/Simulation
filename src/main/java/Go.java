@@ -63,6 +63,9 @@ public class Go {
         ArrayList<CPOI> col = new ArrayList<>();
         for(int i=0;i<n; i++){
             int val=(int)(Math.random()*(g.countNodes()+1));
+            while (val==0){
+                val=(int)(Math.random()*(g.countNodes()+1));
+            }
             CPOI p = new CPOI(g.getNode(val));
             col.add(p);
         }
@@ -73,6 +76,12 @@ public class Go {
         ArrayList<List> routes=new ArrayList<List>();
         for(CPOI p : pois){
             List<CEdge> r = g.route(g.getNode(0),p.id());
+            g.update(r);
+            System.out.println("Edges under 1: ");
+            for (Object c : g.getEdges()){
+                CEdge e = (CEdge) c;
+                if (e.weight()<1)   System.out.print(e.about()+ " ");
+            }
             routes.add(r);
         }
         return routes;
@@ -105,5 +114,6 @@ public class Go {
             System.out.println();
             i++;
         }
+
     }
 }
