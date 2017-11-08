@@ -69,7 +69,7 @@ public class Go {
         return col;
     }
 
-    public static List<List> routing(Collection<CPOI> pois){
+    public static ArrayList<List> routing(Collection<CPOI> pois){
         ArrayList<List> routes=new ArrayList<List>();
         for(CPOI p : pois){
             List<CEdge> r = g.route(g.getNode(0),p.id());
@@ -79,11 +79,23 @@ public class Go {
     }
     public static void main(String args[]) throws IOException {
         graphInit();
+        System.out.println("Nodes: ");
         for (Object c : g.getNodes()){
             CNode n = (CNode) c;
-            System.out.println(n.id());
+            System.out.print(n.id() +" ");
+        }
+        System.out.println();
+        System.out.println("Edges:");
+        for (Object c : g.getEdges()){
+            CEdge e = (CEdge) c;
+            System.out.print(e.about()+ " ");
         }
         Collection<CPOI> pois=genPOI(6);
-        List<List> routes=routing(pois);
+        System.out.println();
+        System.out.println("Best Routes: ");
+        ArrayList<List> routes=routing(pois);
+        for (List l : routes){
+            System.out.print(l.toString());
+        }
     }
 }
