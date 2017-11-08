@@ -51,11 +51,12 @@ public class Go {
         bf.close();
     }
 
-    public static Collection<CNode> genPOI(int n){
-        ArrayList<CNode> col = new ArrayList<>();
+    public static Collection<CPOI> genPOI(int n){
+        ArrayList<CPOI> col = new ArrayList<>();
         for(int i=0;i<n; i++){
             int val=(int)(Math.random()*(g.countNodes()+1));
-            col.add((CNode)g.getNode(val));
+            CPOI p = new CPOI(g.getNode(val));
+            col.add(p);
         }
         return col;
     }
@@ -70,7 +71,7 @@ public class Go {
     }
     public static void main(String args[]) throws IOException {
         graphInit();
-        Collection<CNode> pois=genPOI(6);
-        
+        Collection<CPOI> pois=genPOI(6);
+        List<List> routes=routing(pois);
     }
 }

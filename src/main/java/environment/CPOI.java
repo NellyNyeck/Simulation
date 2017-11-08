@@ -4,11 +4,11 @@ import java.util.Collection;
 
 public class CPOI implements IPOI, INode {
 
-    private CNode node;
+    private INode node;
 
     private Collection<ILabel> labels;
 
-    public CPOI(CNode n){
+    public CPOI(INode n){
         node=n;
     }
 

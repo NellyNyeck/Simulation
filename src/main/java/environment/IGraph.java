@@ -1,13 +1,11 @@
 package environment;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.Collection;
 import java.util.List;
 
 public interface IGraph<I, V extends INode<I>, E extends IEdge>
 {
-    List<E> route(@NotNull final I p_start, @NotNull final I p_end );
+    //List<E> route(@NotNull final I p_start, @NotNull final I p_end );
 
     public void addNode(V v);
 
@@ -24,5 +22,7 @@ public interface IGraph<I, V extends INode<I>, E extends IEdge>
     public int countEdges();
 
     public int countNodes();
+
+    public List<E> route(final I p_start, final I p_end);
     
 }
