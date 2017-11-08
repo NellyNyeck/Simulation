@@ -27,22 +27,30 @@ public class Go {
             CEdge e1 = new CEdge();
             CEdge e2 = new CEdge();
             if ((n1!=null) && (n2!=null)){
+                e1.setAbout(n1, n2);
+                e2.setAbout(n2,n1);
                 g.addEdge(n1, n2, e1);
                 g.addEdge(n2, n1, e2);
             }
             else if (n1!=null){
                 CNode c2 = new CNode(Integer.valueOf(tokens[1]));
+                e1.setAbout(n1, c2);
+                e2.setAbout(c2,n1);
                 g.addEdge(n1,c2,e1);
                 g.addEdge(c2,n1,e2);
             }
             else if(n2!=null){
                 CNode c1 = new CNode(Integer.valueOf(tokens[0]));
+                e1.setAbout(c1,n2);
+                e2.setAbout(n2,c1);
                 g.addEdge(c1, n2, e1);
                 g.addEdge(n2,c1,e2);
             }
             else{
                 CNode c1 = new CNode(Integer.valueOf(tokens[0]));
                 CNode c2 = new CNode(Integer.valueOf(tokens[1]));
+                e1.setAbout(c1,c2);
+                e2.setAbout(c2,c1);
                 g.addEdge(c1, c2, e1);
                 g.addEdge(c2,c1,e2);
             }
