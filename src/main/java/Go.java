@@ -94,8 +94,16 @@ public class Go {
         System.out.println();
         System.out.println("Best Routes: ");
         ArrayList<List> routes=routing(pois);
-        for (List l : routes){
-            System.out.print(l.toString());
+        int i=0;
+        for (CPOI p : pois){
+            CNode dest = (CNode) p.id();
+            System.out.println("For POI " + dest.id() + " the route is: ");
+            List<CEdge> rou = routes.get(i);
+            for(CEdge e : rou){
+                System.out.print("(" + e.about()+ ") " );
+            }
+            System.out.println();
+            i++;
         }
     }
 }
