@@ -8,7 +8,7 @@ public interface IGraph<I, V extends INode<I>, E extends IEdge>
 
     public void addNode(V v);
 
-    public V getNode(V v);
+    public V getNode(Number n);
 
     public Collection<V> getNodes();
 
@@ -17,6 +17,10 @@ public interface IGraph<I, V extends INode<I>, E extends IEdge>
     public E getEdge(E e);
 
     public Collection<E> getEdges();
+
+    public int countEdges();
+
+    public int countNodes();
 
 
 }
