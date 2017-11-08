@@ -20,7 +20,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
     public V getNode(V comp){
         Collection<V> allN = m_graph.getVertices();
         for(V v : allN){
-            if (v.equals(comp)) return v;
+            if (v.id()==comp.id()) return v;
         }
         return null;
     }
