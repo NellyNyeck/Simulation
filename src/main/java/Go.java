@@ -1,3 +1,4 @@
+import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
@@ -61,7 +62,8 @@ public class Go {
     public static void main(String args[]) throws IOException {
         graphInit();
         Collection<CNode> pois=genPOI(6);
-        System.out.println(pois.size());
+
+
 
     }
 }
