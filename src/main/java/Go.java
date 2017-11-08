@@ -1,13 +1,14 @@
-import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
+import environment.CPOI;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class Go {
 
@@ -59,11 +60,17 @@ public class Go {
         return col;
     }
 
+    public static List<List> routing(Collection<CPOI> pois){
+        ArrayList<List> routes=new ArrayList<List>();
+        for(CPOI p : pois){
+            List<CEdge> r = g.route(g.getNode(0),p.id());
+            routes.add(r);
+        }
+        return routes;
+    }
     public static void main(String args[]) throws IOException {
         graphInit();
         Collection<CNode> pois=genPOI(6);
-
-
-
+        
     }
 }
