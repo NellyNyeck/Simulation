@@ -10,7 +10,6 @@ public class CEdge implements IEdge {
         about=s;
         weight=1;
     }
-    //@Override
     public double weight() {
         return weight;
     }

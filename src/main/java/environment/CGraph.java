@@ -34,16 +34,6 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
     @Override
     public void addEdge(V v1, V v2, E e) {
         m_graph.addEdge(e, v1, v2);
-
-    }
-
-    @Override
-    public E getEdge(E comp) {
-        Collection<E> allE = m_graph.getEdges();
-        for(E e : allE){
-            if (e.equals(comp)) return e;
-        }
-        return null;
     }
 
     @Override
@@ -58,7 +48,6 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
 
     @Override
     public int countNodes() {
-        int v=m_graph.getVertexCount();
         return m_graph.getVertexCount();
     }
 

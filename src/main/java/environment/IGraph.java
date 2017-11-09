@@ -15,8 +15,6 @@ public interface IGraph<I, V extends INode<I>, E extends IEdge>
 
     public void addEdge(V v1, V v2, E e);
 
-    public E getEdge(E e);
-
     public Collection<E> getEdges();
 
     public int countEdges();
