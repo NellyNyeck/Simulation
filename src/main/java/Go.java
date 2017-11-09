@@ -90,7 +90,6 @@ public class Go {
                         plat.add();
                         check=true;
                     }
-
                 }
                 if (check==false) platoons.add(p);
             }
