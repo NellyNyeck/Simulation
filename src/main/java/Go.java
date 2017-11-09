@@ -6,9 +6,7 @@ import environment.CPOI;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Go {
 
@@ -60,14 +58,13 @@ public class Go {
     }
 
     public static Collection<CPOI> genPOI(int n){
-        ArrayList<CPOI> col = new ArrayList<>();
-        for(int i=0;i<n; i++){
-            int val=(int)(Math.random()*(g.countNodes()+1));
-            while (val==0){
-                val=(int)(Math.random()*(g.countNodes()+1));
+        Set<CPOI> col = new HashSet<>();
+        while (col.size()<n){
+            int val=(int)(Math.random()*(g.countNodes()));
+            if(val!=0){
+                CPOI p = new CPOI(g.getNode(val));
+                col.add(p);
             }
-            CPOI p = new CPOI(g.getNode(val));
-            col.add(p);
         }
         return col;
     }
@@ -88,20 +85,8 @@ public class Go {
     }
     public static void main(String args[]) throws IOException {
         graphInit();
-        System.out.println("Nodes: ");
-        for (Object c : g.getNodes()){
-            CNode n = (CNode) c;
-            System.out.print(n.id() +" ");
-        }
         System.out.println();
-        System.out.println("Edges:");
-        for (Object c : g.getEdges()){
-            CEdge e = (CEdge) c;
-            System.out.print(e.about()+ " ");
-        }
         Collection<CPOI> pois=genPOI(6);
-        System.out.println();
-        System.out.println("Best Routes: ");
         ArrayList<List> routes=routing(pois);
         int i=0;
         for (CPOI p : pois){

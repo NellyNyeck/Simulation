@@ -25,4 +25,6 @@ public class CEdge implements IEdge {
     protected void update(){
         weight=weight-0.01;
     }
+
+    protected void reset() {weight=1;}
 }

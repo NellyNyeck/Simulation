@@ -1,5 +1,6 @@
 package environment;
 
+import com.google.common.base.Function;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
@@ -9,12 +10,7 @@ import java.util.List;
 
 public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGraph<I,V,E> {
     private final Graph<V,E> m_graph = new DirectedSparseGraph<>();
-    private Transformer<CEdge, Double> trans = new Transformer<CEdge, Double>() {
-        @Override
-        public Double transform(CEdge cEdge) {
-            return  cEdge.weight();
-        }
-    };
+    private CTransformer<E,Double> trans;
 
     public CGraph( ) {
     }
@@ -70,7 +66,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
 
     @Override
     public List<E> route(I p_start, I p_end) {
-        DijkstraShortestPath alg = new DijkstraShortestPath(m_graph,trans);
+        DijkstraShortestPath alg = new DijkstraShortestPath(m_graph, (Function) trans);
         List<E> r= alg.getPath(p_start, p_end);
         Number d = alg.getDistance(p_start,p_end);
         return r;
@@ -80,6 +76,13 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
         for(E e : l){
             CEdge ex= (CEdge) getEdge(e);
             ex.update();
+        }
+    }
+
+    public void reset(){
+        for (E e : m_graph.getEdges()){
+            CEdge ex= (CEdge) getEdge(e);
+            ex.reset();
         }
     }
 }
