@@ -6,9 +6,7 @@ import environment.CPOI;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Go {
 
@@ -60,7 +58,7 @@ public class Go {
     }
 
     public static Collection<CPOI> genPOI(int n){
-        ArrayList<CPOI> col = new ArrayList<>();
+        Set<CPOI> col = new HashSet<>();
         for(int i=0;i<n; i++){
             int val=(int)(Math.random()*(g.countNodes()+1));
             if(val!=0){
@@ -68,7 +66,9 @@ public class Go {
                 col.add(p);
             }
             else i--;
+
         }
+
         return col;
     }
 
