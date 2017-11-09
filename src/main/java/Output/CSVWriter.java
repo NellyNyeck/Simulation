@@ -43,7 +43,15 @@ public class CSVWriter {
             System.out.println("Error in CsvFileWriter !!!");
             e.printStackTrace();
         }
+    }
 
+    public static void writeNewLine(){
+        try {
+            fileWriter.append(NEW_LINE_SEPARATOR);
+            fileWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void done(){

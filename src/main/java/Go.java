@@ -59,13 +59,12 @@ public class Go {
 
     public static Collection<CPOI> genPOI(int n){
         Set<CPOI> col = new HashSet<>();
-        for(int i=0;i<n; i++){
-            int val=(int)(Math.random()*(g.countNodes()+1));
+        while (col.size()<n){
+            int val=(int)(Math.random()*(g.countNodes()));
             if(val!=0){
                 CPOI p = new CPOI(g.getNode(val));
                 col.add(p);
             }
-            else i--;
         }
         return col;
     }
@@ -107,6 +106,7 @@ public class Go {
             ArrayList<List> routes=routing(pois);
             ArrayList<PEdge> plat=countPlat(routes);
             out.writeCsvFile(plat);
+            out.writeNewLine();
             count++;
         }
         out.done();
