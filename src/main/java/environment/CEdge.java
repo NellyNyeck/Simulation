@@ -13,7 +13,7 @@ public class CEdge implements IEdge {
     public void setAbout(CNode n1, CNode n2){
         about=n1.id()+" "+n2.id();
     }
-    @Override
+    //@Override
     public double weight() {
         return weight;
     }
@@ -21,4 +21,6 @@ public class CEdge implements IEdge {
     public String about(){
         return about;
     }
+
+
 }

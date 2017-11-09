@@ -1,7 +1,5 @@
-import environment.CEdge;
-import environment.CGraph;
-import environment.CNode;
-import environment.CPOI;
+import Output.CSVWriter;
+import environment.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,6 +9,8 @@ import java.util.*;
 public class Go {
 
     static CGraph g;
+
+    static CSVWriter out;
 
     public static void graphInit() throws IOException {
         g=new CGraph();
@@ -66,9 +66,7 @@ public class Go {
                 col.add(p);
             }
             else i--;
-
         }
-
         return col;
     }
 
@@ -80,24 +78,38 @@ public class Go {
         }
         return routes;
     }
+
+    public static ArrayList<PEdge> countPlat(ArrayList<List> routes ){
+        ArrayList<PEdge> platoons = new ArrayList<>();
+        for(List r : routes){
+            for(int i=0; i<r.size(); i++){
+                CEdge comp = (CEdge) r.get(i);
+                boolean check = false;
+                PEdge p = new PEdge(comp);
+                for(PEdge plat : platoons){
+                    if (p.getAbout().equals(plat.getAbout())){
+                        plat.add();
+                        check=true;
+                    }
+
+                }
+                if (check==false) platoons.add(p);
+            }
+        }
+        return platoons;
+    }
+
+    public static void doTheThing(){
+
+
+
+    }
     public static void main(String args[]) throws IOException {
         graphInit();
-        System.out.println("Nodes: ");
-        for (Object c : g.getNodes()){
-            CNode n = (CNode) c;
-            System.out.print(n.id() +" ");
-        }
-        System.out.println();
-        System.out.println("Edges:");
-        for (Object c : g.getEdges()){
-            CEdge e = (CEdge) c;
-            System.out.print(e.about()+ " ");
-        }
         Collection<CPOI> pois=genPOI(6);
-        System.out.println();
-        System.out.println("Best Routes: ");
+        //System.out.println("Best Routes: ");
         ArrayList<List> routes=routing(pois);
-        int i=0;
+        /*int i=0;
         for (CPOI p : pois){
             CNode dest = (CNode) p.id();
             System.out.println("For POI " + dest.id() + " the route is: ");
@@ -107,6 +119,14 @@ public class Go {
             }
             System.out.println();
             i++;
+        }*/
+        ArrayList<PEdge> plat=countPlat(routes);
+        System.out.println("The edges on which platooning can occur are: ");
+        for(PEdge p : plat){
+            if (p.getCounter()>1)   System.out.println( "( " + p.getAbout() + ") " + p.getCounter());
         }
+        out=new CSVWriter("test.csv");
+        out.writeCsvFile(plat);
+        out.done();
     }
 }
