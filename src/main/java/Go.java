@@ -100,16 +100,24 @@ public class Go {
     }
 
     public static void doTheThing(){
-
-
-
+        out=new CSVWriter("ResultsDijkstra.csv");
+        int count=0;
+        while(count<10000){
+            Collection<CPOI> pois=genPOI(6);
+            ArrayList<List> routes=routing(pois);
+            ArrayList<PEdge> plat=countPlat(routes);
+            out.writeCsvFile(plat);
+            count++;
+        }
+        out.done();
     }
     public static void main(String args[]) throws IOException {
         graphInit();
+        doTheThing();
+        /*
         Collection<CPOI> pois=genPOI(6);
-        //System.out.println("Best Routes: ");
         ArrayList<List> routes=routing(pois);
-        /*int i=0;
+        int i=0;
         for (CPOI p : pois){
             CNode dest = (CNode) p.id();
             System.out.println("For POI " + dest.id() + " the route is: ");
@@ -119,14 +127,14 @@ public class Go {
             }
             System.out.println();
             i++;
-        }*/
+        }
         ArrayList<PEdge> plat=countPlat(routes);
         System.out.println("The edges on which platooning can occur are: ");
         for(PEdge p : plat){
             if (p.getCounter()>1)   System.out.println( "( " + p.getAbout() + ") " + p.getCounter());
         }
-        out=new CSVWriter("test.csv");
+        out=new CSVWriter("ResultsDijkstra.csv");
         out.writeCsvFile(plat);
-        out.done();
+        out.done();*/
     }
 }
