@@ -63,8 +63,11 @@ public class Go {
         ArrayList<CPOI> col = new ArrayList<>();
         for(int i=0;i<n; i++){
             int val=(int)(Math.random()*(g.countNodes()+1));
-            CPOI p = new CPOI(g.getNode(val));
-            col.add(p);
+            if(val!=0){
+                CPOI p = new CPOI(g.getNode(val));
+                col.add(p);
+            }
+            else i--;
         }
         return col;
     }
