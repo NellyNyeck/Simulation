@@ -37,7 +37,8 @@ public class CSVWriter {
                     fileWriter.append(String.valueOf(p.getCounter()));
                     fileWriter.append(NEW_LINE_SEPARATOR);
                     fileWriter.flush();
-                }            }
+                }
+            }
         }
         catch (Exception e) {
             System.out.println("Error in CsvFileWriter !!!");
@@ -47,6 +48,9 @@ public class CSVWriter {
 
     public static void writeNewLine(){
         try {
+            fileWriter.append("x x");
+            fileWriter.append(COMMA_DELIMITER);
+            fileWriter.append("0");
             fileWriter.append(NEW_LINE_SEPARATOR);
             fileWriter.flush();
         } catch (IOException e) {

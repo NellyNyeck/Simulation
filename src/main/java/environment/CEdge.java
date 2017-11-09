@@ -6,12 +6,9 @@ public class CEdge implements IEdge {
 
     private String about;
 
-    public CEdge(){
+    public CEdge(String s){
+        about=s;
         weight=1;
-    }
-
-    public void setAbout(CNode n1, CNode n2){
-        about=n1.id()+" "+n2.id();
     }
     //@Override
     public double weight() {
