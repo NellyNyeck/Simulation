@@ -6,7 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CSVWriter {
+/**
+ * the csw writer class which is app redundant so .... that's nice
+ */
+public class CSVWriter
+{
 
     private static final String COMMA_DELIMITER = ",";
     private static final String NEW_LINE_SEPARATOR = "\n";
