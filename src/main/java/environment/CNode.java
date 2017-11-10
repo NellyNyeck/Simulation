@@ -1,16 +1,22 @@
 package environment;
 
-public class CNode implements INode<Integer> {
+/**
+ * The node class
+ */
+public class CNode implements INode<Integer>
+{
 
-    private Integer id;
+    private Integer m_id;
 
-    public CNode(int i){
-        id=i;
+    public CNode( final int i )
+    {
+        m_id = i;
     }
 
     @Override
-    public Integer id() {
-        return id;
+    public Integer id()
+    {
+        return m_id;
     }
 
 }

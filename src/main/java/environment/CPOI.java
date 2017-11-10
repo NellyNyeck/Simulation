@@ -2,23 +2,31 @@ package environment;
 
 import java.util.Collection;
 
-public class CPOI implements IPOI, INode {
+/**
+ * The Point of interest class
+ */
 
-    private INode node;
+public class CPOI implements IPOI, INode
+{
 
-    private Collection<ILabel> labels;
+    private INode m_node;
 
-    public CPOI(INode n){
-        node=n;
+    private Collection<ILabel> m_labels;
+
+    public CPOI( final INode n )
+    {
+        m_node = n;
     }
 
     @Override
-    public Collection<ILabel> labels() {
-        return labels;
+    public Collection<ILabel> labels()
+    {
+        return m_labels;
     }
 
     @Override
-    public Object id() {
-        return node;
+    public Object id()
+    {
+        return m_node;
     }
 }
