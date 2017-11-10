@@ -7,54 +7,77 @@ import edu.uci.ics.jung.graph.Graph;
 import java.util.Collection;
 import java.util.List;
 
-public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGraph<I,V,E> {
-    private final Graph<V,E> m_graph = new DirectedSparseGraph<>();
+/**
+ *defining the class graph
+ * @param <I> dunno what this is
+ * @param <V> Node/Vertex generic
+ * @param <E> Edge generic
+ * Graph class
+ */
+public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGraph<I, V, E>
+{
+    private final Graph<V, E> m_graph = new DirectedSparseGraph<>();
 
-    public CGraph( ) {
+    public CGraph( )
+    {
     }
 
 
-    public void addNode(V v){
-        m_graph.addVertex(v);
+    public void addNode( final V v )
+    {
+        m_graph.addVertex( v );
     }
 
-    public V getNode(Number n){
-        Collection<V> allN = m_graph.getVertices();
-        for(V v : allN){
-            if (v.id()==n) return v;
+    /**
+     * fetching the node with the desired id
+     * @param n the id of the node that needs to be returned
+     * @return the node with the given n id
+     */
+    public V getNode( final Number n )
+    {
+        final Collection<V> l_all = m_graph.getVertices();
+        for ( final V l_node : l_all )
+        {
+            if ( l_node.id() == n ) return l_node;
         }
         return null;
     }
 
     @Override
-    public Collection<V> getNodes() {
+    public Collection<V> getNodes()
+    {
         return m_graph.getVertices();
     }
 
     @Override
-    public void addEdge(V v1, V v2, E e) {
-        m_graph.addEdge(e, v1, v2);
+    public void addEdge( final V p_v1, final V p_v2, final E e )
+    {
+        m_graph.addEdge( e, p_v1, p_v2 );
     }
 
     @Override
-    public Collection<E> getEdges() {
+    public Collection<E> getEdges()
+    {
         return m_graph.getEdges();
     }
 
     @Override
-    public int countEdges() {
+    public int countEdges()
+    {
         return m_graph.getEdgeCount();
     }
 
     @Override
-    public int countNodes() {
+    public int countNodes()
+    {
         return m_graph.getVertexCount();
     }
 
     @Override
-    public List<E> route(I p_start, I p_end) {
-        DijkstraShortestPath alg = new DijkstraShortestPath(m_graph);
-        List<E> r= alg.getPath(p_start, p_end);
-        return r;
+    public List<E> route( final I p_start, final I p_end )
+    {
+        final DijkstraShortestPath l_alg = new DijkstraShortestPath( m_graph );
+        final List<E> l_rou = l_alg.getPath( p_start, p_end );
+        return l_rou;
     }
 }
