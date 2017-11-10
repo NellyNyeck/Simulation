@@ -47,11 +47,6 @@ public class CEdge implements IEdge
         return m_weight;
     }
 
-    public void add()
-    {
-        m_visited++;
-    }
-
     public int visited()
     {
         return m_visited;
@@ -69,5 +64,10 @@ public class CEdge implements IEdge
     {
         m_weight = 1;
         m_visited = 0;
+    }
+
+    public void add()
+    {
+        m_visited++;
     }
 }

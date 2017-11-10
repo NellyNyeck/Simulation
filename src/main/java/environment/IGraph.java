@@ -28,5 +28,5 @@ public interface IGraph<I, V extends INode<I>, E extends IEdge>
 
     public int countNodes();
 
-    public List<CEdge> route( final I p_start, final I p_end );
+    public List<E> route( final V p_start, final V p_end );
 }

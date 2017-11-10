@@ -6,14 +6,14 @@ import java.util.Collection;
  * The Point of interest class
  */
 
-public class CPOI implements IPOI, INode
+public class CPOI implements IPOI
 {
 
-    private INode m_node;
+    private INode<?> m_node;
 
     private Collection<ILabel> m_labels;
 
-    public CPOI( final INode n )
+    public CPOI( final INode<?> n )
     {
         m_node = n;
     }
@@ -23,9 +23,8 @@ public class CPOI implements IPOI, INode
     {
         return m_labels;
     }
-
-    @Override
-    public Object id()
+    
+    public INode<?> id()
     {
         return m_node;
     }

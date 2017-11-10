@@ -5,4 +5,7 @@ package environment;
  */
 public interface IEdge
 {
+    void add();
+
+    void reset();
 }
