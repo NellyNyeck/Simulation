@@ -39,7 +39,7 @@ public class CEdge implements IEdge
     {
         m_about = s;
         m_weight = 1;
-        m_visited=0;
+        m_visited = 0;
     }
 
     public double weight()
@@ -62,6 +62,9 @@ public class CEdge implements IEdge
         return m_about;
     }
 
+    /**
+     * resets the edges visited coundter and weight
+     */
     public void reset()
     {
         m_weight = 1;

@@ -121,9 +121,10 @@ public final class CMain
     public static ArrayList<CEdge> countPlat()
     {
         final ArrayList<CEdge> l_platoons = new ArrayList<>();
-        Collection<CEdge> l_edges =  s_GR.getEdges();
-        for ( CEdge l_comp : l_edges ){
-            if ( l_comp.visited() > 1 ) l_platoons.add(l_comp);
+        final Collection<CEdge> l_edges =  s_GR.getEdges();
+        for ( final CEdge l_comp : l_edges )
+        {
+            if ( l_comp.visited() > 1 ) l_platoons.add( l_comp );
         }
         return l_platoons;
     }
