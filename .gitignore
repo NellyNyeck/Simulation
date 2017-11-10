@@ -1,6 +1,8 @@
 *.*
 !.gitignore
 !pom.xml
+!src/analysis/**/*.xml
 !*.md
 !*.java
-target?
+
+target/
