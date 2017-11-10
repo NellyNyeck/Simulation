@@ -21,11 +21,13 @@ package exec;
 */
 
 
-import environment.CEdge;
+
+import output.CSVWriter;
 import environment.CGraph;
 import environment.CNode;
+import environment.CEdge;
 import environment.CPOI;
-import output.CSVWriter;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -38,7 +40,8 @@ import java.util.*;
 public final class CMain
 {
 
-    private static final CGraph s_GR = new CGraph();
+    //private static final CGraph<Object,CNode, CEdge> s_GR = new CGraph();
+    private static final CGraph s_GR = new CGraph<>();
 
     private static CSVWriter s_out;
 
