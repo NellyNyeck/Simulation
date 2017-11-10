@@ -26,7 +26,6 @@ import environment.CGraph;
 import environment.CNode;
 import environment.CPOI;
 import output.CSVWriter;
-import environment.CPlat;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -117,29 +116,14 @@ public final class CMain
 
     /**
      * Counting the edges which are visited more than once
-     * @param p_routes The list of routes
      * @return the list of platooned edges along with the respective counter
      */
-    public static ArrayList<CPlat> countPlat( final ArrayList<List> p_routes )
+    public static ArrayList<CEdge> countPlat()
     {
-        final ArrayList<CPlat> l_platoons = new ArrayList<>();
-        for ( final List l_rou : p_routes )
-        {
-            for ( int i = 0; i < l_rou.size(); i++ )
-            {
-                final CEdge l_comp = (CEdge) l_rou.get( i );
-                boolean l_check = false;
-                final CPlat l_pl = new CPlat( l_comp );
-                for ( final CPlat l_plat : l_platoons )
-                {
-                    if ( l_pl.getAbout().equals( l_plat.getAbout() ) )
-                    {
-                        l_plat.add();
-                        l_check = true;
-                    }
-                }
-                if ( !l_check ) l_platoons.add( l_pl );
-            }
+        final ArrayList<CEdge> l_platoons = new ArrayList<>();
+        Collection<CEdge> l_edges =  s_GR.getEdges();
+        for ( CEdge l_comp : l_edges ){
+            if ( l_comp.visited() > 1 ) l_platoons.add(l_comp);
         }
         return l_platoons;
     }
@@ -150,13 +134,14 @@ public final class CMain
     public static void doTheThing()
     {
         s_out = new CSVWriter();
-        s_out.start( "ResultsDijkstra" );
+        s_out.start( "ResultsDijkstra.csv" );
         int l_count = 0;
         while ( l_count < 10000 )
         {
+            s_GR.resetEgdes();
             final Collection<CPOI> l_pois = genPOI( 6 );
             final ArrayList<List> l_routes = routing( l_pois );
-            final ArrayList<CPlat> l_plat = countPlat( l_routes );
+            final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
             s_out.writeNewLine();
             l_count++;
@@ -169,7 +154,7 @@ public final class CMain
      * @param p_args this is what java wants
      * @throws IOException because of the file work in graphInit
      */
-    public static void main( final String p_args[] ) throws IOException
+    public static void main( final String[] p_args ) throws IOException
     {
         graphInit();
         doTheThing();

@@ -30,6 +30,8 @@ public class CEdge implements IEdge
 
     private final String m_about;
 
+    private int m_visited;
+
     /**
      * contructor giving the edge it's starting and ending node
      * */
@@ -37,6 +39,7 @@ public class CEdge implements IEdge
     {
         m_about = s;
         m_weight = 1;
+        m_visited=0;
     }
 
     public double weight()
@@ -44,8 +47,24 @@ public class CEdge implements IEdge
         return m_weight;
     }
 
+    public void add()
+    {
+        m_visited++;
+    }
+
+    public int visited()
+    {
+        return m_visited;
+    }
+
     public String about()
     {
         return m_about;
+    }
+
+    public void reset()
+    {
+        m_weight = 1;
+        m_visited = 0;
     }
 }

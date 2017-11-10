@@ -74,10 +74,21 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
     }
 
     @Override
-    public List<E> route( final I p_start, final I p_end )
+    public List<CEdge> route(final I p_start, final I p_end )
     {
         final DijkstraShortestPath l_alg = new DijkstraShortestPath( m_graph );
-        final List<E> l_rou = l_alg.getPath( p_start, p_end );
+        final List<CEdge> l_rou = l_alg.getPath( p_start, p_end );
+        for ( final CEdge l_edg : l_rou)
+        {
+            l_edg.add();
+        }
         return l_rou;
+    }
+
+    public void resetEgdes(){
+        Collection<CEdge> l_edges = (Collection<CEdge>) m_graph.getEdges();
+        for ( final CEdge l_edg : l_edges ){
+            l_edg.reset();
+        }
     }
 }

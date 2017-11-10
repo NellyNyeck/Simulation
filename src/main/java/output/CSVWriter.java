@@ -1,6 +1,6 @@
 package output;
 
-import environment.CPlat;
+import environment.CEdge;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,17 +43,17 @@ public class CSVWriter
      * writing the edges in the file
      * @param p_plat list of the edges where platoning is possible
      */
-    public static void writeCsvFile( final ArrayList<CPlat> p_plat )
+    public static void writeCsvFile( final ArrayList<CEdge> p_plat )
     {
         try
         {
-            for ( final CPlat l_pl : p_plat )
+            for ( final CEdge l_pl : p_plat )
             {
-                if ( l_pl.getCounter() > 1 )
+                if ( l_pl.visited() > 1 )
                 {
-                    s_filewriter.append( l_pl.getAbout() );
+                    s_filewriter.append( l_pl.about() );
                     s_filewriter.append( COMMA_DELIMITER );
-                    s_filewriter.append( String.valueOf( l_pl.getCounter() ) );
+                    s_filewriter.append( String.valueOf( l_pl.visited() ) );
                     s_filewriter.append( NEW_LINE_SEPARATOR );
                     s_filewriter.flush();
                 }
