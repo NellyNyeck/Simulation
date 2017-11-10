@@ -6,7 +6,7 @@ import java.util.Collection;
  * The Point of interest class
  */
 
-public class CPOI implements IPOI, INode
+public class CPOI implements IPOI
 {
 
     private INode m_node;
@@ -24,7 +24,6 @@ public class CPOI implements IPOI, INode
         return m_labels;
     }
 
-    @Override
     public Object id()
     {
         return m_node;
