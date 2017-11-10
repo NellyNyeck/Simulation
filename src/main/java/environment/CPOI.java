@@ -24,7 +24,7 @@ public class CPOI implements IPOI
         return m_labels;
     }
 
-    public Object id()
+    public INode<?> id()
     {
         return m_node;
     }
