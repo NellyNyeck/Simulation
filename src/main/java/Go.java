@@ -1,4 +1,4 @@
-import Output.CSVWriter;
+import output.CSVWriter;
 import environment.*;
 
 import java.io.BufferedReader;
@@ -80,14 +80,14 @@ public class Go {
         return routes;
     }
 
-    public static ArrayList<PEdge> countPlat(ArrayList<List> routes ){
-        ArrayList<PEdge> platoons = new ArrayList<>();
+    public static ArrayList<CPlat> countPlat(ArrayList<List> routes ){
+        ArrayList<CPlat> platoons = new ArrayList<>();
         for(List r : routes){
             for(int i=0; i<r.size(); i++){
                 CEdge comp = (CEdge) r.get(i);
                 boolean check = false;
-                PEdge p = new PEdge(comp);
-                for(PEdge plat : platoons){
+                CPlat p = new CPlat(comp);
+                for(CPlat plat : platoons){
                     if (p.getAbout().equals(plat.getAbout())){
                         plat.add();
                         check=true;
@@ -100,12 +100,13 @@ public class Go {
     }
 
     public static void doTheThing(){
-        out=new CSVWriter("ResultsDijkstra.csv");
+        out=new CSVWriter();
+        out.start( "ResultsDijkstra" );
         int count=0;
         while(count<10000){
             Collection<CPOI> pois=genPOI(6);
             ArrayList<List> routes=routing(pois);
-            ArrayList<PEdge> plat=countPlat(routes);
+            ArrayList<CPlat> plat=countPlat(routes);
             out.writeCsvFile(plat);
             out.writeNewLine();
             count++;

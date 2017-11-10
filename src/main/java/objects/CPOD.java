@@ -1,4 +1,8 @@
 package objects;
 
-public class CPOD implements IPOD {
+/**
+ * implementation of the Ipod interface
+ */
+public class CPOD implements IPOD
+{
 }

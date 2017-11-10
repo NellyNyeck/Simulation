@@ -1,4 +1,8 @@
 package objects;
 
-public interface IPOD {
+/**
+ * interface for the  pod vehicles
+ */
+public interface IPOD
+{
 }
