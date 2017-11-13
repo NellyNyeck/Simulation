@@ -43,7 +43,7 @@ public class CSVWriter
      * writing the edges in the file
      * @param p_plat list of the edges where platoning is possible
      */
-    public static void writeCsvFile( final ArrayList<CEdge> p_plat )
+    public void writeCsvFile( final ArrayList<CEdge> p_plat )
     {
         try
         {
@@ -69,7 +69,7 @@ public class CSVWriter
     /**
      * adding a placeholder line between each run
      */
-    public static void writeNewLine()
+    public void writeNewLine()
     {
         try
         {
@@ -88,7 +88,7 @@ public class CSVWriter
     /**
      *closing the file
      * */
-    public static void done()
+    public void done()
     {
         try
         {
