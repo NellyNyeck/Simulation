@@ -137,7 +137,7 @@ public final class CMain
     public static void doTheThing()
     {
         s_out = new CSVWriter();
-        s_out.start( "ResultsDijkstra.csv" );
+        s_out.start( "DijkstraWeighted.csv" );
         int l_count = 0;
         while ( l_count < 10000 )
         {

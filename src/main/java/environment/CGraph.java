@@ -18,6 +18,8 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
 {
     private final Graph<V, E> m_graph = new DirectedSparseGraph<>();
 
+
+
     public CGraph( )
     {
     }
