@@ -1,6 +1,11 @@
 package transformers;
 
-public interface ITransformer< E, Number >
+/**
+ * the interface to build the transformer class
+ * @param <E> the edge entity
+ * @param <Number> the edges weight
+ */
+public interface ITransformer<E, Number>
 {
-    Number transform(E e);
+    Number transform( E e );
 }

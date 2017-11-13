@@ -10,4 +10,6 @@ public interface IEdge
     void reset();
 
     int visited();
+
+    double weight();
 }

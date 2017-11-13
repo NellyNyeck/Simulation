@@ -1,8 +1,10 @@
 package environment;
 
+import com.sun.org.apache.xerces.internal.impl.dv.dtd.NMTOKENDatatypeValidator;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
+import transformers.CTransformer;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGraph<I, V, E>
 {
     private final Graph<V, E> m_graph = new DirectedSparseGraph<>();
+    private CTransformer<E, Number> m_transformer = new CTransformer<>();
 
 
 
@@ -78,7 +81,8 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
     @Override
     public List<E> route( final V p_start, final V p_end )
     {
-        final DijkstraShortestPath<V, E> l_alg = new DijkstraShortestPath<V, E>( m_graph );
+        final DijkstraShortestPath<V,E> l_alg = new DijkstraShortestPath<V, E>(m_graph, m_transformer);
+        //final DijkstraShortestPath<V, E> l_alg = new DijkstraShortestPath<V, E>( m_graph );
         final List<E> l_rou = l_alg.getPath( p_start, p_end );
         for ( final E l_edg : l_rou )
         {
