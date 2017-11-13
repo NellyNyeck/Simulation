@@ -8,4 +8,6 @@ public interface IEdge
     void add();
 
     void reset();
+
+    int visited();
 }

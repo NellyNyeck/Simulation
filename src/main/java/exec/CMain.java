@@ -106,9 +106,9 @@ public final class CMain
      * @param p_pois the list of end nodes
      * @return the list of taken edges to the destination
      */
-    public static ArrayList<List> routing( final Collection<CPOI> p_pois )
+    public static ArrayList<List<CEdge>> routing( final Collection<CPOI> p_pois )
     {
-        final ArrayList<List> l_routes = new ArrayList<List>();
+        final ArrayList<List<CEdge>> l_routes = new ArrayList<>();
         for ( final CPOI l_poi : p_pois )
         {
             final List<CEdge> l_rou = s_GR.route( s_GR.getNode( 0 ), l_poi.id() );
@@ -144,7 +144,7 @@ public final class CMain
         {
             s_GR.resetEgdes();
             final Collection<CPOI> l_pois = genPOI( 6 );
-            final ArrayList<List> l_routes = routing( l_pois );
+            final ArrayList<List<CEdge>> l_routes = routing( l_pois );
             final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
             s_out.writeNewLine();

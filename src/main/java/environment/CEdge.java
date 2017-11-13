@@ -47,6 +47,7 @@ public class CEdge implements IEdge
         return m_weight;
     }
 
+    @Override
     public int visited()
     {
         return m_visited;
