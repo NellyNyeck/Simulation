@@ -69,8 +69,8 @@ public final class CMain
         {
             final String l_del = "[ ]";
             final String[] l_tokens = l_text.split( l_del );
-            final CNode l_n1 = (CNode) s_GR.getNode( Integer.valueOf( l_tokens[0] ) );
-            final CNode l_n2 = (CNode) s_GR.getNode( Integer.valueOf( l_tokens[1] ) );
+            final CNode l_n1 = s_GR.getNode( Integer.valueOf( l_tokens[0] ) );
+            final CNode l_n2 = s_GR.getNode( Integer.valueOf( l_tokens[1] ) );
             final CEdge l_e1 = new CEdge( l_tokens[0] + " " + l_tokens[1] );
             final CEdge l_e2 = new CEdge( l_tokens[1] + " " + l_tokens[0] );
             s_GR.addEdge( l_n1, l_n2, l_e1 );
