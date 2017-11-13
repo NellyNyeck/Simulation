@@ -29,4 +29,6 @@ public interface IGraph<I, V extends INode<I>, E extends IEdge>
     public int countNodes();
 
     public List<E> route( final V p_start, final V p_end );
+
+    public void resetEdges();
 }

@@ -9,11 +9,11 @@ import java.util.Collection;
 public class CPOI implements IPOI
 {
 
-    private INode<?> m_node;
+    private CNode m_node;
 
     private Collection<ILabel> m_labels;
 
-    public CPOI( final INode<?> n )
+    public CPOI( final CNode n )
     {
         m_node = n;
     }
@@ -24,7 +24,7 @@ public class CPOI implements IPOI
         return m_labels;
     }
 
-    public INode<?> id()
+    public CNode id()
     {
         return m_node;
     }

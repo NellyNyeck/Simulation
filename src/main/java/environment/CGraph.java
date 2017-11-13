@@ -88,7 +88,8 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
     /**
      * resets the edges of the graph
      */
-    public void resetEgdes()
+    @Override
+    public void resetEdges()
     {
         final Collection<E> l_edges = m_graph.getEdges();
         for ( final IEdge l_edg : l_edges )
@@ -96,4 +97,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
             l_edg.reset();
         }
     }
+
+
+
 }

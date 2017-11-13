@@ -40,8 +40,7 @@ import java.util.*;
 public final class CMain
 {
 
-    //private static final CGraph<Object,CNode, CEdge> s_GR = new CGraph();
-    private static final CGraph s_GR = new CGraph<>();
+    private static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
 
     private static CSVWriter s_out;
 
@@ -142,7 +141,7 @@ public final class CMain
         int l_count = 0;
         while ( l_count < 10000 )
         {
-            s_GR.resetEgdes();
+            s_GR.resetEdges();
             final Collection<CPOI> l_pois = genPOI( 6 );
             final ArrayList<List<CEdge>> l_routes = routing( l_pois );
             final ArrayList<CEdge> l_plat = countPlat();
