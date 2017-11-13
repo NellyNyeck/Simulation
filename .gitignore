@@ -1,7 +1,10 @@
 *.*
+!src/site/*.doxyfile
+!src/site/*.css
+!src/site/*.xml
+!src/analysis/**/*.xml
 !.gitignore
 !pom.xml
-!src/analysis/**/*.xml
 !*.md
 !*.java
 
