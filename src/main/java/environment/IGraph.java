@@ -14,21 +14,21 @@ public interface IGraph<I, V extends INode<I>, E extends IEdge>
 {
     //List<E> route(@NotNull final I p_start, @NotNull final I p_end );
 
-    public void addNode( V v );
+    void addNode( V v );
 
-    public V getNode( Number n );
+    V getNode( Number n );
 
-    public Collection<V> getNodes();
+    Collection<V> getNodes();
 
-    public void addEdge( V p_v1, V p_v2, E e );
+    void addEdge( V p_v1, V p_v2, E e );
 
-    public Collection<E> getEdges();
+    Collection<E> getEdges();
 
-    public int countEdges();
+    int countEdges();
 
-    public int countNodes();
+    int countNodes();
 
-    public List<E> route( final V p_start, final V p_end );
+    List<E> route( final V p_start, final V p_end );
 
-    public void resetEdges();
+    void resetEdges();
 }
