@@ -2,7 +2,11 @@ package output;
 
 import environment.CEdge;
 
-import java.io.FileWriter;
+import java.io.Writer;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,7 +19,7 @@ public class CSVWriter
     private static final String HEADER = "edge,count";
     private static final String COMMA = ",";
     private static final String NEWLINE = "\n";
-    private FileWriter m_filewriter;
+    private Writer m_filewriter;
 
     /**
      * The constructor of the class which creates a file
@@ -25,14 +29,21 @@ public class CSVWriter
     {
         try
         {
-            m_filewriter = new FileWriter( p_filename, true );
+            m_filewriter = new OutputStreamWriter( new FileOutputStream( p_filename ), "UTF-8" );
             m_filewriter.append( HEADER );
             m_filewriter.append( NEWLINE );
             m_filewriter.flush();
         }
-        catch ( final Exception l_err )
+        catch ( final UnsupportedEncodingException l_err )
         {
-            System.out.println( "Error in CsvFileWriter !!!" );
+            l_err.printStackTrace();
+        }
+        catch ( final FileNotFoundException l_err )
+        {
+            l_err.printStackTrace();
+        }
+        catch ( final IOException l_err )
+        {
             l_err.printStackTrace();
         }
     }

@@ -21,18 +21,18 @@ package exec;
 */
 
 
-
-import output.CSVWriter;
+import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
-import environment.CEdge;
 import environment.CPOI;
+import output.CSVWriter;
 
-
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+import java.io.Reader;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -58,10 +58,10 @@ public final class CMain
      */
     public static void graphInit()
     {
-        final FileReader l_fr;
+        final Reader l_fr;
         try
         {
-            l_fr = new FileReader( s_file );
+            l_fr = new InputStreamReader( new FileInputStream( s_file ), "UTF-8" );
             final BufferedReader l_bf = new BufferedReader( l_fr );
             String l_text = l_bf.readLine();
             while ( l_text == null )
