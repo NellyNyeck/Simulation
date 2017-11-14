@@ -27,13 +27,13 @@ import environment.CNode;
 import environment.CPOI;
 import output.CSVWriter;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
-import java.io.Reader;
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.util.*;
+import java.io.FileNotFoundException;
 
 /**
  * the main class
@@ -56,13 +56,14 @@ public final class CMain
      * initialization of the graph by reading the nodes and edges from file
      * @throws IOException because file
      */
-    public static void graphInit()
+    public static void graphInit() throws IOException
     {
         final Reader l_fr;
+        BufferedReader l_bf = null;
         try
         {
             l_fr = new InputStreamReader( new FileInputStream( s_file ), "UTF-8" );
-            final BufferedReader l_bf = new BufferedReader( l_fr );
+            l_bf = new BufferedReader( l_fr );
             String l_text = l_bf.readLine();
             while ( l_text == null )
             {
@@ -97,7 +98,14 @@ public final class CMain
         {
             l_err.printStackTrace();
         }
+        finally
+        {
+            if ( l_bf != null )
+            {
+                l_bf.close();
+            }
 
+        }
     }
 
     /**
