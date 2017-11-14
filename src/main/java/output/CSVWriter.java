@@ -12,31 +12,29 @@ import java.util.ArrayList;
 public class CSVWriter
 {
 
-    private static final String COMMA_DELIMITER = ",";
-    private static final String NEW_LINE_SEPARATOR = "\n";
-    private static FileWriter s_filewriter;
-
-    private static final String FILE_HEADER = "edge,count";
+    private static final String HEADER = "edge,count";
+    private static final String COMMA = ",";
+    private static final String NEWLINE = "\n";
+    private FileWriter m_filewriter;
 
     /**
-     * the intialization of the filewriter
-     * @param p_filename name of the file
+     * The constructor of the class which creates a file
+     * @param p_filename the name of the file
      */
-    public void start( final String p_filename )
+    public CSVWriter( final String p_filename )
     {
         try
         {
-            s_filewriter = new FileWriter( p_filename, true );
-            s_filewriter.append( FILE_HEADER.toString() );
-            s_filewriter.append( NEW_LINE_SEPARATOR );
-            s_filewriter.flush();
+            m_filewriter = new FileWriter( p_filename, true );
+            m_filewriter.append( HEADER );
+            m_filewriter.append( NEWLINE );
+            m_filewriter.flush();
         }
         catch ( final Exception l_err )
         {
             System.out.println( "Error in CsvFileWriter !!!" );
             l_err.printStackTrace();
         }
-
     }
 
     /**
@@ -51,11 +49,11 @@ public class CSVWriter
             {
                 if ( l_pl.visited() > 1 )
                 {
-                    s_filewriter.append( l_pl.about() );
-                    s_filewriter.append( COMMA_DELIMITER );
-                    s_filewriter.append( String.valueOf( l_pl.visited() ) );
-                    s_filewriter.append( NEW_LINE_SEPARATOR );
-                    s_filewriter.flush();
+                    m_filewriter.append( l_pl.about() );
+                    m_filewriter.append( COMMA );
+                    m_filewriter.append( String.valueOf( l_pl.visited() ) );
+                    m_filewriter.append( NEWLINE );
+                    m_filewriter.flush();
                 }
             }
         }
@@ -73,11 +71,11 @@ public class CSVWriter
     {
         try
         {
-            s_filewriter.append( "x x" );
-            s_filewriter.append( COMMA_DELIMITER );
-            s_filewriter.append( "0" );
-            s_filewriter.append( NEW_LINE_SEPARATOR );
-            s_filewriter.flush();
+            m_filewriter.append( "x x" );
+            m_filewriter.append( COMMA );
+            m_filewriter.append( "0" );
+            m_filewriter.append( NEWLINE );
+            m_filewriter.flush();
         }
         catch ( final IOException l_err )
         {
@@ -92,7 +90,7 @@ public class CSVWriter
     {
         try
         {
-            s_filewriter.close();
+            m_filewriter.close();
         }
         catch ( final IOException l_err )
         {

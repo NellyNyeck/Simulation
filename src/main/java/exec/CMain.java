@@ -30,6 +30,7 @@ import environment.CPOI;
 
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -44,6 +45,8 @@ public final class CMain
 
     private static CSVWriter s_out;
 
+    private static String s_file = "Edges.txt";
+
     private CMain()
     {
 
@@ -53,31 +56,48 @@ public final class CMain
      * initialization of the graph by reading the nodes and edges from file
      * @throws IOException because file
      */
-    public static void graphInit() throws IOException
+    public static void graphInit()
     {
-        final FileReader l_fr = new FileReader( "Edges.txt" );
-        final BufferedReader l_bf = new BufferedReader( l_fr );
-        String l_text = l_bf.readLine();
-        final int l_nodes = Integer.valueOf( l_text );
-        for ( int i = 0; i < l_nodes; i++ )
+        final FileReader l_fr;
+        try
         {
-            final CNode l_no = new CNode( i );
-            s_GR.addNode( l_no );
-        }
-        l_text = l_bf.readLine();
-        while ( l_text != null )
-        {
-            final String l_del = "[ ]";
-            final String[] l_tokens = l_text.split( l_del );
-            final CNode l_n1 = s_GR.getNode( Integer.valueOf( l_tokens[0] ) );
-            final CNode l_n2 = s_GR.getNode( Integer.valueOf( l_tokens[1] ) );
-            final CEdge l_e1 = new CEdge( l_tokens[0] + " " + l_tokens[1] );
-            final CEdge l_e2 = new CEdge( l_tokens[1] + " " + l_tokens[0] );
-            s_GR.addEdge( l_n1, l_n2, l_e1 );
-            s_GR.addEdge( l_n2, l_n1, l_e2 );
+            l_fr = new FileReader( s_file );
+            final BufferedReader l_bf = new BufferedReader( l_fr );
+            String l_text = l_bf.readLine();
+            while ( l_text == null )
+            {
+                l_text = l_bf.readLine();
+            }
+            final int l_nodes = Integer.parseInt( l_text );
+            for ( int i = 0; i < l_nodes; i++ )
+            {
+                final CNode l_no = new CNode( i );
+                s_GR.addNode( l_no );
+            }
             l_text = l_bf.readLine();
+            while ( l_text != null )
+            {
+                final String l_del = "[ ]";
+                final String[] l_tokens = l_text.split( l_del );
+                final CNode l_n1 = s_GR.getNode( Integer.valueOf( l_tokens[0] ) );
+                final CNode l_n2 = s_GR.getNode( Integer.valueOf( l_tokens[1] ) );
+                final CEdge l_e1 = new CEdge( l_tokens[0] + " " + l_tokens[1] );
+                final CEdge l_e2 = new CEdge( l_tokens[1] + " " + l_tokens[0] );
+                s_GR.addEdge( l_n1, l_n2, l_e1 );
+                s_GR.addEdge( l_n2, l_n1, l_e2 );
+                l_text = l_bf.readLine();
+            }
+            l_bf.close();
         }
-        l_bf.close();
+        catch ( final FileNotFoundException l_err )
+        {
+            l_err.printStackTrace();
+        }
+        catch ( final IOException l_err )
+        {
+            l_err.printStackTrace();
+        }
+
     }
 
     /**
@@ -136,14 +156,14 @@ public final class CMain
      */
     public static void doTheThing()
     {
-        s_out = new CSVWriter();
-        s_out.start( "ResultsDijkstra.csv" );
+        s_out = new CSVWriter( "ResultsDijkstra.csv" );
         int l_count = 0;
         while ( l_count < 10000 )
         {
             s_GR.resetEdges();
             final Collection<CPOI> l_pois = genPOI( 6 );
             final ArrayList<List<CEdge>> l_routes = routing( l_pois );
+            System.out.println( l_routes.size() );
             final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
             s_out.writeNewLine();

@@ -1,5 +1,6 @@
 package environment;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -11,7 +12,7 @@ public class CPOI implements IPOI
 
     private CNode m_node;
 
-    private Collection<ILabel> m_labels;
+    private Collection<ILabel> m_labels = new ArrayList<>();
 
     public CPOI( final CNode n )
     {
