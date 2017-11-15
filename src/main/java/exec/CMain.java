@@ -47,7 +47,7 @@ public final class CMain
 
     private static String s_file = "Edges.txt";
 
-    private CMain()
+    protected CMain()
     {
 
     }

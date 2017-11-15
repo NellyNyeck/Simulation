@@ -3,7 +3,7 @@ package objects;
 /**
  * interface for the  pod vehicles
  */
-public interface IPOD
+public interface IPOD<I>
 {
-    Object id();
+    I id();
 }
