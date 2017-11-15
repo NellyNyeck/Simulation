@@ -117,20 +117,4 @@ public final class TestCEdge
             System.out.println( false );
         }
     }
-
-    /**
-     * the main function
-     */
-    public void main()
-    {
-        initialize();
-        constr();
-        about();
-        visited();
-        weight();
-        add();
-        reset();
-    }
-
-
 }
