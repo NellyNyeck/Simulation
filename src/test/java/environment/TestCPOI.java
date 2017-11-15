@@ -18,9 +18,12 @@ public class TestCPOI
     public void initialize()
     {
         m_node = new CNode( 14 );
-        m_poi=new CPOI(m_node);
+        m_poi = new CPOI( m_node );
     }
 
+    /**
+     * testing the constructor
+     */
     @Test
     public void constructor()
     {
@@ -34,6 +37,9 @@ public class TestCPOI
         }
     }
 
+    /**
+     * test the id return function
+     */
     @Test
     public void id()
     {
@@ -47,6 +53,9 @@ public class TestCPOI
         }
     }
 
+    /**
+     * test the label return function
+     */
     @Test
     public void label()
     {
