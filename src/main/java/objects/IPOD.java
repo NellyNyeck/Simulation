@@ -5,4 +5,5 @@ package objects;
  */
 public interface IPOD
 {
+    Object id();
 }
