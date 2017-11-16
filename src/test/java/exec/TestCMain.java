@@ -125,4 +125,10 @@ public final class TestCMain
     {
         CMain.doTheThing();
     }
+
+    @Test
+    public void themain() throws IOException
+    {
+        CMain.main( new String[5] );
+    }
 }

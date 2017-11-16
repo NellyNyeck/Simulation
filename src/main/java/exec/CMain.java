@@ -171,6 +171,7 @@ public final class CMain
             s_GR.resetEdges();
             final Collection<CPOI> l_pois = genPOI( 6 );
             final ArrayList<List<CEdge>> l_routes = routing( l_pois );
+            System.out.println( l_routes.size() );
             final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
             s_out.writeNewLine();
