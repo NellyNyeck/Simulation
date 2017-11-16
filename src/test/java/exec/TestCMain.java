@@ -64,7 +64,15 @@ public final class TestCMain
     public void poi() throws IOException
     {
         CMain.graphInit( "Edges.txt" );
-        CMain.genPOI( 6 );
+        final Collection<CPOI> l_list  = CMain.genPOI( 6 );
+        if ( l_list.size() == 6 )
+        {
+            System.out.println( true );
+        }
+        else
+        {
+            System.out.println( false );
+        }
     }
 
     /**
@@ -76,12 +84,45 @@ public final class TestCMain
     {
         CMain.graphInit( "Edges.txt" );
         final Collection<CPOI> l_list = CMain.genPOI( 6 );
-        System.out.println( l_list.size() );
-        for ( final CPOI l_poi : l_list )
-        {
-            System.out.println( l_poi.id() );
-        }
         final ArrayList<List<CEdge>> l_routes = CMain.routing( l_list );
-        System.out.println( l_routes.size() );
+        if ( l_routes.size() == l_list.size() )
+        {
+            System.out.println( true );
+        }
+        else
+        {
+            System.out.println( false );
+        }
+    }
+
+
+    /**
+     * test platooning edges count
+     * @throws IOException cuz file
+     */
+    @Test
+    public void platoon() throws IOException
+    {
+        CMain.graphInit( "Edges.txt" );
+        final Collection<CPOI> l_list = CMain.genPOI( 6 );
+        final ArrayList<List<CEdge>> l_routes = CMain.routing( l_list );
+        final Collection<CEdge> l_edges = CMain.countPlat();
+        if ( ( l_edges.size() > 0 ) && ( l_routes.size() == l_list.size() ) )
+        {
+            System.out.println( true );
+        }
+        else
+        {
+            System.out.println( false );
+        }
+    }
+
+    /**
+     * test do the thing
+     */
+    @Test
+    public void doit()
+    {
+        CMain.doTheThing();
     }
 }
