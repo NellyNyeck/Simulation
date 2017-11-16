@@ -121,7 +121,7 @@ public final class CMain
             final int l_val = (int)( Math.random() *  s_GR.countNodes() );
             if ( l_val != 0 )
             {
-                final CNode l_node =  new CNode( l_val );
+                final CNode l_node =  s_GR.getNode( l_val );
                 if ( l_node != null )
                 {
                     final CPOI l_poi = new CPOI( l_node );
@@ -183,20 +183,6 @@ public final class CMain
         }
         s_out.done();
     }
-
-    /*public static void check()
-    {
-        Collection<CNode> l_nl = s_GR.getNodes();
-        for (CNode l_node : l_nl)
-        {
-            System.out.println( l_node.id() );
-        }
-        Collection<CEdge> l_el = s_GR.getEdges();
-        for (CEdge l_ed : l_el )
-        {
-            System.out.println( l_ed.about() );
-        }
-    }*/
 
     /**
      * the main function
