@@ -109,6 +109,8 @@ public class TestCGraph
     @Test
     public void reset()
     {
+        m_edge.add();
+        m_graph.addEdge( m_node1, m_node2, m_edge );
         m_graph.resetEdges();
         final Collection<CEdge> l_list = m_graph.getEdges();
         Boolean l_check = true;

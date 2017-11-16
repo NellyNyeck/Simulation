@@ -1,9 +1,14 @@
 package exec;
 
+import environment.CEdge;
+import environment.CPOI;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * test class
@@ -32,6 +37,16 @@ public final class TestCMain
     }
 
     /**
+     * initialize graph with a patchy file (lots of empty lines)
+     * @throws IOException cuz file
+     */
+    @Test
+    public void graphinitpatchy() throws IOException
+    {
+        CMain.graphInit( "PathcyEdges.txt" );
+    }
+
+    /**
      * checking the graph init with wrong file
      * @throws IOException cuz file
      */
@@ -56,7 +71,7 @@ public final class TestCMain
      * test routing to poi
      * @throws IOException cuz file
      */
-    /*@Test
+    @Test
     public void route() throws IOException
     {
         CMain.graphInit( "Edges.txt" );
@@ -66,7 +81,7 @@ public final class TestCMain
         {
             System.out.println( l_poi.id() );
         }
-        //final ArrayList<List<CEdge>> l_routes = CMain.routing( l_list );
-       // System.out.println( l_routes.size() );
-    }*/
+        final ArrayList<List<CEdge>> l_routes = CMain.routing( l_list );
+        System.out.println( l_routes.size() );
+    }
 }

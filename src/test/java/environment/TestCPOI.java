@@ -9,7 +9,6 @@ import org.junit.Test;
 public class TestCPOI
 {
     private CPOI m_poi;
-    private CNode m_node;
 
     /**
      * the initialize function
@@ -17,8 +16,8 @@ public class TestCPOI
     @Before
     public void initialize()
     {
-        m_node = new CNode( 14 );
-        m_poi = new CPOI( m_node );
+        final CNode l_node = new CNode( 14 );
+        m_poi = new CPOI( l_node );
     }
 
     /**
@@ -27,7 +26,9 @@ public class TestCPOI
     @Test
     public void constructor()
     {
-        if ( m_poi.id().equals( m_node ) )
+        final CNode l_node = new CNode( 14 );
+        m_poi = new CPOI( l_node );
+        if ( m_poi.id().equals( l_node ) )
         {
             System.out.println( true );
         }

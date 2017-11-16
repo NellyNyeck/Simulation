@@ -121,10 +121,10 @@ public final class CMain
             final int l_val = (int)( Math.random() *  s_GR.countNodes() );
             if ( l_val != 0 )
             {
-                final CPOI l_node =  new CPOI( s_GR.getNode( l_val ) );
+                final CNode l_node =  new CNode( l_val );
                 if ( l_node != null )
                 {
-                    final CPOI l_poi = l_node;
+                    final CPOI l_poi = new CPOI( l_node );
                     l_col.add( l_poi );
                 }
             }
@@ -175,6 +175,7 @@ public final class CMain
             s_GR.resetEdges();
             final Collection<CPOI> l_pois = genPOI( 6 );
             final ArrayList<List<CEdge>> l_routes = routing( l_pois );
+            System.out.println( l_routes.size() );
             final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
             s_out.writeNewLine();
