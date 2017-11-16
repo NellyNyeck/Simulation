@@ -45,7 +45,7 @@ public final class CMain
 
     private static CSVWriter s_out;
 
-    private static String s_file = "Edges.txt";
+    //private static String s_file = "Edges.txt";
 
     protected CMain()
     {
@@ -56,13 +56,13 @@ public final class CMain
      * initialization of the graph by reading the nodes and edges from file
      * @throws IOException because file
      */
-    public static void graphInit() throws IOException
+    public static void graphInit( final String p_arg ) throws IOException
     {
         final Reader l_fr;
         BufferedReader l_bf = null;
         try
         {
-            l_fr = new InputStreamReader( new FileInputStream( s_file ), "UTF-8" );
+            l_fr = new InputStreamReader( new FileInputStream( p_arg ), "UTF-8" );
             l_bf = new BufferedReader( l_fr );
             String l_text = l_bf.readLine();
             while ( l_text == null )
@@ -121,8 +121,12 @@ public final class CMain
             final int l_val = (int)( Math.random() *  s_GR.countNodes() );
             if ( l_val != 0 )
             {
-                final CPOI l_poi = new CPOI( s_GR.getNode( l_val ) );
-                l_col.add( l_poi );
+                final CPOI l_node =  new CPOI( s_GR.getNode( l_val ) );
+                if ( l_node != null )
+                {
+                    final CPOI l_poi = l_node;
+                    l_col.add( l_poi );
+                }
             }
         }
         return l_col;
@@ -171,7 +175,6 @@ public final class CMain
             s_GR.resetEdges();
             final Collection<CPOI> l_pois = genPOI( 6 );
             final ArrayList<List<CEdge>> l_routes = routing( l_pois );
-            System.out.println( l_routes.size() );
             final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
             s_out.writeNewLine();
@@ -180,6 +183,20 @@ public final class CMain
         s_out.done();
     }
 
+    /*public static void check()
+    {
+        Collection<CNode> l_nl = s_GR.getNodes();
+        for (CNode l_node : l_nl)
+        {
+            System.out.println( l_node.id() );
+        }
+        Collection<CEdge> l_el = s_GR.getEdges();
+        for (CEdge l_ed : l_el )
+        {
+            System.out.println( l_ed.about() );
+        }
+    }*/
+
     /**
      * the main function
      * @param p_args this is what java wants
@@ -187,7 +204,7 @@ public final class CMain
      */
     public static void main( final String[] p_args ) throws IOException
     {
-        graphInit();
+        graphInit( "Edges.txt" );
         doTheThing();
     }
 }
