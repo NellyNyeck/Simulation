@@ -25,15 +25,25 @@ import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
 import environment.CPOI;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import output.CSVWriter;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
 import java.io.BufferedReader;
-import java.util.*;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * the main class
@@ -41,6 +51,9 @@ import java.io.FileNotFoundException;
 public final class CMain
 {
     private static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
+    private static Integer s_poi;
+    private static Integer s_pod;
+    private static Integer s_runs;
     private static CSVWriter s_out;
 
     protected CMain()
@@ -54,13 +67,30 @@ public final class CMain
      */
     public static void graphInit( final String p_arg ) throws IOException
     {
+        String l_text = new String( Files.readAllBytes( Paths.get(  "src/test/resources/Scenario1.json" ) ), StandardCharsets.UTF_8 );
+        final JSONObject l_object;
+        try
+        {
+            l_object = new JSONObject( l_text );
+            s_poi = l_object.getInt( "Nb_POI" );
+            s_pod = l_object.getInt( "Nb_POD" );
+            s_runs = l_object.getInt( "runs" );
+            final JSONArray l_array = l_object.getJSONArray( "environment" );
+
+        }
+        catch ( final JSONException l_er )
+        {
+            l_er.printStackTrace();
+        }
+
+
         final Reader l_fr;
         BufferedReader l_bf = null;
         try
         {
-            l_fr = new InputStreamReader( new FileInputStream( p_arg ), "UTF-8" );
+            l_fr = new InputStreamReader( new FileInputStream( "Edges.txt" ), "UTF-8" );
             l_bf = new BufferedReader( l_fr );
-            String l_text = l_bf.readLine();
+            l_text = l_bf.readLine();
             while ( l_text == null )
             {
                 l_text = l_bf.readLine();
