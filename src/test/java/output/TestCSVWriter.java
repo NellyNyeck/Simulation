@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assume.assumeNotNull;
+
+
 /**
  * The test class for the cswwriter
  */
@@ -29,6 +32,7 @@ public class TestCSVWriter
     @Test
     public void wfil()
     {
+        assumeNotNull( m_write );
         m_write = new CSVWriter( "somefile.txt" );
     }
 
@@ -38,6 +42,7 @@ public class TestCSVWriter
     @Test
     public  void wofile()
     {
+        assumeNotNull( m_write );
         m_write = new CSVWriter( "" );
     }
 
@@ -47,6 +52,7 @@ public class TestCSVWriter
     @Test
     public void write()
     {
+        assumeNotNull( m_write );
         final ArrayList<CEdge> l_list = new ArrayList<>();
         final CEdge l_ed = new CEdge( "a b" );
         l_ed.add();
@@ -66,6 +72,7 @@ public class TestCSVWriter
     @Test
     public void newline()
     {
+        assumeNotNull( m_write );
         m_write.writeNewLine();
     }
 
@@ -75,6 +82,7 @@ public class TestCSVWriter
     @Test
     public void close()
     {
+        assumeNotNull( m_write );
         m_write.done();
     }
 }

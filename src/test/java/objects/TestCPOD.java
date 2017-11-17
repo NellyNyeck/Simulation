@@ -3,6 +3,10 @@ package objects;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
+
+
 /**
  * the CPOD test class
  */
@@ -25,29 +29,17 @@ public class TestCPOD
     @Test
     public void constructor()
     {
-        if ( m_pod != null )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_pod );
+        assertTrue( m_pod != null );
     }
 
     /**
-     * testiny the id return function
+     * testing the id return function
      */
     @Test
     public void id()
     {
-        if ( m_pod.id() == 14 )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_pod );
+        assertTrue( m_pod.id() == 14 );
     }
 }
