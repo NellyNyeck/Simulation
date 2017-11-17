@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
+
 /**
  * test class
  */
@@ -65,14 +68,7 @@ public final class TestCMain
     {
         CMain.graphInit( "Edges.txt" );
         final Collection<CPOI> l_list  = CMain.genPOI( 6 );
-        if ( l_list.size() == 6 )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( l_list.size() == 6 );
     }
 
     /**
@@ -85,14 +81,7 @@ public final class TestCMain
         CMain.graphInit( "Edges.txt" );
         final Collection<CPOI> l_list = CMain.genPOI( 6 );
         final ArrayList<List<CEdge>> l_routes = CMain.routing( l_list );
-        if ( l_routes.size() == l_list.size() )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( l_routes.size() == l_list.size() );
     }
 
 
@@ -107,14 +96,8 @@ public final class TestCMain
         final Collection<CPOI> l_list = CMain.genPOI( 6 );
         final ArrayList<List<CEdge>> l_routes = CMain.routing( l_list );
         final Collection<CEdge> l_edges = CMain.countPlat();
-        if ( ( l_edges.size() > 0 ) && ( l_routes.size() == l_list.size() ) )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( l_edges.size() > 0 );
+        assertTrue( l_routes.size() == l_list.size() );
     }
 
     /**
@@ -126,6 +109,10 @@ public final class TestCMain
         CMain.doTheThing();
     }
 
+    /**
+     * testing the actual main function
+     * @throws IOException cuz file
+     */
     @Test
     public void themain() throws IOException
     {
