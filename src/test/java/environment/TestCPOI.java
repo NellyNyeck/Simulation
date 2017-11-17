@@ -3,12 +3,16 @@ package environment;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
+
 /**
  * the test class for CPOI
  */
 public class TestCPOI
 {
     private CPOI m_poi;
+    private CNode m_node;
 
     /**
      * the initialize function
@@ -16,8 +20,8 @@ public class TestCPOI
     @Before
     public void initialize()
     {
-        final CNode l_node = new CNode( 14 );
-        m_poi = new CPOI( l_node );
+        m_node = new CNode( 14 );
+        m_poi = new CPOI( m_node );
     }
 
     /**
@@ -26,16 +30,21 @@ public class TestCPOI
     @Test
     public void constructor()
     {
-        final CNode l_node = new CNode( 14 );
-        m_poi = new CPOI( l_node );
-        if ( m_poi.id().equals( l_node ) )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_poi );
+        assumeNotNull( m_node );
+        assertTrue( m_poi.id().equals( m_node ) );
+    }
+
+    /**
+     * testing the constructor again
+     */
+    @Test
+    public void constr()
+    {
+        final CNode l_node = new CNode( 8 );
+        final CPOI l_cpoi = new CPOI( l_node );
+        assertTrue( l_cpoi != null );
+        assertTrue( l_cpoi.id() == l_node );
     }
 
     /**
@@ -44,14 +53,8 @@ public class TestCPOI
     @Test
     public void id()
     {
-        if ( m_poi.id().id() == 14 )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_poi );
+        assertTrue( m_poi.id().id() == 14 );
     }
 
     /**
@@ -60,13 +63,7 @@ public class TestCPOI
     @Test
     public void label()
     {
-        if ( m_poi.labels().isEmpty() )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_poi );
+        assertTrue( m_poi.labels().isEmpty() );
     }
 }

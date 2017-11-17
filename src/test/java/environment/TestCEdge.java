@@ -3,6 +3,9 @@ package environment;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
+
 /**
  * test class for CEdge
  */
@@ -26,14 +29,10 @@ public final class TestCEdge
     @Test
     public void constr( )
     {
-        if ( ( m_edge.weight() == 1 ) && ( m_edge.visited() == 0 ) && ( m_edge.about().equals( "a b" ) ) )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_edge );
+        assertTrue( m_edge.weight() == 1 );
+        assertTrue( m_edge.visited() == 0 );
+        assertTrue( m_edge.about().equals( "a b" ) );
     }
 
     /**
@@ -42,14 +41,8 @@ public final class TestCEdge
     @Test
     public void weight( )
     {
-        if ( m_edge.weight( ) == 1 )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_edge );
+        assertTrue( m_edge.weight() == 1 );
     }
 
     /**
@@ -58,14 +51,8 @@ public final class TestCEdge
     @Test
     public void visited( )
     {
-        if ( m_edge.visited() == 0 )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_edge );
+        assertTrue( m_edge.visited() == 0 );
     }
 
     /**
@@ -74,14 +61,8 @@ public final class TestCEdge
     @Test
     public void about( )
     {
-        if ( m_edge.about().contentEquals( "a b" ) )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_edge );
+        assertTrue( m_edge.about().contentEquals( "a b" ) );
     }
 
     /**
@@ -90,15 +71,12 @@ public final class TestCEdge
     @Test
     public void reset()
     {
+        assumeNotNull( m_edge );
+        m_edge.add();
+        m_edge.add();
         m_edge.reset();
-        if ( ( m_edge.weight() == 1 ) && ( m_edge.visited() == 0 ) )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( m_edge.weight() == 1 );
+        assertTrue( m_edge.visited() == 0 );
     }
 
     /**
@@ -107,14 +85,8 @@ public final class TestCEdge
     @Test
     public void add()
     {
+        assumeNotNull( m_edge );
         m_edge.add();
-        if ( m_edge.visited() == 1 )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( m_edge.visited() == 1 );
     }
 }

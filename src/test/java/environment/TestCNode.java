@@ -4,6 +4,9 @@ package environment;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
+
 /**
  * test class for CNode
  */
@@ -23,13 +26,7 @@ public class TestCNode
     @Test
     public void constructor()
     {
-        if ( m_node.id( ) == 14 )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assumeNotNull( m_node );
+        assertTrue( m_node.id( ) == 14 );
     }
 }

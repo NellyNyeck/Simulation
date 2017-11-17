@@ -6,6 +6,10 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
+
+
 /**
  * the test class for CGraph
  */
@@ -36,17 +40,16 @@ public class TestCGraph
     @Test
     public void addNode()
     {
+        assumeNotNull( m_graph );
+        assumeNotNull( m_node1 );
+        assumeNotNull( m_node2 );
         m_graph.addNode( m_node1 );
         m_graph.addNode( m_node2 );
         final Collection<CNode> l_list = m_graph.getNodes();
-        if ( ( l_list.size() == 2 ) &&  ( m_graph.countNodes() == 2 ) && ( l_list.contains( m_node1 ) ) && ( l_list.contains( m_node2 ) ) )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( l_list.size() == 2 );
+        assertTrue( m_graph.countNodes() == 2 );
+        assertTrue( l_list.contains( m_node1 ) );
+        assertTrue( l_list.contains( m_node2 ) );
     }
 
     /**
@@ -55,16 +58,11 @@ public class TestCGraph
     @Test
     public void getNode()
     {
+        assumeNotNull( m_graph );
+        assumeNotNull( m_node1 );
         m_graph.addNode( m_node1 );
         final CNode l_node = m_graph.getNode( 14 );
-        if ( l_node != null )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( l_node != null );
     }
 
     /**
@@ -73,16 +71,14 @@ public class TestCGraph
     @Test
     public void addEdge()
     {
+        assumeNotNull( m_graph );
+        assumeNotNull( m_node1 );
+        assumeNotNull( m_node2 );
         m_graph.addEdge( m_node1, m_node2, m_edge );
         final Collection<CEdge> l_list = m_graph.getEdges();
-        if ( ( m_graph.countEdges() == 1 ) && ( l_list.size() == 1 ) && ( l_list.contains( m_edge ) ) )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( m_graph.countEdges() == 1 );
+        assertTrue( l_list.size() == 1 );
+        assertTrue( l_list.contains( m_edge ) );
     }
 
     /**
@@ -91,16 +87,13 @@ public class TestCGraph
     @Test
     public void route()
     {
+        assumeNotNull( m_graph );
+        assumeNotNull( m_node1 );
+        assumeNotNull( m_node2 );
         m_graph.addEdge( m_node1, m_node2, m_edge );
         final List<CEdge> l_list = m_graph.route( m_node1, m_node2 );
-        if ( ( l_list.size() == 1 ) && ( l_list.contains( m_edge ) ) )
-        {
-            System.out.println( true );
-        }
-        else
-        {
-            System.out.println( false );
-        }
+        assertTrue( l_list.size() == 1 );
+        assertTrue( l_list.contains( m_edge ) );
     }
 
     /**
@@ -109,19 +102,17 @@ public class TestCGraph
     @Test
     public void reset()
     {
-        m_edge.add();
+        assumeNotNull( m_graph );
+        assumeNotNull( m_node1 );
+        assumeNotNull( m_node2 );
         m_graph.addEdge( m_node1, m_node2, m_edge );
+        m_edge.add();
         m_graph.resetEdges();
         final Collection<CEdge> l_list = m_graph.getEdges();
-        Boolean l_check = true;
         for ( final CEdge l_edge : l_list )
         {
-            if ( l_edge.visited() != 0 )
-            {
-                l_check = false;
-            }
+            assertTrue( l_edge.visited() ==  0 );
         }
-        System.out.println( l_check );
     }
 
 }
