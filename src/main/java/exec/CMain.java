@@ -187,7 +187,7 @@ public final class CMain
      */
     public static void main( final String[] p_args ) throws IOException
     {
-        graphInit( "Edges.txt" );
+        graphInit( "src/test/resources/Edges.txt" );
         doTheThing();
     }
 }
