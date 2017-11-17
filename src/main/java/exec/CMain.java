@@ -76,6 +76,13 @@ public final class CMain
             s_pod = l_object.getInt( "Nb_POD" );
             s_runs = l_object.getInt( "runs" );
             final JSONArray l_array = l_object.getJSONArray( "environment" );
+            for ( int l_in = 0; l_in < l_array.length(); l_in++ )
+            {
+                final String l_coordinates = l_array.getJSONObject( l_in ).getString( "id" );
+                final String l_length = l_array.getJSONObject( l_in ).getString( "length" );
+                final String l_orientation = l_array.getJSONObject( l_in ).getString( "orientation" );
+
+            }
 
         }
         catch ( final JSONException l_er )
@@ -196,10 +203,10 @@ public final class CMain
     {
         s_out = new CSVWriter( "ResultsDijkstra.csv" );
         int l_count = 0;
-        while ( l_count < 10000 )
+        while ( l_count < s_runs )
         {
             s_GR.resetEdges();
-            final Collection<CPOI> l_pois = genPOI( 6 );
+            final Collection<CPOI> l_pois = genPOI( s_poi );
             final ArrayList<List<CEdge>> l_routes = routing( l_pois );
             final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
