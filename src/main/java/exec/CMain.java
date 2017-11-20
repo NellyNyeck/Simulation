@@ -47,12 +47,12 @@ public final class CMain
 {
     private static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
     private static Integer s_poi;
-    private static Integer s_pod;
+    //private static Integer s_pod;
     private static Integer s_runs;
     private static CSVWriter s_out;
-    private static Double s_sepa;
-    private static int s_podcap;
-    private static String s_strateg;
+    //private static Double s_sepa;
+    //private static int s_podcap;
+    //private static String s_strateg;
 
     protected CMain()
     {
@@ -65,31 +65,31 @@ public final class CMain
      */
     public static void graphInit( final String p_arg ) throws IOException
     {
-        String l_text = new String( Files.readAllBytes( Paths.get(  "src/test/resources/Scenario1.json" ) ), StandardCharsets.UTF_8 );
+        final String l_text = new String( Files.readAllBytes( Paths.get(  p_arg ) ), StandardCharsets.UTF_8 );
         final JSONObject l_object;
         try
         {
             l_object = new JSONObject( l_text );
-            s_sepa = l_object.getDouble( "POI_dist" );
+            //s_sepa = l_object.getDouble( "POI_dist" );
             s_poi = l_object.getInt( "Nb_POI" );
-            s_pod = l_object.getInt( "Nb_POD" );
-            s_podcap = l_object.getInt( "POD_cap" );
-            s_runs = l_object.getInt( "runs" );
-            s_strateg = l_object.getString( "Strategy" );
-            JSONArray l_array = l_object.getJSONObject( "environment" ).getJSONArray( "Intersections" );
+            //s_pod = l_object.getInt( "Nb_POD" );
+            //s_podcap = l_object.getInt( "POD_cap" );
+            s_runs = l_object.getInt( "Runs" );
+            //s_strateg = l_object.getString( "Strategy" );
+            JSONArray l_array = l_object.getJSONObject( "Environment" ).getJSONArray( "Intersections" );
             for ( int l_in = 0; l_in < l_array.length(); l_in++ )
             {
-                CNode l_cNode = new CNode( l_array.getJSONObject( l_in ) );
-                s_GR.addNode( l_cNode );
+                final CNode l_cnode = new CNode( l_array.getJSONObject( l_in ) );
+                s_GR.addNode( l_cnode );
             }
-            l_array = l_object.getJSONObject( "environment" ).getJSONArray( "Streets" );
+            l_array = l_object.getJSONObject( "Environment" ).getJSONArray( "Streets" );
             for ( int l_in = 0; l_in < l_array.length(); l_in++ )
             {
                 final JSONObject l_obj = l_array.getJSONObject( l_in );
                 final int l_from  = l_obj.getInt( "from" );
                 final int l_to = l_obj.getInt( "to" );
-                final CEdge l_cEdge = new CEdge( l_object );
-                s_GR.addEdge( s_GR.getNode( l_from ), s_GR.getNode( l_to ), l_cEdge );
+                final CEdge l_cedge = new CEdge( l_obj );
+                s_GR.addEdge( s_GR.getNode( l_from ), s_GR.getNode( l_to ), l_cedge );
             }
         }
         catch ( final JSONException l_er )
@@ -100,13 +100,12 @@ public final class CMain
 
     /**
      * Generates a list of Points of Interest
-     * @param p_nb the number of POI to be generated
      * @return the said list of POIs
      */
-    public static Collection<CPOI> genPOI( final int p_nb )
+    public static Collection<CPOI> genPOI()
     {
         final Set<CPOI> l_col = new HashSet<>();
-        while ( l_col.size() < p_nb )
+        while ( l_col.size() < s_poi )
         {
             final int l_val = (int)( Math.random() *  s_GR.countNodes() );
             if ( l_val != 0 )
@@ -163,7 +162,7 @@ public final class CMain
         while ( l_count < s_runs )
         {
             s_GR.resetEdges();
-            final Collection<CPOI> l_pois = genPOI( s_poi );
+            final Collection<CPOI> l_pois = genPOI();
             final ArrayList<List<CEdge>> l_routes = routing( l_pois );
             final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
@@ -180,7 +179,7 @@ public final class CMain
      */
     public static void main( final String[] p_args ) throws IOException
     {
-        graphInit( "src/test/resources/Edges.txt" );
-        //doTheThing();
+        graphInit( "src/test/resources/Scenario1.json" );
+        doTheThing();
     }
 }

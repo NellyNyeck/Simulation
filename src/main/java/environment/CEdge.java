@@ -36,18 +36,18 @@ public class CEdge implements IEdge
     private int m_visited;
 
     /**
-     * contructor
+     * constructor
      * */
-    public CEdge( final JSONObject p_jsonObject )
+    public CEdge( final JSONObject p_json )
     {
         try
         {
-            m_about = p_jsonObject.getString( "from" ) + " " + p_jsonObject.getString( "to" );
-            m_length = p_jsonObject.getDouble( "length" );
-            m_weight = p_jsonObject.getDouble( "weigth" );
+            m_about = p_json.getString( "from" ) + " " + p_json.getString( "to" );
+            m_length = p_json.getDouble( "length" );
+            m_weight = p_json.getDouble( "weight" );
             m_visited = 0;
         }
-        catch ( JSONException l_err )
+        catch ( final JSONException l_err )
         {
             l_err.printStackTrace();
         }

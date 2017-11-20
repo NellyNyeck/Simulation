@@ -7,7 +7,9 @@ package environment;
 public interface INode<T>
 {
     T id();
+
     Double xcoord();
+
     Double ycoord();
 
 }

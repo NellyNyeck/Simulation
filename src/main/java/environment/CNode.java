@@ -14,18 +14,22 @@ public class CNode implements INode<Integer>
     private Double m_xcoord;
     private Double m_ycoord;
 
-    public CNode( JSONObject p_jsonObject )
+    /**
+     * Constructor
+     * @param p_json given json object to build the node
+     */
+    public CNode( final JSONObject p_json )
     {
         try
         {
-            m_id = p_jsonObject.getInt( "id" );
-            m_xcoord = p_jsonObject.getDouble( "x" );
-            m_ycoord = p_jsonObject.getDouble( "y" );
+            m_id = p_json.getInt( "id" );
+            m_xcoord = p_json.getDouble( "x" );
+            m_ycoord = p_json.getDouble( "y" );
 
         }
-        catch ( JSONException p_e )
+        catch ( final JSONException l_err )
         {
-            p_e.printStackTrace();
+            l_err.printStackTrace();
         }
 
     }
