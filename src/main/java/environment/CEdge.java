@@ -21,25 +21,37 @@
 
 package environment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 /**
  * CEdge defines the edges of the graph
  * */
 public class CEdge implements IEdge
 {
+    private String m_about;
+    private double m_length;
     private double m_weight;
-
-    private final String m_about;
-
     private int m_visited;
 
     /**
-     * contructor giving the edge it's starting and ending node
+     * contructor
      * */
-    public CEdge( final String s )
+    public CEdge( final JSONObject p_jsonObject )
     {
-        m_about = s;
-        m_weight = 1;
-        m_visited = 0;
+        try
+        {
+            m_about = p_jsonObject.getString( "from" ) + " " + p_jsonObject.getString( "to" );
+            m_length = p_jsonObject.getDouble( "length" );
+            m_weight = p_jsonObject.getDouble( "weigth" );
+            m_visited = 0;
+        }
+        catch ( JSONException l_err )
+        {
+            l_err.printStackTrace();
+        }
+
     }
 
     public double weight()
@@ -56,6 +68,11 @@ public class CEdge implements IEdge
     public String about()
     {
         return m_about;
+    }
+
+    public double length()
+    {
+        return m_length;
     }
 
     /**

@@ -30,12 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import output.CSVWriter;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -55,6 +50,9 @@ public final class CMain
     private static Integer s_pod;
     private static Integer s_runs;
     private static CSVWriter s_out;
+    private static Double s_sepa;
+    private static int s_podcap;
+    private static String s_strateg;
 
     protected CMain()
     {
@@ -72,72 +70,31 @@ public final class CMain
         try
         {
             l_object = new JSONObject( l_text );
+            s_sepa = l_object.getDouble( "POI_dist" );
             s_poi = l_object.getInt( "Nb_POI" );
             s_pod = l_object.getInt( "Nb_POD" );
+            s_podcap = l_object.getInt( "POD_cap" );
             s_runs = l_object.getInt( "runs" );
-            final JSONArray l_array = l_object.getJSONArray( "environment" );
+            s_strateg = l_object.getString( "Strategy" );
+            JSONArray l_array = l_object.getJSONObject( "environment" ).getJSONArray( "Intersections" );
             for ( int l_in = 0; l_in < l_array.length(); l_in++ )
             {
-                final String l_coordinates = l_array.getJSONObject( l_in ).getString( "id" );
-                final String l_length = l_array.getJSONObject( l_in ).getString( "length" );
-                final String l_orientation = l_array.getJSONObject( l_in ).getString( "orientation" );
-
+                CNode l_cNode = new CNode( l_array.getJSONObject( l_in ) );
+                s_GR.addNode( l_cNode );
             }
-
+            l_array = l_object.getJSONObject( "environment" ).getJSONArray( "Streets" );
+            for ( int l_in = 0; l_in < l_array.length(); l_in++ )
+            {
+                final JSONObject l_obj = l_array.getJSONObject( l_in );
+                final int l_from  = l_obj.getInt( "from" );
+                final int l_to = l_obj.getInt( "to" );
+                final CEdge l_cEdge = new CEdge( l_object );
+                s_GR.addEdge( s_GR.getNode( l_from ), s_GR.getNode( l_to ), l_cEdge );
+            }
         }
         catch ( final JSONException l_er )
         {
             l_er.printStackTrace();
-        }
-
-
-        final Reader l_fr;
-        BufferedReader l_bf = null;
-        try
-        {
-            l_fr = new InputStreamReader( new FileInputStream( "Edges.txt" ), "UTF-8" );
-            l_bf = new BufferedReader( l_fr );
-            l_text = l_bf.readLine();
-            while ( l_text == null )
-            {
-                l_text = l_bf.readLine();
-            }
-            final int l_nodes = Integer.parseInt( l_text );
-            for ( int i = 0; i < l_nodes; i++ )
-            {
-                final CNode l_no = new CNode( i );
-                s_GR.addNode( l_no );
-            }
-            l_text = l_bf.readLine();
-            while ( l_text != null )
-            {
-                final String l_del = "[ ]";
-                final String[] l_tokens = l_text.split( l_del );
-                final CNode l_n1 = s_GR.getNode( Integer.valueOf( l_tokens[0] ) );
-                final CNode l_n2 = s_GR.getNode( Integer.valueOf( l_tokens[1] ) );
-                final CEdge l_e1 = new CEdge( l_tokens[0] + " " + l_tokens[1] );
-                final CEdge l_e2 = new CEdge( l_tokens[1] + " " + l_tokens[0] );
-                s_GR.addEdge( l_n1, l_n2, l_e1 );
-                s_GR.addEdge( l_n2, l_n1, l_e2 );
-                l_text = l_bf.readLine();
-            }
-            l_bf.close();
-        }
-        catch ( final FileNotFoundException l_err )
-        {
-            l_err.printStackTrace();
-        }
-        catch ( final IOException l_err )
-        {
-            l_err.printStackTrace();
-        }
-        finally
-        {
-            if ( l_bf != null )
-            {
-                l_bf.close();
-            }
-
         }
     }
 
@@ -224,6 +181,6 @@ public final class CMain
     public static void main( final String[] p_args ) throws IOException
     {
         graphInit( "src/test/resources/Edges.txt" );
-        doTheThing();
+        //doTheThing();
     }
 }
