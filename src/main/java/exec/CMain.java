@@ -21,18 +21,16 @@ package exec;
 */
 
 
-import com.sun.jndi.cosnaming.CNCtx;
 import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
 import environment.CPOI;
-import environment.INode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.mortbay.util.ajax.JSON;
 import output.CSVWriter;
 
+import java.io.DataOutput;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -119,30 +117,42 @@ public final class CMain
 
     private static void irregular( final JSONObject p_object ) throws JSONException
     {
-        final Double l_weight = p_object.getDouble( "weight" );
-        CNode l_remember;
-        JSONObject l_funct = getab( s_GR.getNode( p_object.getDouble( "from" ) ), s_GR.getNode( p_object.getDouble( "to" ) ));
-        final Double l_ap = l_funct.getDouble( "a" );
-        final Double l_bp = l_funct.getDouble( "b" );
-
-        final Double l_le = p_object.getDouble( "length" );
-        final int l_poi = (int) ( l_le % s_sepa - 1 );
-        final Double l_pad = ( l_le - ( l_poi -1 ) * s_sepa ) / 2;
-        Double l_dist = l_pad;
 
         CNode l_from = s_GR.getNode(  p_object.getDouble( "from" ) );
         CNode l_to = s_GR.getNode( p_object.getDouble( "to" ) );
+        JSONObject l_funct = getab( s_GR.getNode( p_object.getDouble( "from" ) ), s_GR.getNode( p_object.getDouble( "to" ) ));
 
-        final JSONObject l_next;
         if( ( l_from.xcoord() >= l_to.xcoord() ) || ( l_from.ycoord() >= l_to.ycoord() ) )
         {
-            l_next = getCoord( l_ap, l_bp, l_from.xcoord(), l_from.ycoord(), l_pad, "min" );
-
+            sprinklesRight( p_object, l_funct);
         }
         else
         {
             l_next = getCoord( l_ap, l_bp, l_from.xcoord(), l_from.ycoord(), l_pad, "max" );
         }
+
+
+    }
+
+    private static void sprinklesRight( final JSONObject p_street, final JSONObject p_factor ) throws JSONException
+    {
+
+        final Double l_le = p_street.getDouble( "length" );
+        int l_poi = (int) ( l_le % s_sepa - 1 );
+        if  ( l_poi == 0) l_poi = 10;
+        if ( l_poi < 0 ) l_poi = 9;
+        final Double l_pad = ( l_le - ( l_poi -1 ) * s_sepa ) / 2;
+        Double l_dist = l_pad;
+        final Double l_weight = p_street.getDouble( "weight" ) / l_poi;
+
+        final CNode l_from = s_GR.getNode( p_street.getDouble( "from" ) );
+        final CNode l_to = s_GR.getNode( p_street.getDouble( "to" ) );
+        CNode l_remember;
+
+        final Double l_ap = p_factor.getDouble( "a" );
+        final Double l_bp = p_factor.getDouble( "b" );
+
+        JSONObject l_next = getCoord( l_ap, l_bp, l_from.xcoord(), l_from.ycoord(), l_pad, "min" );
         Double l_nx = l_next.getDouble( "x" );
         Double l_ny = l_next.getDouble( "y" );
 
@@ -161,7 +171,9 @@ public final class CMain
         for (int l_count = 2 ; l_count <= l_poi; l_count++ )
         {
             l_dist = l_dist + s_sepa;
-
+            l_next = getCoord( l_ap, l_bp, l_remember.xcoord(), l_remember.ycoord(), s_sepa, "max");
+            l_nx = l_next.getDouble( "x" );
+            l_ny = l_next.getDouble( "y" );
             JSONObject l_poio  = createPOI( l_nx+" " + l_ny + "|" + l_count, l_nx, l_ny );
             l_nn = new CNode( l_poio );
             l_np = new CPOI( l_nn );
@@ -171,12 +183,7 @@ public final class CMain
             l_remember = l_nn;
         }
 
-        bind( l_remember, s_GR.getNode( p_object.getInt( "to" ) ), l_weight, l_pad );
-
-    }
-
-    private void sprinklesRight(  )
-    {
+        bind( l_remember, l_to, l_weight, l_pad );
 
     }
 
@@ -434,7 +441,7 @@ public final class CMain
         while ( l_count < s_runs )
         {
             s_GR.resetEdges();
-            final Collection<CPOI> l_pois = genPOI();
+            final Collection<CPOI> l_pois = randomPOI();
             final ArrayList<List<CEdge>> l_routes = routing( l_pois );
             final ArrayList<CEdge> l_plat = countPlat();
             s_out.writeCsvFile( l_plat );
@@ -449,7 +456,7 @@ public final class CMain
      * @param p_args this is what java wants
      * @throws IOException because of the file work in graphInit
      */
-    public static void main( final String[] p_args ) throws IOException
+    public static void main( final String[] p_args ) throws IOException, JSONException
     {
         graphInit( "src/test/resources/Scenario1.json" );
         doTheThing();
