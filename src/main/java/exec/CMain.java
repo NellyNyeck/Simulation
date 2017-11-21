@@ -21,13 +21,16 @@ package exec;
 */
 
 
+import com.sun.jndi.cosnaming.CNCtx;
 import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
 import environment.CPOI;
+import environment.INode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mortbay.util.ajax.JSON;
 import output.CSVWriter;
 
 import java.io.IOException;
@@ -50,7 +53,7 @@ public final class CMain
     //private static Integer s_pod;
     private static Integer s_runs;
     private static CSVWriter s_out;
-    //private static Double s_sepa;
+    private static Double s_sepa;
     //private static int s_podcap;
     //private static String s_strateg;
 
@@ -70,7 +73,7 @@ public final class CMain
         try
         {
             l_object = new JSONObject( l_text );
-            //s_sepa = l_object.getDouble( "POI_dist" );
+            s_sepa = l_object.getDouble( "POI_dist" );
             s_poi = l_object.getInt( "Nb_POI" );
             //s_pod = l_object.getInt( "Nb_POD" );
             //s_podcap = l_object.getInt( "POD_cap" );
@@ -86,10 +89,7 @@ public final class CMain
             for ( int l_in = 0; l_in < l_array.length(); l_in++ )
             {
                 final JSONObject l_obj = l_array.getJSONObject( l_in );
-                final int l_from  = l_obj.getInt( "from" );
-                final int l_to = l_obj.getInt( "to" );
-                final CEdge l_cedge = new CEdge( l_obj );
-                s_GR.addEdge( s_GR.getNode( l_from ), s_GR.getNode( l_to ), l_cedge );
+                genPOI( l_obj );
             }
         }
         catch ( final JSONException l_er )
@@ -98,11 +98,135 @@ public final class CMain
         }
     }
 
+    public static void genPOI( final JSONObject p_object )
+    {
+        final double l_le;
+        try
+        {
+            l_le = p_object.getDouble( "length" );
+            final int l_from  = p_object.getInt( "from" );
+            final int l_to = p_object.getInt( "to" );
+            final double l_we = p_object.getDouble( "weigth" );
+            if ( l_le > s_sepa)
+            {
+                JSONObject l_funct = getab( s_GR.getNode( l_from ), s_GR.getNode( l_to ));
+                final Double l_ap = l_funct.getDouble( "a" );
+                final Double l_bp = l_funct.getDouble( "b" );
+                final int l_poi = (int) ( l_le % s_sepa - 1 );
+                final Double l_pad = ( l_le - ( l_poi -1 ) * s_sepa ) / 2;
+                getCoord(l_ap, l_bp, s_GR.getNode( l_from ).xcoord(), s_GR.getNode( l_to ).ycoord(), l_pad);
+                for ( int l_count = 1 ; l_count < l_poi ; l_count++ )
+                {
+
+                }
+            }
+        }
+        catch ( JSONException p_e )
+        {
+            p_e.printStackTrace();
+        }
+    }
+
+
+    private static void addPOI (final String p_id,final Double p_xc, final Double p_yc
+    {
+        try
+        {
+            JSONObject l_object = new JSONObject();
+            l_object.put( "id", p_id );
+            l_object.put( "x", p_xc );
+            l_object.put( "y", p_yc );
+            final CPOI l_cpoi = new CPOI( l_object );
+            s_GR.addNode( l_cpoi );
+
+        }
+        catch ( JSONException p_e )
+        {
+            p_e.printStackTrace();
+        }
+    }
+
+    private static JSONObject check_excp ( final CNode n1, final CNode n2, final Double p_dist, final Double p_padding, final int p_poi)
+    {
+        final Double l_xs = n1.xcoord();
+        final Double l_ys = n1.ycoord();
+        final Double l_xf = n2.xcoord();
+        final Double l_yf = n2.ycoord();
+        if ( l_xs == l_xf )
+        {
+            final Double l_nx = l_xf;
+            if( p_padding != 0 )
+            {
+                try
+                {
+                    Double l_ny = l_ys + p_padding;
+                    JSONObject l_create = new JSONObject();
+                    l_create.put( "id", l_nx+" " + l_ny + "|1" );
+                    l_create.put(  )
+                }
+                catch ( JSONException p_e )
+                {
+                    p_e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
+    private static JSONObject getab( final CNode n1, final CNode n2 )
+    {
+        final JSONObject l_object = new JSONObject();
+        final Double p_xs = n1.xcoord();
+        final Double p_ys = n1.ycoord();
+        final Double p_xf = n2.xcoord();
+        final Double p_yf = n2.ycoord();
+        final Double l_ac =  (p_ys - p_yf) / ( p_xs - p_xf );
+        final Double l_bc = p_yf + p_xf * l_ac;
+        try
+        {
+            l_object.put( "a", l_ac );
+            l_object.put( "b", l_bc );
+        }
+        catch ( JSONException l_err )
+        {
+        }
+        return l_object;
+    }
+
+    private static JSONObject getCoord( final Double p_af, final Double p_bf, final Double p_xc, final Double p_yc, final Double p_dist )
+    {
+        final Double l_delta = 4 * ( p_xc + p_yc * p_af ) * ( p_xc + p_yc * p_af ) - 4 * ( 1 + p_af * p_af ) * ( p_xc * p_xc +  p_yc * p_yc - p_dist * p_dist );
+        final Double l_x1  = ( 2 * ( p_xc + p_yc * p_af ) + Math.sqrt( l_delta ) ) / 2 * ( 1 + p_af * p_af );
+        final Double l_y1 = p_af * l_x1 + p_bf;
+        final Double l_x2  = ( 2 * ( p_xc + p_yc * p_af ) - Math.sqrt( l_delta ) ) / 2 * ( 1 + p_af * p_af );
+        final Double l_y2 = p_af * l_x2 + p_bf;
+        final JSONObject l_object = new JSONObject();
+        try
+        {
+            if ( ( l_x1 >= p_xc ) || ( l_y1 >= p_yc ) )
+            {
+                l_object.put( "x", l_x1 );
+                l_object.put( "y", l_y1 );
+            }
+            else if ( ( l_x2 >= p_xc ) || ( l_y2 >= p_yc ) )
+            {
+                l_object.put( "x", l_x2 );
+                l_object.put( "y", l_y2 );
+            }
+        }
+        catch ( JSONException p_e )
+        {
+            p_e.printStackTrace();
+        }
+        return l_object;
+    }
+
     /**
      * Generates a list of Points of Interest
      * @return the said list of POIs
      */
-    public static Collection<CPOI> genPOI()
+    public static Collection<CPOI> randomPOI()
     {
         final Set<CPOI> l_col = new HashSet<>();
         while ( l_col.size() < s_poi )
