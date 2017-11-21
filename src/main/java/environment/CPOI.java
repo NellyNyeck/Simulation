@@ -1,8 +1,5 @@
 package environment;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -10,28 +7,16 @@ import java.util.Collection;
  * The Point of interest class
  */
 
-public class CPOI implements INode<String>
+public class CPOI implements INode<CNode>
 {
 
-    private String m_id;
-    private Double m_xcoord;
-    private Double m_ycoord;
+    private CNode m_node;
 
     private Collection<ILabel> m_labels = new ArrayList<>();
 
-    public CPOI( final JSONObject p_object )
+    public CPOI( final CNode p_node )
     {
-        try
-        {
-            m_id  = p_object.getString( "id" );
-            m_xcoord = p_object.getDouble( "x" );
-            m_ycoord = p_object.getDouble( "y" );
-        }
-        catch ( JSONException p_e )
-        {
-            p_e.printStackTrace();
-        }
-
+        m_node = p_node;
     }
 
     public Collection<ILabel> labels()
@@ -40,20 +25,20 @@ public class CPOI implements INode<String>
     }
 
     @Override
-    public String id()
+    public CNode id()
     {
-        return m_id;
+        return m_node;
     }
 
     @Override
     public Double xcoord()
     {
-        return m_xcoord;
+        return m_node.xcoord();
     }
 
     @Override
     public Double ycoord()
     {
-        return m_ycoord;
+        return m_node.ycoord();
     }
 }

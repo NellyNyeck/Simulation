@@ -5,6 +5,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ import java.util.List;
 public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGraph<I, V, E>
 {
     private final Graph<V, E> m_graph = new DirectedSparseGraph<>();
+
+    private final HashMap<String, CPOI> m_pois = new HashMap<>();
 
     public CGraph( )
     {
@@ -96,6 +99,16 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
         {
             l_edg.reset();
         }
+    }
+
+    public HashMap<String, CPOI> getPois()
+    {
+        return m_pois;
+    }
+
+    public void addPoi( CPOI p_cpoi)
+    {
+        m_pois.put( p_cpoi.id(), p_cpoi );
     }
 
 

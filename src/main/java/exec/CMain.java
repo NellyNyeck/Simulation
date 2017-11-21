@@ -66,113 +66,251 @@ public final class CMain
      * initialization of the graph by reading the nodes and edges from file
      * @throws IOException because file
      */
-    public static void graphInit( final String p_arg ) throws IOException
+    public static void graphInit( final String p_arg ) throws IOException, JSONException
     {
         final String l_text = new String( Files.readAllBytes( Paths.get(  p_arg ) ), StandardCharsets.UTF_8 );
         final JSONObject l_object;
-        try
-        {
-            l_object = new JSONObject( l_text );
-            s_sepa = l_object.getDouble( "POI_dist" );
-            s_poi = l_object.getInt( "Nb_POI" );
+        l_object = new JSONObject( l_text );
+        s_sepa = l_object.getDouble( "POI_dist" );
+        s_poi = l_object.getInt( "Nb_POI" );
             //s_pod = l_object.getInt( "Nb_POD" );
             //s_podcap = l_object.getInt( "POD_cap" );
-            s_runs = l_object.getInt( "Runs" );
+        s_runs = l_object.getInt( "Runs" );
             //s_strateg = l_object.getString( "Strategy" );
-            JSONArray l_array = l_object.getJSONObject( "Environment" ).getJSONArray( "Intersections" );
-            for ( int l_in = 0; l_in < l_array.length(); l_in++ )
-            {
-                final CNode l_cnode = new CNode( l_array.getJSONObject( l_in ) );
-                s_GR.addNode( l_cnode );
-            }
-            l_array = l_object.getJSONObject( "Environment" ).getJSONArray( "Streets" );
-            for ( int l_in = 0; l_in < l_array.length(); l_in++ )
-            {
-                final JSONObject l_obj = l_array.getJSONObject( l_in );
-                genPOI( l_obj );
-            }
-        }
-        catch ( final JSONException l_er )
+        JSONArray l_array = l_object.getJSONObject( "Environment" ).getJSONArray( "Intersections" );
+        for ( int l_in = 0; l_in < l_array.length(); l_in++ )
         {
-            l_er.printStackTrace();
+            final CNode l_cnode = new CNode( l_array.getJSONObject( l_in ) );
+            s_GR.addNode( l_cnode );
+        }
+        l_array = l_object.getJSONObject( "Environment" ).getJSONArray( "Streets" );
+        for ( int l_in = 0; l_in < l_array.length(); l_in++ )
+        {
+            final JSONObject l_obj = l_array.getJSONObject( l_in );
+            processStreet(l_obj);
         }
     }
 
-    public static void genPOI( final JSONObject p_object )
+    public static void processStreet( final JSONObject p_object ) throws JSONException
     {
-        final double l_le;
-        try
+        final double l_le = p_object.getDouble( "length" );
+        if ( l_le > s_sepa )
         {
-            l_le = p_object.getDouble( "length" );
-            final int l_from  = p_object.getInt( "from" );
-            final int l_to = p_object.getInt( "to" );
-            final double l_we = p_object.getDouble( "weigth" );
-            if ( l_le > s_sepa)
-            {
-                JSONObject l_funct = getab( s_GR.getNode( l_from ), s_GR.getNode( l_to ));
-                final Double l_ap = l_funct.getDouble( "a" );
-                final Double l_bp = l_funct.getDouble( "b" );
-                final int l_poi = (int) ( l_le % s_sepa - 1 );
-                final Double l_pad = ( l_le - ( l_poi -1 ) * s_sepa ) / 2;
-                getCoord(l_ap, l_bp, s_GR.getNode( l_from ).xcoord(), s_GR.getNode( l_to ).ycoord(), l_pad);
-                for ( int l_count = 1 ; l_count < l_poi ; l_count++ )
-                {
-
-                }
-            }
+            genPOI( p_object );
         }
-        catch ( JSONException p_e )
+        else
         {
-            p_e.printStackTrace();
+            final CEdge l_cEdge = new CEdge( p_object );
+            CNode l_from = s_GR.getNode( p_object.getDouble( "from" ) );
+            CNode l_to = s_GR.getNode( p_object.getDouble( "to" ) );
+            s_GR.addEdge( l_from, l_to, l_cEdge );
         }
     }
 
 
-    private static void addPOI (final String p_id,final Double p_xc, final Double p_yc
+    public static void genPOI( final JSONObject p_object ) throws JSONException
     {
-        try
+        if ( !check_excp( p_object ) )
         {
-            JSONObject l_object = new JSONObject();
-            l_object.put( "id", p_id );
-            l_object.put( "x", p_xc );
-            l_object.put( "y", p_yc );
-            final CPOI l_cpoi = new CPOI( l_object );
-            s_GR.addNode( l_cpoi );
+            irregular( p_object );
+        }
 
-        }
-        catch ( JSONException p_e )
-        {
-            p_e.printStackTrace();
-        }
     }
 
-    private static JSONObject check_excp ( final CNode n1, final CNode n2, final Double p_dist, final Double p_padding, final int p_poi)
+    private static void irregular( final JSONObject p_object ) throws JSONException
     {
-        final Double l_xs = n1.xcoord();
-        final Double l_ys = n1.ycoord();
-        final Double l_xf = n2.xcoord();
-        final Double l_yf = n2.ycoord();
-        if ( l_xs == l_xf )
+        final Double l_weight = p_object.getDouble( "weight" );
+        CNode l_remember;
+        JSONObject l_funct = getab( s_GR.getNode( p_object.getDouble( "from" ) ), s_GR.getNode( p_object.getDouble( "to" ) ));
+        final Double l_ap = l_funct.getDouble( "a" );
+        final Double l_bp = l_funct.getDouble( "b" );
+
+        final Double l_le = p_object.getDouble( "length" );
+        final int l_poi = (int) ( l_le % s_sepa - 1 );
+        final Double l_pad = ( l_le - ( l_poi -1 ) * s_sepa ) / 2;
+        Double l_dist = l_pad;
+
+        CNode l_from = s_GR.getNode(  p_object.getDouble( "from" ) );
+        CNode l_to = s_GR.getNode( p_object.getDouble( "to" ) );
+
+        final JSONObject l_next;
+        if( ( l_from.xcoord() >= l_to.xcoord() ) || ( l_from.ycoord() >= l_to.ycoord() ) )
         {
-            final Double l_nx = l_xf;
-            if( p_padding != 0 )
+            l_next = getCoord( l_ap, l_bp, l_from.xcoord(), l_from.ycoord(), l_pad, "min" );
+
+        }
+        else
+        {
+            l_next = getCoord( l_ap, l_bp, l_from.xcoord(), l_from.ycoord(), l_pad, "max" );
+        }
+        Double l_nx = l_next.getDouble( "x" );
+        Double l_ny = l_next.getDouble( "y" );
+
+
+        JSONObject l_create = new JSONObject();
+        l_create.put( "id", l_nx+" " + l_ny + "|1" );
+        l_create.put( "x", l_nx );
+        l_create.put( "y", l_ny );
+        CNode l_nn = new CNode( l_create );
+        CPOI l_np = new CPOI( l_nn );
+        s_GR.addNode( l_nn );
+        s_GR.addPoi( l_np );
+        bind( l_from, l_nn, l_weight, l_pad );
+        l_remember = l_nn;
+
+        for (int l_count = 2 ; l_count <= l_poi; l_count++ )
+        {
+            l_dist = l_dist + s_sepa;
+
+            JSONObject l_poio  = createPOI( l_nx+" " + l_ny + "|" + l_count, l_nx, l_ny );
+            l_nn = new CNode( l_poio );
+            l_np = new CPOI( l_nn );
+            s_GR.addNode( l_nn );
+            s_GR.addPoi( l_np );
+            bind( l_remember, l_nn, l_weight, l_pad );
+            l_remember = l_nn;
+        }
+
+        bind( l_remember, s_GR.getNode( p_object.getInt( "to" ) ), l_weight, l_pad );
+
+    }
+
+    private void sprinklesRight(  )
+    {
+
+    }
+
+    private void sprinklesLeft()
+    {
+
+    }
+
+    private static boolean check_excp ( JSONObject p_object) throws JSONException
+    {
+        final CNode l_from = s_GR.getNode( p_object.getInt( "from" ) );
+        final CNode l_to = s_GR.getNode( p_object.getInt( "to" ) );
+        final Double l_xfrom = l_from.xcoord();
+        final Double l_yfrom = l_from.ycoord();
+        final Double l_xto = l_to.xcoord();
+        final Double l_yto = l_to.ycoord();
+        if ( l_xfrom == l_xto )
+        {
+            vertical( p_object );
+            return true;
+        }
+        else if (l_yfrom == l_yto)
+        {
+            horrizontal( p_object );
+            return true;
+        }
+        return false;
+    }
+
+    private static void vertical( JSONObject p_object ) throws JSONException
+    {
+        CNode l_remember;
+        final double l_le = p_object.getDouble( "length" );
+        final int l_poi = (int) ( l_le % s_sepa - 1 );
+        final double l_weight = p_object.getDouble( "weight" )/ ( l_poi + 1 );
+        final Double l_pad = ( l_le - ( l_poi -1 ) * s_sepa ) / 2;
+        final CNode l_from = s_GR.getNode( p_object.getInt( "from" ) );
+        final Double l_ys =l_from.ycoord();
+        final Double l_xs = l_from.xcoord();
+
+        if( l_pad != 0 )
+        {
+            Double l_ny = l_ys + l_pad;
+            JSONObject l_create = new JSONObject();
+            l_create.put( "id", l_xs+" " + l_ny + "|1" );
+            l_create.put( "x", l_xs );
+            l_create.put( "y", l_ny );
+            CNode l_nn = new CNode( l_create );
+            CPOI l_np = new CPOI( l_nn );
+            s_GR.addNode( l_nn );
+            s_GR.addPoi( l_np );
+            bind( l_from, l_nn, l_weight, l_pad );
+            l_remember = l_nn;
+
+            for (int l_count = 2 ; l_count <= l_poi; l_count++ )
             {
-                try
-                {
-                    Double l_ny = l_ys + p_padding;
-                    JSONObject l_create = new JSONObject();
-                    l_create.put( "id", l_nx+" " + l_ny + "|1" );
-                    l_create.put(  )
-                }
-                catch ( JSONException p_e )
-                {
-                    p_e.printStackTrace();
-                }
+                l_ny = l_ny + s_sepa;
+                JSONObject l_poio  = createPOI( l_xs+" " + l_ny + "|" + l_count, l_xs, l_ny );
+                l_nn = new CNode( l_poio );
+                l_np = new CPOI( l_nn );
+                s_GR.addNode( l_nn );
+                s_GR.addPoi( l_np );
+                bind( l_remember, l_nn, l_weight, l_pad );
+                l_remember = l_nn;
             }
 
+            bind( l_remember, s_GR.getNode( p_object.getInt( "to" ) ), l_weight, l_pad );
+
+        }
+    }
+
+    private static void horrizontal( JSONObject p_object ) throws JSONException
+    {
+        CNode l_remember;
+        final double l_le = p_object.getDouble( "length" );
+        final int l_poi = (int) ( l_le % s_sepa - 1 );
+        final double l_weight = p_object.getDouble( "weight" )/ ( l_poi + 1 );
+        final Double l_pad = ( l_le - ( l_poi -1 ) * s_sepa ) / 2;
+        final CNode l_from = s_GR.getNode( p_object.getInt( "from" ) );
+        final Double l_ys =l_from.ycoord();
+        final Double l_xs = l_from.xcoord();
+
+        if( l_pad != 0 )
+        {
+            Double l_nx = l_xs + l_pad;
+            JSONObject l_create = new JSONObject();
+            l_create.put( "id", l_nx+" " + l_ys + "|1" );
+            l_create.put( "x", l_nx );
+            l_create.put( "y", l_ys );
+            CNode l_nn = new CNode( l_create );
+            CPOI l_np = new CPOI( l_nn );
+            s_GR.addNode( l_nn );
+            s_GR.addPoi( l_np );
+            bind( l_from, l_nn, l_weight, l_pad );
+            l_remember = l_nn;
+
+            for (int l_count = 2 ; l_count <= l_poi; l_count++ )
+            {
+                l_nx = l_nx + s_sepa;
+                JSONObject l_poio  = createPOI( l_nx + " " + l_ys + "|" + l_count, l_nx, l_ys );
+                l_nn = new CNode( l_poio );
+                l_np = new CPOI( l_nn );
+                s_GR.addNode( l_nn );
+                s_GR.addPoi( l_np );
+                bind( l_remember, l_nn, l_weight, l_pad );
+                l_remember = l_nn;
+            }
+
+            bind( l_remember, s_GR.getNode( p_object.getInt( "to" ) ), l_weight, l_pad );
         }
 
     }
+
+    private static JSONObject createPOI (final String p_id,final Double p_xc, final Double p_yc) throws JSONException
+    {
+        JSONObject l_object = new JSONObject();
+        l_object.put( "id", p_id );
+        l_object.put( "x", p_xc );
+        l_object.put( "y", p_yc );
+        return l_object;
+    }
+
+    private static void bind (CNode p_from, CNode p_to, double p_weight, double p_length) throws JSONException
+    {
+        JSONObject l_create = new JSONObject();
+        l_create.put( "from", p_from.id() );
+        l_create.put( "to", p_to.id() );
+        l_create.put( "length", p_length );
+        l_create.put( "weight", p_weight );
+        final CEdge l_edge = new CEdge( l_create );
+        s_GR.addEdge( p_from, p_to, l_edge );
+    }
+
+
 
     private static JSONObject getab( final CNode n1, final CNode n2 )
     {
@@ -194,7 +332,8 @@ public final class CMain
         return l_object;
     }
 
-    private static JSONObject getCoord( final Double p_af, final Double p_bf, final Double p_xc, final Double p_yc, final Double p_dist )
+    private static JSONObject getCoord( final Double p_af, final Double p_bf, final Double p_xc, final Double p_yc, final Double p_dist, String p_way )
+    throws JSONException
     {
         final Double l_delta = 4 * ( p_xc + p_yc * p_af ) * ( p_xc + p_yc * p_af ) - 4 * ( 1 + p_af * p_af ) * ( p_xc * p_xc +  p_yc * p_yc - p_dist * p_dist );
         final Double l_x1  = ( 2 * ( p_xc + p_yc * p_af ) + Math.sqrt( l_delta ) ) / 2 * ( 1 + p_af * p_af );
@@ -202,22 +341,31 @@ public final class CMain
         final Double l_x2  = ( 2 * ( p_xc + p_yc * p_af ) - Math.sqrt( l_delta ) ) / 2 * ( 1 + p_af * p_af );
         final Double l_y2 = p_af * l_x2 + p_bf;
         final JSONObject l_object = new JSONObject();
-        try
+        if ( p_way.contentEquals( "min" ) )
         {
-            if ( ( l_x1 >= p_xc ) || ( l_y1 >= p_yc ) )
+            if( ( l_x1 < p_xc ) && ( l_y1 < p_yc ) )
             {
                 l_object.put( "x", l_x1 );
                 l_object.put( "y", l_y1 );
             }
-            else if ( ( l_x2 >= p_xc ) || ( l_y2 >= p_yc ) )
+            else if ( ( l_x2 < p_xc ) && ( l_y2 < p_yc ) )
             {
                 l_object.put( "x", l_x2 );
                 l_object.put( "y", l_y2 );
             }
         }
-        catch ( JSONException p_e )
+        if( p_way.contentEquals( "max" ) )
         {
-            p_e.printStackTrace();
+            if( ( l_x1 > p_xc ) && ( l_y1 > p_yc ) )
+            {
+                l_object.put( "x", l_x1 );
+                l_object.put( "y", l_y1 );
+            }
+            else if ( ( l_x2 > p_xc ) && ( l_y2 > p_yc ) )
+            {
+                l_object.put( "x", l_x2 );
+                l_object.put( "y", l_y2 );
+            }
         }
         return l_object;
     }

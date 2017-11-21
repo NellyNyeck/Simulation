@@ -7,10 +7,10 @@ import org.json.JSONObject;
 /**
  * The node class
  */
-public class CNode implements INode<Integer>
+public class CNode implements INode<String>
 {
 
-    private Integer m_id;
+    private String m_id;
     private Double m_xcoord;
     private Double m_ycoord;
 
@@ -22,7 +22,7 @@ public class CNode implements INode<Integer>
     {
         try
         {
-            m_id = p_json.getInt( "id" );
+            m_id = p_json.getString( "id" );
             m_xcoord = p_json.getDouble( "x" );
             m_ycoord = p_json.getDouble( "y" );
 
@@ -45,7 +45,7 @@ public class CNode implements INode<Integer>
     }
 
     @Override
-    public Integer id()
+    public String id()
     {
         return m_id;
     }
