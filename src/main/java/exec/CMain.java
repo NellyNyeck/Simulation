@@ -50,7 +50,7 @@ public final class CMain
     //private static Integer s_pod;
     private static Integer s_runs;
     private static CSVWriter s_out;
-    private static float s_sepa;
+    private static Double s_sepa;
     //private static int s_podcap;
     //private static String s_strateg;
 
@@ -69,7 +69,7 @@ public final class CMain
         final String l_text = new String( Files.readAllBytes( Paths.get(  p_arg ) ), StandardCharsets.UTF_8 );
         final JSONObject l_object;
         l_object = new JSONObject( l_text );
-        s_sepa = Float.valueOf( l_object.getString( "POI_dist" ) );
+        s_sepa = l_object.getDouble( "POI_dist" );
         s_poi = l_object.getInt( "Nb_POI" );
             //s_pod = l_object.getInt( "Nb_POD" );
             //s_podcap = l_object.getInt( "POD_cap" );
@@ -96,8 +96,8 @@ public final class CMain
      */
     public static void processStreet( final JSONObject p_object ) throws JSONException
     {
-        final float l_le = Float.valueOf( p_object.getString( "length" ) );
-        if ( l_le > 2*s_sepa )
+        final Double l_le = p_object.getDouble( "length" );
+        if ( l_le.compareTo( 2 * s_sepa ) > 0 )
         {
             genPOI( p_object );
         }
@@ -157,12 +157,12 @@ public final class CMain
     private static void sprinklesRight( final JSONObject p_street, final JSONObject p_factor ) throws JSONException
     {
 
-        final float l_le = Float.valueOf( p_street.getString( "length" ) );
+        final Double l_le = p_street.getDouble( "length" );
         int l_poi = (int) ( l_le % s_sepa );
         if  ( l_poi == 0 ) l_poi = (int) ( s_sepa - 1 );
-        final float l_pad = ( l_le - ( l_poi - 1 ) * s_sepa ) / 2;
-        float l_dist = l_pad;
-        final float l_weight = p_street.getDouble( "weight" ) / l_poi;
+        final Double l_pad = ( l_le - ( l_poi - 1 ) * s_sepa ) / 2;
+        Double l_dist = l_pad;
+        final Double l_weight = p_street.getDouble( "weight" ) / l_poi;
 
         final CNode l_from = s_GR.getNode( p_street.getString( "from" ) );
         final CNode l_to = s_GR.getNode( p_street.getString( "to" ) );
@@ -277,7 +277,7 @@ public final class CMain
         final Double l_yto = l_to.ycoord();
         if ( l_yfrom.compareTo( l_yto ) == 0 )
         {
-            if ( l_xfrom.compareTo( l_xto ) >0)
+            if ( l_xfrom.compareTo( l_xto ) > 0 )
             {
                 horizontal( p_object, "min" );
                 return true;
@@ -291,7 +291,7 @@ public final class CMain
         }
         else if ( l_xfrom.compareTo( l_xto ) == 0 )
         {
-            if ( l_yfrom.compareTo( l_yto ) >0)
+            if ( l_yfrom.compareTo( l_yto ) > 0 )
             {
                 vertical( p_object, "min" );
                 return true;
