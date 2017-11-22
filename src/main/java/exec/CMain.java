@@ -45,7 +45,7 @@ import java.util.Set;
  */
 public final class CMain
 {
-    protected static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
+    private static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
     private static Integer s_poi;
     //private static Integer s_pod;
     private static Integer s_runs;
@@ -55,7 +55,6 @@ public final class CMain
 
     protected CMain()
     {
-
     }
 
     /**
@@ -63,7 +62,7 @@ public final class CMain
      * @throws IOException because file
      * @throws JSONException because working with json objects
      */
-    protected static void graphInit( final String p_arg ) throws IOException, JSONException
+    private static void graphInit( final String p_arg ) throws IOException, JSONException
     {
         JSONObject l_trans;
         final String l_text = new String( Files.readAllBytes( Paths.get(  p_arg ) ), StandardCharsets.UTF_8 );
@@ -71,10 +70,10 @@ public final class CMain
         l_object = new JSONObject( l_text );
         s_sepa = l_object.getDouble( "POI_dist" );
         s_poi = l_object.getInt( "Nb_POI" );
-            //s_pod = l_object.getInt( "Nb_POD" );
-            //s_podcap = l_object.getInt( "POD_cap" );
+        //s_pod = l_object.getInt( "Nb_POD" );
+        //s_podcap = l_object.getInt( "POD_cap" );
         s_runs = l_object.getInt( "Runs" );
-            //s_strateg = l_object.getString( "Strategy" );
+        //s_strateg = l_object.getString( "Strategy" );
         JSONArray l_array = l_object.getJSONObject( "Environment" ).getJSONArray( "Intersections" );
         for ( int l_in = 0; l_in < l_array.length(); l_in++ )
         {
@@ -90,15 +89,107 @@ public final class CMain
     }
 
     /**
-     * process each given street to check if length < separation distance between the POI
+     * process each given street
      * @param p_object the JSON object which holds the street information
      * @throws JSONException working with json objects
      */
     public static void processStreet( final JSONObject p_object ) throws JSONException
     {
+        final JSONObject l_funct = new JSONObject();
+        final Double l_length = p_object.getDouble( "length" );
+        if ( l_length.compareTo( 2 * s_sepa ) >= 0 )
+        {
+            int l_poi = (int) ( l_length % s_sepa );
+            if ( l_poi == 0 ) l_poi = (int) ( s_sepa - 1 );
+            final Double l_padding = ( l_length -  l_poi * s_sepa ) / 2;
+            final Double l_weight = p_object.getDouble( "weight" ) / ( l_poi + 1 );
 
+            final CNode l_nf = s_GR.getNode( p_object.getString( "from" ) );
+            final Double l_xf = l_nf.xcoord();
+            final Double l_yf = l_nf.ycoord();
+            final CNode l_nt = s_GR.getNode( p_object.getString( "to" ) );
+            final Double l_xt = l_nt.xcoord();
+            final Double l_yt = l_nt.ycoord();
+
+            l_funct.put( "type", functType( l_nf, l_nt ) );
+            l_funct.put( "parameters", getab( l_nf, l_nt, l_funct.getString( "type" ) ) );
+
+
+        }
+        else
+        {
+            final CNode l_n1 = s_GR.getNode( p_object.getString( "from" ) );
+            final CNode l_n2 = s_GR.getNode( p_object.getString( "to" ) );
+            final Double l_weigth = p_object.getDouble( "weight" );
+            bind( l_n1, l_n2, l_length, l_weigth );
+        }
+        /**
+         * calculate paddin, number of pois, and weight of segments
+         * get starting point coordinates
+         * calculate the function type: vertical, horizontal, linear
+         * calculate functions a and b
+         * calculate function slope
+         * calculate new coordinates
+         * add first poi
+         * for loop the others
+         * bind last poi
+         */
     }
 
+    private static String functType( final CNode p_nf, final CNode p_nt )
+    {
+        final Double l_xf = p_nf.xcoord();
+        final Double l_yf = p_nf.ycoord();
+        final Double l_xt = p_nt.xcoord();
+        final Double l_yt = p_nt.ycoord();
+        if ( l_xf == l_xt )
+        {
+            return "Vertical";
+        }
+        else if ( l_yf == l_yt )
+        {
+            return "Horizontal";
+        }
+        else
+        {
+            return "Normal";
+        }
+    }
+
+    /**
+     * calculates the a and b of the linear function of a street
+     * @param p_n1 the starting node
+     * @param p_n2 the end node
+     * @return a json object containing the a and b
+     */
+    private static JSONObject getab( final CNode p_n1, final CNode p_n2, final String p_type ) throws JSONException
+    {
+        final JSONObject l_object = new JSONObject();
+        if ( p_type.contentEquals( "Normal" ) )
+        {
+
+            final Double l_xs = p_n1.xcoord();
+            final Double l_ys = p_n1.ycoord();
+            final Double l_xf = p_n2.xcoord();
+            final Double l_yf = p_n2.ycoord();
+            final Double l_ac =  ( l_ys - l_yf ) / ( l_xs - l_xf );
+            final Double l_bc = l_yf + l_xf * l_ac;
+            l_object.put( "a", l_ac );
+            l_object.put( "b", l_bc );
+
+        }
+        else if (  p_type.contentEquals( "Vertical" ) )
+        {
+            l_object.put( "a", "?" );
+            l_object.put( "b", "?" );
+        }
+        else if ( p_type.contentEquals( "Horizontal" ) )
+        {
+            l_object.put( "a", 0 );
+            l_object.put( "b", p_n1.ycoord() );
+        }
+        return l_object;
+    }
 
     /**
      * creates a json object to be used to construct a new node(poi)
@@ -125,7 +216,7 @@ public final class CMain
      * @param p_length the length of the new edge
      * @throws JSONException working with json object
      */
-    protected static void bind( final CNode p_from, final CNode p_to, final double p_weight, final double p_length ) throws JSONException
+    protected static void bind( final CNode p_from, final CNode p_to, final double p_length, final double p_weight ) throws JSONException
     {
         final JSONObject l_create = new JSONObject();
         l_create.put( "from", p_from.id() );
@@ -136,31 +227,7 @@ public final class CMain
         s_GR.addEdge( p_from, p_to, l_edge );
     }
 
-    /**
-     * calculates the a and b of the linear function of a street
-     * @param p_n1 the starting node
-     * @param p_n2 the end node
-     * @return a json object containing the a and b
-     */
-    private static JSONObject getab( final CNode p_n1, final CNode p_n2 )
-    {
-        final JSONObject l_object = new JSONObject();
-        final Double l_xs = p_n1.xcoord();
-        final Double l_ys = p_n1.ycoord();
-        final Double l_xf = p_n2.xcoord();
-        final Double l_yf = p_n2.ycoord();
-        final Double l_ac =  ( l_ys - l_yf ) / ( l_xs - l_xf );
-        final Double l_bc = l_yf + l_xf * l_ac;
-        try
-        {
-            l_object.put( "a", l_ac );
-            l_object.put( "b", l_bc );
-        }
-        catch ( final JSONException l_err )
-        {
-        }
-        return l_object;
-    }
+
 
     /**
      * calculates the x and y coordinates of the new node

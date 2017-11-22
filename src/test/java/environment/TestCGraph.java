@@ -67,10 +67,26 @@ public class TestCGraph
     {
         assumeNotNull( m_graph );
         assumeNotNull( m_n1 );
+        assumeNotNull( m_n2 );
         m_graph.addNode( m_n1 );
-        final CNode l_test = m_graph.getNode( m_n1.id() );
+        m_graph.addNode( m_n2 );
+        final CNode l_test = m_graph.getNode( m_n2.id() );
         assertTrue( l_test != null );
-        assertTrue( l_test.equals( m_n1 ) );
+        assertTrue( l_test.equals( m_n2 ) );
+    }
+
+    /**
+     * testing get node with non existand one
+     */
+    @Test
+    public void getnoNode()
+    {
+        assumeNotNull( m_graph );
+        assumeNotNull( m_n1 );
+        assumeNotNull( m_n2 );
+        m_graph.addNode( m_n1 );
+        final CNode l_test = m_graph.getNode( m_n2.id() );
+        assertTrue( l_test == null );
     }
 
     /**

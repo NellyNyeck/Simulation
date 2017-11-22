@@ -4,10 +4,6 @@ import environment.CNode;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeNotNull;
 
 
 /**
@@ -52,33 +48,4 @@ public class TestCMain
         m_n7 = new CNode( l_put );
     }
 
-    /**
-     * testing bing
-     * @throws JSONException working with json object
-     */
-    @Test
-    public void bind() throws JSONException
-    {
-        assumeNotNull( m_n1 );
-        assumeNotNull( m_n0 );
-        m_main.bind( m_n0, m_n1, 1, 100 );
-        assertTrue( m_main.s_GR.countEdges() == 1 );
-    }
-
-    /**
-     * testing vertical function
-     * @throws JSONException working with json object
-     */
-    @Test
-    public void vert() throws JSONException
-    {
-        final JSONObject l_object = new JSONObject();
-        l_object.put( "from", 0 );
-        l_object.put( "to", 6 );
-        l_object.put( "length", 75 );
-        l_object.put( "weighth", 1 );
-
-        m_main.vertical( l_object, "max" );
-
-    }
 }

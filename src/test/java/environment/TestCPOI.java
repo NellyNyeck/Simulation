@@ -70,7 +70,7 @@ public class TestCPOI
     public void xcoord()
     {
         assumeNotNull( m_cpoi );
-        assertTrue( m_cpoi.id().xcoord() == m_node.xcoord() );
+        assertTrue( m_cpoi.xcoord() == m_node.xcoord() );
     }
 
     /**
@@ -80,7 +80,7 @@ public class TestCPOI
     public void ycoord()
     {
         assumeNotNull( m_cpoi );
-        assertTrue( m_cpoi.id().ycoord() == m_node.ycoord() );
+        assertTrue( m_cpoi.ycoord() == m_node.ycoord() );
     }
 
     /**
