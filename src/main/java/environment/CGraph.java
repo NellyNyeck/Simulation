@@ -36,12 +36,12 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
      * @param n the id of the node that needs to be returned
      * @return the node with the given n id
      */
-    public V getNode( final Number n )
+    public V getNode( final String n )
     {
         final Collection<V> l_all = m_graph.getVertices();
         for ( final V l_node : l_all )
         {
-            if ( l_node.id() == n ) return l_node;
+            if ( l_node.id().equals( n ) ) return l_node;
         }
         return null;
     }
