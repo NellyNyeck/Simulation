@@ -106,7 +106,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
         return m_pois;
     }
 
-    public void addPoi( CPOI p_cpoi)
+    public void addPoi( final CPOI p_cpoi )
     {
         m_pois.put( p_cpoi.id().id(), p_cpoi );
     }
