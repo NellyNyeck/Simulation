@@ -59,13 +59,14 @@ public final class CMain
 
     /**
      * initialization of the graph by reading the nodes and edges from file
+     *
      * @throws IOException because file
      * @throws JSONException because working with json objects
      */
     private static void graphInit( final String p_arg ) throws IOException, JSONException
     {
         JSONObject l_trans;
-        final String l_text = new String( Files.readAllBytes( Paths.get(  p_arg ) ), StandardCharsets.UTF_8 );
+        final String l_text = new String( Files.readAllBytes( Paths.get( p_arg ) ), StandardCharsets.UTF_8 );
         final JSONObject l_object;
         l_object = new JSONObject( l_text );
         s_sepa = l_object.getDouble( "POI_dist" );
@@ -90,6 +91,7 @@ public final class CMain
 
     /**
      * process each given street
+     *
      * @param p_object the JSON object which holds the street information
      * @throws JSONException working with json objects
      */
@@ -100,21 +102,23 @@ public final class CMain
         if ( l_length.compareTo( 2 * s_sepa ) >= 0 )
         {
             int l_poi = (int) ( l_length % s_sepa );
-            if ( l_poi == 0 ) l_poi = (int) ( s_sepa - 1 );
-            final Double l_padding = ( l_length -  l_poi * s_sepa ) / 2;
+            if ( l_poi == 0 )
+                l_poi = (int) ( s_sepa - 1 );
+            final Double l_padding = ( l_length - l_poi * s_sepa ) / 2;
             final Double l_weight = p_object.getDouble( "weight" ) / ( l_poi + 1 );
 
             final CNode l_nf = s_GR.getNode( p_object.getString( "from" ) );
-            final Double l_xf = l_nf.xcoord();
-            final Double l_yf = l_nf.ycoord();
             final CNode l_nt = s_GR.getNode( p_object.getString( "to" ) );
-            final Double l_xt = l_nt.xcoord();
-            final Double l_yt = l_nt.ycoord();
+
 
             l_funct.put( "type", functType( l_nf, l_nt ) );
             l_funct.put( "parameters", getab( l_nf, l_nt, l_funct.getString( "type" ) ) );
+            l_funct.put( "direction", getDirection( l_nf, l_nt ) );
 
+            if ( l_padding == 0 )
+            {
 
+            }
         }
         else
         {
@@ -128,7 +132,7 @@ public final class CMain
          * get starting point coordinates
          * calculate the function type: vertical, horizontal, linear
          * calculate functions a and b
-         * calculate function slope
+         * calculate function direction
          * calculate new coordinates
          * add first poi
          * for loop the others
@@ -158,6 +162,7 @@ public final class CMain
 
     /**
      * calculates the a and b of the linear function of a street
+     *
      * @param p_n1 the starting node
      * @param p_n2 the end node
      * @return a json object containing the a and b
@@ -172,13 +177,13 @@ public final class CMain
             final Double l_ys = p_n1.ycoord();
             final Double l_xf = p_n2.xcoord();
             final Double l_yf = p_n2.ycoord();
-            final Double l_ac =  ( l_ys - l_yf ) / ( l_xs - l_xf );
+            final Double l_ac = ( l_ys - l_yf ) / ( l_xs - l_xf );
             final Double l_bc = l_yf + l_xf * l_ac;
             l_object.put( "a", l_ac );
             l_object.put( "b", l_bc );
 
         }
-        else if (  p_type.contentEquals( "Vertical" ) )
+        else if ( p_type.contentEquals( "Vertical" ) )
         {
             l_object.put( "a", "?" );
             l_object.put( "b", "?" );
@@ -190,6 +195,269 @@ public final class CMain
         }
         return l_object;
     }
+
+
+    private static String getDirection( final CNode p_nf, final CNode p_nt )
+    {
+        final Double l_xf = p_nf.xcoord();
+        final Double l_yf = p_nf.ycoord();
+        final Double l_xt = p_nt.xcoord();
+        final Double l_yt = p_nt.ycoord();
+        if ( l_xf < l_xt )
+        {
+            if ( l_yf == l_yt )
+            {
+                return "R";
+            }
+            else if ( l_yf < l_yt )
+            {
+                return "AR";
+            }
+            else
+            {
+                return "DR";
+            }
+        }
+        else if ( l_xf > l_xt )
+        {
+            if ( l_yf == l_yt )
+            {
+                return "L";
+            }
+            else if ( l_yf < l_yt )
+            {
+                return "AL";
+            }
+            else
+            {
+                return "DL";
+            }
+        }
+        else
+        {
+            if ( l_yf < l_yt )
+            {
+                return "A";
+            }
+            else if ( l_yf > l_yt )
+            {
+                return "D";
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * to pad or not to pad
+     * @param p_nf the starting node
+     * @param p_nt the ending node
+     * @param p_pad the padding
+     * @param p_poi the nb of pois to be generated
+     * @param p_about the characteristics of the function
+     * @param p_weight the weigth of each segment
+     * @throws JSONException working with json object
+     */
+    private static void toPad( final CNode p_nf, final CNode p_nt, final double p_pad, final int p_poi, final JSONObject p_about, final double p_weight ) throws JSONException
+    {
+        if ( p_pad == 0 )
+        {
+            CNode l_remember = p_nf;
+            for (int l_count = 1; l_count <= p_poi; l_count++)
+            {
+                final JSONObject l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa);
+                final String l_id = p_nf.id() + "|" + p_nt.id() + "." + l_count;
+                CNode l_newNode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+                bind( l_remember, l_newNode, s_sepa, p_weight );
+                l_remember = l_newNode;
+            }
+            bind( l_remember, p_nf, s_sepa, p_weight );
+        }
+        else
+        {
+            CNode l_remember;
+            JSONObject l_new = getCoordinates( p_about, p_nf.xcoord(), p_nf.ycoord(), p_pad);
+            String l_id = p_nf.id() + "|" + p_nt.id() + ".1";
+            CNode l_newNode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+            bind( p_nf, l_newNode, s_sepa, p_weight );
+            l_remember = l_newNode;
+            for (int l_count = 2; l_count <= p_poi; l_count++)
+            {
+                l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa);
+                l_id = p_nf.id() + "|" + p_nt.id() + "." + l_count;
+                l_newNode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+                bind( l_remember, l_newNode, s_sepa, p_weight );
+                l_remember = l_newNode;
+            }
+            bind( l_remember, p_nf, p_pad, p_weight );
+        }
+    }
+
+    /**
+     * calls the respective get coordinates function based on type
+     * @param p_about the object containing the functions characteristics
+     * @param p_xc the x coordinates of the starting node
+     * @param p_yc the y coordinates of the starting node
+     * @param p_dist the distance between the starting and the new node
+     * @return the constructed json object
+     * @throws JSONException working with json
+     */
+    private static JSONObject getCoordinates (final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    {
+
+        final String l_type = p_about.getString( "type" );
+        if ( l_type.contentEquals( "Normal" ) )
+        {
+            return getCoordLinear( p_about, p_xc, p_yc, p_dist );
+        }
+        else if ( l_type.contentEquals( "Vertical" ))
+        {
+            return getCoordVert( p_about, p_xc, p_yc, p_dist );
+        }
+        else if ( l_type.contentEquals( "Horizontal" ) )
+        {
+            return getCoordHori( p_about, p_xc, p_yc, p_dist )
+        }
+        return null;
+    }
+
+    /**
+     * calculates the x and y coordinates of the new node if the function is normal linear
+     * @param p_about the Json object which holds the functions characteristics
+     * @param p_xc the x coordinates of the start node
+     * @param p_yc the y coordinates of the start node
+     * @param p_dist the distance between the start node and the new node
+     * @return the json object which holds the xy coordinates for the new node
+     * @throws JSONException working with json object
+     */
+    private static JSONObject getCoordLinear( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    {
+        final JSONObject l_temp = p_about.getJSONObject( "parameters" );
+        final Double l_af = l_temp.getDouble( "a" );
+        final Double l_bf = l_temp.getDouble( "b" );
+        final String l_way = p_about.getString( "direction" );
+        final Double l_delta = 4 * ( p_xc + p_yc * l_af ) * ( p_xc + p_yc * l_af ) - 4 * ( 1 + l_af * l_af ) * ( p_xc * p_xc +  p_yc * p_yc - p_dist * p_dist );
+        final Double l_x1  = ( 2 * ( p_xc + p_yc * l_af ) + Math.sqrt( l_delta ) ) / 2 * ( 1 + l_af * l_af );
+        final Double l_y1 = l_af * l_x1 + l_bf;
+        final Double l_x2  = ( 2 * ( p_xc + p_yc * l_af ) - Math.sqrt( l_delta ) ) / 2 * ( 1 + l_af * l_af );
+        final Double l_y2 = l_af * l_x2 + l_bf;
+        final JSONObject l_object = new JSONObject();
+        if ( l_way.contentEquals( "AR" ) )
+        {
+            if ( ( l_x1 > p_xc ) && ( l_y1 > p_yc ) )
+            {
+                l_object.put( "x", l_x1 );
+                l_object.put( "y", l_y1 );
+            }
+            else
+            {
+                l_object.put( "x", l_x2 );
+                l_object.put( "y", l_y2 );
+            }
+        }
+        if ( l_way.contentEquals( "DR" ) )
+        {
+            if ( ( l_x1 > p_xc ) && ( l_y1 < p_yc ) )
+            {
+                l_object.put( "x", l_x1 );
+                l_object.put( "y", l_y1 );
+            }
+            else
+            {
+                l_object.put( "x", l_x2 );
+                l_object.put( "y", l_y2 );
+            }
+        }
+        if ( l_way.contentEquals( "AL" ) )
+        {
+            if ( ( l_x1 < p_xc ) && ( l_y1 > p_yc ) )
+            {
+                l_object.put( "x", l_x1 );
+                l_object.put( "y", l_y1 );
+            }
+            else
+            {
+                l_object.put( "x", l_x2 );
+                l_object.put( "y", l_y2 );
+            }
+        }
+        if ( l_way.contentEquals( "DL" ) )
+        {
+            if ( ( l_x1 < p_xc ) && ( l_y1 < p_yc ) )
+            {
+                l_object.put( "x", l_x1 );
+                l_object.put( "y", l_y1 );
+            }
+            else
+            {
+                l_object.put( "x", l_x2 );
+                l_object.put( "y", l_y2 );
+            }
+        }
+        return l_object;
+    }
+
+    /**
+     * calculates the x and y coordinates of the new node if the function is vertical
+     * @param p_about the Json object which holds the functions characteristics
+     * @param p_xc the x coordinates of the starting point
+     * @param p_yc the y coordinates of the starting point
+     * @param p_dist the distance between the starting point and the new point
+     * @return a json object containing the new coordinates
+     * @throws JSONException working with json object
+     */
+    private static JSONObject getCoordVert( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    {
+        final JSONObject l_new = new JSONObject();
+        final String l_way = p_about.getString( "direction" );
+        if ( l_way.contentEquals( "U" ) )
+        {
+            final Double l_nx = p_xc;
+            final Double l_ny = p_yc + p_dist;
+            l_new.put( "x", l_nx );
+            l_new.put( "y", l_ny );
+        }
+        else if ( l_way.contentEquals( "D" ) )
+        {
+            final Double l_nx = p_xc;
+            final Double l_ny = p_yc - p_dist;
+            l_new.put( "x", l_nx );
+            l_new.put( "y", l_ny );
+        }
+        return l_new;
+    }
+
+    /**
+     * calculates the x and y coordinates of the new node if the function is horizontal
+     * @param p_about the Json object which holds the functions characteristics
+     * @param p_xc the x coordinates of the starting point
+     * @param p_yc the y coordinates of the starting point
+     * @param p_dist the distance between the starting point and the new point
+     * @return a json object containing the new coordinates
+     * @throws JSONException working with json object
+     */
+    private static JSONObject getCoordHori( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    {
+        final JSONObject l_new = new JSONObject();
+        final String l_way = p_about.getString( "direction" );
+        if ( l_way.contentEquals( "R" ) )
+        {
+            final Double l_nx = p_xc + p_dist;
+            final Double l_ny = p_yc;
+            l_new.put( "x", l_nx );
+            l_new.put( "y", l_ny );
+        }
+        else if ( l_way.contentEquals( "L" ) )
+        {
+            final Double l_nx = p_xc - p_dist;
+            final Double l_ny = p_yc;
+            l_new.put( "x", l_nx );
+            l_new.put( "y", l_ny );
+        }
+        return l_new;
+    }
+
+
 
     /**
      * creates a json object to be used to construct a new node(poi)
@@ -229,54 +497,7 @@ public final class CMain
 
 
 
-    /**
-     * calculates the x and y coordinates of the new node
-     * @param p_af the a parameter of the linear function
-     * @param p_bf the b parameter of the linear function
-     * @param p_xc the x coordinates of the start node
-     * @param p_yc the y coordinates of the start node
-     * @param p_dist the distance between the start node and the new node
-     * @param p_way the way of the function, increasing/decreasing
-     * @return the json object which holds the xy coordinates for the new node
-     * @throws JSONException working with json object
-     */
-    private static JSONObject getCoord( final Double p_af, final Double p_bf, final Double p_xc, final Double p_yc, final Double p_dist, final String p_way )
-                    throws JSONException
-    {
-        final Double l_delta = 4 * ( p_xc + p_yc * p_af ) * ( p_xc + p_yc * p_af ) - 4 * ( 1 + p_af * p_af ) * ( p_xc * p_xc +  p_yc * p_yc - p_dist * p_dist );
-        final Double l_x1  = ( 2 * ( p_xc + p_yc * p_af ) + Math.sqrt( l_delta ) ) / 2 * ( 1 + p_af * p_af );
-        final Double l_y1 = p_af * l_x1 + p_bf;
-        final Double l_x2  = ( 2 * ( p_xc + p_yc * p_af ) - Math.sqrt( l_delta ) ) / 2 * ( 1 + p_af * p_af );
-        final Double l_y2 = p_af * l_x2 + p_bf;
-        final JSONObject l_object = new JSONObject();
-        if ( p_way.contentEquals( "min" ) )
-        {
-            if ( ( l_x1 < p_xc ) && ( l_y1 < p_yc ) )
-            {
-                l_object.put( "x", l_x1 );
-                l_object.put( "y", l_y1 );
-            }
-            else if ( ( l_x2 < p_xc ) && ( l_y2 < p_yc ) )
-            {
-                l_object.put( "x", l_x2 );
-                l_object.put( "y", l_y2 );
-            }
-        }
-        if ( p_way.contentEquals( "max" ) )
-        {
-            if ( ( l_x1 > p_xc ) && ( l_y1 > p_yc ) )
-            {
-                l_object.put( "x", l_x1 );
-                l_object.put( "y", l_y1 );
-            }
-            else if ( ( l_x2 > p_xc ) && ( l_y2 > p_yc ) )
-            {
-                l_object.put( "x", l_x2 );
-                l_object.put( "y", l_y2 );
-            }
-        }
-        return l_object;
-    }
+
 
     /**
      * Generates a list of Points of Interest
