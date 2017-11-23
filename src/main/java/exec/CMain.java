@@ -104,7 +104,7 @@ public final class CMain
             int l_poi = (int) ( l_length % s_sepa );
             if ( l_poi == 0 )
                 l_poi = (int) ( s_sepa - 1 );
-            final Double l_padding = ( l_length - l_poi * s_sepa ) / 2;
+            final Double l_padding = ( l_length - ( l_poi + 1 ) * s_sepa ) / 2;
             final Double l_weight = p_object.getDouble( "weight" ) / ( l_poi + 1 );
 
             final CNode l_nf = s_GR.getNode( p_object.getString( "from" ) );
@@ -137,17 +137,17 @@ public final class CMain
          */
     }
 
-    private static String functType( final CNode p_nf, final CNode p_nt )
+    protected static String functType( final CNode p_nf, final CNode p_nt )
     {
         final Double l_xf = p_nf.xcoord();
         final Double l_yf = p_nf.ycoord();
         final Double l_xt = p_nt.xcoord();
         final Double l_yt = p_nt.ycoord();
-        if ( l_xf == l_xt )
+        if ( l_xf.compareTo( l_xt ) == 0 )
         {
             return "Vertical";
         }
-        else if ( l_yf == l_yt )
+        else if ( l_yf.compareTo( l_yt ) == 0 )
         {
             return "Horizontal";
         }
@@ -164,7 +164,7 @@ public final class CMain
      * @param p_n2 the end node
      * @return a json object containing the a and b
      */
-    private static JSONObject getab( final CNode p_n1, final CNode p_n2, final String p_type ) throws JSONException
+    protected static JSONObject getab( final CNode p_n1, final CNode p_n2, final String p_type ) throws JSONException
     {
         final JSONObject l_object = new JSONObject();
         if ( p_type.contentEquals( "Normal" ) )
@@ -175,7 +175,7 @@ public final class CMain
             final Double l_xf = p_n2.xcoord();
             final Double l_yf = p_n2.ycoord();
             final Double l_ac = ( l_ys - l_yf ) / ( l_xs - l_xf );
-            final Double l_bc = l_yf + l_xf * l_ac;
+            final Double l_bc = l_yf - l_xf * l_ac;
             l_object.put( "a", l_ac );
             l_object.put( "b", l_bc );
 
@@ -194,19 +194,19 @@ public final class CMain
     }
 
 
-    private static String getDirection( final CNode p_nf, final CNode p_nt )
+    protected static String getDirection( final CNode p_nf, final CNode p_nt )
     {
         final Double l_xf = p_nf.xcoord();
         final Double l_yf = p_nf.ycoord();
         final Double l_xt = p_nt.xcoord();
         final Double l_yt = p_nt.ycoord();
-        if ( l_xf < l_xt )
+        if ( l_xf.compareTo( l_xt ) < 0 )
         {
-            if ( l_yf == l_yt )
+            if ( l_yf.compareTo( l_yt ) == 0 )
             {
                 return "R";
             }
-            else if ( l_yf < l_yt )
+            else if ( l_yf.compareTo( l_yt ) < 0 )
             {
                 return "AR";
             }
@@ -215,13 +215,13 @@ public final class CMain
                 return "DR";
             }
         }
-        else if ( l_xf > l_xt )
+        else if ( l_xf.compareTo( l_xt ) > 0 )
         {
-            if ( l_yf == l_yt )
+            if ( l_yf.compareTo( l_yt ) == 0 )
             {
                 return "L";
             }
-            else if ( l_yf < l_yt )
+            else if ( l_yf.compareTo( l_yt ) < 0 )
             {
                 return "AL";
             }
@@ -232,11 +232,11 @@ public final class CMain
         }
         else
         {
-            if ( l_yf < l_yt )
+            if ( l_yf.compareTo( l_yt ) < 0 )
             {
                 return "A";
             }
-            else if ( l_yf > l_yt )
+            else if ( l_yf.compareTo( l_yt ) > 0 )
             {
                 return "D";
             }
@@ -255,16 +255,19 @@ public final class CMain
      * @param p_weight the weigth of each segment
      * @throws JSONException working with json object
      */
-    private static void toPad( final CNode p_nf, final CNode p_nt, final double p_pad, final int p_poi, final JSONObject p_about, final double p_weight ) throws JSONException
+    private static void toPad( final CNode p_nf, final CNode p_nt, final Double p_pad, final int p_poi, final JSONObject p_about, final double p_weight ) throws JSONException
     {
-        if ( p_pad == 0 )
+        JSONObject l_new;
+        if ( p_pad.compareTo( 0.00 ) == 0 )
         {
             CNode l_remember = p_nf;
             for ( int l_count = 1; l_count <= p_poi; l_count++ )
             {
-                final JSONObject l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa );
+                l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa );
                 final String l_id = p_nf.id() + "|" + p_nt.id() + "." + l_count;
-                final CNode l_newnode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+                final Double l_nx = l_new.getDouble( "x" );
+                final Double l_ny = l_new.getDouble( "y" );
+                final CNode l_newnode = new CNode( createPOI( l_id, l_nx, l_ny ) );
                 bind( l_remember, l_newnode, s_sepa, p_weight );
                 l_remember = l_newnode;
             }
@@ -273,7 +276,7 @@ public final class CMain
         else
         {
             CNode l_remember;
-            JSONObject l_new = getCoordinates( p_about, p_nf.xcoord(), p_nf.ycoord(), p_pad );
+            l_new = getCoordinates( p_about, p_nf.xcoord(), p_nf.ycoord(), p_pad );
             String l_id = p_nf.id() + "|" + p_nt.id() + ".1";
             CNode l_newnode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
             bind( p_nf, l_newnode, s_sepa, p_weight );
