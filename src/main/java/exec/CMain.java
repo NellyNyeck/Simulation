@@ -115,10 +115,7 @@ public final class CMain
             l_funct.put( "parameters", getab( l_nf, l_nt, l_funct.getString( "type" ) ) );
             l_funct.put( "direction", getDirection( l_nf, l_nt ) );
 
-            if ( l_padding == 0 )
-            {
-
-            }
+            toPad( l_nf, l_nt, l_padding, l_poi, l_funct, l_weight );
         }
         else
         {
@@ -263,31 +260,31 @@ public final class CMain
         if ( p_pad == 0 )
         {
             CNode l_remember = p_nf;
-            for (int l_count = 1; l_count <= p_poi; l_count++)
+            for ( int l_count = 1; l_count <= p_poi; l_count++ )
             {
-                final JSONObject l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa);
+                final JSONObject l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa );
                 final String l_id = p_nf.id() + "|" + p_nt.id() + "." + l_count;
-                CNode l_newNode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
-                bind( l_remember, l_newNode, s_sepa, p_weight );
-                l_remember = l_newNode;
+                final CNode l_newnode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+                bind( l_remember, l_newnode, s_sepa, p_weight );
+                l_remember = l_newnode;
             }
             bind( l_remember, p_nf, s_sepa, p_weight );
         }
         else
         {
             CNode l_remember;
-            JSONObject l_new = getCoordinates( p_about, p_nf.xcoord(), p_nf.ycoord(), p_pad);
+            JSONObject l_new = getCoordinates( p_about, p_nf.xcoord(), p_nf.ycoord(), p_pad );
             String l_id = p_nf.id() + "|" + p_nt.id() + ".1";
-            CNode l_newNode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
-            bind( p_nf, l_newNode, s_sepa, p_weight );
-            l_remember = l_newNode;
-            for (int l_count = 2; l_count <= p_poi; l_count++)
+            CNode l_newnode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+            bind( p_nf, l_newnode, s_sepa, p_weight );
+            l_remember = l_newnode;
+            for ( int l_count = 2; l_count <= p_poi; l_count++ )
             {
-                l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa);
+                l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa );
                 l_id = p_nf.id() + "|" + p_nt.id() + "." + l_count;
-                l_newNode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
-                bind( l_remember, l_newNode, s_sepa, p_weight );
-                l_remember = l_newNode;
+                l_newnode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+                bind( l_remember, l_newnode, s_sepa, p_weight );
+                l_remember = l_newnode;
             }
             bind( l_remember, p_nf, p_pad, p_weight );
         }
@@ -302,7 +299,7 @@ public final class CMain
      * @return the constructed json object
      * @throws JSONException working with json
      */
-    private static JSONObject getCoordinates (final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    private static JSONObject getCoordinates( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
     {
 
         final String l_type = p_about.getString( "type" );
@@ -310,13 +307,13 @@ public final class CMain
         {
             return getCoordLinear( p_about, p_xc, p_yc, p_dist );
         }
-        else if ( l_type.contentEquals( "Vertical" ))
+        else if ( l_type.contentEquals( "Vertical" ) )
         {
             return getCoordVert( p_about, p_xc, p_yc, p_dist );
         }
         else if ( l_type.contentEquals( "Horizontal" ) )
         {
-            return getCoordHori( p_about, p_xc, p_yc, p_dist )
+            return getCoordHori( p_about, p_xc, p_yc, p_dist );
         }
         return null;
     }
