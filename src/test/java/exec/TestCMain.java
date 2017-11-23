@@ -227,4 +227,228 @@ public class TestCMain
         assumeNotNull( m_n0 );
         assertTrue( CMain.getDirection( m_n0, m_n0 ) == null );
     }
+
+    /**
+     * testing the get new coordinates horizontal right
+     * @throws JSONException working with json
+     */
+    @Test
+    public void getCoordHR() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n1 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n0, m_n1 ) );
+        l_funct.put( "parameters", CMain.getab( m_n0, m_n1, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n0, m_n1 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordHori( l_funct, m_n0.xcoord(), m_n0.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "10.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "0.0" ) );
+    }
+
+    /**
+     * testing the get new coordinates horizontal left
+     * @throws JSONException working with json
+     */
+    @Test
+    public void getCoordHL() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n1 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n1, m_n0 ) );
+        l_funct.put( "parameters", CMain.getab( m_n1, m_n0, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n1, m_n0 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordHori( l_funct, m_n1.xcoord(), m_n1.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "90.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "0.0" ) );
+    }
+
+    /**
+     * testing the get new coordinates vertical ascending
+     * @throws JSONException working with json
+     */
+    @Test
+    public void getCoordVA() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n6 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n0, m_n6 ) );
+        l_funct.put( "parameters", CMain.getab( m_n0, m_n6, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n0, m_n6 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordVert( l_funct, m_n0.xcoord(), m_n0.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "0.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "10.0" ) );
+    }
+
+    /**
+     * testing the get new coordinates vertical descending
+     * @throws JSONException working with json
+     */
+    @Test
+    public void getCoordVD() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n6 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n6, m_n0 ) );
+        l_funct.put( "parameters", CMain.getab( m_n6, m_n0, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n6, m_n0 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordVert( l_funct, m_n6.xcoord(), m_n6.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "0.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "65.0" ) );
+    }
+
+    /**
+     * testing the get new coordinates ascending right
+     * @throws JSONException working with json
+     */
+    @Test
+    public void getCoordAR() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n7 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n0, m_n7 ) );
+        l_funct.put( "parameters", CMain.getab( m_n0, m_n7, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n0, m_n7 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n0.xcoord(), m_n0.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "8.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "6.0" ) );
+    }
+
+    /**
+     * testing the get new coordinates descending right
+     * @throws JSONException working with json
+     * delta neg
+     */
+    @Test
+    public void getCoordDR() throws JSONException
+    {
+        assumeNotNull( m_n6 );
+        assumeNotNull( m_n1 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n6, m_n1 ) );
+        l_funct.put( "parameters", CMain.getab( m_n6, m_n1, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n6, m_n1 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n6.xcoord(), m_n6.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "8.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "6.0" ) );
+    }
+
+    /**
+     * testing the get new coordinates ascending left
+     * @throws JSONException working with json
+     * negative delta
+     */
+    @Test
+    public void getCoordAL() throws JSONException
+    {
+        assumeNotNull( m_n1 );
+        assumeNotNull( m_n6 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n1, m_n6 ) );
+        l_funct.put( "parameters", CMain.getab( m_n1, m_n6, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n1, m_n6 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n1.xcoord(), m_n1.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "8.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "6.0" ) );
+    }
+
+    /**
+     * testing the get new coordinates descending left
+     * @throws JSONException working with json
+     */
+    @Test
+    public void getCoordDL() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n7 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n7, m_n0 ) );
+        l_funct.put( "parameters", CMain.getab( m_n7, m_n0, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n7, m_n0 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n7.xcoord(), m_n7.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "92.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "69.0" ) );
+    }
+
+    /**
+     * testing the general get coordinates for vertical
+     * @throws JSONException
+     */
+    @Test
+    public void getCoorV() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n6 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n6, m_n0 ) );
+        l_funct.put( "parameters", CMain.getab( m_n6, m_n0, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n6, m_n0 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordinates( l_funct, m_n6.xcoord(), m_n6.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "0.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "65.0" ) );
+    }
+
+    /**
+     * testing the general get coordinates for horizontal
+     * @throws JSONException
+     */
+    @Test
+    public void getCoorH() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n1 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n0, m_n1 ) );
+        l_funct.put( "parameters", CMain.getab( m_n0, m_n1, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n0, m_n1 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordinates( l_funct, m_n0.xcoord(), m_n0.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "10.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "0.0" ) );
+    }
+
+    /**
+     * testing the get coordinates normal
+     * @throws JSONException working with json
+     */
+    @Test
+    public void getCoordN() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n7 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n7, m_n0 ) );
+        l_funct.put( "parameters", CMain.getab( m_n7, m_n0, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n7, m_n0 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        final JSONObject l_res = CMain.getCoordinates( l_funct, m_n7.xcoord(), m_n7.ycoord(), l_dist );
+        assertTrue( l_res.getString( "x" ).contentEquals( "92.0" ) );
+        assertTrue( l_res.getString( "y" ).contentEquals( "69.0" ) );
+    }
+
+    @Test
+    public void pad() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n1 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n0, m_n1 ) );
+        l_funct.put( "parameters", CMain.getab( m_n0, m_n1, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n0, m_n1 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        CMain.toPad( m_n0, m_n1, 0.0, 9, l_funct, 0.1 );
+    }
 }

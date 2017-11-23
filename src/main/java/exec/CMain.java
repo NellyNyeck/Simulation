@@ -255,7 +255,7 @@ public final class CMain
      * @param p_weight the weigth of each segment
      * @throws JSONException working with json object
      */
-    private static void toPad( final CNode p_nf, final CNode p_nt, final Double p_pad, final int p_poi, final JSONObject p_about, final double p_weight ) throws JSONException
+    protected static void toPad( final CNode p_nf, final CNode p_nt, final Double p_pad, final int p_poi, final JSONObject p_about, final double p_weight ) throws JSONException
     {
         JSONObject l_new;
         if ( p_pad.compareTo( 0.00 ) == 0 )
@@ -302,7 +302,7 @@ public final class CMain
      * @return the constructed json object
      * @throws JSONException working with json
      */
-    private static JSONObject getCoordinates( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    protected static JSONObject getCoordinates( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
     {
 
         final String l_type = p_about.getString( "type" );
@@ -330,16 +330,16 @@ public final class CMain
      * @return the json object which holds the xy coordinates for the new node
      * @throws JSONException working with json object
      */
-    private static JSONObject getCoordLinear( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    protected static JSONObject getCoordLinear( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
     {
         final JSONObject l_temp = p_about.getJSONObject( "parameters" );
         final Double l_af = l_temp.getDouble( "a" );
         final Double l_bf = l_temp.getDouble( "b" );
         final String l_way = p_about.getString( "direction" );
         final Double l_delta = 4 * ( p_xc + p_yc * l_af ) * ( p_xc + p_yc * l_af ) - 4 * ( 1 + l_af * l_af ) * ( p_xc * p_xc +  p_yc * p_yc - p_dist * p_dist );
-        final Double l_x1  = ( 2 * ( p_xc + p_yc * l_af ) + Math.sqrt( l_delta ) ) / 2 * ( 1 + l_af * l_af );
+        final Double l_x1  = ( 2 * ( p_xc + p_yc * l_af ) + Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
         final Double l_y1 = l_af * l_x1 + l_bf;
-        final Double l_x2  = ( 2 * ( p_xc + p_yc * l_af ) - Math.sqrt( l_delta ) ) / 2 * ( 1 + l_af * l_af );
+        final Double l_x2  = ( 2 * ( p_xc + p_yc * l_af ) - Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
         final Double l_y2 = l_af * l_x2 + l_bf;
         final JSONObject l_object = new JSONObject();
         if ( l_way.contentEquals( "AR" ) )
@@ -406,11 +406,11 @@ public final class CMain
      * @return a json object containing the new coordinates
      * @throws JSONException working with json object
      */
-    private static JSONObject getCoordVert( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    protected static JSONObject getCoordVert( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
     {
         final JSONObject l_new = new JSONObject();
         final String l_way = p_about.getString( "direction" );
-        if ( l_way.contentEquals( "U" ) )
+        if ( l_way.contentEquals( "A" ) )
         {
             final Double l_nx = p_xc;
             final Double l_ny = p_yc + p_dist;
@@ -436,7 +436,7 @@ public final class CMain
      * @return a json object containing the new coordinates
      * @throws JSONException working with json object
      */
-    private static JSONObject getCoordHori( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
+    protected static JSONObject getCoordHori( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist ) throws JSONException
     {
         final JSONObject l_new = new JSONObject();
         final String l_way = p_about.getString( "direction" );
