@@ -75,6 +75,12 @@ public class CSVWriter
         }
     }
 
+    public void writeEdge( final CEdge p_ege) throws IOException
+    {
+        m_filewriter.append( p_ege.about() );
+        m_filewriter.append( NEWLINE );
+    }
+
     /**
      * adding a placeholder line between each run
      */

@@ -271,7 +271,7 @@ public final class CMain
                 bind( l_remember, l_newnode, s_sepa, p_weight );
                 l_remember = l_newnode;
             }
-            bind( l_remember, p_nf, s_sepa, p_weight );
+            bind( l_remember, p_nt, s_sepa, p_weight );
         }
         else
         {
@@ -289,7 +289,7 @@ public final class CMain
                 bind( l_remember, l_newnode, s_sepa, p_weight );
                 l_remember = l_newnode;
             }
-            bind( l_remember, p_nf, p_pad, p_weight );
+            bind( l_remember, p_nt, p_pad, p_weight );
         }
     }
 
