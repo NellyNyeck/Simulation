@@ -257,7 +257,8 @@ public final class CMain
      * @param p_weight the weigth of each segment
      * @throws JSONException working with json object
      */
-    protected static void toPad( final CNode p_nf, final CNode p_nt, final Double p_pad, final int p_poi, final JSONObject p_about, final double p_weight ) throws JSONException
+    protected static void toPad( final CNode p_nf, final CNode p_nt, final Double p_pad, final int p_poi, final JSONObject p_about, final double p_weight )
+                    throws JSONException
     {
         JSONObject l_new;
         if ( p_pad.compareTo( 0.00 ) == 0 )
@@ -280,7 +281,6 @@ public final class CMain
         }
         else
         {
-            CNode l_remember;
             l_new = getCoordinates( p_about, p_nf.xcoord(), p_nf.ycoord(), p_pad );
             Integer l_id = s_idcounter;
             s_idcounter++;
@@ -288,6 +288,7 @@ public final class CMain
             CPOI l_cpoi = new CPOI( l_newnode );
             s_GR.addPoi( l_cpoi );
             bind( p_nf, l_newnode, s_sepa, p_weight );
+            CNode l_remember;
             l_remember = l_newnode;
             for ( int l_count = 2; l_count <= p_poi; l_count++ )
             {

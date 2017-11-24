@@ -387,7 +387,7 @@ public class TestCMain
 
     /**
      * testing the general get coordinates for vertical
-     * @throws JSONException
+     * @throws JSONException json
      */
     @Test
     public void getCoorV() throws JSONException
@@ -406,7 +406,7 @@ public class TestCMain
 
     /**
      * testing the general get coordinates for horizontal
-     * @throws JSONException
+     * @throws JSONException json
      */
     @Test
     public void getCoorH() throws JSONException
@@ -486,7 +486,7 @@ public class TestCMain
         final Integer l_id = 14;
         final Double l_xc = 8.0;
         final Double l_yc = 14.0;
-        JSONObject l_obj = CMain.createPOI( l_id, l_xc, l_yc );
+        final JSONObject l_obj = CMain.createPOI( l_id, l_xc, l_yc );
         assertTrue( l_obj.getInt( "id" ) == 14 );
         assertTrue( l_obj.getString( "x" ).contentEquals( "8.0" ) );
         assertTrue( l_obj.getString( "y" ).contentEquals( "14.0" ) );
@@ -504,6 +504,10 @@ public class TestCMain
         CMain.bind( m_n0, m_n1, 100, 1.0 );
     }
 
+    /**
+     * testing the poi generation
+     * @throws JSONException json
+     */
     @Test
     public void randomPoi() throws JSONException
     {
@@ -515,7 +519,7 @@ public class TestCMain
         l_funct.put( "direction", CMain.getDirection( m_n0, m_n1 ) );
         final Double l_dist = Double.valueOf( 10 );
         CMain.toPad( m_n0, m_n1, 0.0, 9, l_funct, 0.1 );
-        Collection<CPOI> l_cpois = CMain.randomPOI();
+        final Collection<CPOI> l_cpois = CMain.randomPOI();
         assertTrue( l_cpois.size() == 6 );
     }
 
