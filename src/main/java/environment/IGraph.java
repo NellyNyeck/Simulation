@@ -16,7 +16,7 @@ public interface IGraph<I, V extends INode<I>, E extends IEdge>
 
     void addNode( V v );
 
-    V getNode( String n );
+    V getNode( Number n );
 
     Collection<V> getNodes();
 

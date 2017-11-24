@@ -205,7 +205,7 @@ public class TestCGraph
         m_graph.addNode( m_n2 );
         final CPOI l_cpoi = new CPOI( m_n1 );
         m_graph.addPoi( l_cpoi );
-        final HashMap<String, CPOI> l_collection = m_graph.getPois();
+        final HashMap<Integer, CPOI> l_collection = m_graph.getPois();
         assertTrue( l_collection.containsValue( l_cpoi ) );
     }
 }

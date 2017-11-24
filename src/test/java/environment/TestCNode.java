@@ -24,7 +24,7 @@ public class TestCNode
     public void init() throws JSONException
     {
         final JSONObject l_put = new JSONObject();
-        l_put.put( "id", "S" );
+        l_put.put( "id", 8 );
         l_put.put( "x", 8 );
         l_put.put( "y", 14 );
         m_node = new CNode( l_put );
@@ -56,7 +56,7 @@ public class TestCNode
     @Test
     public void id()
     {
-        assertTrue( m_node.id().contentEquals( "S" ) );
+        assertTrue( m_node.id() == 8 );
     }
 
     /**

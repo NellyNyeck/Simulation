@@ -1,11 +1,13 @@
 package exec;
 
 import environment.CNode;
+import environment.CPOI;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
@@ -481,11 +483,11 @@ public class TestCMain
     @Test
     public void createPOI() throws JSONException
     {
-        final String l_id = "S";
+        final Integer l_id = 14;
         final Double l_xc = 8.0;
         final Double l_yc = 14.0;
         JSONObject l_obj = CMain.createPOI( l_id, l_xc, l_yc );
-        assertTrue( l_obj.getString( "id" ).contentEquals( "S" ) );
+        assertTrue( l_obj.getInt( "id" ) == 14 );
         assertTrue( l_obj.getString( "x" ).contentEquals( "8.0" ) );
         assertTrue( l_obj.getString( "y" ).contentEquals( "14.0" ) );
     }
@@ -500,6 +502,21 @@ public class TestCMain
         assumeNotNull( m_n0 );
         assumeNotNull( m_n1 );
         CMain.bind( m_n0, m_n1, 100, 1.0 );
+    }
+
+    @Test
+    public void randomPoi() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n1 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n0, m_n1 ) );
+        l_funct.put( "parameters", CMain.getab( m_n0, m_n1, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n0, m_n1 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        CMain.toPad( m_n0, m_n1, 0.0, 9, l_funct, 0.1 );
+        Collection<CPOI> l_cpois = CMain.randomPOI();
+        assertTrue( l_cpois.size() == 6 );
     }
 
 }

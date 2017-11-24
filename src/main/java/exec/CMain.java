@@ -36,9 +36,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Random;
 
 /**
  * the main class
@@ -52,6 +52,7 @@ public final class CMain
     private static Double s_sepa;
     //private static int s_podcap;
     //private static String s_strateg;
+    private static Integer s_idcounter;
 
     protected CMain()
     {
@@ -81,6 +82,7 @@ public final class CMain
             final CNode l_cnode = new CNode( l_array.getJSONObject( l_in ) );
             s_GR.addNode( l_cnode );
         }
+        s_idcounter = s_GR.countNodes();
         l_array = l_object.getJSONObject( "Environment" ).getJSONArray( "Streets" );
         for ( int l_in = 0; l_in < l_array.length(); l_in++ )
         {
@@ -107,8 +109,8 @@ public final class CMain
             final Double l_padding = ( l_length - ( l_poi + 1 ) * s_sepa ) / 2;
             final Double l_weight = p_object.getDouble( "weight" ) / ( l_poi + 1 );
 
-            final CNode l_nf = s_GR.getNode( p_object.getString( "from" ) );
-            final CNode l_nt = s_GR.getNode( p_object.getString( "to" ) );
+            final CNode l_nf = s_GR.getNode( p_object.getInt( "from" ) );
+            final CNode l_nt = s_GR.getNode( p_object.getInt( "to" ) );
 
 
             l_funct.put( "type", functType( l_nf, l_nt ) );
@@ -119,8 +121,8 @@ public final class CMain
         }
         else
         {
-            final CNode l_n1 = s_GR.getNode( p_object.getString( "from" ) );
-            final CNode l_n2 = s_GR.getNode( p_object.getString( "to" ) );
+            final CNode l_n1 = s_GR.getNode( p_object.getInt( "from" ) );
+            final CNode l_n2 = s_GR.getNode( p_object.getInt( "to" ) );
             final Double l_weigth = p_object.getDouble( "weight" );
             bind( l_n1, l_n2, l_length, l_weigth );
         }
@@ -264,10 +266,13 @@ public final class CMain
             for ( int l_count = 1; l_count <= p_poi; l_count++ )
             {
                 l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa );
-                final String l_id = p_nf.id() + "|" + p_nt.id() + "." + l_count;
+                final Integer l_id = s_idcounter;
+                s_idcounter++;
                 final Double l_nx = l_new.getDouble( "x" );
                 final Double l_ny = l_new.getDouble( "y" );
                 final CNode l_newnode = new CNode( createPOI( l_id, l_nx, l_ny ) );
+                final CPOI l_cpoi = new CPOI( l_newnode );
+                s_GR.addPoi( l_cpoi );
                 bind( l_remember, l_newnode, s_sepa, p_weight );
                 l_remember = l_newnode;
             }
@@ -277,15 +282,21 @@ public final class CMain
         {
             CNode l_remember;
             l_new = getCoordinates( p_about, p_nf.xcoord(), p_nf.ycoord(), p_pad );
-            String l_id = p_nf.id() + "|" + p_nt.id() + ".1";
+            Integer l_id = s_idcounter;
+            s_idcounter++;
             CNode l_newnode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+            CPOI l_cpoi = new CPOI( l_newnode );
+            s_GR.addPoi( l_cpoi );
             bind( p_nf, l_newnode, s_sepa, p_weight );
             l_remember = l_newnode;
             for ( int l_count = 2; l_count <= p_poi; l_count++ )
             {
                 l_new = getCoordinates( p_about, l_remember.xcoord(), l_remember.ycoord(), s_sepa );
-                l_id = p_nf.id() + "|" + p_nt.id() + "." + l_count;
+                l_id = s_idcounter;
+                s_idcounter++;
                 l_newnode = new CNode( createPOI( l_id, l_new.getDouble( "x" ), l_new.getDouble( "y" ) ) );
+                l_cpoi = new CPOI( l_newnode );
+                s_GR.addPoi( l_cpoi );
                 bind( l_remember, l_newnode, s_sepa, p_weight );
                 l_remember = l_newnode;
             }
@@ -467,7 +478,7 @@ public final class CMain
      * @return the json object
      * @throws JSONException working with json objects
      */
-    protected static JSONObject createPOI( final String p_id, final Double p_xc, final Double p_yc ) throws JSONException
+    protected static JSONObject createPOI( final int p_id, final Double p_xc, final Double p_yc ) throws JSONException
     {
         final JSONObject l_object = new JSONObject();
         l_object.put( "id", p_id );
@@ -505,19 +516,12 @@ public final class CMain
      */
     public static Collection<CPOI> randomPOI()
     {
-        final Set<CPOI> l_col = new HashSet<>();
+        final ArrayList<CPOI> l_col = new ArrayList<>();
+        final HashMap<Integer, CPOI> l_pois = s_GR.getPois();
+        final Random l_random = new Random();
         while ( l_col.size() < s_poi )
         {
-            final int l_val = (int)( Math.random() *  s_GR.countNodes() );
-            if ( l_val != 0 )
-            {
-                final CNode l_node =  s_GR.getNode( String.valueOf( l_val ) );
-                if ( l_node != null )
-                {
-                    final CPOI l_poi = new CPOI( l_node );
-                    l_col.add( l_poi );
-                }
-            }
+            l_col.add( l_pois.get( l_random.nextInt( s_idcounter ) ) );
         }
         return l_col;
     }
@@ -532,7 +536,7 @@ public final class CMain
         final ArrayList<List<CEdge>> l_routes = new ArrayList<>();
         for ( final CPOI l_poi : p_pois )
         {
-            final List<CEdge> l_rou = s_GR.route( s_GR.getNode( "0" ), l_poi.id() );
+            final List<CEdge> l_rou = s_GR.route( s_GR.getNode( 0 ), l_poi.id() );
             l_routes.add( l_rou );
         }
         return l_routes;
