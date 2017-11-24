@@ -467,7 +467,7 @@ public final class CMain
      * @return the json object
      * @throws JSONException working with json objects
      */
-    private static JSONObject createPOI( final String p_id, final Double p_xc, final Double p_yc ) throws JSONException
+    protected static JSONObject createPOI( final String p_id, final Double p_xc, final Double p_yc ) throws JSONException
     {
         final JSONObject l_object = new JSONObject();
         l_object.put( "id", p_id );
@@ -581,7 +581,7 @@ public final class CMain
      */
     public static void main( final String[] p_args ) throws IOException, JSONException
     {
-        graphInit( "src/test/resources/Scenario1.json" );
+        graphInit( "src/test/resources/Scenario2.json" );
         doTheThing();
     }
 }

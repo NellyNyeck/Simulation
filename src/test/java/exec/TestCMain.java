@@ -439,8 +439,12 @@ public class TestCMain
         assertTrue( l_res.getString( "y" ).contentEquals( "69.0" ) );
     }
 
+    /**
+     * testing with pad 0
+     * @throws JSONException working with json
+     */
     @Test
-    public void pad() throws JSONException
+    public void pad0() throws JSONException
     {
         assumeNotNull( m_n0 );
         assumeNotNull( m_n1 );
@@ -451,4 +455,50 @@ public class TestCMain
         final Double l_dist = Double.valueOf( 10 );
         CMain.toPad( m_n0, m_n1, 0.0, 9, l_funct, 0.1 );
     }
+
+    /**
+     * testing with pad not 0
+     * @throws JSONException working with json
+     */
+    @Test
+    public void padn0() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n6 );
+        final JSONObject l_funct = new JSONObject();
+        l_funct.put( "type", CMain.functType( m_n0, m_n6 ) );
+        l_funct.put( "parameters", CMain.getab( m_n0, m_n6, l_funct.getString( "type" ) ) );
+        l_funct.put( "direction", CMain.getDirection( m_n0, m_n6 ) );
+        final Double l_dist = Double.valueOf( 10 );
+        CMain.toPad( m_n0, m_n6, 0.0, 7, l_funct, 0.1 );
+    }
+
+    /**
+     * testing json object creation
+     * @throws JSONException json
+     */
+    @Test
+    public void createPOI() throws JSONException
+    {
+        final String l_id = "S";
+        final Double l_xc = 8.0;
+        final Double l_yc = 14.0;
+        JSONObject l_obj = CMain.createPOI( l_id, l_xc, l_yc );
+        assertTrue( l_obj.getString( "id" ).contentEquals( "S" ) );
+        assertTrue( l_obj.getString( "x" ).contentEquals( "8.0" ) );
+        assertTrue( l_obj.getString( "y" ).contentEquals( "14.0" ) );
+    }
+
+    /**
+     * testing bind
+     * @throws JSONException json
+     */
+    @Test
+    public void bind() throws JSONException
+    {
+        assumeNotNull( m_n0 );
+        assumeNotNull( m_n1 );
+        CMain.bind( m_n0, m_n1, 100, 1.0 );
+    }
+
 }
