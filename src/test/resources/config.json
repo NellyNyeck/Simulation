@@ -1,0 +1,28 @@
+{{
+"Environment":
+{
+"Intersection": {"id":0, "x": 0.0, "y":0.00, "point of entry":{"true": false, "capacity":0}},
+"Poi":{"id":{object - {x,y} - object}, "x":0.0, "y":0.0},
+"Street": {"from":{"id":"", "x": 0.0, "y":0.00}, "to": {"id":"", "x": 0.0, "y":0.00}, "street specifics":{"provider":"none", "poi distribution":"normal"}, "number of pois":0, "equidistant":true, "poi distance": 10 },
+
+"Intersections":
+[
+],
+"Streets":
+[
+]
+},
+"Objects":
+{"Pod":{"capacity":1, "provider":"", "strategy":""},
+"Pods":
+[
+],
+"Provider":{"name":"", "colour":""},
+"Providers":
+[
+]
+},
+"Core":
+{"active pois":1, "simulations":10}
+}
+}

@@ -500,13 +500,20 @@ public final class CMain
      */
     protected static void bind( final CNode p_from, final CNode p_to, final double p_length, final double p_weight ) throws JSONException
     {
-        final JSONObject l_create = new JSONObject();
+        JSONObject l_create = new JSONObject();
         l_create.put( "from", p_from.id() );
         l_create.put( "to", p_to.id() );
         l_create.put( "length", p_length );
         l_create.put( "weight", p_weight );
-        final CEdge l_edge = new CEdge( l_create );
+        CEdge l_edge = new CEdge( l_create );
         s_GR.addEdge( p_from, p_to, l_edge );
+        l_create = new JSONObject();
+        l_create.put( "from", p_to.id() );
+        l_create.put( "to", p_from.id() );
+        l_create.put( "length", p_length );
+        l_create.put( "weight", p_weight );
+        l_edge = new CEdge( l_create );
+        s_GR.addEdge( p_to, p_from, l_edge );
     }
 
     /**
@@ -520,7 +527,11 @@ public final class CMain
         final Random l_random = new Random();
         while ( l_col.size() < s_poi )
         {
-            l_col.add( l_pois.get( l_random.nextInt( s_idcounter -1 ) ) );
+            final int l_smtg = l_random.nextInt( s_idcounter - 1 );
+            if ( l_pois.get( l_smtg ) != null )
+            {
+                l_col.add( l_pois.get( l_smtg ) );
+            }
         }
         return l_col;
     }
@@ -559,7 +570,7 @@ public final class CMain
     /**
      * does the 10000 runs
      */
-    public static void doTheThing()
+    public static void doTheThing( String p_)
     {
         final CSVWriter l_sout = new CSVWriter( "ResultsDijkstra.csv" );
         int l_count = 0;
@@ -585,6 +596,6 @@ public final class CMain
     public static void main( final String[] p_args ) throws IOException, JSONException
     {
         graphInit( "src/test/resources/Scenario2.json" );
-        doTheThing();
+        doTheThing("resultsDijkstra.csv");
     }
 }

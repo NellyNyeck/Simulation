@@ -1,5 +1,6 @@
 package exec;
 
+import environment.CEdge;
 import environment.CNode;
 import environment.CPOI;
 import org.json.JSONException;
@@ -8,7 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
@@ -526,6 +529,52 @@ public class TestCMain
         CMain.graphInit( "src/test/resources/testSimple.json" );
         final Collection<CPOI> l_cpois = CMain.randomPOI();
         assertTrue( l_cpois.size() == 3 );
+        for ( final CPOI l_cpoi : l_cpois )
+        {
+            assertTrue( l_cpoi.id().id() > 0 );
+            assertTrue( l_cpoi.id().id() < 11 );
+        }
     }
+
+    /**
+     * routing testing
+     * @throws IOException file
+     * @throws JSONException json object
+     */
+    @Test
+    public void routing() throws IOException, JSONException
+    {
+        CMain.graphInit( "src/test/resources/testSimple.json" );
+        final Collection<CPOI> l_cpois = CMain.randomPOI();
+        ArrayList<List<CEdge>> l_routes = CMain.routing( l_cpois );
+        assertTrue( l_routes.size() ==3 );
+    }
+
+    /**
+     * testing the platoon route counting
+     * @throws IOException file
+     * @throws JSONException json
+     */
+    @Test
+    public void countpla() throws IOException, JSONException
+    {
+        CMain.graphInit( "src/test/resources/testSimple.json" );
+        final Collection<CPOI> l_cpois = CMain.randomPOI();
+        ArrayList<List<CEdge>> l_routes = CMain.routing( l_cpois );
+        ArrayList<CEdge> l_platoon = CMain.countPlat();
+        for ( CEdge l_edge : l_platoon )
+        {
+            assertTrue( l_edge.visited() > 0 );
+        }
+    }
+
+    @Test
+    public void dothing() throws IOException, JSONException
+    {
+        CMain.graphInit( "src/test/resources/testSimple.json" );
+        CMain.doTheThing();
+    }
+
+
 
 }
