@@ -64,7 +64,7 @@ public final class CMain
      * @throws IOException because file
      * @throws JSONException because working with json objects
      */
-    private static void graphInit( final String p_arg ) throws IOException, JSONException
+    protected static void graphInit( final String p_arg ) throws IOException, JSONException
     {
         JSONObject l_trans;
         final String l_text = new String( Files.readAllBytes( Paths.get( p_arg ) ), StandardCharsets.UTF_8 );
@@ -348,10 +348,12 @@ public final class CMain
         final Double l_af = l_temp.getDouble( "a" );
         final Double l_bf = l_temp.getDouble( "b" );
         final String l_way = p_about.getString( "direction" );
-        final Double l_delta = 4 * ( p_xc + p_yc * l_af ) * ( p_xc + p_yc * l_af ) - 4 * ( 1 + l_af * l_af ) * ( p_xc * p_xc +  p_yc * p_yc - p_dist * p_dist );
-        final Double l_x1  = ( 2 * ( p_xc + p_yc * l_af ) + Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
+        final Double l_first = ( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc ) * ( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc );
+        final Double l_second  = 4 * ( 1 + l_af * l_af ) * ( p_xc * p_xc + ( l_bf - p_yc ) * ( l_bf - p_yc ) - p_dist * p_dist );
+        final Double l_delta = l_first - l_second;
+        final Double l_x1  = ( -( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc ) + Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
         final Double l_y1 = l_af * l_x1 + l_bf;
-        final Double l_x2  = ( 2 * ( p_xc + p_yc * l_af ) - Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
+        final Double l_x2  = ( -( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc ) - Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
         final Double l_y2 = l_af * l_x2 + l_bf;
         final JSONObject l_object = new JSONObject();
         if ( l_way.contentEquals( "AR" ) )
@@ -506,10 +508,6 @@ public final class CMain
         final CEdge l_edge = new CEdge( l_create );
         s_GR.addEdge( p_from, p_to, l_edge );
     }
-
-
-
-
 
     /**
      * Generates a list of Points of Interest

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import static org.junit.Assert.assertTrue;
@@ -329,7 +330,6 @@ public class TestCMain
     /**
      * testing the get new coordinates descending right
      * @throws JSONException working with json
-     * delta neg
      */
     @Test
     public void getCoordDR() throws JSONException
@@ -342,14 +342,13 @@ public class TestCMain
         l_funct.put( "direction", CMain.getDirection( m_n6, m_n1 ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n6.xcoord(), m_n6.ycoord(), l_dist );
-        assertTrue( l_res.getString( "x" ).contentEquals( "8.0" ) );
-        assertTrue( l_res.getString( "y" ).contentEquals( "6.0" ) );
+        assertTrue( l_res.getDouble( "x" ) == 8 );
+        assertTrue( l_res.getDouble( "y" ) == 69 );
     }
 
     /**
      * testing the get new coordinates ascending left
      * @throws JSONException working with json
-     * negative delta
      */
     @Test
     public void getCoordAL() throws JSONException
@@ -362,7 +361,7 @@ public class TestCMain
         l_funct.put( "direction", CMain.getDirection( m_n1, m_n6 ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n1.xcoord(), m_n1.ycoord(), l_dist );
-        assertTrue( l_res.getString( "x" ).contentEquals( "8.0" ) );
+        assertTrue( l_res.getString( "x" ).contentEquals( "92.0" ) );
         assertTrue( l_res.getString( "y" ).contentEquals( "6.0" ) );
     }
 
@@ -504,6 +503,18 @@ public class TestCMain
         CMain.bind( m_n0, m_n1, 100, 1.0 );
     }
 
+
+    /**
+     * testing graph Init
+     * @throws JSONException working with json
+     * @throws IOException working with file
+     */
+    @Test
+    public void processStreet() throws IOException, JSONException
+    {
+        CMain.graphInit( "src/test/resources/Scenario2.json" );
+    }
+
     /**
      * testing the poi generation
      * @throws JSONException json
@@ -511,8 +522,7 @@ public class TestCMain
     @Test
     public void randomPoi() throws JSONException
     {
-        assumeNotNull( m_n0 );
-        assumeNotNull( m_n1 );
+
         final JSONObject l_funct = new JSONObject();
         l_funct.put( "type", CMain.functType( m_n0, m_n1 ) );
         l_funct.put( "parameters", CMain.getab( m_n0, m_n1, l_funct.getString( "type" ) ) );
