@@ -518,17 +518,12 @@ public class TestCMain
     /**
      * testing the poi generation
      * @throws JSONException json
+     * @throws IOException file
      */
     @Test
-    public void randomPoi() throws JSONException
+    public void randomPoi() throws JSONException, IOException
     {
-
-        final JSONObject l_funct = new JSONObject();
-        l_funct.put( "type", CMain.functType( m_n0, m_n1 ) );
-        l_funct.put( "parameters", CMain.getab( m_n0, m_n1, l_funct.getString( "type" ) ) );
-        l_funct.put( "direction", CMain.getDirection( m_n0, m_n1 ) );
-        final Double l_dist = Double.valueOf( 10 );
-        CMain.toPad( m_n0, m_n1, 0.0, 9, l_funct, 0.1 );
+        CMain.graphInit( "src/test/resources/Scenario2.json" );
         final Collection<CPOI> l_cpois = CMain.randomPOI();
         assertTrue( l_cpois.size() == 6 );
     }

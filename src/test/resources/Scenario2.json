@@ -1,0 +1,45 @@
+{
+  "Environment":
+{
+  "Intersections":
+  [
+  {"id":0, "x":0, "y":0},
+  {"id":1, "x":100, "y":0},
+  {"id":2, "x":200, "y":0},
+  {"id":3, "x":0, "y":75},
+  {"id":4, "x":100, "y":75},
+  {"id":5, "x":200, "y":75},
+  {"id":6, "x":100, "y":150},
+  {"id":7, "x":200, "y":150}
+  ],
+  "Streets":
+  [
+  {"from":0, "to":1, "length":100, "weight":1},
+  {"from":1, "to":0, "length":100, "weight":1},
+  {"from":1, "to":2, "length":100, "weight":1},
+  {"from":2, "to":1, "length":100, "weight":1},
+  {"from":3, "to":4, "length":100, "weight":1},
+  {"from":4, "to":3, "length":100, "weight":1},
+  {"from":4, "to":5, "length":100, "weight":1},
+  {"from":5, "to":4, "length":100, "weight":1},
+  {"from":6, "to":7, "length":100, "weight":1},
+  {"from":7, "to":6, "length":100, "weight":1},
+  {"from":0, "to":3, "length":75, "weight":1},
+  {"from":3, "to":0, "length":75, "weight":1},
+  {"from":1, "to":4, "length":75, "weight":1},
+  {"from":4, "to":1, "length":75, "weight":1},
+  {"from":2, "to":5, "length":75, "weight":1},
+  {"from":5, "to":2, "length":75, "weight":1},
+  {"from":4, "to":6, "length":75, "weight":1},
+  {"from":6, "to":4, "length":75, "weight":1},
+  {"from":5, "to":7, "length":75, "weight":1},
+  {"from":7, "to":5, "length":75, "weight":1},
+  ]
+  },
+"POI_dist":10,
+"Nb_POI":6,
+"Nb_POD":6,
+"POD_cap":1,
+"Runs":10,
+"Strategy":"sumthing"
+}
