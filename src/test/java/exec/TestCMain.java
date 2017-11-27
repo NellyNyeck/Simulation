@@ -523,9 +523,9 @@ public class TestCMain
     @Test
     public void randomPoi() throws JSONException, IOException
     {
-        CMain.graphInit( "src/test/resources/Scenario2.json" );
+        CMain.graphInit( "src/test/resources/testSimple.json" );
         final Collection<CPOI> l_cpois = CMain.randomPOI();
-        assertTrue( l_cpois.size() == 6 );
+        assertTrue( l_cpois.size() == 3 );
     }
 
 }

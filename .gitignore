@@ -7,7 +7,6 @@
 !pom.xml
 !*.md
 !*.java
-!src/test/resources/*.txt
 !src/test/resources/*.json
 
 target/

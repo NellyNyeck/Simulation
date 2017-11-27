@@ -520,7 +520,7 @@ public final class CMain
         final Random l_random = new Random();
         while ( l_col.size() < s_poi )
         {
-            l_col.add( l_pois.get( l_random.nextInt( s_idcounter ) ) );
+            l_col.add( l_pois.get( l_random.nextInt( s_idcounter -1 ) ) );
         }
         return l_col;
     }
