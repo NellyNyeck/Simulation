@@ -1,14 +1,36 @@
 {
 	"definitions":{
+		"gps":{
+			"type":"object",
+			"proprieties":{
+				"degree": {"type":"number"},
+				"minute": {"type":"number"},
+				"second": {"type":"number"}
+			},
+			"required":["degree","minute","second"]
+		},
 		"node":{
 			"type":"object",
 			"properties": {
-				"id": { "type":"integer", "multipleOf":1.0 },
-				"x": { "type":"number" },
-				"y": { "type":"number" },
+				"id": { "type":"string"},
+				"coordinates": {"type": "object",
+					"properties":{
+						"type 1":{"type": "string", "default":"geographic"},
+						"type 2":{"type": "string", "default":"artificial"},
+						"x": {"type":"number"},
+						"y": {"type":"number"},
+						"latitude":{"type":"gps"},
+						"longitude":{"type":"gps"}
+						},
+						"required":["type"],
+						"dependencies":{
+							"type 2":["x","y"],
+							"type 1":["latitude","longitude"]
+						}
+					},
 				"entry": {"type":"boolean"},
 				"capacity":{ "type":"integer", "multipleOf":1.0}
-			},
+				},
 			"required":["id","x","y"],
 			"dependencies": {
 				"entry": ["capacity"]
@@ -42,19 +64,30 @@
 		"edge":{
 			"type":"object",
 			"properties": {
+				"id": {"type":"object",
+						"properties":{
+							"name":{"type":"string"},
+							"lane":{"type":"integer"}
+						},
+						"required":["name"]
+					},
 				"from": { "type":"node"},
 				"to":{ "type":"node" },
 				"weight": {"type":"number", "default":1},
-				"poi distribution": {"type":"distribution"},
-				"poi number":{"type":"integer", "multipleOf":1.0 },
-				"equidistant":{"type":"boolean", "default":true},
-				"poi distance":{"type":"number", "default":10.0},
+				"poi distribution function": {"type":"object",
+												"properties":{
+													"name":  {"type":"string"},
+													"input data": {"type":"array",
+																	"items":{"type":"number"},
+																	"minItems": 1,
+																	"maxItems": 3
+																	}
+												},
+												"required":["name"]
+											},
 				"provider": { "type":"provider"}
 			},
-			"required":["from","to"],
-			"dependencies": {
-				"poi number": ["poi distribution", "poi distance", "equidistant"]
-			}
+			"required":["from","to"]
 		},
 		"strategy":{
 			"type":"object",
@@ -71,13 +104,6 @@
 			"strategy":{"type":"strategy"}
 			},
 			"required":["capacity","strategy","provider"]
-		},
-		"distribution":{
-			"type":"object",
-			"properties": {
-				"name": {"type":"string"}
-			},
-			"required":["name"]
 		},
 		"environment":{
 		"type":"object",
@@ -121,3 +147,4 @@
 		}
 	}
 }
+
