@@ -44,6 +44,7 @@
 			"properties": {
 				"from": { "type":"node"},
 				"to":{ "type":"node" },
+				"weight": {"type":"number", "default":1},
 				"poi distribution": {"type":"distribution"},
 				"poi number":{"type":"integer", "multipleOf":1.0 },
 				"equidistant":{"type":"boolean", "default":true},
@@ -52,7 +53,7 @@
 			},
 			"required":["from","to"],
 			"dependencies": {
-				"poi number": ["poi distribution", "poi distance","equidistant"]
+				"poi number": ["poi distribution", "poi distance", "equidistant"]
 			}
 		},
 		"strategy":{
@@ -105,6 +106,7 @@
 			},
 			"providers": {"type":"array",
 				"items":{ "type":"provider" },
+				"minItems": 1
 				"uniqueItems": true
 			}
 		}

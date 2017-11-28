@@ -1,0 +1,147 @@
+{
+	"environment": {
+		"nodes": [{
+				"id": 0,
+				"x": 0,
+				"y": 0,
+				"entry": true,
+				"capacity": 5
+			},
+			{
+				"id": 1,
+				"x": 100,
+				"y": 0
+			},
+			{
+				"id": 2,
+				"x": 200,
+				"y": 0
+			},
+			{
+				"id": 3,
+				"x": 0,
+				"y": 75
+			},
+			{
+				"id": 4,
+				"x": 100,
+				"y": 75
+			},
+			{
+				"id": 5,
+				"x": 200,
+				"y": 75
+			},
+			{
+				"id": 6,
+				"x": 100,
+				"y": 150
+			},
+			{
+				"id": 7,
+				"x": 200,
+				"y": 150
+			}
+		],
+		"edges": [{
+				"from": 0,
+				"to": 1,
+				"poi distribution": "normal",
+				"poi distance": 10,
+				"equidistant": true
+			},
+			{
+				"from": 1,
+				"to": 0
+			},
+			{
+				"from": 1,
+				"to": 2
+			},
+			{
+				"from": 2,
+				"to": 1
+			},
+			{
+				"from": 3,
+				"to": 4
+			},
+			{
+				"from": 4,
+				"to": 3
+			},
+			{
+				"from": 4,
+				"to": 5
+			},
+			{
+				"from": 5,
+				"to": 4
+			},
+			{
+				"from": 6,
+				"to": 7
+			},
+			{
+				"from": 7,
+				"to": 6
+			},
+			{
+				"from": 0,
+				"to": 3
+			},
+			{
+				"from": 3,
+				"to": 0
+			},
+			{
+				"from": 1,
+				"to": 4
+			},
+			{
+				"from": 4,
+				"to": 1
+			},
+			{
+				"from": 2,
+				"to": 5
+			},
+			{
+				"from": 5,
+				"to": 2
+			},
+			{
+				"from": 4,
+				"to": 6
+			},
+			{
+				"from": 6,
+				"to": 4
+			},
+			{
+				"from": 5,
+				"to": 7
+			},
+			{
+				"from": 7,
+				"to": 5
+			}
+		]
+	},
+	"objects": {
+		"pods": [{
+			"capcity": 1,
+			"provider": "DHL",
+			"strategy": "selfish"
+		}],
+		"providers": [{
+			"name": "DHL",
+			"colour": "yellow"
+		}]
+	},
+	"core": {
+		"active poi": 1,
+		"poi selection": "normal",
+		"simulations": 10
+	}
+}
