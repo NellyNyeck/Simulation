@@ -1,28 +1,121 @@
-{{
-"Environment":
 {
-"Intersection": {"id":0, "x": 0.0, "y":0.00, "point of entry":{"true": false, "capacity":0}},
-"Poi":{"id":{object - {x,y} - object}, "x":0.0, "y":0.0},
-"Street": {"from":{"id":"", "x": 0.0, "y":0.00}, "to": {"id":"", "x": 0.0, "y":0.00}, "street specifics":{"provider":"none", "poi distribution":"normal"}, "number of pois":0, "equidistant":true, "poi distance": 10 },
-
-"Intersections":
-[
-],
-"Streets":
-[
-]
-},
-"Objects":
-{"Pod":{"capacity":1, "provider":"", "strategy":""},
-"Pods":
-[
-],
-"Provider":{"name":"", "colour":""},
-"Providers":
-[
-]
-},
-"Core":
-{"active pois":1, "simulations":10}
-}
+	"definitions":{
+		"node":{
+			"type":"object",
+			"properties": {
+				"id": { "type":"integer", "multipleOf":1.0 },
+				"x": { "type":"number" },
+				"y": { "type":"number" },
+				"entry": {"type":"boolean"},
+				"capacity":{ "type":"integer", "multipleOf":1.0}
+			},
+			"required":["id","x","y"],
+			"dependencies": {
+				"entry": ["capacity"]
+			}
+		},
+		"poi":{
+			"type":"object",
+			"properties": {
+				"id": { "type":"object",
+					"proprieties": {
+						"id end 1": {"type": "integer", "multipleOf":1.0 },
+						"connector 1":{"type":"string", "default":"-"},
+						"position x":{"type":"number"},
+						"position y":{"type":"number"},
+						"connector 2":{"type":"string", "default":"-"},
+						"id end 2": {"type": "integer", "multipleOf":1.0}
+					},
+					"required":["id end 1","connector 1","position x", "position y", "connector 2", "id end 2"]
+				}
+			},
+			"required":["id"]
+		},
+		"provider":{
+			"type":"object",
+			"properties": {
+				"name": { "type":"string"},
+				"colour":{ "type":"string" }
+			},
+			"required":["name","colour"]
+		},
+		"edge":{
+			"type":"object",
+			"properties": {
+				"from": { "type":"node"},
+				"to":{ "type":"node" },
+				"poi distribution": {"type":"distribution"},
+				"poi number":{"type":"integer", "multipleOf":1.0 },
+				"equidistant":{"type":"boolean", "default":true},
+				"poi distance":{"type":"number", "default":10.0},
+				"provider": { "type":"provider"}
+			},
+			"required":["from","to"],
+			"dependencies": {
+				"poi number": ["poi distribution", "poi distance","equidistant"]
+			}
+		},
+		"strategy":{
+			"type":"object",
+			"properties": {
+				"name": { "type":"string"}
+			},
+			"required":["name"]
+		},
+		"pod":{
+			"type":"object",
+			"properties": {
+			"capacity": { "type":"integer", "default":1},
+			"provider":{ "type":"provider" },
+			"strategy":{"type":"strategy"}
+			},
+			"required":["capacity","strategy","provider"]
+		},
+		"distribution":{
+			"type":"object",
+			"properties": {
+				"name": {"type":"string"}
+			},
+			"required":["name"]
+		}
+	},
+	"environment":{
+		"type":"object",
+		"properties": {
+			"nodes": { "type":"array",
+				"items": { "type": "node"},
+				"minItems": 2,
+				"uniqueItems": true
+			},
+			"edges": { "type":"array",
+				"items": { "type": "edge"},
+				"minItems": 1,
+				"uniqueItems": true
+			}
+		},
+		"required":["nodes","edges"]
+	},
+	"objects":{
+		"type":"object",
+		"properties": {
+			"pods": { "type":"array",
+				"items": { "type": "pod"},
+				"minItems": 1,
+				"uniqueItems": true
+			},
+			"providers": {"type":"array",
+				"items":{ "type":"provider" },
+				"uniqueItems": true
+			}
+		}
+	},
+	"core":{
+		"type":"object",
+		"properties": {
+			"active poi": { "type":"integer"},
+			"poi selection": {"type":"distribution"},
+			"simulations":{"type":"integer", "default":10}
+		},
+		"required":["active poi","poi selection", "simulations"]
+	}
 }
