@@ -78,9 +78,8 @@
 				"name": {"type":"string"}
 			},
 			"required":["name"]
-		}
-	},
-	"environment":{
+		},
+		"environment":{
 		"type":"object",
 		"properties": {
 			"nodes": { "type":"array",
@@ -95,29 +94,30 @@
 			}
 		},
 		"required":["nodes","edges"]
-	},
-	"objects":{
-		"type":"object",
-		"properties": {
-			"pods": { "type":"array",
-				"items": { "type": "pod"},
-				"minItems": 1,
-				"uniqueItems": true
-			},
-			"providers": {"type":"array",
-				"items":{ "type":"provider" },
-				"minItems": 1
-				"uniqueItems": true
-			}
-		}
-	},
-	"core":{
-		"type":"object",
-		"properties": {
-			"active poi": { "type":"integer"},
-			"poi selection": {"type":"distribution"},
-			"simulations":{"type":"integer", "default":10}
 		},
-		"required":["active poi","poi selection", "simulations"]
+		"objects":{
+			"type":"object",
+			"properties": {
+				"pods": { "type":"array",
+					"items": { "type": "pod"},
+					"minItems": 1,
+					"uniqueItems": true
+				},
+				"providers": {"type":"array",
+					"items":{ "type":"provider" },
+					"minItems": 1,
+					"uniqueItems": true
+				}
+			}
+		},
+		"core":{
+			"type":"object",
+			"properties": {
+				"active poi": { "type":"integer", "default":1},
+				"poi selection": {"type":"distribution"},
+				"simulations":{"type":"integer", "default":10}
+			},
+			"required":["active poi","poi selection", "simulations"]
+		}
 	}
 }
