@@ -13,27 +13,17 @@
 			"type":"object",
 			"properties": {
 				"id": { "type":"string"},
-				"coordinates": {"type": "object",
-					"properties":{
-						"type 1":{"type": "string", "default":"geographic"},
-						"type 2":{"type": "string", "default":"artificial"},
-						"x": {"type":"number"},
-						"y": {"type":"number"},
-						"latitude":{"type":"gps"},
-						"longitude":{"type":"gps"}
-						},
-						"required":["type"],
-						"dependencies":{
-							"type 2":["x","y"],
-							"type 1":["latitude","longitude"]
-						}
-					},
-				"entry": {"type":"boolean"},
-				"capacity":{ "type":"integer", "multipleOf":1.0}
+				"coordinates real": {"type": "boolean"},
+				"coordinates fake": {"type":"boolean"},
+				"x": {"type":"number"},
+				"y": {"type":"number"},
+				"latitude":{"type":"gps"},
+				"longitude":{"type":"gps"}
 				},
-			"required":["id","x","y"],
+			"required":["id"],
 			"dependencies": {
-				"entry": ["capacity"]
+				"coordinates real":["latitude", "longitude"],
+				"coordinates fake": ["x", "y"]
 			}
 		},
 		"poi":{
@@ -41,24 +31,34 @@
 			"properties": {
 				"id": { "type":"object",
 					"proprieties": {
-						"id end 1": {"type": "integer", "multipleOf":1.0 },
+						"id end 1": {"type": "string"},
 						"connector 1":{"type":"string", "default":"-"},
 						"position x":{"type":"number"},
 						"position y":{"type":"number"},
 						"connector 2":{"type":"string", "default":"-"},
-						"id end 2": {"type": "integer", "multipleOf":1.0}
+						"id end 2": {"type": "string"}
 					},
 					"required":["id end 1","connector 1","position x", "position y", "connector 2", "id end 2"]
-				}
+				},
+				"labels":{"type":"array",
+							"items":{"type":"string"},
+							"minItems":1,
+							"uniqueItems":true
+						},
+				"associated node":{"type":"node"}
 			},
-			"required":["id"]
+			"required":["id","labels"]
 		},
 		"provider":{
 			"type":"object",
 			"properties": {
 				"name": { "type":"string"},
 				"colour":{ "type":"string" },
-				"depot":{"type":"node"},
+				"depots":{"type":"array",
+							"items":{"type":"node"},
+							"minItems":1,
+							"uniqueItems":true
+						},
 				"available pods":{"type":"integer"},
 				"pods":{"type":"array",
 						"items":{"type":"pod"},
@@ -72,7 +72,7 @@
 				"poi selection function":{"type":"distribution"}
 				
 			},
-			"required":["name","colour","depot","available pods","maximum number of customers","maximum outgoing pods/time unit","poi selection function"]
+			"required":["name","colour","depots","available pods","maximum number of customers","maximum outgoing pods/time unit","poi selection function"]
 		},
 		"edge":{
 			"type":"object",
