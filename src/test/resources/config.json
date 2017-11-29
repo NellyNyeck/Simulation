@@ -57,9 +57,22 @@
 			"type":"object",
 			"properties": {
 				"name": { "type":"string"},
-				"colour":{ "type":"string" }
+				"colour":{ "type":"string" },
+				"depot":{"type":"node"},
+				"available pods":{"type":"integer"},
+				"pods":{"type":"array",
+						"items":{"type":"pod"},
+						"minItems": 1,
+						"maxItems":"available pods",
+						"uniqueItems": true
+						},
+				"maximum number of customers":{"type":"integer"},
+				"maximum outgoing pods/time unit":{"type":"number"},
+				"solver":{"type":"object"},
+				"poi selection function":{"type":"distribution"}
+				
 			},
-			"required":["name","colour"]
+			"required":["name","colour","depot","available pods","maximum number of customers","maximum outgoing pods/time unit","poi selection function"]
 		},
 		"edge":{
 			"type":"object",
@@ -99,11 +112,12 @@
 		"pod":{
 			"type":"object",
 			"properties": {
+			"id":{"type":"string"},
 			"capacity": { "type":"integer", "default":1},
 			"provider":{ "type":"provider" },
 			"strategy":{"type":"strategy"}
 			},
-			"required":["capacity","strategy","provider"]
+			"required":["id","capacity","strategy","provider"]
 		},
 		"environment":{
 		"type":"object",
