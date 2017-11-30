@@ -13,41 +13,30 @@
 			"type":"object",
 			"properties": {
 				"id": { "type":"string"},
+				"coordinates type": {"type":"array",
+										"items":{"type":"string"},
+										"enum":["real","fake"],
+										"maxItems":1
+									},
 				"coordinates real": {"type": "boolean"},
 				"coordinates fake": {"type":"boolean"},
 				"x": {"type":"number"},
 				"y": {"type":"number"},
 				"latitude":{"type":"gps"},
-				"longitude":{"type":"gps"}
-				},
-			"required":["id"],
-			"dependencies": {
-				"coordinates real":["latitude", "longitude"],
-				"coordinates fake": ["x", "y"]
-			}
-		},
-		"poi":{
-			"type":"object",
-			"properties": {
-				"id": { "type":"object",
-					"proprieties": {
-						"id end 1": {"type": "string"},
-						"connector 1":{"type":"string", "default":"-"},
-						"position x":{"type":"number"},
-						"position y":{"type":"number"},
-						"connector 2":{"type":"string", "default":"-"},
-						"id end 2": {"type": "string"}
-					},
-					"required":["id end 1","connector 1","position x", "position y", "connector 2", "id end 2"]
-				},
+				"longitude":{"type":"gps"},
+				"is poi":{"type":"boolean"},
 				"labels":{"type":"array",
 							"items":{"type":"string"},
 							"minItems":1,
 							"uniqueItems":true
-						},
-				"associated node":{"type":"node"}
-			},
-			"required":["id","labels"]
+						}
+				},
+			"required":["id","coordinates type"],
+			"dependencies": {
+				"coordinates real":["latitude", "longitude"],
+				"coordinates fake": ["x", "y"],
+				"is poi":["labels"]
+			}
 		},
 		"provider":{
 			"type":"object",
@@ -153,11 +142,10 @@
 		"core":{
 			"type":"object",
 			"properties": {
-				"active poi": { "type":"integer", "default":1},
-				"poi selection": {"type":"distribution"},
-				"simulations":{"type":"integer", "default":10}
+				"number of waiting clients": { "type":"integer", "default":1},
+				"clients selection function": {"type":"distribution"}
 			},
-			"required":["active poi","poi selection", "simulations"]
+			"required":["active poi","poi selection"]
 		}
 	}
 }
