@@ -139,6 +139,16 @@
 			},
 			"required":["id"]
 		},
+		"agent":{
+			"type":{"type":"object",
+					"anyOf":[
+						{"type":"pod"},
+						{"type":"vehicle"},
+						{"type":"human"},
+						{"type":"bike"}
+					]
+			}
+		},
 		"environment":{
 		"type":"object",
 		"properties": {
@@ -155,15 +165,9 @@
 		},
 		"required":["nodes","edges"]
 		},
-		"agents":{
-			"type":{"type":"object",
-					"anyOf":[
-						{"type":"pod"},
-						{"type":"vehicle"},
-						{"type":"human"},
-						{"type":"bike"}
-					]
-			}
+		"agents":{"type":"array",
+					"items":{"type":"agent"},
+					"uniqueItems":true
 		},
 		"core":{
 			"type":"object",
