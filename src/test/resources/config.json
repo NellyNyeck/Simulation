@@ -17,19 +17,19 @@
 								"oneOf":[
 									{"type":"object",
 										"properties":{
-											"type":{"type":"string", "default":"real"},
+											"real":{"type":"boolean"},
 											"latitude":{"type":"gps"},
 											"longitude":{"type":"gps"}
 										},
-										"required":["type", "latitude","longitude"]
+										"required":["real", "latitude","longitude"]
 									},
 									{"type":"object",
 										"properties":{
-											"type":{"type":"string", "default":"fake"},
+											"fake":{"type":"boolean"},
 											"x":{"type":"number"},
 											"y":{"type":"number"}
 										},
-										"required":["type", "x","y"]
+										"required":["fake", "x","y"]
 									}
 								]
 								},		
@@ -42,8 +42,6 @@
 				},
 			"required":["id","coordinates"],
 			"dependencies": {
-				"coordinates real":["latitude", "longitude"],
-				"coordinates fake": ["x", "y"],
 				"is poi":["labels"]
 			}
 		},
@@ -110,10 +108,10 @@
 		"pod":{
 			"type":"object",
 			"properties": {
-			"id":{"type":"string"},
-			"capacity": { "type":"integer", "default":1},
-			"provider":{ "type":"provider" },
-			"strategy":{"type":"strategy"}
+				"id":{"type":"string"},
+				"capacity": { "type":"integer", "default":1},
+				"provider":{ "type":"provider" },
+				"strategy":{"type":"strategy"}
 			},
 			"required":["id","capacity","strategy","provider"]
 		},
@@ -181,12 +179,13 @@
 				"number of waiting clients": { "type":"integer", "default":1},
 				"clients selection function": {"type":"distribution"},
 				"clients to provider distribution function":{"type":"distribution"},
-				"number of pods":{"type":"integer"},
+				"number of pods":{"type":"integer", "default":1 },
 				"number of vehicles":{"type":"integer"},
 				"number of humans":{"type":"integer"},
-				"number of bikes":{"type":"integer"}
+				"number of bikes":{"type":"integer"},
+				"number of providers":{"type":"integer", "default":1 }
 			},
-			"required":["number of waiting clients","clients selection function","number of pods"]
+			"required":["number of waiting clients","clients selection function","number of pods","number of providers"]
 		}
 	}
 }

@@ -1,147 +1,547 @@
 {
 	"environment": {
 		"nodes": [{
-				"id": 0,
-				"x": 0,
-				"y": 0,
-				"entry": true,
-				"capacity": 5
+				"id": "node0",
+				"coordinates": {
+					"fake":true,
+					"x":0,
+					"y":0
+				}
 			},
 			{
-				"id": 1,
-				"x": 100,
-				"y": 0
+				"id": "node1",
+				"coordinates": {
+					"fake":true,
+					"x":100,
+					"y":0
+				}
 			},
 			{
-				"id": 2,
-				"x": 200,
-				"y": 0
+				"id": "node2",
+				"coordinates": {
+					"fake":true,
+					"x":200,
+					"y":0
+				}
 			},
 			{
-				"id": 3,
-				"x": 0,
-				"y": 75
+				"id": "node3",
+				"coordinates": {
+					"fake":true,
+					"x":0,
+					"y":75
+				}
 			},
 			{
-				"id": 4,
-				"x": 100,
-				"y": 75
+				"id": "node4",
+				"coordinates": {
+					"fake":true,
+					"x":100,
+					"y":75
+				}
 			},
 			{
-				"id": 5,
-				"x": 200,
-				"y": 75
+				"id": "node5",
+				"coordinates": {
+					"fake":true,
+					"x":200,
+					"y":75
+				}
 			},
 			{
-				"id": 6,
-				"x": 100,
-				"y": 150
+				"id": "node6",
+				"coordinates": {
+					"fake":true,
+					"x":100,
+					"y":150
+				}
 			},
 			{
-				"id": 7,
-				"x": 200,
-				"y": 150
+				"id":"node7",
+				"coordinates": {
+					"fake":true,
+					"x":200,
+					"y":150
+				}
 			}
 		],
 		"edges": [{
-				"from": 0,
-				"to": 1,
-				"poi distribution": "normal",
-				"poi distance": 10,
-				"equidistant": true
+				"id":{
+						"name":"edge0-1",
+						"lane":1
+					},
+				"from":{
+					"id": "node0",
+					"coordinates": {
+						"fake":true,
+						"x":0,
+						"y":0
+					}
+				},
+				"to": {
+					"id": "node1",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":0
+					}
+				}
 			},
 			{
-				"from": 1,
-				"to": 0
+				"id":{
+						"name":"edge1-0",
+						"lane":1
+					},
+				"from":{
+					"id": "node1",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":0
+					}
+				},
+				"to": {
+					"id": "node0",
+					"coordinates": {
+						"fake":true,
+						"x":0,
+						"y":0
+					}
+				}
 			},
 			{
-				"from": 1,
-				"to": 2
+				"id":{
+						"name":"edge1-2",
+						"lane":1
+					},
+				"from":{
+					"id": "node1",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":0
+					}
+				},
+				"to": {
+					"id": "node2",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":0
+					}
+				}
 			},
 			{
-				"from": 2,
-				"to": 1
+				"id":{
+						"name":"edge2-1",
+						"lane":1
+					},
+				"from":{
+					"id": "node2",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":0
+					}
+				},
+				"to": {
+					"id": "node1",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":0
+					}
+				}
 			},
 			{
-				"from": 3,
-				"to": 4
+				"id":{
+						"name":"edge3-4",
+						"lane":1
+					},
+				"from":{
+					"id": "node3",
+					"coordinates": {
+						"fake":true,
+						"x":0,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node4",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":75
+					}
+				}
 			},
 			{
-				"from": 4,
-				"to": 3
+				"id":{
+						"name":"edge4-3",
+						"lane":1
+					},
+				"from":{
+					"id": "node4",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node3",
+					"coordinates": {
+						"fake":true,
+						"x":0,
+						"y":75
+					}
+				}
 			},
 			{
-				"from": 4,
-				"to": 5
+				"id":{
+						"name":"edge4-5",
+						"lane":1
+					},
+				"from":{
+					"id": "node4",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node5",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":75
+					}
+				}
 			},
 			{
-				"from": 5,
-				"to": 4
+				"id":{
+						"name":"edge5-4",
+						"lane":1
+					},
+				"from":{
+					"id": "node5",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node4",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":75
+					}
+				}
 			},
 			{
-				"from": 6,
-				"to": 7
+				"id":{
+						"name":"edge6-7",
+						"lane":1
+					},
+				"from":{
+					"id": "node6",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":150
+					}
+				},
+				"to": {
+					"id": "node7",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":150
+					}
+				}
 			},
 			{
-				"from": 7,
-				"to": 6
+				"id":{
+						"name":"edge7-6",
+						"lane":1
+					},
+				"from":{
+					"id": "node6",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":150
+					}
+				},
+				"to": {
+					"id": "node5",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":150
+					}
+				}
 			},
 			{
-				"from": 0,
-				"to": 3
+				"id":{
+						"name":"edge0-3",
+						"lane":1
+					},
+				"from":{
+					"id": "node0",
+					"coordinates": {
+						"fake":true,
+						"x":0,
+						"y":0
+					}
+				},
+				"to": {
+					"id": "node3",
+					"coordinates": {
+						"fake":true,
+						"x":0,
+						"y":75
+					}
+				}
 			},
 			{
-				"from": 3,
-				"to": 0
+				"id":{
+						"name":"edge3-0",
+						"lane":1
+					},
+				"from":{
+					"id": "node3",
+					"coordinates": {
+						"fake":true,
+						"x":0,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node0",
+					"coordinates": {
+						"fake":true,
+						"x":0,
+						"y":0
+					}
+				}
 			},
 			{
-				"from": 1,
-				"to": 4
+				"id":{
+						"name":"edge1-4",
+						"lane":1
+					},
+				"from":{
+					"id": "node1",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":0
+					}
+				},
+				"to": {
+					"id": "node4",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":75
+					}
+				}
 			},
 			{
-				"from": 4,
-				"to": 1
+				"id":{
+						"name":"edge4-1",
+						"lane":1
+					},
+				"from":{
+					"id": "node4",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node1",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":0
+					}
+				}
 			},
 			{
-				"from": 2,
-				"to": 5
+				"id":{
+						"name":"edge2-5",
+						"lane":1
+					},
+				"from":{
+					"id": "node2",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":0
+					}
+				},
+				"to": {
+					"id": "node5",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":75
+					}
+				}
 			},
 			{
-				"from": 5,
-				"to": 2
+				"id":{
+						"name":"edge5-2",
+						"lane":1
+					},
+				"from":{
+					"id": "node5",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node2",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":0
+					}
+				}
 			},
 			{
-				"from": 4,
-				"to": 6
+				"id":{
+						"name":"edge4-6",
+						"lane":1
+					},
+				"from":{
+					"id": "node4",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node6",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":150
+					}
+				}
 			},
 			{
-				"from": 6,
-				"to": 4
+				"id":{
+						"name":"edge6-4",
+						"lane":1
+					},
+				"from":{
+					"id": "node6",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":150
+					}
+				},
+				"to": {
+					"id": "node4",
+					"coordinates": {
+						"fake":true,
+						"x":100,
+						"y":75
+					}
+				}
 			},
 			{
-				"from": 5,
-				"to": 7
+				"id":{
+						"name":"edge5-7",
+						"lane":1
+					},
+				"from":{
+					"id": "node5",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":75
+					}
+				},
+				"to": {
+					"id": "node7",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":150
+					}
+				}
 			},
 			{
-				"from": 7,
-				"to": 5
+				"id":{
+						"name":"edge7-5",
+						"lane":1
+					},
+				"from":{
+					"id": "node7",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":150
+					}
+				},
+				"to": {
+					"id": "node5",
+					"coordinates": {
+						"fake":true,
+						"x":200,
+						"y":75
+					}
+				}
 			}
 		]
 	},
-	"objects": {
-		"pods": [{
+	"agents": [
+		{	"id":"pod1",
 			"capcity": 1,
 			"provider": "DHL",
 			"strategy": "selfish"
-		}],
-		"providers": [{
+		},
+		{
 			"name": "DHL",
-			"colour": "yellow"
-		}]
-	},
-	"core": {
-		"active poi": 1,
-		"poi selection": "normal",
-		"simulations": 10
+			"colour": "yellow",
+			"depot":{
+				"id": "node0",
+				"coordinates": {
+					"fake":true,
+					"x":0,
+					"y":0
+				}
+			},
+			"available pods":1,
+			"pods":[
+				{	
+					"id":"pod1",
+					"capcity": 1,
+					"provider": "DHL",
+					"strategy": "selfish"
+				}
+			],
+			"maximum number of clients":2,
+			"maximum outgoing pods/time unit":1,
+			"poi selection function":"normal"
+		}
+	],
+	"simulation specification": {
+		"number of waiting clients":1,
+		"clients selection function":"normal",
+		"number of pods":1,
+		"number of providers":1
 	}
 }
