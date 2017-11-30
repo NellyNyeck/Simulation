@@ -121,21 +121,27 @@
 			"type":"object",
 			"properties": {
 				"id":{"type":"string"},
-				"type": { "type":"string"}
+				"type": { "type":"string"},
+				"starting point":{"type":"node"},
+				"exit point":{"type":"node"}
 			},
 			"required":["id","type"]
 		},
 		"human":{
 			"type":"object",
 			"properties": {
-			"name":{"type":"string"}
+				"name":{"type":"string"},
+				"starting point":{"type":"node"},
+				"exit point":{"type":"node"}
 			},
 			"required":["name"]
 		},
 		"bike":{
 			"type":"object",
 			"properties": {
-			"id":{"type":"string"}
+				"id":{"type":"string"},
+				"starting point":{"type":"node"},
+				"exit point":{"type":"node"}
 			},
 			"required":["id"]
 		},
@@ -150,32 +156,37 @@
 			}
 		},
 		"environment":{
-		"type":"object",
-		"properties": {
-			"nodes": { "type":"array",
-				"items": { "type": "node"},
-				"minItems": 2,
-				"uniqueItems": true
+			"type":"object",
+			"properties": {
+				"nodes": { "type":"array",
+					"items": { "type": "node"},
+					"minItems": 2,
+					"uniqueItems": true
+				},
+				"edges": { "type":"array",
+					"items": { "type": "edge"},
+					"minItems": 1,
+					"uniqueItems": true
+				}
 			},
-			"edges": { "type":"array",
-				"items": { "type": "edge"},
-				"minItems": 1,
-				"uniqueItems": true
-			}
-		},
-		"required":["nodes","edges"]
+			"required":["nodes","edges"]
 		},
 		"agents":{"type":"array",
 					"items":{"type":"agent"},
 					"uniqueItems":true
 		},
-		"core":{
+		"simulation specifications":{
 			"type":"object",
 			"properties": {
 				"number of waiting clients": { "type":"integer", "default":1},
-				"clients selection function": {"type":"distribution"}
+				"clients selection function": {"type":"distribution"},
+				"clients to provider distribution function":{"type":"distribution"},
+				"number of pods":{"type":"integer"},
+				"number of vehicles":{"type":"integer"},
+				"number of humans":{"type":"integer"},
+				"number of bikes":{"type":"integer"}
 			},
-			"required":["active poi","poi selection"]
+			"required":["number of waiting clients","clients selection function","number of pods"]
 		}
 	}
 }
