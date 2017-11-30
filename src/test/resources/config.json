@@ -13,17 +13,26 @@
 			"type":"object",
 			"properties": {
 				"id": { "type":"string"},
-				"coordinates type": {"type":"array",
-										"items":{"type":"string"},
-										"enum":["real","fake"],
-										"maxItems":1
+				"coordinates": {"type":"object",
+								"oneOf":[
+									{"type":"object",
+										"properties":{
+											"type":{"type":"string", "default":"real"},
+											"latitude":{"type":"gps"},
+											"longitude":{"type":"gps"}
+										},
+										"required":["type", "latitude","longitude"]
 									},
-				"coordinates real": {"type": "boolean"},
-				"coordinates fake": {"type":"boolean"},
-				"x": {"type":"number"},
-				"y": {"type":"number"},
-				"latitude":{"type":"gps"},
-				"longitude":{"type":"gps"},
+									{"type":"object",
+										"properties":{
+											"type":{"type":"string", "default":"fake"},
+											"x":{"type":"number"},
+											"y":{"type":"number"}
+										},
+										"required":["type", "x","y"]
+									}
+								]
+								},		
 				"is poi":{"type":"boolean"},
 				"labels":{"type":"array",
 							"items":{"type":"string"},
@@ -31,7 +40,7 @@
 							"uniqueItems":true
 						}
 				},
-			"required":["id","coordinates type"],
+			"required":["id","coordinates"],
 			"dependencies": {
 				"coordinates real":["latitude", "longitude"],
 				"coordinates fake": ["x", "y"],
@@ -108,6 +117,28 @@
 			},
 			"required":["id","capacity","strategy","provider"]
 		},
+		"vehicle":{
+			"type":"object",
+			"properties": {
+				"id":{"type":"string"},
+				"type": { "type":"string"}
+			},
+			"required":["id","type"]
+		},
+		"human":{
+			"type":"object",
+			"properties": {
+			"name":{"type":"string"}
+			},
+			"required":["name"]
+		},
+		"bike":{
+			"type":"object",
+			"properties": {
+			"id":{"type":"string"}
+			},
+			"required":["id"]
+		},
 		"environment":{
 		"type":"object",
 		"properties": {
@@ -124,19 +155,14 @@
 		},
 		"required":["nodes","edges"]
 		},
-		"objects":{
-			"type":"object",
-			"properties": {
-				"pods": { "type":"array",
-					"items": { "type": "pod"},
-					"minItems": 1,
-					"uniqueItems": true
-				},
-				"providers": {"type":"array",
-					"items":{ "type":"provider" },
-					"minItems": 1,
-					"uniqueItems": true
-				}
+		"agents":{
+			"type":{"type":"object",
+					"anyOf":[
+						{"type":"pod"},
+						{"type":"vehicle"},
+						{"type":"human"},
+						{"type":"bike"}
+					]
 			}
 		},
 		"core":{
