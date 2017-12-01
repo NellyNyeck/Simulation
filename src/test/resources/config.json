@@ -53,7 +53,6 @@
 				"name": {"type":"string"},
 				"from": { "type":"string"},
 				"to":{ "type":"string" },
-				"lanes":{"type":"integer", "default": 1},
 				"weight": {"type":"number", "default":1},
 				"poi distribution function": {"type":"object",
 												"properties":{
