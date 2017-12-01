@@ -282,6 +282,10 @@
 						"fake":true,
 						"x":100,
 						"y":150
+					},
+					"poi distribution function":{
+						"name":"even",
+						"input data":[10]
 					}
 				}
 			},
