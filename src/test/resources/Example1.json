@@ -149,14 +149,12 @@
 					"strategy": "selfish"
 				}
 			},
-			"maximum number of serviceable clients":2,
 			"maximum outgoing pods/time unit":1,
-			"poi selection function":"normal"
+			"client selection function":"normal"
 		}
 	},			
 	"simulation specification": {
 		"number of waiting clients":1,
-		"clients selection function":"normal",
 		"time unit":"hour"
 	}
 }
