@@ -150,7 +150,7 @@
 				}
 			},
 			"maximum outgoing pods/time unit":1,
-			"client selection function":"normal"
+			"client selection function":"norma	l"
 		}
 	},			
 	"simulation specification": {
