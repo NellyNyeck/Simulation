@@ -165,5 +165,17 @@
 				"split": 1
 			}
 		}
+	},
+	"platoons": {
+		"right": {
+			"started": "node0",
+			"ended": "node5",
+			"route taken": {
+				"node0": 3,
+				"node1": 3,
+				"node2": 3,
+				"node5": 2
+			}
+		}
 	}
 }
