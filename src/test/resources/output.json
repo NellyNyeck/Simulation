@@ -182,8 +182,7 @@
 		"pod3": {
 			"depot": "node0",
 			"destination": "node3",
-			"cost": 1,
-			"energy": 1,
+			"resource":1
 			"time": 1,
 			"Route taken": ["node0", "node3"],
 			"number of times in platoon": 0
@@ -191,41 +190,35 @@
 		"pod7": {
 			"depot": "node0",
 			"destination": "node7",
-			"cost": 3.5,
-			"energy": 3.5,
+			"resource": 3.5,
 			"time": 4,
 			"route taken": ["node0", "node1", "node2", "node5", "node7"],
 			"number of times in platoon": 1,
 			"time in platoon": 3,
 			"route in platoon": ["node0", "node1", "node2", "node5"],
-			"costs in platoon": [2.5],
-			"energy in platoon": [2.5]
+			"resource in platoon": [2.5]
 		},
 		"pod5": {
 			"depot": "node0",
 			"destination": "node5",
-			"cost": 2.5,
-			"energy": 2.5,
+			"resource": 2.5,
 			"time": 3,
 			"route taken": ["node0", "node1", "node2", "node5"],
 			"number of times in platoon": 1,
 			"time in platoon": 3,
 			"route in platoon": ["node0", "node1", "node2", "node5"],
-			"costs in platoon": [2.5],
-			"energy in platoon": [2.5]
+			"resource in platoon": [2.5]
 		},
 		"pod2": {
 			"depot": "node0",
 			"destination": "node2",
-			"cost": 1.6,
-			"energy": 1.6,
+			"resource": 1.6,
 			"time": 2,
 			"route taken": ["node0", "node1", "node2"],
 			"number of times in platoon": 1,
 			"time in platoon": 2,
 			"route in platoon": ["node0", "node1", "node2"],
-			"costs in platoon": [1.6],
-			"energy in platoon": [1.6]
+			"resources in platoon": [1.6]
 		}
 	}
 }
