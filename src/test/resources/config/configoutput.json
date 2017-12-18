@@ -1,0 +1,69 @@
+{
+	"definitions":{
+		"split points":{
+			"type":"object",
+			"proprieties":{
+				"in":{"type":"number"},
+				"out":{"type":"number"},
+				"split":{"type":"number"}
+			},
+			"required":["in","out","split"]
+		},
+		"pod":{
+			"type":"object",
+			"proprieties":{
+				"depot": {"type":"string"},
+				"destination": {"type":"string"},
+				"route taken": {
+					"type":"array",
+					"elements":"string",
+					"uniqueElements":true,
+					"minIntems":1
+				},
+				"energy consumed": {"type":"number"},
+				"time in environment": {"type":"number"},
+				"number of times in platoon": {"type":"number"},
+				"route in platoon": { 
+					"type":"array",
+					"elements":"string",
+					"uniqueElements":true,
+					"minIntems":1
+				},
+				"energy consumed in platoon":{
+					"type":"array",
+					"elements":"number",
+					"uniqueElements":true,
+					"minIntems":1
+				},
+				"time in platoon": {"type":"number"}
+			},
+			"required":["depot","destination","route taken", "energy consumed", "time in environment"],
+			"dependencies":{
+				"number of times in platoon":["route in platoon","energy consumed in platoon","time in platoon"]
+			}
+		},
+		"platoon":{
+			"type":"object",
+			"proprieties":{
+				"started": {"type":"string"},
+				"ended": {"type":"string"},
+				"route taken": {
+				}
+			}
+		},
+		"mesoscopic":{
+			"type":"object",
+			"proprieties":{
+				"edges with platoons":{
+				},
+				"split points":{
+				}
+			},
+			"required":["edges with platoons", "split points"]
+		},
+		"platoons":{
+		},
+		"pods":{
+		}
+	}
+}
