@@ -31,14 +31,14 @@ public class CPOI implements INode<CNode>
     }
 
     @Override
-    public Double f_coord()
+    public Double firstCoord()
     {
-        return m_node.f_coord();
+        return m_node.firstCoord();
     }
 
     @Override
-    public Double s_coord()
+    public Double secondCoord()
     {
-        return m_node.s_coord();
+        return m_node.secondCoord();
     }
 }
