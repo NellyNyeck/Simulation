@@ -54,7 +54,7 @@
 		"mesoscopic":{
 			"type":"object",
 			"proprieties":{
-				"edges with platoons":{
+				"edges travelled":{
 				},
 				"split points":{
 				}

@@ -1,6 +1,6 @@
 {
 	"mesoscopic": {
-		"edges with platoons": {
+		"edges travelled": {
 			"edge0-1": 3,
 			"edge0-3": 1,
 			"edge1-2": 3,
@@ -40,9 +40,9 @@
 		"pod3": {
 			"depot": "node0",
 			"destination": "node3",
-			"resource":1,
-			"time": 1,
-			"Route taken": ["edge0-3"]
+			"route taken": ["edge0-3"],
+			"energy consumed":1,
+			"time in environment": 1
 		},
 		"pod7": {
 			"depot": "node0",
@@ -50,7 +50,7 @@
 			"route taken": ["edge0-1", "edge1-2", "edge2-5", "edge5-7"],
 			"energy consumed": 3.5,
 			"time in environment": 4,
-			"number of times in platoon": 1,
+			"number of times in platoon": 1,	
 			"route in platoon": ["edge0-1", "edge1-2", "edge2-5"],
 			"energy consumed in platoon": [2.5],
 			"time in platoon": 3

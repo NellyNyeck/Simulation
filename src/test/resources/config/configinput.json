@@ -3,6 +3,7 @@
 		"node":{
 			"type":"object",
 			"properties": {
+				"name":{"type":"string"},
 				"coordinates": {"type":"object",
 								"properties":{
 									"type":{"type":"string"},
@@ -18,7 +19,7 @@
 							"uniqueItems":true
 						}
 				},
-			"required":["id","coordinates"],
+			"required":["name","coordinates"],
 			"dependencies": {
 				"is poi":["labels"]
 			}
