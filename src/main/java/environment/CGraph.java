@@ -19,7 +19,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
 {
     private final Graph<V, E> m_graph = new DirectedSparseGraph<>();
 
-    private final HashMap<Integer, CPOI> m_pois = new HashMap<>();
+    private final HashMap<String, CPOI> m_pois = new HashMap<>();
 
     public CGraph( )
     {
@@ -37,7 +37,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
      * @return the node with the given n id
      */
     @Override
-    public V getNode( final Number n )
+    public V getNode( final String n )
     {
         final Collection<V> l_all = m_graph.getVertices();
         for ( final V l_node : l_all )
@@ -105,7 +105,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
         }
     }
 
-    public HashMap<Integer, CPOI> getPois()
+    public HashMap<String, CPOI> getPois()
     {
         return m_pois;
     }

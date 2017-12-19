@@ -60,7 +60,7 @@ public class CSVWriter
             {
                 if ( l_pl.visited() > 1 )
                 {
-                    m_filewriter.append( l_pl.about() );
+                    m_filewriter.append( l_pl.name() );
                     m_filewriter.append( COMMA );
                     m_filewriter.append( String.valueOf( l_pl.visited() ) );
                     m_filewriter.append( NEWLINE );

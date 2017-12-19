@@ -21,8 +21,7 @@
 
 package environment;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 
 
 /**
@@ -30,8 +29,9 @@ import org.json.JSONObject;
  * */
 public class CEdge implements IEdge
 {
-    private String m_about;
-    private double m_length;
+    private String m_name;
+    private String m_from;
+    private String m_to;
     private double m_weight;
     private int m_visited;
 
@@ -40,18 +40,11 @@ public class CEdge implements IEdge
      * */
     public CEdge( final JSONObject p_json )
     {
-        try
-        {
-            m_about = p_json.getString( "from" ) + " " + p_json.getString( "to" );
-            m_length = p_json.getDouble( "length" );
-            m_weight = p_json.getDouble( "weight" );
-            m_visited = 0;
-        }
-        catch ( final JSONException l_err )
-        {
-            l_err.printStackTrace();
-        }
-
+        m_name = (String) p_json.get( "name" );
+        m_from = (String) p_json.get( "from" );
+        m_to = (String) p_json.get( "to" );
+        m_weight = (double) p_json.get( "weight" );
+        m_visited = 0;
     }
 
     public double weight()
@@ -65,14 +58,19 @@ public class CEdge implements IEdge
         return m_visited;
     }
 
-    public String about()
+    public String name()
     {
-        return m_about;
+        return m_name;
     }
 
-    public double length()
+    public String from()
     {
-        return m_length;
+        return m_from;
+    }
+
+    public String to()
+    {
+        return m_to;
     }
 
     /**
@@ -80,7 +78,6 @@ public class CEdge implements IEdge
      */
     public void reset()
     {
-        m_weight = 1;
         m_visited = 0;
     }
 

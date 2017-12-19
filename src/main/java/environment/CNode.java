@@ -1,18 +1,17 @@
 package environment;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 
 
 /**
  * The node class
  */
-public class CNode implements INode<Integer>
+public class CNode implements INode<String>
 {
 
-    private Integer m_id;
-    private Double m_xcoord;
-    private Double m_ycoord;
+    private String m_id;
+    private Double m_1coord;
+    private Double m_2coord;
 
     /**
      * Constructor
@@ -20,32 +19,25 @@ public class CNode implements INode<Integer>
      */
     public CNode( final JSONObject p_json )
     {
-        try
-        {
-            m_id = p_json.getInt( "id" );
-            m_xcoord = p_json.getDouble( "x" );
-            m_ycoord = p_json.getDouble( "y" );
-
-        }
-        catch ( final JSONException l_err )
-        {
-            l_err.printStackTrace();
-        }
+        m_id = (String) p_json.get( "name" );
+        final JSONObject l_object = (JSONObject) p_json.get( "coordinates" );
+        m_1coord = (Double) l_object.get( "first coordinate" );
+        m_2coord = (Double) l_object.get( "second coordinate" );
 
     }
 
-    public Double xcoord()
+    public Double firstCoord()
     {
-        return m_xcoord;
+        return m_1coord;
     }
 
-    public Double ycoord()
+    public Double secondCoord()
     {
-        return m_ycoord;
+        return m_2coord;
     }
 
     @Override
-    public Integer id()
+    public String id()
     {
         return m_id;
     }
