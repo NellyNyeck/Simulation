@@ -3,6 +3,7 @@ package environment;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 /**
  * The Point of interest class
  */
@@ -36,14 +37,13 @@ public class CPOI implements INode<CNode>
         return null;
     }
 
-    @Override
-    public Double firstCoord()
+
+    public Long firstCoord()
     {
         return m_node.firstCoord();
     }
 
-    @Override
-    public Double secondCoord()
+    public Long secondCoord()
     {
         return m_node.secondCoord();
     }

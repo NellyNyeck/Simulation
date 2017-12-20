@@ -8,8 +8,4 @@ public interface INode<T>
 {
     T name();
 
-    Double firstCoord();
-
-    Double secondCoord();
-
 }

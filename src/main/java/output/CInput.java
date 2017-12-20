@@ -2,6 +2,7 @@ package output;
 
 import environment.CEdge;
 import environment.CNode;
+import exec.CSpecs;
 import objects.CProvider;
 
 import java.util.HashMap;
@@ -12,6 +13,9 @@ import java.util.HashMap;
  */
 public class CInput
 {
+
+    private CSpecs m_specs;
+
     /**
      * the class responsible for the environment part
      */
@@ -33,14 +37,6 @@ public class CInput
     /**
      * the class holding all the simulation specifications
      */
-    public class CSimulationSpecs
-    {
-        private String m_coordtype;
-        private Integer m_clientsnb;
-        private String m_timeunit;
-        private String m_speedunit;
-        private String m_lengthunit;
-    }
 
 
 }

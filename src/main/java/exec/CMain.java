@@ -24,7 +24,12 @@ package exec;
 import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileReader;
 import java.io.IOException;
 
 
@@ -42,13 +47,32 @@ public final class CMain
     }
 
     /**
-     * initialization of the graph by reading the nodes and edges from file
-     *
+     * initializing the graph
+     * @param p_arg the string with the file path
      * @throws IOException because file
+     * @throws ParseException  because json parsing
      */
-    protected static void graphInit( final String p_arg ) throws IOException
+    protected static void graphInit( final String p_arg ) throws IOException, ParseException
     {
-
+        final JSONParser l_parser = new JSONParser();
+        final JSONObject l_object = (JSONObject) l_parser.parse( new FileReader( p_arg ) );
+        final JSONObject l_coordinates = (JSONObject) l_object.get( "simulation specification" );
+        s_coordtype = (String) l_coordinates.get( "coordinate  type" );
+        final JSONObject l_environment = (JSONObject) l_object.get( "environment" );
+        JSONArray l_array = (JSONArray) l_environment.get( "nodes" );
+        for ( int l_in = 0; l_in < l_array.size(); l_in++ )
+        {
+            final CNode l_cnode = new CNode( (JSONObject) l_array.get( l_in ) );
+            s_GR.addNode( l_cnode );
+        }
+        //s_idcounter = s_GR.countNodes();
+        l_array = (JSONArray) l_environment.get( "edges" );
+        for ( int l_in = 0; l_in < l_array.size(); l_in++ )
+        {
+            JSONObject l_trans = new JSONObject(  );
+            l_trans = (JSONObject) l_array.get( l_in );
+            processStreet( l_trans );
+        }
     }
 
     /**
@@ -56,7 +80,7 @@ public final class CMain
      *
      *
      */
-    public static void processStreet(  )
+    public static void processStreet( final JSONObject p_obj )
     {
 
 
@@ -73,18 +97,18 @@ public final class CMain
      * @param p_to to node
      * @return the distance
      */
-    public static Double calculateLength( final CNode p_from, final CNode p_to )
+    public static Long calculateLength( final CNode p_from, final CNode p_to )
     {
         if ( s_coordtype.contentEquals( "synthetic" ) )
         {
-            Double l_distance = ( p_from.firstCoord() - p_to.firstCoord() ) * ( p_from.firstCoord() - p_to.firstCoord() );
+            Long l_distance = ( p_from.firstCoord() - p_to.firstCoord() ) * ( p_from.firstCoord() - p_to.firstCoord() );
             l_distance = l_distance + ( p_from.secondCoord() - p_to.secondCoord() ) * ( p_from.secondCoord() - p_to.secondCoord() );
-            l_distance = Math.sqrt( l_distance );
+            //l_distance = Math.sqrt(  )
             return l_distance;
         }
         else if ( s_coordtype.contentEquals( "geographical" ) )
         {
-            return Double.valueOf( 0 );
+            return Long.valueOf( 0 );
         }
         return null;
     }
@@ -570,8 +594,9 @@ public final class CMain
      * the main function
      * @param p_args java
      * @throws IOException file
+     * @throws ParseException json
      */
-    public static void main( final String[] p_args ) throws IOException
+    public static void main( final String[] p_args ) throws IOException, ParseException
     {
         graphInit( "src/test/resources/Examples/example2.json" );
         //doTheThing("resultsDijkstra.csv");
