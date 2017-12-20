@@ -1,20 +1,29 @@
 package objects;
 
+import org.json.simple.JSONObject;
+
+
 /**
  * implementation of the Ipod interface
  */
-public class CPOD implements IPOD<Integer>
+public class CPOD implements IPOD<String>
 {
 
-    private Integer m_id;
-    private Double m_capacity;
+    private String m_id;
+    private Long m_capacity;
     private String m_provider;
     private String m_strategy;
 
-
-    public CPOD( )
+    /**
+     * the constructor
+     * @param p_json the input json object
+     */
+    public CPOD( final JSONObject p_json )
     {
-
+        m_id = (String) p_json.get( "name" );
+        m_strategy = (String) p_json.get( "strategy" );
+        m_capacity = (Long) p_json.get( "capacity" );
+        m_provider = (String) p_json.get( "provider" );
     }
 
     /**
@@ -22,7 +31,7 @@ public class CPOD implements IPOD<Integer>
      * @return the objects id
      */
     @Override
-    public Integer id()
+    public String id()
     {
         return m_id;
     }

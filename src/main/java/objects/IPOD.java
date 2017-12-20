@@ -5,7 +5,7 @@ package objects;
  */
 public interface IPOD<I>
 {
-    I id();
+    String id();
 
     Number capacity();
 

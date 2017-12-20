@@ -1,0 +1,6 @@
+{
+	"name":"pod1",
+	"capacity": 1,
+	"provider": "DHL",
+	"strategy": "cooperative"
+}
