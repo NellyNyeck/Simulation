@@ -6,9 +6,7 @@ package environment;
  */
 public interface INode<T>
 {
-    T id();
-
-
+    T name();
 
     Double firstCoord();
 

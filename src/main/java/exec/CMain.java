@@ -25,9 +25,8 @@ import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
 
-
-import java.io.FileReader;
 import java.io.IOException;
+
 
 /**
  * the main class
@@ -49,59 +48,22 @@ public final class CMain
      */
     protected static void graphInit( final String p_arg ) throws IOException
     {
-        final JSONParser l_parser = new JSONParser();
-        final JSONObject l_object = (JSONObject) l_parser.parse( new FileReader( p_arg ) );
-        final JSONObject l_coordinates = (JSONObject) l_object.get( "simulation specification" );
-        s_coordtype = (String) l_coordinates.get( "coordinate  type" );
-        final JSONObject l_environment = (JSONObject) l_object.get( "environment" );
-        JSONArray l_array = (JSONArray) l_environment.get( "nodes" );
-        for ( int l_in = 0; l_in < l_array.size(); l_in++ )
-        {
-            final CNode l_cnode = new CNode( (JSONObject) l_array.get( l_in ) );
-            s_GR.addNode( l_cnode );
-        }
-        //s_idcounter = s_GR.countNodes();
-        l_array = (JSONArray) l_environment.get( "edges" );
-        for ( int l_in = 0; l_in < l_array.size(); l_in++ )
-        {
-            JSONObject l_trans = new JSONObject(  );
-            l_trans = (JSONObject) l_array.get( l_in );
-            processStreet( l_trans );
-        }
+
     }
 
     /**
      * process each given street
      *
-     * //@param p_object the JSON object which holds the street information
+     *
      */
-    public static void processStreet( final JSONObject p_object )
+    public static void processStreet(  )
     {
-        final JSONObject l_funct = (JSONObject) p_object.get( "poi distribution function" );
-        final String l_functname = (String) l_funct.get( "name" );
-        switch ( l_functname.toLowerCase() )
-        {
-            case "even":
-                evenFunction( p_object );
-                break;
-            default:
-        }
+
 
     }
 
-    /**
-     * if the adds the pois in an even manner
-     * @param p_object the input json object
-     */
-    public static void evenFunction( final JSONObject p_object )
+    public static void evenFunction(  )
     {
-        final JSONObject l_funct = (JSONObject) p_object.get( "poi distribution function" );
-        final int l_poidist = (int) l_funct.get( "parameters" );
-        final String l_from  = (String) p_object.get( "from" );
-        final String l_to = (String) p_object.get( "to" );
-        final CNode l_origin = s_GR.getNode( l_from );
-        final CNode l_destination = s_GR.getNode( l_to );
-        final Double l_dist = calculateLength( l_origin, l_destination );
 
     }
 
@@ -606,11 +568,10 @@ public final class CMain
 
     /**
      * the main function
-     * @param p_args this is what java wants
-     * @throws IOException because of the file work in graphInit
-     * @throws ParseException because working with json simple
+     * @param p_args java
+     * @throws IOException file
      */
-    public static void main( final String[] p_args ) throws IOException, ParseException
+    public static void main( final String[] p_args ) throws IOException
     {
         graphInit( "src/test/resources/Examples/example2.json" );
         //doTheThing("resultsDijkstra.csv");

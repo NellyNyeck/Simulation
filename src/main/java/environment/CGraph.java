@@ -42,7 +42,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
         final Collection<V> l_all = m_graph.getVertices();
         for ( final V l_node : l_all )
         {
-            if ( l_node.id() == n ) return l_node;
+            if ( l_node.name().toString().contentEquals( n ) ) return l_node;
         }
         return null;
     }
@@ -110,10 +110,7 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
         return m_pois;
     }
 
-    public void addPoi( final CPOI p_cpoi )
-    {
-        m_pois.put( p_cpoi.id().id(), p_cpoi );
-    }
+
 
 
 

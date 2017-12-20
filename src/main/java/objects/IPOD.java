@@ -6,4 +6,10 @@ package objects;
 public interface IPOD<I>
 {
     I id();
+
+    Number capacity();
+
+    String provider();
+
+    String strategy();
 }

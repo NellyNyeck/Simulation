@@ -5,6 +5,14 @@ package environment;
  */
 public interface IEdge
 {
+    String name();
+
+    String from();
+
+    String to();
+
+    Number weight();
+
     void add();
 
     void reset();

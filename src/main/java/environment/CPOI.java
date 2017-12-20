@@ -24,10 +24,16 @@ public class CPOI implements INode<CNode>
         return m_labels;
     }
 
-    @Override
+
     public CNode id()
     {
         return m_node;
+    }
+
+    @Override
+    public CNode name()
+    {
+        return null;
     }
 
     @Override

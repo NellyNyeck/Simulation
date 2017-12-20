@@ -1,6 +1,6 @@
 package environment;
 
-import org.json.simple.JSONObject;
+
 
 
 /**
@@ -9,20 +9,15 @@ import org.json.simple.JSONObject;
 public class CNode implements INode<String>
 {
 
-    private String m_id;
+    private String m_name;
     private Double m_1coord;
     private Double m_2coord;
 
     /**
      * Constructor
-     * @param p_json given json object to build the node
      */
-    public CNode( final JSONObject p_json )
+    public CNode(  )
     {
-        m_id = (String) p_json.get( "name" );
-        final JSONObject l_object = (JSONObject) p_json.get( "coordinates" );
-        m_1coord = (Double) l_object.get( "first coordinate" );
-        m_2coord = (Double) l_object.get( "second coordinate" );
 
     }
 
@@ -37,9 +32,9 @@ public class CNode implements INode<String>
     }
 
     @Override
-    public String id()
+    public String name()
     {
-        return m_id;
+        return m_name;
     }
 
 }

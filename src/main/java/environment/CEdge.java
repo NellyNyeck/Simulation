@@ -21,7 +21,10 @@
 
 package environment;
 
-import org.json.simple.JSONObject;
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -34,25 +37,26 @@ public class CEdge implements IEdge
     private String m_to;
     private double m_weight;
     private int m_visited;
+    private HashMap<String, ArrayList<Double>> m_funct;
 
     /**
      * constructor
      * */
-    public CEdge( final JSONObject p_json )
+    public CEdge( )
     {
-        m_name = (String) p_json.get( "name" );
-        m_from = (String) p_json.get( "from" );
-        m_to = (String) p_json.get( "to" );
-        m_weight = (double) p_json.get( "weight" );
-        m_visited = 0;
+
     }
 
-    public double weight()
+    public HashMap<String, ArrayList<Double>> function()
+    {
+        return m_funct;
+    }
+
+    public Double weight()
     {
         return m_weight;
     }
 
-    @Override
     public int visited()
     {
         return m_visited;
@@ -73,9 +77,6 @@ public class CEdge implements IEdge
         return m_to;
     }
 
-    /**
-     * resets the edges visited coundter and weight
-     */
     public void reset()
     {
         m_visited = 0;

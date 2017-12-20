@@ -7,14 +7,14 @@ public class CPOD implements IPOD<Integer>
 {
 
     private Integer m_id;
+    private Double m_capacity;
+    private String m_provider;
+    private String m_strategy;
 
-    /**
-     * constructor with given id
-     * @param p_id the integer given as id
-     */
-    public CPOD( final Integer p_id )
+
+    public CPOD( )
     {
-        m_id = p_id;
+
     }
 
     /**
@@ -25,5 +25,23 @@ public class CPOD implements IPOD<Integer>
     public Integer id()
     {
         return m_id;
+    }
+
+    @Override
+    public Number capacity()
+    {
+        return m_capacity;
+    }
+
+    @Override
+    public String provider()
+    {
+        return m_provider;
+    }
+
+    @Override
+    public String strategy()
+    {
+        return m_strategy;
     }
 }
