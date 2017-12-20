@@ -2,13 +2,12 @@ package environment;
 
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
@@ -30,9 +29,14 @@ public class TestCNode
     @Before
     public void init() throws IOException, ParseException
     {
-        final JSONParser l_parser = new JSONParser();
-        final Object l_obj = l_parser.parse( new FileReader( "src/test/resources/Examples/TestNode.json" ) );
-        m_testnode = new CNode( (JSONObject) l_obj );
+        final HashMap l_map = new HashMap<>(  );
+        l_map.put( "name", "node0" );
+        final HashMap<String, Double> l_coord = new HashMap<>(  );
+        l_coord.put( "first coordinates", 0.00 );
+        l_coord.put( "second coordinates", 0.00 );
+        l_map.put( "coordinates", l_coord );
+        final JSONObject l_obj = new JSONObject( l_map );
+        m_testnode = new CNode( l_obj );
     }
 
     /**

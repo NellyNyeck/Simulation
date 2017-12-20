@@ -24,10 +24,7 @@ package exec;
 import environment.CEdge;
 import environment.CGraph;
 import environment.CNode;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -50,7 +47,7 @@ public final class CMain
      *
      * @throws IOException because file
      */
-    protected static void graphInit( final String p_arg ) throws IOException, ParseException
+    protected static void graphInit( final String p_arg ) throws IOException
     {
         final JSONParser l_parser = new JSONParser();
         final JSONObject l_object = (JSONObject) l_parser.parse( new FileReader( p_arg ) );
