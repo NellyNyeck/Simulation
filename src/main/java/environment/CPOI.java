@@ -38,12 +38,12 @@ public class CPOI implements INode<CNode>
     }
 
 
-    public Long firstCoord()
+    public Double firstCoord()
     {
         return m_node.firstCoord();
     }
 
-    public Long secondCoord()
+    public Double secondCoord()
     {
         return m_node.secondCoord();
     }

@@ -69,9 +69,10 @@ public final class CMain
         l_array = (JSONArray) l_environment.get( "edges" );
         for ( int l_in = 0; l_in < l_array.size(); l_in++ )
         {
-            JSONObject l_trans = new JSONObject(  );
-            l_trans = (JSONObject) l_array.get( l_in );
-            processStreet( l_trans );
+            final CEdge l_edge = new CEdge( (JSONObject) l_array.get( l_in ) );
+            final CNode l_from = s_GR.getNode( l_edge.from() );
+            final CNode l_to = s_GR.getNode( l_edge.to() );
+            s_GR.addEdge( l_from, l_to, l_edge );
         }
     }
 
@@ -97,18 +98,18 @@ public final class CMain
      * @param p_to to node
      * @return the distance
      */
-    public static Long calculateLength( final CNode p_from, final CNode p_to )
+    public static Double calculateLength( final CNode p_from, final CNode p_to )
     {
         if ( s_coordtype.contentEquals( "synthetic" ) )
         {
-            Long l_distance = ( p_from.firstCoord() - p_to.firstCoord() ) * ( p_from.firstCoord() - p_to.firstCoord() );
+            Double l_distance = ( p_from.firstCoord() - p_to.firstCoord() ) * ( p_from.firstCoord() - p_to.firstCoord() );
             l_distance = l_distance + ( p_from.secondCoord() - p_to.secondCoord() ) * ( p_from.secondCoord() - p_to.secondCoord() );
-            //l_distance = Math.sqrt(  )
+            l_distance = Math.sqrt( l_distance );
             return l_distance;
         }
         else if ( s_coordtype.contentEquals( "geographical" ) )
         {
-            return Long.valueOf( 0 );
+            return Double.valueOf( 0 );
         }
         return null;
     }

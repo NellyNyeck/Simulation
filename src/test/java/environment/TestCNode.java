@@ -60,7 +60,7 @@ public class TestCNode
     public void firstCoord()
     {
         assumeNotNull( m_testnode );
-        assertTrue( m_testnode.firstCoord() ==  0 );
+        assertTrue( m_testnode.firstCoord().equals( 0.00 ) );
     }
 
     /**
@@ -70,6 +70,6 @@ public class TestCNode
     public void secondCoord()
     {
         assumeNotNull( m_testnode );
-        assertTrue( m_testnode.secondCoord() == 0 );
+        assertTrue( m_testnode.secondCoord().equals( 0.00 ) );
     }
 }

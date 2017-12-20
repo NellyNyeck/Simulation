@@ -23,6 +23,8 @@ package environment;
 
 
 
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,21 +37,20 @@ public class CEdge implements IEdge
     private String m_name;
     private String m_from;
     private String m_to;
-    private double m_weight;
-    private int m_visited;
+    private Double m_weight;
+    private Integer m_visited;
     private HashMap<String, ArrayList<Double>> m_funct;
 
     /**
      * constructor
      * */
-    public CEdge( )
+    public CEdge( final JSONObject p_obj )
     {
-
-    }
-
-    public HashMap<String, ArrayList<Double>> function()
-    {
-        return m_funct;
+        m_name = (String) p_obj.get( "name" );
+        m_from = (String) p_obj.get( "from" );
+        m_to = (String) p_obj.get( "to" );
+        m_weight = (Double) p_obj.get( "weight" );
+        m_visited = 0;
     }
 
     public Double weight()

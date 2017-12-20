@@ -12,8 +12,8 @@ public class CNode implements INode<String>
 {
 
     private String m_name;
-    private Long m_fcoord;
-    private Long m_scoord;
+    private Double m_fcoord;
+    private Double m_scoord;
 
 
     /**
@@ -23,17 +23,17 @@ public class CNode implements INode<String>
     {
         m_name = (String) p_json.get( "name" );
         final JSONObject l_object = (JSONObject) p_json.get( "coordinates" );
-        m_fcoord = (Long) l_object.get( "first coordinate" );
-        m_scoord = (Long) l_object.get( "second coordinate" );
+        m_fcoord = (Double) l_object.get( "first coordinate" );
+        m_scoord = (Double) l_object.get( "second coordinate" );
 
     }
 
-    public Long firstCoord()
+    public Double firstCoord()
     {
         return m_fcoord;
     }
 
-    public Long secondCoord()
+    public Double secondCoord()
     {
         return m_scoord;
     }
