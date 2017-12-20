@@ -1,5 +1,8 @@
 package objects;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,6 +19,26 @@ public class CProvider implements IProvider
     private HashMap<String, CPOD> m_pods;
     private Double m_maxout;
     private HashMap<String, ArrayList<Number>> m_funct;
+
+
+    public CProvider( final JSONObject p_obj)
+    {
+        m_name = (String) p_obj.get( "name" );
+        m_colour = (String) p_obj.get( "colour" );
+        m_depot = (String) p_obj.get( "depot" );
+        final JSONArray l_pods = (JSONArray) p_obj.get( "pods" );
+        m_pods = new HashMap<>(  );
+        for ( int i = 0; i < l_pods.size(); i++ )
+        {
+            final CPOD l_pod = new CPOD( (JSONObject) l_pods.get( i ) );
+            m_pods.put( l_pod.id(), l_pod );
+        }
+        m_maxout = (Double) p_obj.get( "maximum outgoing pods/time unit" );
+        final JSONObject l_function = (JSONObject) p_obj.get( "client selection function" );
+        m_funct = new HashMap<>(  );
+
+        FIX THE M FUNCTT!!!
+    }
 
 
     @Override
