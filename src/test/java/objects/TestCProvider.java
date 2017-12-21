@@ -16,6 +16,11 @@ public class TestCProvider
 {
     private CProvider m_prov;
 
+    /**
+     * initializing
+     * @throws IOException file
+     * @throws ParseException json
+     */
     @Before
     public void init() throws IOException, ParseException
     {

@@ -3,7 +3,6 @@ package objects;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -18,10 +17,14 @@ public class CProvider implements IProvider
     private String m_depot;
     private HashMap<String, CPOD> m_pods;
     private Double m_maxout;
-    private HashMap<String, ArrayList<Number>> m_funct;
+    private String m_funct;
+    private HashMap<String, Number> m_params;
 
-
-    public CProvider( final JSONObject p_obj)
+    /**
+     * constructor
+     * @param p_obj the given jso object
+     */
+    public CProvider( final JSONObject p_obj )
     {
         m_name = (String) p_obj.get( "name" );
         m_colour = (String) p_obj.get( "colour" );
@@ -35,9 +38,9 @@ public class CProvider implements IProvider
         }
         m_maxout = (Double) p_obj.get( "maximum outgoing pods/time unit" );
         final JSONObject l_function = (JSONObject) p_obj.get( "client selection function" );
-        m_funct = new HashMap<>(  );
-
-        FIX THE M FUNCTT!!!
+        m_funct = (String) l_function.get( "name" );
+        final JSONObject l_obj = (JSONObject) l_function.get( "parameters" );
+        //NO IDEA HOW TO GET PARAMS
     }
 
 
@@ -72,8 +75,15 @@ public class CProvider implements IProvider
     }
 
     @Override
-    public HashMap<String, ArrayList<Number>> funct()
+    public String funct()
     {
         return m_funct;
     }
+
+    @Override
+    public HashMap<String, Number> params()
+    {
+        return m_params;
+    }
+
 }

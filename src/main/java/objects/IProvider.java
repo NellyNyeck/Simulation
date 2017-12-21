@@ -1,6 +1,5 @@
 package objects;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -19,6 +18,8 @@ public interface IProvider
 
     Number maxOutgoing();
 
-    HashMap<String, ArrayList<Number>> funct();
+    String funct();
+
+    HashMap<String, Number> params();
 
 }
