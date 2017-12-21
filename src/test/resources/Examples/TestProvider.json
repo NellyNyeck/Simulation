@@ -12,7 +12,7 @@
 	],
 	"maximum outgoing pods/time unit": 1.00,
 	"client selection function": {
-		"name": "even",
+		"name": "normal",
 		"parameters": [
 			{
 				"sigma": 1.00

@@ -28,7 +28,7 @@ public class CProvider implements IProvider
     {
         m_name = (String) p_obj.get( "name" );
         m_colour = (String) p_obj.get( "colour" );
-        m_depot = (String) p_obj.get( "depot" );
+        m_depot = (String) p_obj.get( "depot id" );
         final JSONArray l_pods = (JSONArray) p_obj.get( "pods" );
         m_pods = new HashMap<>(  );
         for ( int i = 0; i < l_pods.size(); i++ )
@@ -39,7 +39,7 @@ public class CProvider implements IProvider
         m_maxout = (Double) p_obj.get( "maximum outgoing pods/time unit" );
         final JSONObject l_function = (JSONObject) p_obj.get( "client selection function" );
         m_funct = (String) l_function.get( "name" );
-        final JSONObject l_obj = (JSONObject) l_function.get( "parameters" );
+        //final JSONObject l_obj = (JSONObject) l_function.get( "parameters" );
         //NO IDEA HOW TO GET PARAMS
     }
 
