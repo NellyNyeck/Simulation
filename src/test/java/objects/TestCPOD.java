@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeNotNull;
 
 
 /**
@@ -41,6 +42,47 @@ public class TestCPOD
         assertTrue( m_pod != null );
     }
 
+    /**
+     * test capacity
+     */
+    @Test
+    public void cap()
+    {
+        assumeNotNull( m_pod );
+        assertTrue( m_pod.capacity() == 1 );
+
+    }
+
+    /**
+     * test id
+     */
+    @Test
+    public void id()
+    {
+        assumeNotNull( m_pod );
+        assertTrue( m_pod.id().contentEquals( "pod1" ) );
+    }
+
+    /**
+     * test provider
+     */
+    @Test
+    public void prov()
+    {
+        assumeNotNull( m_pod );
+        assertTrue( m_pod.provider().contentEquals( "DHL" ) );
+    }
+
+    /**
+     * test strategy
+     */
+    @Test
+    public void strat()
+    {
+        assumeNotNull( m_pod );
+        assertTrue( m_pod.strategy().contentEquals( "cooperative" ) );
+
+    }
 
 
 }

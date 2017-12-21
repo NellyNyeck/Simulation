@@ -37,7 +37,7 @@ public class CPOD implements IPOD<String>
     }
 
     @Override
-    public Number capacity()
+    public Long capacity()
     {
         return m_capacity;
     }

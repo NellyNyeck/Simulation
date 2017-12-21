@@ -42,50 +42,68 @@ import java.io.Reader;
 public final class CMain
 {
     private static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
-    private static String s_coordtype;
+    private static CSpecs s_specs;
 
     protected CMain()
     {
     }
 
     /**
-     * initializing the graph
-     * @param p_arg the string with the file path
-     * @throws IOException because file
-     * @throws ParseException  because json parsing
+     * read the file and initialize the things
+     * @param p_arg the path of the file
+     * @throws IOException file
+     * @throws ParseException json
      */
-    protected static void graphInit( final String p_arg ) throws IOException, ParseException
+    public static void fileRead( final String p_arg ) throws IOException, ParseException
     {
         final JSONParser l_parser = new JSONParser();
         final InputStream l_inputstream = new FileInputStream( p_arg );
         final Reader l_filereader = new InputStreamReader( l_inputstream, "UTF-8" );
         final JSONObject l_object = (JSONObject) l_parser.parse( l_filereader );
-        final JSONObject l_coordinates = (JSONObject) l_object.get( "simulation specification" );
-        s_coordtype = (String) l_coordinates.get( "coordinate  type" );
+        s_specs = new CSpecs( (JSONObject) l_object.get( "simulation specification" ) );
         final JSONObject l_environment = (JSONObject) l_object.get( "environment" );
         JSONArray l_array = (JSONArray) l_environment.get( "nodes" );
-        for ( int l_in = 0; l_in < l_array.size(); l_in++ )
-        {
-            final CNode l_cnode = new CNode( (JSONObject) l_array.get( l_in ) );
-            s_GR.addNode( l_cnode );
-        }
-        //s_idcounter = s_GR.countNodes();
+        createNodes( l_array );
         l_array = (JSONArray) l_environment.get( "edges" );
-        for ( int l_in = 0; l_in < l_array.size(); l_in++ )
-        {
-            final CEdge l_edge = new CEdge( (JSONObject) l_array.get( l_in ) );
-            final CNode l_from = s_GR.getNode( l_edge.from() );
-            final CNode l_to = s_GR.getNode( l_edge.to() );
-            s_GR.addEdge( l_from, l_to, l_edge );
-        }
+        createEdges( l_array );
     }
 
     /**
-     * process each given street
-     *
-     *
+     * creates the nodes
+     * @param p_nodes json array with the nodes
      */
-    public static void processStreet( final JSONObject p_obj )
+    public static void createNodes( final JSONArray p_nodes )
+    {
+        for ( int l_in = 0; l_in < p_nodes.size(); l_in++ )
+        {
+            final CNode l_cnode = new CNode( (JSONObject) p_nodes.get( l_in ) );
+            s_GR.addNode( l_cnode );
+        }
+
+    }
+
+    /**
+     * creates edges through a long and arduous process
+     * @param p_edges the json array with edges
+     */
+    public static void createEdges( final JSONArray p_edges )
+    {
+        for ( int l_in = 0; l_in < p_edges.size(); l_in++ )
+        {
+            final JSONObject l_rawedge = (JSONObject) p_edges.get( l_in );
+            final CNode l_from = s_GR.getNode( (String) l_rawedge.get( "from" ) );
+            final CNode l_to = s_GR.getNode( (String) l_rawedge.get( "to" ) );
+            final Double l_length = calculateLength( l_from, l_to );
+            processStreet( l_rawedge, l_length );
+        }
+    }
+
+
+
+    /**
+     * process each given street     *
+     */
+    public static void processStreet( final JSONObject p_obj, final Double p_len )
     {
 
 
@@ -104,14 +122,14 @@ public final class CMain
      */
     public static Double calculateLength( final CNode p_from, final CNode p_to )
     {
-        if ( s_coordtype.contentEquals( "synthetic" ) )
+        if ( s_specs.coordType().contentEquals( "synthetic" ) )
         {
             Double l_distance = ( p_from.firstCoord() - p_to.firstCoord() ) * ( p_from.firstCoord() - p_to.firstCoord() );
             l_distance = l_distance + ( p_from.secondCoord() - p_to.secondCoord() ) * ( p_from.secondCoord() - p_to.secondCoord() );
             l_distance = Math.sqrt( l_distance );
             return l_distance;
         }
-        else if ( s_coordtype.contentEquals( "geographical" ) )
+        else if ( s_specs.coordType().contentEquals( "geographical" ) )
         {
             return Double.valueOf( 0 );
         }
@@ -603,7 +621,7 @@ public final class CMain
      */
     public static void main( final String[] p_args ) throws IOException, ParseException
     {
-        graphInit( "src/test/resources/Examples/example2.json" );
-        //doTheThing("resultsDijkstra.csv");
+        fileRead( "src/test/resources/Examples/example2.json" );
+
     }
 }

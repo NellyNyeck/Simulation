@@ -8,7 +8,7 @@ import java.util.Collection;
  * The Point of interest class
  */
 
-public class CPOI implements INode<CNode>
+public class CPOI implements INode<String>
 {
 
     private CNode m_node;
@@ -20,23 +20,21 @@ public class CPOI implements INode<CNode>
         m_node = p_node;
     }
 
+    public void description( final Collection<ILabel> p_labels )
+    {
+        m_labels = p_labels;
+    }
+
     public Collection<ILabel> labels()
     {
         return m_labels;
     }
 
-
-    public CNode id()
-    {
-        return m_node;
-    }
-
     @Override
-    public CNode name()
+    public String name()
     {
-        return null;
+        return m_node.name();
     }
-
 
     public Double firstCoord()
     {

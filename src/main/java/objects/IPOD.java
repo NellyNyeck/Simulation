@@ -7,7 +7,7 @@ public interface IPOD<I>
 {
     String id();
 
-    Number capacity();
+    Long capacity();
 
     String provider();
 
