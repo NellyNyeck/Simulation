@@ -7,7 +7,7 @@ public interface ISpecs
 {
     String coordType();
 
-    Number clientNb();
+    Long clientNb();
 
     String timeUnit();
 
