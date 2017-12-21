@@ -18,7 +18,6 @@ public class CProvider implements IProvider
     private HashMap<String, CPOD> m_pods;
     private Double m_maxout;
     private String m_funct;
-    private HashMap<String, Number> m_params;
 
     /**
      * constructor
@@ -78,12 +77,6 @@ public class CProvider implements IProvider
     public String funct()
     {
         return m_funct;
-    }
-
-    @Override
-    public HashMap<String, Number> params()
-    {
-        return m_params;
     }
 
 }

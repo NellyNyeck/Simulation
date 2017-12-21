@@ -29,8 +29,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 
 /**
@@ -39,7 +42,6 @@ import java.io.IOException;
 public final class CMain
 {
     private static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
-    private static Integer s_idcounter;
     private static String s_coordtype;
 
     protected CMain()
@@ -55,7 +57,9 @@ public final class CMain
     protected static void graphInit( final String p_arg ) throws IOException, ParseException
     {
         final JSONParser l_parser = new JSONParser();
-        final JSONObject l_object = (JSONObject) l_parser.parse( new FileReader( p_arg ) );
+        final InputStream l_inputstream = new FileInputStream( p_arg );
+        final Reader l_filereader = new InputStreamReader( l_inputstream, "UTF-8" );
+        final JSONObject l_object = (JSONObject) l_parser.parse( l_filereader );
         final JSONObject l_coordinates = (JSONObject) l_object.get( "simulation specification" );
         s_coordtype = (String) l_coordinates.get( "coordinate  type" );
         final JSONObject l_environment = (JSONObject) l_object.get( "environment" );

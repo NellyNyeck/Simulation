@@ -25,9 +25,6 @@ package environment;
 
 import org.json.simple.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 
 /**
  * CEdge defines the edges of the graph
@@ -39,7 +36,6 @@ public class CEdge implements IEdge
     private String m_to;
     private Double m_weight;
     private Integer m_visited;
-    private HashMap<String, ArrayList<Double>> m_funct;
 
     /**
      * constructor
