@@ -30,6 +30,11 @@ public class CPOI implements INode<String>
         return m_labels;
     }
 
+    public CNode id()
+    {
+        return m_node;
+    }
+
     @Override
     public String name()
     {

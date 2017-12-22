@@ -110,8 +110,13 @@ public final class CGraph<I, V extends INode<I>, E extends IEdge> implements IGr
         return m_pois;
     }
 
-
-
-
-
+    /**
+     * adds the poi given to the graph
+     * @param p_cpoi the given poi
+     */
+    public void addPoi( final CPOI p_cpoi )
+    {
+        final String l_name = p_cpoi.name();
+        m_pois.put( l_name, p_cpoi );
+    }
 }
