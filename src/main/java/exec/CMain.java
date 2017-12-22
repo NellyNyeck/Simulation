@@ -93,8 +93,17 @@ public final class CMain
             final JSONObject l_rawedge = (JSONObject) p_edges.get( l_in );
             final CNode l_from = s_GR.getNode( (String) l_rawedge.get( "from" ) );
             final CNode l_to = s_GR.getNode( (String) l_rawedge.get( "to" ) );
-            final Double l_length = calculateLength( l_from, l_to );
-            processStreet( l_rawedge, l_length );
+            final JSONObject l_funct = (JSONObject) l_rawedge.get( "poi distribution function" );
+            if ( l_funct.isEmpty() )
+            {
+                final CEdge l_edge = new CEdge( l_rawedge );
+                s_GR.addEdge( l_from, l_to, l_edge );
+            }
+            else
+            {
+                final Double l_length = calculateLength( l_from, l_to );
+                processStreet( l_rawedge, l_length );
+            }
         }
     }
 
@@ -105,11 +114,21 @@ public final class CMain
      */
     public static void processStreet( final JSONObject p_obj, final Double p_len )
     {
-
+        final JSONObject l_funct = (JSONObject) p_obj.get( "poi distribution function" );
+        final String l_name = (String) l_funct.get( "name" );
+        final JSONArray l_params = (JSONArray) l_funct.get( "parameters" );
+        switch ( l_name.toLowerCase() )
+        {
+            case "even":
+                evenFunction( p_obj, p_len, l_params );
+                break;
+            default:
+                break;
+        }
 
     }
 
-    public static void evenFunction(  )
+    public static void evenFunction( final JSONObject p_raw, final Double p_length, final JSONArray p_params )
     {
 
     }
