@@ -4,57 +4,57 @@
 			{
 				"name":"node0",
 				"coordinates": {
-					"first coordinate": 0.00,
-					"second coordinate": 0.00
+					"first": 0.00,
+					"second": 0.00
 				}
 			},
 			{
 				"name":"node1",
 				"coordinates": {
-					"first coordinate": 100.00,
-					"second coordinate": 0.00
+					"first": 100.00,
+					"second": 0.00
 				}
 			},
 			{
 				"name":"node2",
 				"coordinates": {
-					"first coordinate": 200.00,
-					"second coordinate": 0.00
+					"first": 200.00,
+					"second": 0.00
 				}
 			},
 			{
 				"name":"node3",
 				"coordinates": {
-					"first coordinate": 0.00,
-					"second coordinate": 75.00
+					"first": 0.00,
+					"second": 75.00
 				}
 			},
 			{
 				"name":"node4",
 				"coordinates": {
-					"first coordinate": 100.00,
-					"second coordinate": 75.00
+					"first": 100.00,
+					"second": 75.00
 				}
 			},
 			{
 				"name":"node5",
 				"coordinates": {
-					"first coordinate": 200.00,
-					"second coordinate": 75.00
+					"first": 200.00,
+					"second": 75.00
 				}
 			},
 			{
 				"name":"node6",
 				"coordinates": {
-					"first coordinate": 100.00,
-					"second coordinate": 150.00
+					"first": 100.00,
+					"second": 150.00
 				}
 			},
 			{
 				"name":"node7",
 				"coordinates": {
-					"first coordinate": 200.00,
-					"second coordinate": 150.00
+					"first": 200.00,
+					"second": 150.00
 				}
 			}
 		],

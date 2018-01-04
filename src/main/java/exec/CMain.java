@@ -145,20 +145,26 @@ public final class CMain
         final Double l_sepa = (Double) p_params.get( 0 );
         if ( p_length.compareTo( 2 * l_sepa ) >= 0 )
         {
-            int l_poi = (int) ( p_length / l_sepa );
-            if ( l_poi == 0 )
-                l_poi = (int) ( l_sepa - 1 );
-            final Double l_padding = ( p_length - ( l_poi + 1 ) * l_sepa ) / 2;
+            Double l_padding = 0.00;
             Double l_weight = (Double) p_raw.get( "weight" );
+            int l_poi = 0;
+            final double l_ceva = p_length % l_sepa;
+            if ( l_ceva == 0.00 )
+            {
+                l_poi = (int) ( p_length / l_sepa ) - 1;
+            }
+            else
+            {
+                l_poi = (int) ( p_length / l_sepa );
+                l_padding = ( p_length - ( l_poi - 1 ) * l_sepa ) / 2;
+            }
             l_weight = l_weight / ( l_poi + 1 );
-
             final CNode l_from = s_GR.getNode( (String) p_raw.get( "from" ) );
             final CNode l_to = s_GR.getNode( (String) p_raw.get( "to" ) );
 
             final JSONObject l_funct = new JSONObject(  );
-            l_funct.put( "type", functType( l_from, l_to ) );
+            l_funct.put( "type", calculateLength( l_from, l_to ) );
             l_funct.put( "parameters", getab( l_from, l_to, (String) l_funct.get( "type" ) ) );
-            l_funct.put( "direction", getDirection( l_from, l_to ) );
 
             toPad( l_from, l_to, l_padding, l_poi, l_funct, l_weight, l_sepa );
         }
@@ -284,9 +290,6 @@ public final class CMain
     }
 
 
-
-
-
     /**
      * to pad or not to pad
      * @param p_nf the starting node
@@ -308,8 +311,8 @@ public final class CMain
                 l_new = getCoordinates( p_about, l_remember.firstCoord(), l_remember.secondCoord(), p_sepa );
                 final Integer l_id = s_idcounter;
                 s_idcounter++;
-                final Double l_nx = (Double) l_new.get( "first coordinate" );
-                final Double l_ny = (Double) l_new.get( "second coordinate" );
+                final Double l_nx = (Double) l_new.get( "first" );
+                final Double l_ny = (Double) l_new.get( "second" );
                 final CNode l_newnode = new CNode( createPOI( l_id, l_nx, l_ny ) );
                 final CPOI l_cpoi = new CPOI( l_newnode );
                 s_GR.addPoi( l_cpoi );
@@ -323,7 +326,7 @@ public final class CMain
             l_new = getCoordinates( p_about, p_nf.firstCoord(), p_nf.secondCoord(), p_pad );
             Integer l_id = s_idcounter;
             s_idcounter++;
-            CNode l_newnode = new CNode( createPOI( l_id, (Double) l_new.get( "first coordinate" ), (Double) l_new.get( "second coordinate" ) ) );
+            CNode l_newnode = new CNode( createPOI( l_id, (Double) l_new.get( "first" ), (Double) l_new.get( "second" ) ) );
             CPOI l_cpoi = new CPOI( l_newnode );
             s_GR.addPoi( l_cpoi );
             bind( p_nf, l_newnode, p_sepa, p_weight );
@@ -334,7 +337,7 @@ public final class CMain
                 l_new = getCoordinates( p_about, l_remember.secondCoord(), l_remember.firstCoord(), p_sepa );
                 l_id = s_idcounter;
                 s_idcounter++;
-                l_newnode = new CNode( createPOI( l_id, (Double) l_new.get( "first coordinate" ), (Double) l_new.get( "second coordinate" ) ) );
+                l_newnode = new CNode( createPOI( l_id, (Double) l_new.get( "first" ), (Double) l_new.get( "second" ) ) );
                 l_cpoi = new CPOI( l_newnode );
                 s_GR.addPoi( l_cpoi );
                 bind( l_remember, l_newnode, p_sepa, p_weight );
@@ -397,52 +400,52 @@ public final class CMain
         {
             if ( ( l_x1 > p_xc ) && ( l_y1 > p_yc ) )
             {
-                l_object.put( "first coordinate", l_x1 );
-                l_object.put( "second coordinate", l_y1 );
+                l_object.put( "first", l_x1 );
+                l_object.put( "second", l_y1 );
             }
             else
             {
-                l_object.put( "first coordinate", l_x2 );
-                l_object.put( "second coordinate", l_y2 );
+                l_object.put( "first", l_x2 );
+                l_object.put( "second", l_y2 );
             }
         }
         if ( l_way.contentEquals( "DR" ) )
         {
             if ( ( l_x1 > p_xc ) && ( l_y1 < p_yc ) )
             {
-                l_object.put( "first coordinate", l_x1 );
-                l_object.put( "second coordinate", l_y1 );
+                l_object.put( "first", l_x1 );
+                l_object.put( "second", l_y1 );
             }
             else
             {
-                l_object.put( "first coordinate", l_x2 );
-                l_object.put( "second coordinate", l_y2 );
+                l_object.put( "first", l_x2 );
+                l_object.put( "second", l_y2 );
             }
         }
         if ( l_way.contentEquals( "AL" ) )
         {
             if ( ( l_x1 < p_xc ) && ( l_y1 > p_yc ) )
             {
-                l_object.put( "first coordinate", l_x1 );
-                l_object.put( "second coordinate", l_y1 );
+                l_object.put( "first", l_x1 );
+                l_object.put( "second", l_y1 );
             }
             else
             {
-                l_object.put( "first coordinate", l_x2 );
-                l_object.put( "second coordinate", l_y2 );
+                l_object.put( "first", l_x2 );
+                l_object.put( "second", l_y2 );
             }
         }
         if ( l_way.contentEquals( "DL" ) )
         {
             if ( ( l_x1 < p_xc ) && ( l_y1 < p_yc ) )
             {
-                l_object.put( "first coordinate", l_x1 );
-                l_object.put( "second coordinate", l_y1 );
+                l_object.put( "first", l_x1 );
+                l_object.put( "second", l_y1 );
             }
             else
             {
-                l_object.put( "first coordinate", l_x2 );
-                l_object.put( "second coordinate", l_y2 );
+                l_object.put( "first", l_x2 );
+                l_object.put( "second", l_y2 );
             }
         }
         return l_object;
@@ -464,15 +467,15 @@ public final class CMain
         {
             final Double l_nx = p_xc;
             final Double l_ny = p_yc + p_dist;
-            l_new.put( "first coordinate", l_nx );
-            l_new.put( "second coordinate", l_ny );
+            l_new.put( "first", l_nx );
+            l_new.put( "second", l_ny );
         }
         else if ( l_way.contentEquals( "D" ) )
         {
             final Double l_nx = p_xc;
             final Double l_ny = p_yc - p_dist;
-            l_new.put( "first coordinate", l_nx );
-            l_new.put( "second coordinate", l_ny );
+            l_new.put( "first", l_nx );
+            l_new.put( "second", l_ny );
         }
         return l_new;
     }
@@ -493,15 +496,15 @@ public final class CMain
         {
             final Double l_nx = p_xc + p_dist;
             final Double l_ny = p_yc;
-            l_new.put( "first coordinate", l_nx );
-            l_new.put( "second coordinate", l_ny );
+            l_new.put( "first", l_nx );
+            l_new.put( "second", l_ny );
         }
         else if ( l_way.contentEquals( "L" ) )
         {
             final Double l_nx = p_xc - p_dist;
             final Double l_ny = p_yc;
-            l_new.put( "first coordinate", l_nx );
-            l_new.put( "second coordinate", l_ny );
+            l_new.put( "first", l_nx );
+            l_new.put( "second", l_ny );
         }
         return l_new;
     }
@@ -519,8 +522,8 @@ public final class CMain
     {
         final JSONObject l_object = new JSONObject();
         l_object.put( "id", p_id );
-        l_object.put( "first coordinate", p_xc );
-        l_object.put( "second coordinate", p_yc );
+        l_object.put( "first", p_xc );
+        l_object.put( "second", p_yc );
         return l_object;
     }
 
