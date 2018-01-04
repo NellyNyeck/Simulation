@@ -42,4 +42,38 @@ public class TestCMain
         assertTrue( m_main.s_idcounter == 2 );
         assertTrue( m_main.s_GR.countNodes() == 2 );
     }
+
+    /**
+     * testing the add edge branch 1
+     * @throws IOException file
+     * @throws ParseException parser
+     */
+    @Test
+    public void edges1() throws IOException, ParseException
+    {
+        final JSONParser l_parser = new JSONParser();
+        final JSONObject l_obj = (JSONObject) l_parser.parse( new FileReader( "src/test/resources/Examples/TestGraph.json" ) );
+        JSONArray l_array = (JSONArray) l_obj.get( "nodes" );
+        CMain.createNodes( l_array );
+        l_array = (JSONArray) l_obj.get( "edges" );
+        m_main.createEdges( l_array );
+        assertTrue( m_main.s_GR.countEdges() == 1 );
+    }
+
+    /**
+     * testing the add edge branch 2
+     * @throws IOException file
+     * @throws ParseException parser
+     */
+    @Test
+    public void edges2() throws IOException, ParseException
+    {
+        final JSONParser l_parser = new JSONParser();
+        final JSONObject l_obj = (JSONObject) l_parser.parse( new FileReader( "src/test/resources/Examples/TestGraph.json" ) );
+        JSONArray l_array = (JSONArray) l_obj.get( "nodes" );
+        CMain.createNodes( l_array );
+        l_array = (JSONArray) l_obj.get( "edges" );
+
+    }
+
 }
