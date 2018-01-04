@@ -45,9 +45,9 @@ import java.util.List;
  */
 public final class CMain
 {
-    private static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
+    protected static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
     private static CSpecs s_specs;
-    private static Integer s_idcounter;
+    protected static int s_idcounter;
 
     protected CMain()
     {
@@ -163,7 +163,7 @@ public final class CMain
             final CNode l_to = s_GR.getNode( (String) p_raw.get( "to" ) );
 
             final JSONObject l_funct = new JSONObject(  );
-            l_funct.put( "type", calculateLength( l_from, l_to ) );
+            l_funct.put( "type", calculateOrientation( l_from, l_to ) );
             l_funct.put( "parameters", getab( l_from, l_to, (String) l_funct.get( "type" ) ) );
 
             toPad( l_from, l_to, l_padding, l_poi, l_funct, l_weight, l_sepa );
