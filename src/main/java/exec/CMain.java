@@ -193,27 +193,58 @@ public final class CMain
         return null;
     }
 
-
-
-
-    protected static String functType( final CNode p_nf, final CNode p_nt )
+    /**
+     * calculates the edge as a function
+     * @param p_from start node
+     * @param p_to end node
+     * @return string with function orientaion
+     */
+    protected static String calculateOrientation( final CNode p_from, final CNode p_to )
     {
-        final Double l_xf = p_nf.firstCoord();
-        final Double l_yf = p_nf.secondCoord();
-        final Double l_xt = p_nt.firstCoord();
-        final Double l_yt = p_nt.secondCoord();
+        final String l_about = new String(  );
+        final Double l_xf = p_from.firstCoord();
+        final Double l_yf = p_from.secondCoord();
+        final Double l_xt = p_to.firstCoord();
+        final Double l_yt = p_to.secondCoord();
         if ( l_xf.compareTo( l_xt ) == 0 )
         {
-            return "Vertical";
+            l_about.concat( "V" );
+            if ( l_yf < l_yt )
+            {
+                l_about.concat( "A" );
+            }
+            else
+            {
+                l_about.concat( "D" );
+            }
         }
         else if ( l_yf.compareTo( l_yt ) == 0 )
         {
-            return "Horizontal";
+            l_about.concat( "H" );
+            if ( l_xf < l_xt )
+            {
+                l_about.concat( "R" );
+            }
+            else l_about.concat( "L" );
         }
         else
         {
-            return "Normal";
+            l_about.concat( "O" );
+            if ( ( l_xf < l_xt ) && ( l_yf < l_yt ) )
+            {
+                l_about.concat( "AR" );
+            }
+            else if ( ( l_xf < l_xt ) && ( l_yf > l_yt ) )
+            {
+                l_about.concat( "DR" );
+            }
+            else if ( ( l_xf > l_xt ) && ( l_yf < l_yt ) )
+            {
+                l_about.concat( "AL" );
+            }
+            else l_about.concat( "DL" );
         }
+        return l_about;
     }
 
     /**
@@ -226,7 +257,7 @@ public final class CMain
     protected static JSONObject getab( final CNode p_n1, final CNode p_n2, final String p_type )
     {
         final JSONObject l_object = new JSONObject();
-        if ( p_type.contentEquals( "Normal" ) )
+        if ( p_type.contains( "O" ) )
         {
 
             final Double l_xs = p_n1.firstCoord();
@@ -239,12 +270,12 @@ public final class CMain
             l_object.put( "b", l_bc );
 
         }
-        else if ( p_type.contentEquals( "Vertical" ) )
+        else if ( p_type.contentEquals( "V" ) )
         {
             l_object.put( "a", "?" );
             l_object.put( "b", "?" );
         }
-        else if ( p_type.contentEquals( "Horizontal" ) )
+        else if ( p_type.contentEquals( "H" ) )
         {
             l_object.put( "a", 0 );
             l_object.put( "b", p_n1.secondCoord() );
@@ -253,55 +284,7 @@ public final class CMain
     }
 
 
-    protected static String getDirection( final CNode p_nf, final CNode p_nt )
-    {
-        final Double l_xf = p_nf.firstCoord();
-        final Double l_yf = p_nf.secondCoord();
-        final Double l_xt = p_nt.firstCoord();
-        final Double l_yt = p_nt.secondCoord();
-        if ( l_xf.compareTo( l_xt ) < 0 )
-        {
-            if ( l_yf.compareTo( l_yt ) == 0 )
-            {
-                return "R";
-            }
-            else if ( l_yf.compareTo( l_yt ) < 0 )
-            {
-                return "AR";
-            }
-            else
-            {
-                return "DR";
-            }
-        }
-        else if ( l_xf.compareTo( l_xt ) > 0 )
-        {
-            if ( l_yf.compareTo( l_yt ) == 0 )
-            {
-                return "L";
-            }
-            else if ( l_yf.compareTo( l_yt ) < 0 )
-            {
-                return "AL";
-            }
-            else
-            {
-                return "DL";
-            }
-        }
-        else
-        {
-            if ( l_yf.compareTo( l_yt ) < 0 )
-            {
-                return "A";
-            }
-            else if ( l_yf.compareTo( l_yt ) > 0 )
-            {
-                return "D";
-            }
-        }
-        return null;
-    }
+
 
 
     /**
