@@ -53,6 +53,11 @@ public final class CMain
     {
     }
 
+    public static void setSpecs( final JSONObject p_specs )
+    {
+        s_specs = new CSpecs( p_specs );
+    }
+
     /**
      * read the file and initialize the things
      * @param p_arg the path of the file
@@ -216,26 +221,26 @@ public final class CMain
         {
             if ( l_yf < l_yt )
             {
-                l_about = "VA" ;
+                l_about = "VA";
             }
             else
             {
-                l_about = "VD" ;
+                l_about = "VD";
             }
         }
         else if ( l_yf.compareTo( l_yt ) == 0 )
         {
             if ( l_xf < l_xt )
             {
-                l_about = "HR" ;
+                l_about = "HR";
             }
-            else l_about = "HL" ;
+            else l_about = "HL";
         }
         else
         {
             if ( ( l_xf < l_xt ) && ( l_yf < l_yt ) )
             {
-                l_about = "OAR" ;
+                l_about = "OAR";
             }
             else if ( ( l_xf < l_xt ) && ( l_yf > l_yt ) )
             {
@@ -243,7 +248,7 @@ public final class CMain
             }
             else if ( ( l_xf > l_xt ) && ( l_yf < l_yt ) )
             {
-                l_about = "OAL" ;
+                l_about = "OAL";
             }
             else l_about = "ODL";
         }
@@ -280,7 +285,7 @@ public final class CMain
         }
         else if ( p_type.contains( "H" ) )
         {
-            l_object.put( "a", 0 );
+            l_object.put( "a", 0.00 );
             l_object.put( "b", p_n1.secondCoord() );
         }
         return l_object;
@@ -306,7 +311,7 @@ public final class CMain
             for ( int l_count = 1; l_count <= p_poi; l_count++ )
             {
                 l_new = getCoordinates( p_about, l_remember.firstCoord(), l_remember.secondCoord(), p_sepa );
-                final Integer l_id = s_idcounter;
+                final String l_id = String.valueOf( s_idcounter );
                 s_idcounter++;
                 final Double l_nx = (Double) l_new.get( "first" );
                 final Double l_ny = (Double) l_new.get( "second" );
@@ -321,7 +326,7 @@ public final class CMain
         else
         {
             l_new = getCoordinates( p_about, p_nf.firstCoord(), p_nf.secondCoord(), p_pad );
-            Integer l_id = s_idcounter;
+            String l_id = String.valueOf( s_idcounter );
             s_idcounter++;
             CNode l_newnode = new CNode( createPOI( l_id, (Double) l_new.get( "first" ), (Double) l_new.get( "second" ) ) );
             CPOI l_cpoi = new CPOI( l_newnode );
@@ -332,7 +337,7 @@ public final class CMain
             for ( int l_count = 2; l_count <= p_poi; l_count++ )
             {
                 l_new = getCoordinates( p_about, l_remember.secondCoord(), l_remember.firstCoord(), p_sepa );
-                l_id = s_idcounter;
+                l_id = String.valueOf( s_idcounter );
                 s_idcounter++;
                 l_newnode = new CNode( createPOI( l_id, (Double) l_new.get( "first" ), (Double) l_new.get( "second" ) ) );
                 l_cpoi = new CPOI( l_newnode );
@@ -356,15 +361,15 @@ public final class CMain
     {
 
         final String l_type = (String) p_about.get( "type" );
-        if ( l_type.contentEquals( "Normal" ) )
+        if ( l_type.contains( "O" ) )
         {
             return getCoordLinear( p_about, p_xc, p_yc, p_dist );
         }
-        else if ( l_type.contentEquals( "Vertical" ) )
+        else if ( l_type.contains( "V" ) )
         {
             return getCoordVert( p_about, p_xc, p_yc, p_dist );
         }
-        else if ( l_type.contentEquals( "Horizontal" ) )
+        else if ( l_type.contains( "H" ) )
         {
             return getCoordHori( p_about, p_xc, p_yc, p_dist );
         }
@@ -387,7 +392,7 @@ public final class CMain
         final String l_way = (String) p_about.get( "type" );
         final Double l_first = ( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc ) * ( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc );
         final Double l_second  = 4 * ( 1 + l_af * l_af ) * ( p_xc * p_xc + ( l_bf - p_yc ) * ( l_bf - p_yc ) - p_dist * p_dist );
-        Double l_delta = l_first - l_second;
+        final Double l_delta = l_first - l_second;
         final Double l_x1  = ( -( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc ) + Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
         final Double l_y1 = l_af * l_x1 + l_bf;
         final Double l_x2  = ( -( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc ) - Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
@@ -515,13 +520,15 @@ public final class CMain
      * @param p_yc the y coordinate
      * @return the json object
      */
-    protected static JSONObject createPOI( final int p_id, final Double p_xc, final Double p_yc )
+    protected static JSONObject createPOI( final String p_id, final Double p_xc, final Double p_yc )
     {
-        final JSONObject l_object = new JSONObject();
-        l_object.put( "id", p_id );
-        l_object.put( "first", p_xc );
-        l_object.put( "second", p_yc );
-        return l_object;
+        final JSONObject l_coord = new JSONObject();
+        l_coord.put( "first coordinate", p_xc );
+        l_coord.put( "second coordinate", p_yc );
+        final JSONObject l_obj = new JSONObject(  );
+        l_obj.put( "name", p_id );
+        l_obj.put( "coordinates", l_coord );
+        return l_obj;
     }
 
     /**
