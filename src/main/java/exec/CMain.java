@@ -207,48 +207,45 @@ public final class CMain
      */
     protected static String calculateOrientation( final CNode p_from, final CNode p_to )
     {
-        final String l_about = new String(  );
+        String l_about = new String(  );
         final Double l_xf = p_from.firstCoord();
         final Double l_yf = p_from.secondCoord();
         final Double l_xt = p_to.firstCoord();
         final Double l_yt = p_to.secondCoord();
         if ( l_xf.compareTo( l_xt ) == 0 )
         {
-            l_about.concat( "V" );
             if ( l_yf < l_yt )
             {
-                l_about.concat( "A" );
+                l_about = "VA" ;
             }
             else
             {
-                l_about.concat( "D" );
+                l_about = "VD" ;
             }
         }
         else if ( l_yf.compareTo( l_yt ) == 0 )
         {
-            l_about.concat( "H" );
             if ( l_xf < l_xt )
             {
-                l_about.concat( "R" );
+                l_about = "HR" ;
             }
-            else l_about.concat( "L" );
+            else l_about = "HL" ;
         }
         else
         {
-            l_about.concat( "O" );
             if ( ( l_xf < l_xt ) && ( l_yf < l_yt ) )
             {
-                l_about.concat( "AR" );
+                l_about = "OAR" ;
             }
             else if ( ( l_xf < l_xt ) && ( l_yf > l_yt ) )
             {
-                l_about.concat( "DR" );
+                l_about = "ODR";
             }
             else if ( ( l_xf > l_xt ) && ( l_yf < l_yt ) )
             {
-                l_about.concat( "AL" );
+                l_about = "OAL" ;
             }
-            else l_about.concat( "DL" );
+            else l_about = "ODL";
         }
         return l_about;
     }
@@ -276,12 +273,12 @@ public final class CMain
             l_object.put( "b", l_bc );
 
         }
-        else if ( p_type.contentEquals( "V" ) )
+        else if ( p_type.contains( "V" ) )
         {
             l_object.put( "a", "?" );
             l_object.put( "b", "?" );
         }
-        else if ( p_type.contentEquals( "H" ) )
+        else if ( p_type.contains( "H" ) )
         {
             l_object.put( "a", 0 );
             l_object.put( "b", p_n1.secondCoord() );
@@ -387,7 +384,7 @@ public final class CMain
         final JSONObject l_temp = (JSONObject) p_about.get( "parameters" );
         final Double l_af = (Double) l_temp.get( "a" );
         final Double l_bf = (Double) l_temp.get( "b" );
-        final String l_way = (String) p_about.get( "direction" );
+        final String l_way = (String) p_about.get( "type" );
         final Double l_first = ( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc ) * ( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc );
         final Double l_second  = 4 * ( 1 + l_af * l_af ) * ( p_xc * p_xc + ( l_bf - p_yc ) * ( l_bf - p_yc ) - p_dist * p_dist );
         final Double l_delta = l_first - l_second;
@@ -396,7 +393,7 @@ public final class CMain
         final Double l_x2  = ( -( 2 * l_af * ( l_bf - p_yc ) - 2 * p_xc ) - Math.sqrt( l_delta ) ) / ( 2 * ( 1 + l_af * l_af ) );
         final Double l_y2 = l_af * l_x2 + l_bf;
         final JSONObject l_object = new JSONObject();
-        if ( l_way.contentEquals( "AR" ) )
+        if ( l_way.contains( "AR" ) )
         {
             if ( ( l_x1 > p_xc ) && ( l_y1 > p_yc ) )
             {
@@ -409,7 +406,7 @@ public final class CMain
                 l_object.put( "second", l_y2 );
             }
         }
-        if ( l_way.contentEquals( "DR" ) )
+        if ( l_way.contains( "DR" ) )
         {
             if ( ( l_x1 > p_xc ) && ( l_y1 < p_yc ) )
             {
@@ -422,7 +419,7 @@ public final class CMain
                 l_object.put( "second", l_y2 );
             }
         }
-        if ( l_way.contentEquals( "AL" ) )
+        if ( l_way.contains( "AL" ) )
         {
             if ( ( l_x1 < p_xc ) && ( l_y1 > p_yc ) )
             {
@@ -435,7 +432,7 @@ public final class CMain
                 l_object.put( "second", l_y2 );
             }
         }
-        if ( l_way.contentEquals( "DL" ) )
+        if ( l_way.contains( "DL" ) )
         {
             if ( ( l_x1 < p_xc ) && ( l_y1 < p_yc ) )
             {
@@ -462,15 +459,15 @@ public final class CMain
     protected static JSONObject getCoordVert( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist )
     {
         final JSONObject l_new = new JSONObject();
-        final String l_way = (String) p_about.get( "direction" );
-        if ( l_way.contentEquals( "A" ) )
+        final String l_way = (String) p_about.get( "type" );
+        if ( l_way.contains( "A" ) )
         {
             final Double l_nx = p_xc;
             final Double l_ny = p_yc + p_dist;
             l_new.put( "first", l_nx );
             l_new.put( "second", l_ny );
         }
-        else if ( l_way.contentEquals( "D" ) )
+        else if ( l_way.contains( "D" ) )
         {
             final Double l_nx = p_xc;
             final Double l_ny = p_yc - p_dist;
@@ -491,15 +488,15 @@ public final class CMain
     protected static JSONObject getCoordHori( final JSONObject p_about, final Double p_xc, final Double p_yc, final Double p_dist )
     {
         final JSONObject l_new = new JSONObject();
-        final String l_way = (String) p_about.get( "direction" );
-        if ( l_way.contentEquals( "R" ) )
+        final String l_way = (String) p_about.get( "type" );
+        if ( l_way.contains( "R" ) )
         {
             final Double l_nx = p_xc + p_dist;
             final Double l_ny = p_yc;
             l_new.put( "first", l_nx );
             l_new.put( "second", l_ny );
         }
-        else if ( l_way.contentEquals( "L" ) )
+        else if ( l_way.contains( "L" ) )
         {
             final Double l_nx = p_xc - p_dist;
             final Double l_ny = p_yc;

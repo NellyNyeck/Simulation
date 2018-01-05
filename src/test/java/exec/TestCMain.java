@@ -74,7 +74,7 @@ public class TestCMain
     public void edges1() throws IOException, ParseException
     {
         final JSONParser l_parser = new JSONParser();
-        final JSONObject l_obj = (JSONObject) l_parser.parse( new FileReader( "src/test/resources/Examples/TestGraph.json" ) );
+        final JSONObject l_obj = (JSONObject) l_parser.parse( new FileReader( "src/test/resources/Examples/TestMain.json" ) );
         JSONArray l_array = (JSONArray) l_obj.get( "nodes" );
         CMain.createNodes( l_array );
         l_array = (JSONArray) l_obj.get( "edges" );
