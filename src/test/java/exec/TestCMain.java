@@ -98,6 +98,9 @@ public class TestCMain
         CMain.setSpecs( l_spec );
         l_array = (JSONArray) l_obj.get( "edges" );
         CMain.createEdges( l_array );
+        assertTrue( m_main.s_GR.countEdges() > 7 );
+        assertTrue( m_main.s_GR.countNodes() > 4 );
+        assertTrue( m_main.s_GR.getPois().size() > 50 );
 
     }
 
@@ -234,6 +237,23 @@ public class TestCMain
         assertTrue( (double) l_res.get( "first" ) == 92.00 );
         assertTrue( (double) l_res.get( "second" ) == 69.0 );
     }
+
+    /**
+     * testing specs
+     * @throws IOException file
+     * @throws ParseException parser
+     */
+    @Test
+    public void specs() throws IOException, ParseException
+    {
+        final JSONParser l_parser = new JSONParser();
+        final JSONObject l_obj = (JSONObject) l_parser.parse( new FileReader( "src/test/resources/Examples/TestMain.json" ) );
+        final JSONObject l_spec = (JSONObject) l_obj.get( "simulation specification" );
+        m_main.setSpecs( l_spec );
+        assertTrue( m_main.s_specs != null );
+        assertTrue( m_main.s_specs.coordType().contentEquals( "synthetic" ) );
+    }
+
 
 
 }

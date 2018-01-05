@@ -47,7 +47,7 @@ public final class CMain
 {
     protected static int s_idcounter;
     protected static final CGraph<?, CNode, CEdge> s_GR = new CGraph<>();
-    private static CSpecs s_specs;
+    protected static CSpecs s_specs;
 
     protected CMain()
     {
