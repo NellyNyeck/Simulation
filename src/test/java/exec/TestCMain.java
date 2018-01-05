@@ -109,8 +109,8 @@ public class TestCMain
         l_funct.put( "parameters", CMain.getab( m_n0, m_n1, (String) l_funct.get( "type" ) ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordHori( l_funct, m_n0.firstCoord(), m_n0.secondCoord(), l_dist );
-        assertTrue( (double) l_res.get( "x" ) == 10.0 );
-        assertTrue( (double) l_res.get( "y" ) == 0.0 );
+        assertTrue( (double) l_res.get( "first" ) == 10.0 );
+        assertTrue( (double) l_res.get( "second" ) == 0.0 );
     }
 
     /**
@@ -126,8 +126,8 @@ public class TestCMain
         l_funct.put( "parameters", CMain.getab( m_n1, m_n0, (String) l_funct.get( "type" ) ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordHori( l_funct, m_n1.firstCoord(), m_n1.secondCoord(), l_dist );
-        assertTrue( (double) l_res.get( "x" ) == 90.00 );
-        assertTrue( (double) l_res.get( "y" ) == 0.00 );
+        assertTrue( (double) l_res.get( "first" ) == 90.00 );
+        assertTrue( (double) l_res.get( "second" ) == 0.00 );
     }
 
     /**
@@ -143,8 +143,8 @@ public class TestCMain
         l_funct.put( "parameters", CMain.getab( m_n0, m_n6, (String) l_funct.get( "type" ) ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordVert( l_funct, m_n0.firstCoord(), m_n0.secondCoord(), l_dist );
-        assertTrue( (double) l_res.get( "x" ) == 0.00 );
-        assertTrue( (double) l_res.get( "y" ) == 10.00 );
+        assertTrue( (double) l_res.get( "first" ) == 0.00 );
+        assertTrue( (double) l_res.get( "second" ) == 10.00 );
     }
 
     /**
@@ -160,15 +160,15 @@ public class TestCMain
         l_funct.put( "parameters", CMain.getab( m_n6, m_n0, (String) l_funct.get( "type" ) ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordVert( l_funct, m_n6.firstCoord(), m_n6.secondCoord(), l_dist );
-        assertTrue( (double) l_res.get( "x" ) == 0.00 );
-        assertTrue( (double) l_res.get( "y" ) == 65.0 );
+        assertTrue( (double) l_res.get( "first" ) == 0.00 );
+        assertTrue( (double) l_res.get( "second" ) == 65.0 );
     }
 
     /**
      * testing the get new coordinates ascending right
      */
     @Test
-    public void getCoordAR()
+    public void getCoordOAR()
     {
         assumeNotNull( m_n0 );
         assumeNotNull( m_n7 );
@@ -177,15 +177,15 @@ public class TestCMain
         l_funct.put( "parameters", CMain.getab( m_n0, m_n7, (String) l_funct.get( "type" ) ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n0.firstCoord(), m_n0.secondCoord(), l_dist );
-        assertTrue( (double) l_res.get( "x" ) == 8.00 );
-        assertTrue( (double) l_res.get( "y" ) == 6.00 );
+        assertTrue( (double) l_res.get( "first" ) == 8.00 );
+        assertTrue( (double) l_res.get( "second" ) == 6.00 );
     }
 
     /**
      * testing the get new coordinates descending right
      */
     @Test
-    public void getCoordDR()
+    public void getCoordODR()
     {
         assumeNotNull( m_n6 );
         assumeNotNull( m_n1 );
@@ -194,15 +194,15 @@ public class TestCMain
         l_funct.put( "parameters", CMain.getab( m_n6, m_n1, (String) l_funct.get( "type" ) ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n6.firstCoord(), m_n6.secondCoord(), l_dist );
-        assertTrue( (double) l_res.get( "x" ) == 8.00 );
-        assertTrue( (double) l_res.get( "y" ) == 69.00 );
+        assertTrue( (double) l_res.get( "first" ) == 8.00 );
+        assertTrue( (double) l_res.get( "second" ) == 69.00 );
     }
 
     /**
      * testing the get new coordinates ascending left
      */
     @Test
-    public void getCoordAL()
+    public void getCoordOAL()
     {
         assumeNotNull( m_n1 );
         assumeNotNull( m_n6 );
@@ -211,15 +211,15 @@ public class TestCMain
         l_funct.put( "parameters", CMain.getab( m_n1, m_n6, (String) l_funct.get( "type" ) ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n1.firstCoord(), m_n1.secondCoord(), l_dist );
-        assertTrue( (double) l_res.get( "x" ) == 92.00 );
-        assertTrue( (double) l_res.get( "y" ) == 6.00 );
+        assertTrue( (double) l_res.get( "first" ) == 92.00 );
+        assertTrue( (double) l_res.get( "second" ) == 6.00 );
     }
 
     /**
      * testing the get new coordinates descending left
      */
     @Test
-    public void getCoordDL()
+    public void getCoordODL()
     {
         assumeNotNull( m_n0 );
         assumeNotNull( m_n7 );
@@ -228,8 +228,8 @@ public class TestCMain
         l_funct.put( "parameters", CMain.getab( m_n7, m_n0, (String) l_funct.get( "type" ) ) );
         final Double l_dist = Double.valueOf( 10 );
         final JSONObject l_res = CMain.getCoordLinear( l_funct, m_n7.firstCoord(), m_n7.firstCoord(), l_dist );
-        assertTrue( (double) l_res.get( "x" ) == 92.00 );
-        assertTrue( (double) l_res.get( "y" ) == 69.0 );
+        assertTrue( (double) l_res.get( "first" ) == 92.00 );
+        assertTrue( (double) l_res.get( "second" ) == 69.0 );
     }
 
 
