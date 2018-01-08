@@ -40,6 +40,7 @@ public class CProvider implements IProvider
         final JSONObject l_function = (JSONObject) p_obj.get( "client selection function" );
         m_funct = (String) l_function.get( "name" );
         final JSONObject l_params = (JSONObject) l_function.get( "parameters" );
+        m_params = new HashMap<>();
         switch ( m_funct.toLowerCase() )
         {
             case "even":
@@ -47,7 +48,7 @@ public class CProvider implements IProvider
                 break;
             case "normal":
                 m_params.put( "sigma", (Double) l_params.get( "sigma" ) );
-                m_params.put( "mu", (Double) l_params.get( "mu" ) );
+                m_params.put( "mu",  (Double) l_params.get( "mu" ) );
                 break;
             default:
                 break;

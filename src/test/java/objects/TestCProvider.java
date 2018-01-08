@@ -106,4 +106,13 @@ public class TestCProvider
         assumeNotNull( m_prov );
         assertTrue( m_prov.funct().contentEquals( "normal" ) );
     }
+
+    @Test
+    public void params()
+    {
+        assumeNotNull( m_prov );
+        final HashMap<String, Double> l_par = m_prov.params();
+        assertTrue( l_par.get( "sigma" ).equals( 1.00 ) );
+        assertTrue( l_par.get( "mu" ).equals( 1.00 ) );
+    }
 }
