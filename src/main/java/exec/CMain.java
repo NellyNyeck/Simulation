@@ -402,52 +402,52 @@ public final class CMain
         {
             if ( ( l_x1 > p_xc ) && ( l_y1 > p_yc ) )
             {
-                l_object.put( "first", l_x1 );
-                l_object.put( "second", l_y1 );
+                l_object.put( "first coordinate", l_x1 );
+                l_object.put( "second coordinate", l_y1 );
             }
             else
             {
-                l_object.put( "first", l_x2 );
-                l_object.put( "second", l_y2 );
+                l_object.put( "first coordinate", l_x2 );
+                l_object.put( "second coordinate", l_y2 );
             }
         }
         if ( l_way.contains( "DR" ) )
         {
             if ( ( l_x1 > p_xc ) && ( l_y1 < p_yc ) )
             {
-                l_object.put( "first", l_x1 );
-                l_object.put( "second", l_y1 );
+                l_object.put( "first coordinate", l_x1 );
+                l_object.put( "second coordinate", l_y1 );
             }
             else
             {
-                l_object.put( "first", l_x2 );
-                l_object.put( "second", l_y2 );
+                l_object.put( "first coordinate", l_x2 );
+                l_object.put( "second coordinate", l_y2 );
             }
         }
         if ( l_way.contains( "AL" ) )
         {
             if ( ( l_x1 < p_xc ) && ( l_y1 > p_yc ) )
             {
-                l_object.put( "first", l_x1 );
-                l_object.put( "second", l_y1 );
+                l_object.put( "first coordinate", l_x1 );
+                l_object.put( "second coordinate", l_y1 );
             }
             else
             {
-                l_object.put( "first", l_x2 );
-                l_object.put( "second", l_y2 );
+                l_object.put( "first corrdinate", l_x2 );
+                l_object.put( "second coordinate", l_y2 );
             }
         }
         if ( l_way.contains( "DL" ) )
         {
             if ( ( l_x1 < p_xc ) && ( l_y1 < p_yc ) )
             {
-                l_object.put( "first", l_x1 );
-                l_object.put( "second", l_y1 );
+                l_object.put( "first coordinate", l_x1 );
+                l_object.put( "second coordinate", l_y1 );
             }
             else
             {
-                l_object.put( "first", l_x2 );
-                l_object.put( "second", l_y2 );
+                l_object.put( "first coordinate", l_x2 );
+                l_object.put( "second coordinate", l_y2 );
             }
         }
         return l_object;
@@ -469,15 +469,15 @@ public final class CMain
         {
             final Double l_nx = p_xc;
             final Double l_ny = p_yc + p_dist;
-            l_new.put( "first", l_nx );
-            l_new.put( "second", l_ny );
+            l_new.put( "first cooridnate", l_nx );
+            l_new.put( "second coordinate", l_ny );
         }
         else if ( l_way.contains( "D" ) )
         {
             final Double l_nx = p_xc;
             final Double l_ny = p_yc - p_dist;
-            l_new.put( "first", l_nx );
-            l_new.put( "second", l_ny );
+            l_new.put( "first corrdinate", l_nx );
+            l_new.put( "second coordinate", l_ny );
         }
         return l_new;
     }
@@ -498,15 +498,15 @@ public final class CMain
         {
             final Double l_nx = p_xc + p_dist;
             final Double l_ny = p_yc;
-            l_new.put( "first", l_nx );
-            l_new.put( "second", l_ny );
+            l_new.put( "first coordinate", l_nx );
+            l_new.put( "second coordinate", l_ny );
         }
         else if ( l_way.contains( "L" ) )
         {
             final Double l_nx = p_xc - p_dist;
             final Double l_ny = p_yc;
-            l_new.put( "first", l_nx );
-            l_new.put( "second", l_ny );
+            l_new.put( "first coordinate", l_nx );
+            l_new.put( "second coordinate", l_ny );
         }
         return l_new;
     }

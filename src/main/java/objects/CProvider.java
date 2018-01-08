@@ -18,6 +18,7 @@ public class CProvider implements IProvider
     private HashMap<String, CPOD> m_pods;
     private Double m_maxout;
     private String m_funct;
+    private HashMap<String, Double> m_params;
 
     /**
      * constructor
@@ -38,8 +39,19 @@ public class CProvider implements IProvider
         m_maxout = (Double) p_obj.get( "maximum outgoing pods/time unit" );
         final JSONObject l_function = (JSONObject) p_obj.get( "client selection function" );
         m_funct = (String) l_function.get( "name" );
-        //final JSONObject l_obj = (JSONObject) l_function.get( "parameters" );
-        //NO IDEA HOW TO GET PARAMS
+        final JSONObject l_params = (JSONObject) l_function.get( "parameters" );
+        switch ( m_funct.toLowerCase() )
+        {
+            case "even":
+                m_params.put( "p", (Double) l_params.get( "p" ) );
+                break;
+            case "normal":
+                m_params.put( "sigma", (Double) l_params.get( "sigma" ) );
+                m_params.put( "mu", (Double) l_params.get( "mu" ) );
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -77,6 +89,12 @@ public class CProvider implements IProvider
     public String funct()
     {
         return m_funct;
+    }
+
+    @Override
+    public HashMap<String, Double> params()
+    {
+        return m_params;
     }
 
 }

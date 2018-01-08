@@ -291,11 +291,11 @@
 			"maximum outgoing pods/time unit": 1,
 			"client selection function": {
 				"name": "even",
-				"parameters": [{
-					"sigma": 1
-				}, {
+				"parameters":
+				{
+					"sigma": 1,
 					"mu": 1
-				}]
+				}
 			}
 		}
 	],
@@ -304,6 +304,6 @@
 		"number of waiting clients": 3,
 		"time unit": "second",
 		"speed unit": "m/s",
-		"lenght unit": "meter"
+		"length unit": "meter"
 	}
 }

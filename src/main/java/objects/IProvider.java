@@ -20,6 +20,7 @@ public interface IProvider
 
     String funct();
 
+    HashMap<String, Double> params();
     //HashMap<String, Number> params();
     //params need to be figured out
 }
