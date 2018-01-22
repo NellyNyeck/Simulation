@@ -1,4 +1,4 @@
-package com.socialcars.sinziana.simulation.data;
+package org.socialcars.sinziana.simulation.data;
 
 import org.junit.Test;
 

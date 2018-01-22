@@ -1,4 +1,4 @@
-package com.socialcars.sinziana.simulation;
+package org.socialcars.sinziana.simulation;
 
 
 /**

@@ -167,6 +167,17 @@
         <!-- default goal is set to package and checking dependency updates -->
         <defaultGoal>install versions:display-dependency-updates versions:display-plugin-updates versions:display-property-updates</defaultGoal>
 
+        <!-- include resource directory with replacing configuration variables -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>*.json</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <!-- using build plugins -->
         <pluginManagement>
 
@@ -253,7 +264,9 @@
                 <artifactId>jsonschema2pojo-maven-plugin</artifactId>
                 <version>0.5.1</version>
                 <configuration>
+                    <classNamePrefix>C</classNamePrefix>
                     <sourceDirectory>${basedir}/src/main/resources/</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/generated-sources//jsonschema</outputDirectory>
                     <targetPackage>org.socialcars.sinziana.simulation.data</targetPackage>
                     <useCommonsLang3>true</useCommonsLang3>
                     <usePrimitives>true</usePrimitives>
