@@ -246,6 +246,8 @@
                 </executions>
             </plugin>
 
+            <!-- http://joelittlejohn.github.io/jsonschema2pojo/site/0.5.1/generate-mojo.html -->
+            <!-- https://github.com/joelittlejohn/jsonschema2pojo/wiki/Getting-Started#the-maven-plugin -->
             <plugin>
                 <groupId>org.jsonschema2pojo</groupId>
                 <artifactId>jsonschema2pojo-maven-plugin</artifactId>
