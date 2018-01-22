@@ -14,7 +14,6 @@ public final class TestCInput
     @Test
     public void read()
     {
-
     }
 
 }
