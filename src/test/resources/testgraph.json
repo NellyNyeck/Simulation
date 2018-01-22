@@ -1,0 +1,28 @@
+{
+	"nodes": [
+		{
+			"name":"node0",
+			"coordinates": {
+				"first coordinate": 0.00,
+				"second coordinate": 0.00
+			}
+		},
+		{
+			"name":"node1",
+			"coordinates": {
+				"first coordinate": 100.00,
+				"second coordinate": 0.00
+			}
+		}
+	],
+	"edges": [
+		{
+			"name":"edge0-1",
+			"from": "node0",
+			"to": "node1",
+			"weight":1.00,
+			"poi distribution function": {
+			}
+		}
+	]
+}

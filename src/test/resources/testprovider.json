@@ -1,0 +1,21 @@
+{
+	"name":"DHL",
+	"colour": "yellow",
+	"depot id": "node0",
+	"pods": [
+		{
+			"name":"pod1",
+			"capacity": 1,
+			"provider": "DHL",
+			"strategy": "cooperative"
+		}	
+	],
+	"maximum outgoing pods/time unit": 1.00,
+	"client selection function": {
+		"name": "normal",
+		"parameters":{
+			"sigma": 1.00,
+			"mu": 1.00
+		}
+	}
+}
