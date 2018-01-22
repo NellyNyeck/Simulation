@@ -12,8 +12,8 @@ public class CPOI implements INode<String>
 {
 
     private CNode m_node;
-
     private Collection<ILabel> m_labels = new ArrayList<>();
+
 
     public CPOI( final CNode p_node )
     {
@@ -41,11 +41,13 @@ public class CPOI implements INode<String>
         return m_node.name();
     }
 
+    @Override
     public Double firstCoord()
     {
         return m_node.firstCoord();
     }
 
+    @Override
     public Double secondCoord()
     {
         return m_node.secondCoord();
