@@ -1,13 +1,15 @@
 *.*
-!src/site/*.doxyfile
-!src/site/*.css
-!src/site/*.xml
-!src/analysis/**/*.xml
 !.gitignore
+!Dockerfile
+!circle.yml
 !pom.xml
 !*.md
 !*.java
 !*.json
-!*.jsonschema
+
+!src/site/*.doxyfile
+!src/site/*.css
+!src/site/*.xml
+!src/analysis/**/*.xml
 
 target/
