@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "the structure of a provider in this simulation environment",
+  "type":"object",
+  "properties": {
+    "name": { "type":"string"},
+    "colour":{ "type":"string" },
+    "depots":{"type":"array",
+      "items":{"type":"node"},
+      "minItems":1,
+      "uniqueItems":true
+    },
+    "pods":{"type":"array",
+      "items":{"type":"pod"},
+      "minItems": 1,
+      "maxItems":"available pods",
+      "uniqueItems": true
+    },
+    "maximum number of customers":{"type":"integer"},
+    "maximum outgoing pods/time unit":{"type":"number"},
+    "solver":{"type":"object"},
+    "poi selection function":{
+      "type":"object",
+      "properties":{
+        "name":  {"type":"string"},
+        "parameters": {"type":"array",
+          "items":{"type":"object",
+            "properties":{
+              "name": {"type": "string"},
+              "value": {"type":"number"}
+            }
+          },
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems":true
+        }
+      },
+      "required":["name", "parameters"]
+    }
+
+  },
+  "required":["name","colour","depots","available pods","maximum number of customers","maximum outgoing pods/time unit","poi selection function"]
+}
