@@ -1,15 +1,38 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "the pod structure",
-  "type":"object",
-  "properties": {
-    "id":{"type":"string"},
-    "capacity": { "type":"integer", "default":1},
-    "provider":{ "type":"string" },
-    "strategy":{"type":"strategy"},
-    "max acceleration":{"type":"number"},
-    "max deceleration":{"type":"number"},
-    "max speed":{"type":"number"}
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "the pod structure",
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "string"
+    },
+    "capacity" : {
+      "type" : "integer",
+      "default" : 1
+    },
+    "provider" : {
+      "type" : "string"
+    },
+    "strategy" : {
+      "type" : "strategy"
+    },
+    "max acceleration" : {
+      "type" : "number"
+    },
+    "max deceleration" : {
+      "type" : "number"
+    },
+    "max speed" : {
+      "type" : "number"
+    }
   },
-  "required":["id","capacity","strategy","provider","max acceleration","max deceleration", "max speed"]
+  "required" : [
+    "id",
+    "capacity",
+    "strategy",
+    "provider",
+    "max acceleration",
+    "max deceleration",
+    "max speed"
+  ]
 }

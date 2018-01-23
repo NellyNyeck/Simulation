@@ -1,26 +1,48 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "description":"the structure of a given node in a graph",
-  "type":"object",
-  "properties": {
-    "name":{"type":"string"},
-    "coordinates": {"type":"object",
-      "properties":{
-        "type":{"type":"string"},
-        "first coordinate":{"type":"number"},
-        "second coordinate":{"type":"number"}
-      },
-      "required":["first coordinate","second coordinate"]
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "the structure of a given node in a graph",
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
     },
-    "is poi":{"type":"boolean"},
-    "labels":{"type":"array",
-      "items":{"type":"string"},
-      "minItems":1,
-      "uniqueItems":true
+    "coordinates" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "first coordinate" : {
+          "type" : "number"
+        },
+        "second coordinate" : {
+          "type" : "number"
+        }
+      },
+      "required" : [
+        "first coordinate",
+        "second coordinate"
+      ]
+    },
+    "is poi" : {
+      "type" : "boolean"
+    },
+    "labels" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      },
+      "minItems" : 1,
+      "uniqueItems" : true
     }
   },
-  "required":["name","coordinates"],
-  "dependencies": {
-    "is poi":["labels"]
+  "required" : [
+    "name",
+    "coordinates"
+  ],
+  "dependencies" : {
+    "is poi" : [
+      "labels"
+    ]
   }
 }
