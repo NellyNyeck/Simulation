@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInput;
 
@@ -26,7 +25,7 @@ public final class TestCInput
     /**
      * initialize configuration
      *
-     * @throws IOException
+     * @throws IOException on example reading error
      */
     @Before
     public final void init() throws IOException
@@ -39,7 +38,7 @@ public final class TestCInput
      * test scenario configuration
      */
     @Test
-    public void configuration() throws IOException
+    public void configuration()
     {
         Assume.assumeNotNull( m_configuration );
 
@@ -54,6 +53,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
 
+        Assert.assertNotNull( m_configuration.getAgents() );
         // @todo test agent data
     }
 
@@ -65,6 +65,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
 
+        Assert.assertNotNull( m_configuration.getGraph() );
         // @todo test graph data
     }
 
