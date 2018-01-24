@@ -5,13 +5,19 @@
   "properties" :{
     "nodes" : {
       "type" : "array",
-      "elements" : "node",
+      "items" : {
+        "type" : "object",
+        "$ref" : "node.json"
+      },
       "minItems" : 2,
       "uniqueItems" : true
     },
     "edges" : {
       "type" : "array",
-      "elements" : "edge",
+      "items" : {
+        "type" : "object",
+        "$ref" : "edge.json"
+      },
       "minItems" : 1,
       "uniqueItems" : true
     }

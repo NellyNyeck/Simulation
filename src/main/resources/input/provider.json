@@ -16,7 +16,8 @@
     "depots" : {
       "type" : "array",
       "items" : {
-        "type" : "node"
+        "type" : "object",
+        "$ref" : "node.json"
       },
       "minItems" : 1,
       "uniqueItems" : true
@@ -27,7 +28,8 @@
     "pods" : {
       "type" : "array",
       "items" : {
-        "type" : "pod"
+        "type" : "object",
+        "$ref" : "pod.json"
       },
       "minItems" : 1,
       "uniqueItems" : true
@@ -42,7 +44,8 @@
       "type" : "object"
     },
     "poi selection function" : {
-      "type" : "function"
+      "type" : "object",
+      "$ref" : "function.json"
     }
   },
 "required" :["agent-type", "colour", "depots", "available-pods", "maximum number of customers","maximum outgoing pods/time unit", "poi selection function"]

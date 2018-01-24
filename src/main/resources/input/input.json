@@ -4,14 +4,19 @@
   "type" : "object",
   "properties" : {
     "configuration" : {
-      "type" : "simulations-pecification"
+      "type" : "object",
+      "$ref" : "simulation-specifications.json"
     },
     "graph" : {
-      "type" : "graph"
+      "type" : "object",
+      "$ref" : "graph.json"
     },
     "agents": {
       "type": "array",
-      "elements" : "agent"
+      "items" : {
+        "type" : "object",
+        "$ref" : "agent.json"
+      }
     }
   },
   "required" : [

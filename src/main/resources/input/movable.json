@@ -8,10 +8,12 @@
   },
   "properties" : {
     "entry-point" : {
-      "type" : "node"
+      "type" : "object",
+      "$ref" : "node.json"
     },
     "exit-point" : {
-      "type" : "node"
+      "type" : "object",
+      "$ref" : "node.json"
     },
     "max-speed": {
       "type" : "number"

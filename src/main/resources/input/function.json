@@ -8,7 +8,10 @@
     },
     "parameters" : {
       "type" : "array",
-      "items" : "parameter",
+      "items" : {
+        "type" : "object",
+        "$ref" : "parameter.json"
+      },
       "minItems" : 1,
       "maxItems" : 3,
       "uniqueItems" : true

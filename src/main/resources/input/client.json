@@ -11,11 +11,15 @@
       "default": "client"
     },
     "location" : {
-      "type": "node"
+      "type": "object",
+      "$ref" : "node.json"
     },
     "labels" : {
       "type" : "array",
-      "elements" : "string"
+      "items" :
+      {
+        "type" : "string"
+      }
     }
   },
   "required" : [

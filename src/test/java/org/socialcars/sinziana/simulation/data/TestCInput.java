@@ -23,6 +23,7 @@ public final class TestCInput
     public void read() throws IOException
     {
         final CInput l_data = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInput.class );
+
     }
 
 }

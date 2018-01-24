@@ -17,10 +17,12 @@
       "default" : 1
     },
     "poi distribution function" : {
-      "type" : "function"
+      "type" : "object",
+      "$ref" : "function.json"
     },
     "provider" : {
-      "type" : "provider"
+      "type" : "object",
+      "$ref" : "provider.json"
     }
   },
   "required" : [
