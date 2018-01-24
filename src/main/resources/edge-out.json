@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "edge output description format",
+  "type": "objetct",
+  "properties":{
+    "name" :{
+      "type" : "string"
+    },
+    "visited" : {
+      "type" : "integer"
+    }
+  },
+  "required": [
+    "name",
+    "visited"
+  ]
+}

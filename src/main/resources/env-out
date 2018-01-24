@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "output description format",
+  "type": "objetct",
+  "properties":{
+    "edges-count" : {
+      "type" : "array",
+      "elements":
+      {
+        "type" : "edge-out"
+      }
+    },
+    "split-points" : {
+      "type" : "array",
+      "elements":
+      {
+        "elements": "split-point-out"
+      }
+    }
+  },
+  "required": [
+    "edges-count",
+    "split-points"
+  ]
+}
