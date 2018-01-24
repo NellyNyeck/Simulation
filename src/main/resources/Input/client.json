@@ -3,7 +3,7 @@
   "description": "the structure of a provider in this simulation environment",
   "type": "object",
   "extends" :  {
-    "$ref" : "2static.json"
+    "$ref" : "Static.json"
   },
   "properties": {
     "agent-type": {

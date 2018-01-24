@@ -1,9 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "description": "An Address following the convention of http://microformats.org/wiki/hcard",
+  "javaName" : "Movable",
   "type" : "object",
   "extends" : {
-    "$ref" : "0agent.json"
+    "$ref" : "Agent.json"
   },
   "properties" : {
     "entry-point" : {
