@@ -13,9 +13,6 @@
     "provider" : {
       "type" : "string"
     },
-    "strategy" : {
-      "type" : "strategy"
-    },
     "max acceleration" : {
       "type" : "number"
     },

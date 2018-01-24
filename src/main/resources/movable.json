@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "An Address following the convention of http://microformats.org/wiki/hcard",
+  "type" : "object",
+  "extends" : {
+    "$ref" : "agent.json"
+  },
+  "properties" : {
+    "entry-point" : {
+      "type" : "node"
+    },
+    "exit-point" : {
+      "type" : "node"
+    },
+    "max-speed": {
+      "type" : "number"
+    },
+    "max-accel": {
+      "type" : "number"
+    },
+    "max-decel": {
+      "type" : "number"
+    }
+  },
+  "required" : [
+    "entry-point",
+    "exit-point",
+    "max-speed",
+    "max-accel",
+    "max-decel"
+  ]
+}
