@@ -2,9 +2,13 @@
   "$schema" : "http://json-schema.org/draft-07/schema#",
   "description" : "the pod structure",
   "type" : "object",
+  "extends" : {
+    "$ref" : "movable.json"
+  },
   "properties" : {
-    "id" : {
-      "type" : "string"
+    "agent-type" : {
+      "type" : "string",
+      "default" : "pod"
     },
     "capacity" : {
       "type" : "integer",
@@ -12,24 +16,11 @@
     },
     "provider" : {
       "type" : "string"
-    },
-    "max acceleration" : {
-      "type" : "number"
-    },
-    "max deceleration" : {
-      "type" : "number"
-    },
-    "max speed" : {
-      "type" : "number"
     }
   },
   "required" : [
-    "id",
+    "agent-type",
     "capacity",
-    "strategy",
-    "provider",
-    "max acceleration",
-    "max deceleration",
-    "max speed"
+    "provider"
   ]
 }
