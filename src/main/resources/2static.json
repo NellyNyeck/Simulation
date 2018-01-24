@@ -3,7 +3,7 @@
   "description" : "static agents structure",
   "type" : "object",
   "extends" : {
-    "$ref" : "agent.json"
+    "$ref" : "0agent.json"
   },
   "properties": {
     "name": {

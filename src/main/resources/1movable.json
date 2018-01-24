@@ -3,7 +3,7 @@
   "description": "An Address following the convention of http://microformats.org/wiki/hcard",
   "type" : "object",
   "extends" : {
-    "$ref" : "agent.json"
+    "$ref" : "0agent.json"
   },
   "properties" : {
     "entry-point" : {
