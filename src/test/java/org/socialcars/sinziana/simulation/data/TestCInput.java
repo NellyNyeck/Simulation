@@ -3,7 +3,7 @@ package org.socialcars.sinziana.simulation.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
-import org.socialcars.sinziana.simulation.data.Input.CInput;
+import org.socialcars.sinziana.simulation.data.input.CInput;
 
 import java.io.File;
 import java.io.IOException;
