@@ -24,7 +24,7 @@
         },
         "parameters" : {
           "type" : "array",
-          "items" : "pair"
+          "items" : "parameter"
           },
           "minItems" : 1,
           "maxItems" : 3,

@@ -9,5 +9,9 @@
     "value" : {
       "type" : "number"
     }
-  }
+  },
+  "required": [
+    "name",
+    "value"
+  ]
 }
