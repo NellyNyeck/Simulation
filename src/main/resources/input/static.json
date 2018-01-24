@@ -4,7 +4,7 @@
   "javaName":"Static",
   "type" : "object",
   "extends" : {
-    "$ref" : "Agent.json"
+    "$ref" : "agent.json"
   },
   "properties": {
     "name": {

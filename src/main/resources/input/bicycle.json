@@ -3,7 +3,7 @@
   "description" : "the pod structure",
   "type": "object",
   "extends": {
-    "$ref" : "Movable.json"
+    "$ref" : "movable.json"
   },
   "properties" : {
     "agent-type" : {

@@ -3,7 +3,7 @@
   "description": "the vehicle format",
   "type": "object",
   "extends" : {
-    "$ref" : "Movable.json"
+    "$ref" : "movable.json"
   },
   "properties" : {
     "agent-type" : {
