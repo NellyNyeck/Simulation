@@ -1,0 +1,17 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "static agents structure",
+  "type" : "object",
+  "extends" : {
+    "$ref" : "agent.json"
+  },
+  "properties": {
+    "name": {
+      "type" : "string"
+    }
+  },
+  "required" : [
+    "name",
+    "location"
+  ]
+}

@@ -3,8 +3,9 @@
   "description" : "the structure of a provider in this simulation environment",
   "type" : "object",
   "properties" : {
-    "name" : {
-      "type" : "string"
+    "agent-type" : {
+      "type" : "string",
+      "default" : "provider"
     },
     "colour" : {
       "type" : "string"
@@ -17,13 +18,15 @@
       "minItems" : 1,
       "uniqueItems" : true
     },
+    "available-pods" : {
+      "type" : "integer"
+    },
     "pods" : {
       "type" : "array",
       "items" : {
         "type" : "pod"
       },
       "minItems" : 1,
-      "maxItems" : "available pods",
       "uniqueItems" : true
     },
     "maximum number of customers" : {
@@ -37,12 +40,7 @@
     },
     "poi selection function" : {
       "type" : "function"
-    },
-    "required" : [
-      "name",
-      "parameters"
-    ]
-  }
-},
-"required" :["name", "colour", "depots", "available pods", "maximum number of customers","maximum outgoing pods/time unit", "poi selection function"]
+    }
+  },
+"required" :["agent-type", "colour", "depots", "available-pods", "maximum number of customers","maximum outgoing pods/time unit", "poi selection function"]
 }
