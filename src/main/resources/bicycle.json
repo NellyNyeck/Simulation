@@ -1,0 +1,17 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "the pod structure",
+  "type": "object",
+  "extends" : {
+    "$ref" : "movable.json"
+  },
+  "properties" : {
+    "agent-type" : {
+      "type" : "string",
+      "default" : "bike"
+    }
+  },
+  "required" : [
+    "agent-type"
+  ]
+}
