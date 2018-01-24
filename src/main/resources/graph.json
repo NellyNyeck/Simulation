@@ -1,0 +1,23 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "An Address following the convention of http://microformats.org/wiki/hcard",
+  "type" : "object",
+  "properties" :{
+    "nodes" : {
+      "type" : "array",
+      "elements" : "node",
+      "minItems" : 2,
+      "uniqueItems" : true
+    },
+    "edges" : {
+      "type" : "array",
+      "elements" : "edge",
+      "minItems" : 1,
+      "uniqueItems" : true
+    }
+  },
+  "required" : [
+    "nodes",
+    "edges"
+  ]
+}
