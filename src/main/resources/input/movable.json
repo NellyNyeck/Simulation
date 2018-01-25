@@ -9,11 +9,13 @@
   "properties" : {
     "entry-point" : {
       "type" : "object",
-      "$ref" : "node.json"
+      "$ref" : "node.json",
+      "janaName" : "entry-point"
     },
     "exit-point" : {
       "type" : "object",
-      "$ref" : "node.json"
+      "$ref" : "node.json",
+      "javName" : "exit-point"
     },
     "max-speed": {
       "type" : "number"
