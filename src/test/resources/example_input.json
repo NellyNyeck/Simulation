@@ -3,7 +3,7 @@
 		"number of waiting clients": 1,
 		"time unit": "second",
 		"speed unit": "m/s",
-		"lenght unit": "meter"
+		"length unit": "meter"
 	},
 	"graph": {
 		"nodes": [

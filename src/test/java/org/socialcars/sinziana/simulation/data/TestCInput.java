@@ -43,7 +43,14 @@ public final class TestCInput
         Assume.assumeNotNull( m_configuration );
 
         Assert.assertNotNull( m_configuration.getConfiguration() );
-        // @todo test configuration items
+        Assert.assertTrue( m_configuration.getConfiguration().getLengthUnit().contentEquals( "meter" ) );
+        Assert.assertTrue( m_configuration.getConfiguration().getSpeedUnit().contentEquals( "m/s" ) );
+        Assert.assertTrue( m_configuration.getConfiguration().getTimeUnit().contentEquals( "second" ) );
+        Assert.assertTrue( m_configuration.getConfiguration().getNumberOfWaitingClients() == 1 );
+        Assert.assertTrue( m_configuration.getConfiguration().getNumberOfBikes() == 0 );
+        Assert.assertTrue( m_configuration.getConfiguration().getNumberOfHumans() == 0 );
+        Assert.assertTrue( m_configuration.getConfiguration().getNumberOfVehicles() == 0 );
+        Assert.assertTrue( m_configuration.getConfiguration().getAdditionalProperties().size() == 0 );
     }
 
     /**
