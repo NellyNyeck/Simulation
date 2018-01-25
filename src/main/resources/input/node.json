@@ -1,7 +1,7 @@
 {
   "$schema" : "http://json-schema.org/draft-07/schema#",
   "description" : "the structure of a given node in a graph",
-  "type" : "object",
+  "type": "object",
   "properties" : {
     "name" : {
       "type" : "string"
