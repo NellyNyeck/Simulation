@@ -92,8 +92,6 @@ public final class TestCInput
         Assert.assertTrue( l_depo.getCoordinates().getType().contentEquals( "synthetic" ) );
         Assert.assertTrue( l_depo.getCoordinates().getFirstCoordinate() == 0.00 );
         Assert.assertTrue( l_depo.getCoordinates().getSecondCoordinate() == 0.00);*/
-
-        // @todo test agent data
     }
 
 
@@ -109,6 +107,9 @@ public final class TestCInput
         Assert.assertNotNull( l_graph.getNodes() );
         final Set<CEntryPoint> l_nodes = l_graph.getNodes();
         Assert.assertTrue( l_nodes.size() == 8 );
+
+        // @todo warnings fixen
+        // @todo Loop entfernen und durch Streams ersetzen
         int i = 0;
         for ( final CEntryPoint l_nod : l_nodes )
         {
@@ -134,7 +135,6 @@ public final class TestCInput
             Assert.assertTrue( l_funct.getName().equals( "even" )  );
             Assert.assertTrue( l_funct.getParameters().size() == 1 );
         }
-        // @todo test graph data
     }
 
 }
