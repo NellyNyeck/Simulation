@@ -5,14 +5,5 @@
   "type" : "object",
   "extends" : {
     "$ref" : "agent.json"
-  },
-  "properties": {
-    "name": {
-      "type" : "string"
-    }
-  },
-  "required" : [
-    "name",
-    "location"
-  ]
+  }
 }
