@@ -1,17 +1,21 @@
 package org.socialcars.sinziana.simulation.data;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
-import org.socialcars.sinziana.simulation.data.input.CAgent;
 import org.socialcars.sinziana.simulation.data.input.CInput;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.socialcars.sinziana.simulation.data.input.CAgent;
+import org.junit.Assert;
+import org.socialcars.sinziana.simulation.data.input.CEntryPoint;
+import org.junit.Assume;
+import org.socialcars.sinziana.simulation.data.input.CEdge;
+import org.junit.Before;
+import org.socialcars.sinziana.simulation.data.input.CGraph;
+import org.junit.Test;
+import org.socialcars.sinziana.simulation.data.input.CFunction;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -79,7 +83,15 @@ public final class TestCInput
         Assert.assertTrue( l_extra.get( "maximum number of customers" ).equals( 1 ) );
         Assert.assertNotNull( l_extra.get( "maximum outgoing pods/time unit" ) );
         Assert.assertTrue( l_extra.get( "maximum outgoing pods/time unit" ).equals( 1 ) );
-        //final List<>l_depots = l_extra.get( "depots" );
+        /*final List<CEntryPoint> l_depots = (List<CEntryPoint>) l_extra.get( "depots" );
+        Assert.assertNotNull( l_depots );
+        Assert.assertTrue( l_depots.size() == 1 );
+        final CEntryPoint l_depo = l_depots.get( 0 );
+        Assert.assertNotNull( l_depo );
+        Assert.assertTrue( l_depo.getName().contentEquals( "node0" ) );
+        Assert.assertTrue( l_depo.getCoordinates().getType().contentEquals( "synthetic" ) );
+        Assert.assertTrue( l_depo.getCoordinates().getFirstCoordinate() == 0.00 );
+        Assert.assertTrue( l_depo.getCoordinates().getSecondCoordinate() == 0.00);*/
 
         // @todo test agent data
     }
@@ -88,11 +100,40 @@ public final class TestCInput
     /**
      * test scenario graph
      */
+    @Test
     public void testgraph()
     {
         Assume.assumeNotNull( m_configuration );
-
         Assert.assertNotNull( m_configuration.getGraph() );
+        final CGraph l_graph = m_configuration.getGraph();
+        Assert.assertNotNull( l_graph.getNodes() );
+        final Set<CEntryPoint> l_nodes = l_graph.getNodes();
+        Assert.assertTrue( l_nodes.size() == 8 );
+        int i = 0;
+        for ( final CEntryPoint l_nod : l_nodes )
+        {
+            Assert.assertTrue( l_nod.getName().contentEquals( "node" + i ) );
+            Assert.assertTrue( l_nod.getCoordinates().getType().contentEquals( "synthetic" ) );
+            Assert.assertNotNull( l_nod.getCoordinates().getFirstCoordinate() );
+            Assert.assertTrue( l_nod.getCoordinates().getFirstCoordinate() % 5 == 0 );
+            Assert.assertNotNull( l_nod.getCoordinates().getSecondCoordinate() );
+            Assert.assertTrue( l_nod.getCoordinates().getSecondCoordinate() % 5 == 0 );
+            i++;
+        }
+        Assert.assertNotNull( l_graph.getEdges() );
+        Assert.assertTrue( l_graph.getEdges().size() == 20 );
+        final Set<CEdge> l_edges = l_graph.getEdges();
+        for ( final CEdge l_edg : l_edges )
+        {
+            Assert.assertTrue( l_edg.getName().contains( "edge" ) );
+            Assert.assertTrue( l_edg.getFrom().contains( "node" ) );
+            Assert.assertTrue( l_edg.getTo().contains( "node" ) );
+            Assert.assertTrue( ( l_edg.getWeight() == 1.0 ) || ( l_edg.getWeight() == 0.75 ) );
+            Assert.assertNotNull( l_edg.getFunction() );
+            final CFunction l_funct = l_edg.getFunction();
+            Assert.assertTrue( l_funct.getName().equals( "even" )  );
+            Assert.assertTrue( l_funct.getParameters().size() == 1 );
+        }
         // @todo test graph data
     }
 
