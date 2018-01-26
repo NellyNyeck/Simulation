@@ -115,9 +115,7 @@ public final class TestCInput
         {
             Assert.assertTrue( l_nod.getName().contentEquals( "node" + i ) );
             Assert.assertTrue( l_nod.getCoordinates().getType().contentEquals( "synthetic" ) );
-            Assert.assertNotNull( l_nod.getCoordinates().getFirstCoordinate() );
             Assert.assertTrue( l_nod.getCoordinates().getFirstCoordinate() % 5 == 0 );
-            Assert.assertNotNull( l_nod.getCoordinates().getSecondCoordinate() );
             Assert.assertTrue( l_nod.getCoordinates().getSecondCoordinate() % 5 == 0 );
             i++;
         }
