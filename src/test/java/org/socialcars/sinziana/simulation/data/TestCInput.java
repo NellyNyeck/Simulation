@@ -119,11 +119,20 @@ public final class TestCInput
         Assert.assertTrue( l_graph.getAdditionalProperties().size() == 0 );
         l_graph.setAdditionalProperty( "extra", 1 );
         Assert.assertTrue( l_graph.getAdditionalProperties().size() == 1 );
-        //get nodes
+    }
+
+    /**
+     * testing the nodes in the graph
+     */
+    @Test
+    public void nodes()
+    {
+        Assume.assumeNotNull( m_configuration );
+        Assert.assertNotNull( m_configuration.getGraph() );
+        final CGraph l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getNodes() );
         final Set<CEntryPoint> l_nodes = l_graph.getNodes();
         Assert.assertTrue( l_nodes.size() == 8 );
-        //testing the nodes
         l_nodes.forEach( j ->
         {
             Assert.assertTrue( j.getName().contains( "node" ) );
@@ -142,12 +151,20 @@ public final class TestCInput
             Assert.assertTrue( j.getAdditionalProperties().size() == 1 );
 
         } );
+    }
 
-        //getting the edges
+    /**
+     * testing the edges
+     */
+    @Test
+    public void edges()
+    {
+        Assume.assumeNotNull( m_configuration );
+        Assert.assertNotNull( m_configuration.getGraph() );
+        final CGraph l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getEdges() );
         Assert.assertTrue( l_graph.getEdges().size() == 20 );
         final Set<CEdge> l_edges = l_graph.getEdges();
-        //testing the edges
         l_edges.forEach( e ->
         {
             Assert.assertTrue( e.getName().contains( "edge" ) );
