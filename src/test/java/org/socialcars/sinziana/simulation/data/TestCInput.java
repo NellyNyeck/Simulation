@@ -1,16 +1,11 @@
 package org.socialcars.sinziana.simulation.data;
 
-import org.socialcars.sinziana.simulation.data.input.CInput;
+import org.socialcars.sinziana.simulation.data.input.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.socialcars.sinziana.simulation.data.input.CAgent;
 import org.junit.Assert;
-import org.socialcars.sinziana.simulation.data.input.CEntryPoint;
 import org.junit.Assume;
-import org.socialcars.sinziana.simulation.data.input.CEdge;
 import org.junit.Before;
-import org.socialcars.sinziana.simulation.data.input.CGraph;
 import org.junit.Test;
-import org.socialcars.sinziana.simulation.data.input.CFunction;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,15 +78,6 @@ public final class TestCInput
         Assert.assertTrue( l_extra.get( "maximum number of customers" ).equals( 1 ) );
         Assert.assertNotNull( l_extra.get( "maximum outgoing pods/time unit" ) );
         Assert.assertTrue( l_extra.get( "maximum outgoing pods/time unit" ).equals( 1 ) );
-        /*final List<CEntryPoint> l_depots = (List<CEntryPoint>) l_extra.get( "depots" );
-        Assert.assertNotNull( l_depots );
-        Assert.assertTrue( l_depots.size() == 1 );
-        final CEntryPoint l_depo = l_depots.get( 0 );
-        Assert.assertNotNull( l_depo );
-        Assert.assertTrue( l_depo.getName().contentEquals( "node0" ) );
-        Assert.assertTrue( l_depo.getCoordinates().getType().contentEquals( "synthetic" ) );
-        Assert.assertTrue( l_depo.getCoordinates().getFirstCoordinate() == 0.00 );
-        Assert.assertTrue( l_depo.getCoordinates().getSecondCoordinate() == 0.00);*/
     }
 
 
@@ -119,6 +105,10 @@ public final class TestCInput
             Assert.assertTrue( j.getCoordinates().getFirstCoordinate() % 5 == 0 );
             Assert.assertTrue( j.getCoordinates().getSecondCoordinate() % 5 == 0 );
             Assert.assertTrue( j.getAdditionalProperties().size() == 0 );
+            Assert.assertTrue( j.equals( j ) );
+            Assert.assertTrue( !j.toString().isEmpty() );
+            j.setAdditionalProperty( "plus", 1 );
+            Assert.assertTrue( j.getAdditionalProperties().size() == 1 );
 
         } );
         Assert.assertNotNull( l_graph.getEdges() );
@@ -135,6 +125,21 @@ public final class TestCInput
             final CFunction l_funct = e.getFunction();
             Assert.assertTrue( l_funct.getName().equals( "even" )  );
             Assert.assertTrue( l_funct.getParameters().size() == 1 );
+            final Set<CParameter> l_params = l_funct.getParameters();
+            l_params.forEach( p ->
+            {
+                Assert.assertTrue( p.getName().equals( "dist" ) );
+                Assert.assertTrue( p.getValue() == 10.0 );
+                Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
+                p.setAdditionalProperty( "extra", 1 );
+                Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+
+            } );
+            Assert.assertTrue( l_funct.equals( l_funct ) );
+            Assert.assertTrue( !l_funct.toString().isEmpty() );
+            Assert.assertTrue( l_funct.getAdditionalProperties().size() == 0 );
+            l_funct.setAdditionalProperty( "extra", 1 );
+            Assert.assertTrue( l_funct.getAdditionalProperties().size() == 1 );
         } );
     }
 
