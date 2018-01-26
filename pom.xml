@@ -12,7 +12,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <maven.compiler.source>1.9</maven.compiler.source>
-        <maven.compiler.target>1.9</maven.compiler.target>
+        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
+
+        <!-- will be set outside (build parameter) -->
+        <build.number></build.number>
+        <build.commit></build.commit>
+        <coverall.token></coverall.token>
     </properties>    
 
     <dependencies>
@@ -100,14 +105,14 @@
                 <version>3.8</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/generated/*.java</exclude>
+                        <exclude>**/generated*/*.java</exclude>
                     </excludes>
                     <linkXRef>false</linkXRef>
                 </configuration>
             </plugin>
             -->
 
-            <!-->
+            <!-- @bug runs out of memory
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
@@ -122,31 +127,20 @@
             </plugin>
             -->
 
-            <!--
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.20</version>
-                <configuration>
-                    <linkXRef>false</linkXRef>
-                </configuration>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                            <report>report-integration</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
-            -->
 
-            <!-- @bug https://github.com/cobertura/cobertura/issues/271
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <formats>
-                        <format>html</format>
-                        <format>xml</format>
-                    </formats>
-                    <check/>
-                </configuration>
-            </plugin>
-            -->
 
         </plugins>
 
@@ -210,6 +204,31 @@
         </pluginManagement>
 
         <plugins>
+            <!-- enforce version -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+                        <id>defaults</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.5</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${maven.compiler.source}</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- compiler settings -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -271,6 +290,28 @@
                 </executions>
             </plugin>
 
+            <!-- Doxygen -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>doxygen</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>doxygen</executable>
+                            <arguments>
+                                <argument>src/site/configuration.doxyfile</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- checkstyle is perform at compile phase -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -299,6 +340,32 @@
                     <failsOnError>true</failsOnError>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                 </configuration>
+            </plugin>
+
+            <!-- code-coverage report plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20.1</version>
+                <configuration>
+                    <argLine>${argLine} -Xms1g -Xmx1g</argLine>
+                    <forkCount>1</forkCount>
+                    <runOrder>random</runOrder>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <executions>
+                    <execution>
+                        <id>initialize</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>    
