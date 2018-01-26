@@ -110,29 +110,32 @@ public final class TestCInput
 
         // @todo warnings fixen
         // @todo Loop entfernen und durch Streams ersetzen
-        int i = 0;
-        for ( final CEntryPoint l_nod : l_nodes )
+
+
+        l_nodes.forEach( j ->
         {
-            Assert.assertTrue( l_nod.getName().contentEquals( "node" + i ) );
-            Assert.assertTrue( l_nod.getCoordinates().getType().contentEquals( "synthetic" ) );
-            Assert.assertTrue( l_nod.getCoordinates().getFirstCoordinate() % 5 == 0 );
-            Assert.assertTrue( l_nod.getCoordinates().getSecondCoordinate() % 5 == 0 );
-            i++;
-        }
+            Assert.assertTrue( j.getName().contains( "node" ) );
+            Assert.assertTrue( j.getCoordinates().getType().contentEquals( "synthetic" ) );
+            Assert.assertTrue( j.getCoordinates().getFirstCoordinate() % 5 == 0 );
+            Assert.assertTrue( j.getCoordinates().getSecondCoordinate() % 5 == 0 );
+            Assert.assertTrue( j.getAdditionalProperties().size() == 0 );
+
+        } );
         Assert.assertNotNull( l_graph.getEdges() );
         Assert.assertTrue( l_graph.getEdges().size() == 20 );
         final Set<CEdge> l_edges = l_graph.getEdges();
-        for ( final CEdge l_edg : l_edges )
+
+        l_edges.forEach( e ->
         {
-            Assert.assertTrue( l_edg.getName().contains( "edge" ) );
-            Assert.assertTrue( l_edg.getFrom().contains( "node" ) );
-            Assert.assertTrue( l_edg.getTo().contains( "node" ) );
-            Assert.assertTrue( ( l_edg.getWeight() == 1.0 ) || ( l_edg.getWeight() == 0.75 ) );
-            Assert.assertNotNull( l_edg.getFunction() );
-            final CFunction l_funct = l_edg.getFunction();
+            Assert.assertTrue( e.getName().contains( "edge" ) );
+            Assert.assertTrue( e.getFrom().contains( "node" ) );
+            Assert.assertTrue( e.getTo().contains( "node" ) );
+            Assert.assertTrue( ( e.getWeight() == 1.0 ) || ( e.getWeight() == 0.75 ) );
+            Assert.assertNotNull( e.getFunction() );
+            final CFunction l_funct = e.getFunction();
             Assert.assertTrue( l_funct.getName().equals( "even" )  );
             Assert.assertTrue( l_funct.getParameters().size() == 1 );
-        }
+        } );
     }
 
 }

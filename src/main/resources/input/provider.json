@@ -40,9 +40,6 @@
     "maximum outgoing pods/time unit" : {
       "type" : "number"
     },
-    "solver" : {
-      "type" : "object"
-    },
     "poi selection function" : {
       "type" : "object",
       "$ref" : "function.json"
