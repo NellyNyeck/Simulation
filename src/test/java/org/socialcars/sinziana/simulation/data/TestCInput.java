@@ -13,6 +13,7 @@ import org.socialcars.sinziana.simulation.data.input.CEntryPoint;
 import org.socialcars.sinziana.simulation.data.input.CGraph;
 import org.socialcars.sinziana.simulation.data.input.CFunction;
 import org.socialcars.sinziana.simulation.data.input.CCoordinates;
+import org.socialcars.sinziana.simulation.data.input.CConfiguration;
 
 
 import java.io.File;
@@ -51,8 +52,6 @@ public final class TestCInput
         Assert.assertTrue( m_configuration.equals( m_configuration ) );
         Assert.assertTrue( !m_configuration.toString().isEmpty() );
         Assert.assertTrue( m_configuration.getAdditionalProperties().size() == 0 );
-        m_configuration.setAdditionalProperty( "extra", 1 );
-        Assert.assertTrue( m_configuration.getAdditionalProperties().size() == 1 );
         Assert.assertTrue( m_configuration.hashCode() != 0 );
     }
 
@@ -63,16 +62,25 @@ public final class TestCInput
     public void configuration()
     {
         Assume.assumeNotNull( m_configuration );
-
         Assert.assertNotNull( m_configuration.getConfiguration() );
-        Assert.assertTrue( m_configuration.getConfiguration().getLengthUnit().contentEquals( "meter" ) );
-        Assert.assertTrue( m_configuration.getConfiguration().getSpeedUnit().contentEquals( "m/s" ) );
-        Assert.assertTrue( m_configuration.getConfiguration().getTimeUnit().contentEquals( "second" ) );
-        Assert.assertTrue( m_configuration.getConfiguration().getNumberOfWaitingClients() == 1 );
-        Assert.assertTrue( m_configuration.getConfiguration().getNumberOfBikes() == 0 );
-        Assert.assertTrue( m_configuration.getConfiguration().getNumberOfHumans() == 0 );
-        Assert.assertTrue( m_configuration.getConfiguration().getNumberOfVehicles() == 0 );
-        Assert.assertTrue( m_configuration.getConfiguration().getAdditionalProperties().size() == 0 );
+        final CConfiguration l_config = m_configuration.getConfiguration();
+        Assert.assertTrue( l_config.equals( l_config ) );
+        Assert.assertTrue( l_config.getLengthUnit().contentEquals( "meter" ) );
+        Assert.assertTrue( l_config.getSpeedUnit().contentEquals( "m/s" ) );
+        Assert.assertTrue( l_config.getTimeUnit().contentEquals( "second" ) );
+        Assert.assertTrue( l_config.getNumberOfWaitingClients() == 1 );
+        Assert.assertTrue( l_config.getNumberOfBikes() == 0 );
+        Assert.assertTrue( l_config.getNumberOfHumans() == 0 );
+        Assert.assertTrue( l_config.getNumberOfVehicles() == 0 );
+        Assert.assertTrue( l_config.getAdditionalProperties().size() == 0 );
+        l_config.setNumberOfBikes( 1 );
+        l_config.setNumberOfHumans( 1 );
+        l_config.setNumberOfVehicles( 1 );
+        l_config.setAdditionalProperty( "extra0", 1 );
+        Assert.assertTrue( l_config.getAdditionalProperties().size() == 1 );
+        Assert.assertTrue( l_config.getNumberOfVehicles() == 1 );
+        Assert.assertTrue( l_config.getNumberOfHumans() == 1 );
+        Assert.assertTrue( l_config.getNumberOfBikes() == 1 );
     }
 
     /**
@@ -117,7 +125,7 @@ public final class TestCInput
         Assert.assertTrue( l_graph.equals( l_graph ) );
         Assert.assertTrue( !l_graph.toString().isEmpty() );
         Assert.assertTrue( l_graph.getAdditionalProperties().size() == 0 );
-        l_graph.setAdditionalProperty( "extra", 1 );
+        l_graph.setAdditionalProperty( "extra1", 1 );
         Assert.assertTrue( l_graph.getAdditionalProperties().size() == 1 );
     }
 
@@ -141,7 +149,7 @@ public final class TestCInput
             final CCoordinates l_coo = j.getCoordinates();
             Assert.assertTrue( l_coo.equals( l_coo ) );
             Assert.assertTrue( l_coo.getAdditionalProperties().size() == 0 );
-            l_coo.setAdditionalProperty( "extra", 1 );
+            l_coo.setAdditionalProperty( "extra2", 1 );
             Assert.assertTrue( l_coo.getAdditionalProperties().size() == 1 );
             Assert.assertTrue( j.getCoordinates().getSecondCoordinate() % 5 == 0 );
             Assert.assertTrue( j.getAdditionalProperties().size() == 0 );
@@ -167,6 +175,13 @@ public final class TestCInput
         final Set<CEdge> l_edges = l_graph.getEdges();
         l_edges.forEach( e ->
         {
+            Assert.assertTrue( e.equals( e ) );
+            Assert.assertTrue( e.getAdditionalProperties().size() == 0 );
+            e.setAdditionalProperty( "extra3", 1 );
+            Assert.assertTrue( e.getAdditionalProperties().size() == 1 );
+            Assert.assertTrue( e.getProvider() == null );
+            e.setProvider( "bla" );
+            Assert.assertTrue( e.getProvider().contentEquals( "bla" ) );
             Assert.assertTrue( e.getName().contains( "edge" ) );
             Assert.assertTrue( e.getFrom().contains( "node" ) );
             Assert.assertTrue( e.getTo().contains( "node" ) );
@@ -181,14 +196,14 @@ public final class TestCInput
                 Assert.assertTrue( p.getName().equals( "dist" ) );
                 Assert.assertTrue( p.getValue() == 10.0 );
                 Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
-                p.setAdditionalProperty( "extra", 1 );
+                p.setAdditionalProperty( "extra4", 1 );
                 Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
 
             } );
             Assert.assertTrue( l_funct.equals( l_funct ) );
             Assert.assertTrue( !l_funct.toString().isEmpty() );
             Assert.assertTrue( l_funct.getAdditionalProperties().size() == 0 );
-            l_funct.setAdditionalProperty( "extra", 1 );
+            l_funct.setAdditionalProperty( "extra5", 1 );
             Assert.assertTrue( l_funct.getAdditionalProperties().size() == 1 );
         } );
     }
