@@ -18,7 +18,6 @@ import org.socialcars.sinziana.simulation.data.input.CParameter;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -99,7 +98,7 @@ public final class TestCInput
         Assert.assertTrue( 0 != l_prov.hashCode() );
         Assert.assertTrue( l_prov.getName().contentEquals( "DHL" ) );
         Assert.assertTrue( l_prov.getFilename().contentEquals( "" ) );
-        @// TODO: 29.01.18 do the thing to pass to the new object structure
+        // TODO: 29.01.18 do the thing to pass to the new object structure
         /*final Map<String, Object> l_extra = l_prov.getAdditionalProperties();
         Assert.assertNotNull( l_extra.get( "agent-type" ) );
         Assert.assertTrue( l_extra.get( "agent-type" ).equals( "provider" ) );
