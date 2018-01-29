@@ -4,6 +4,15 @@
   "javaName":"Static",
   "type" : "object",
   "extends" : {
-    "$ref" : "agent.json"
+    "$ref" : "agent.json",
+    "properties" : {
+      "location" : {
+        "type": "object",
+        "$ref":"node.json"
+      }
+    },
+    "required": [
+      "location"
+    ]
   }
 }

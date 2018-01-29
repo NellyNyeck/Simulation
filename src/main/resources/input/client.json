@@ -10,10 +10,6 @@
       "type": "string",
       "default": "client"
     },
-    "location" : {
-      "type": "object",
-      "$ref" : "node.json"
-    },
     "labels" : {
       "type" : "array",
       "items" :

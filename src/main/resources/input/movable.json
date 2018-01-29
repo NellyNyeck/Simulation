@@ -10,12 +10,12 @@
     "entry-point" : {
       "type" : "object",
       "$ref" : "node.json",
-      "janaName" : "entry-point"
+      "javaName" : "entry-point"
     },
     "exit-point" : {
       "type" : "object",
       "$ref" : "node.json",
-      "javName" : "exit-point"
+      "javaName" : "exit-point"
     },
     "max-speed": {
       "type" : "number"
