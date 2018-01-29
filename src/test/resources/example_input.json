@@ -375,7 +375,7 @@
 			}
 		]
 	},
-	"agents": [
+	"providers": [
 		{
 			"name": "DHL",
 			"filename" : "",

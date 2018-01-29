@@ -2,10 +2,13 @@
   "$schema" : "http://json-schema.org/draft-07/schema#",
   "description" : "the structure of a provider in this simulation environment",
   "type" : "object",
-  "extends" : {
-    "$ref" : "static.json"
-  },
   "properties" : {
+    "name":{
+      "type" : "string"
+    },
+    "filename":{
+      "type":"string"
+    },
     "agent-type" : {
       "type" : "string",
       "default" : "provider"
@@ -23,7 +26,8 @@
       "uniqueItems" : true
     },
     "available-pods" : {
-      "type" : "integer"
+      "type" : "integer",
+      "minimum":1
     },
     "pods" : {
       "type" : "array",
@@ -45,5 +49,5 @@
       "$ref" : "function.json"
     }
   },
-"required" :["agent-type", "colour", "depots", "available-pods", "maximum number of customers","maximum outgoing pods/time unit", "poi selection function"]
+"required" :["name", "filename", "agent-type", "colour", "depots", "available-pods", "maximum number of customers","maximum outgoing pods/time unit", "poi selection function"]
 }

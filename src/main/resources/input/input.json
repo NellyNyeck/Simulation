@@ -11,11 +11,40 @@
       "type" : "object",
       "$ref" : "graph.json"
     },
-    "agents": {
-      "type": "array",
-      "items" : {
-        "type" : "object",
-        "$ref" : "agent.json"
+    "providers":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"provider.json"
+      },
+      "minItems":1
+    },
+    "clients":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"client.json"
+      }
+    },
+    "vehicles":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"vehicle.json"
+      }
+    },
+    "humans":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"human.json"
+      }
+    },
+    "bikes":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"bicycle.json"
       }
     }
   },

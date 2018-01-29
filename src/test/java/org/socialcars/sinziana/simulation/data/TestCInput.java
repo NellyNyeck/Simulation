@@ -1,19 +1,19 @@
 package org.socialcars.sinziana.simulation.data;
 
-import org.socialcars.sinziana.simulation.data.input.CAgent;
+import org.socialcars.sinziana.simulation.data.input.CProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.socialcars.sinziana.simulation.data.input.CParameter;
-import org.junit.Assert;
-import org.junit.Assume;
 import org.socialcars.sinziana.simulation.data.input.CInput;
-import org.junit.Before;
-import org.socialcars.sinziana.simulation.data.input.CEdge;
-import org.junit.Test;
-import org.socialcars.sinziana.simulation.data.input.CEntryPoint;
-import org.socialcars.sinziana.simulation.data.input.CGraph;
-import org.socialcars.sinziana.simulation.data.input.CFunction;
-import org.socialcars.sinziana.simulation.data.input.CCoordinates;
+import org.junit.Assert;
 import org.socialcars.sinziana.simulation.data.input.CConfiguration;
+import org.junit.Assume;
+import org.socialcars.sinziana.simulation.data.input.CGraph;
+import org.junit.Before;
+import org.socialcars.sinziana.simulation.data.input.CStart;
+import org.junit.Test;
+import org.socialcars.sinziana.simulation.data.input.CEdge;
+import org.socialcars.sinziana.simulation.data.input.CCoordinates;
+import org.socialcars.sinziana.simulation.data.input.CFunction;
+import org.socialcars.sinziana.simulation.data.input.CParameter;
 
 
 import java.io.File;
@@ -90,16 +90,17 @@ public final class TestCInput
     public void testagents()
     {
         Assume.assumeNotNull( m_configuration );
-        Assert.assertNotNull( m_configuration.getAgents() );
-        Assert.assertTrue( m_configuration.getAgents().size() == 1 );
-        final CAgent l_prov = m_configuration.getAgents().get( 0 );
+        Assert.assertNotNull( m_configuration.getProviders() );
+        Assert.assertTrue( m_configuration.getProviders().size() == 1 );
+        final CProvider l_prov = m_configuration.getProviders().get( 0 );
         Assert.assertNotNull( l_prov );
         Assert.assertTrue( l_prov.equals( l_prov ) );
         Assert.assertTrue( !l_prov.toString().isEmpty() );
         Assert.assertTrue( 0 != l_prov.hashCode() );
         Assert.assertTrue( l_prov.getName().contentEquals( "DHL" ) );
         Assert.assertTrue( l_prov.getFilename().contentEquals( "" ) );
-        final Map<String, Object> l_extra = l_prov.getAdditionalProperties();
+        @// TODO: 29.01.18 do the thing to pass to the new object structure
+        /*final Map<String, Object> l_extra = l_prov.getAdditionalProperties();
         Assert.assertNotNull( l_extra.get( "agent-type" ) );
         Assert.assertTrue( l_extra.get( "agent-type" ).equals( "provider" ) );
         Assert.assertNotNull( l_extra.get( "colour" ) );
@@ -109,7 +110,7 @@ public final class TestCInput
         Assert.assertNotNull( l_extra.get( "maximum number of customers" ) );
         Assert.assertTrue( l_extra.get( "maximum number of customers" ).equals( 1 ) );
         Assert.assertNotNull( l_extra.get( "maximum outgoing pods/time unit" ) );
-        Assert.assertTrue( l_extra.get( "maximum outgoing pods/time unit" ).equals( 1 ) );
+        Assert.assertTrue( l_extra.get( "maximum outgoing pods/time unit" ).equals( 1 ) );*/
     }
 
 
@@ -139,7 +140,7 @@ public final class TestCInput
         Assert.assertNotNull( m_configuration.getGraph() );
         final CGraph l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getNodes() );
-        final Set<CEntryPoint> l_nodes = l_graph.getNodes();
+        final Set<CStart> l_nodes = l_graph.getNodes();
         Assert.assertTrue( l_nodes.size() == 8 );
         l_nodes.forEach( j ->
         {

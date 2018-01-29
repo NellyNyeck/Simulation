@@ -1,17 +1,39 @@
 {
   "$schema" : "http://json-schema.org/draft-07/schema#",
-  "description" : "the pod structure",
+  "description" : "the human structure",
   "type": "object",
-  "extends" : {
-    "$ref" : "movable.json"
-  },
   "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "filename" : {
+      "type" : "string"
+    },
     "agent-type" : {
       "type" : "string",
       "default" : "human"
+    },
+    "start" :{
+      "type":"object",
+      "$ref":"node.json"
+    },
+    "finish" :{
+      "type":"object",
+      "$ref":"node.json"
+    },
+    "middle": {
+      "type":"array",
+      "items": {
+        "type" : "object",
+        "$ref" : "node.json"
+      }
     }
   },
   "required" : [
-    "agent-type"
+    "name",
+    "filename",
+    "agent-type",
+    "start",
+    "finish"
   ]
 }
