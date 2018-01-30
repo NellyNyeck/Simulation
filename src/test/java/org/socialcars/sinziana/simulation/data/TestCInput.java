@@ -253,6 +253,7 @@ public final class TestCInput
             Assert.assertTrue( c.getAdditionalProperties().size() == 0 );
             c.setAdditionalProperty( "miss extra", 1 );
             Assert.assertTrue( c.getAdditionalProperties().size() == 1 );
+            Assert.assertTrue( c.equals( c ) );
         } );
     }
 
