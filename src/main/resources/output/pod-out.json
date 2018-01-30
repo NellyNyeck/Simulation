@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "input description format",
+  "type" : "object",
+  "properties" : {
+    "depot" : {
+      "type" : "string"
+    },
+    "destination" : {
+      "type" : "string"
+    },
+    "route" : {
+      "type" : "array",
+      "elements" : "string",
+      "minItems" : 1
+    },
+    "energy" : {
+      "type" : "number"
+    },
+    "time" : {
+      "type" : "number"
+    },
+    "times-in-platoon" : {
+      "type" : "number"
+    },
+    "route-platoon" : {
+      "type" : "array",
+      "elements" : "string",
+      "minItems" : 1
+    },
+    "energy-platoon" : {
+      "type" : "number"
+    },
+    "time-platoon" : {
+      "type" : "number"
+    }
+  },
+  "required" : [
+    "depot",
+    "destination",
+    "route",
+    "energy",
+    "time"
+  ]
+}

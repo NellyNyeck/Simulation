@@ -1,0 +1,56 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "input description format",
+  "type" : "object",
+  "properties" : {
+    "configuration" : {
+      "type" : "object",
+      "$ref" : "simulation-specifications.json"
+    },
+    "graph" : {
+      "type" : "object",
+      "$ref" : "graph.json"
+    },
+    "providers":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"provider.json"
+      },
+      "minItems":1
+    },
+    "clients":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"client.json"
+      }
+    },
+    "vehicles":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"vehicle.json"
+      }
+    },
+    "humans":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"human.json"
+      }
+    },
+    "bikes":{
+      "type":"array",
+      "items": {
+        "type":"object",
+        "$ref":"bicycle.json"
+      }
+    }
+  },
+  "required" : [
+    "configuration",
+    "graph",
+    "agents"
+  ]
+}

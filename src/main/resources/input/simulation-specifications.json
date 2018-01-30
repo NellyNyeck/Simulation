@@ -1,0 +1,35 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "The simulation specifications structure",
+  "type" : "object",
+  "properties" : {
+    "number of waiting clients" : {
+      "type" : "integer",
+      "default" : 1
+    },
+    "number of vehicles" : {
+      "type" : "integer"
+    },
+    "number of humans" : {
+      "type" : "integer"
+    },
+    "number of bikes" : {
+      "type" : "integer"
+    },
+    "time unit" : {
+      "type" : "string"
+    },
+    "speed unit" : {
+      "type" : "string"
+    },
+    "length unit" : {
+      "type" : "string"
+    }
+  },
+  "required" : [
+    "number of waiting clients",
+    "time unit",
+    "speed unit",
+    "length unit"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "the pod structure",
+  "type": "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "filename" : {
+      "type" : "string"
+    },
+    "agent-type" : {
+      "type" : "string",
+      "default" : "pod"
+    },
+    "capacity": {
+      "type":"integer",
+      "default" : 1
+    },
+    "provider":{
+      "type":"string"
+    },
+    "max-accel":{
+      "type":"number"
+    },
+    "max-decel":{
+      "type":"number"
+    },
+    "max-speed":{
+      "type": "number"
+    },
+    "start" :{
+      "type":"object",
+      "$ref":"node.json"
+    },
+    "finish" :{
+      "type":"object",
+      "$ref":"node.json"
+    },
+    "middle": {
+      "type":"array",
+      "items": {
+        "type" : "object",
+        "$ref" : "node.json"
+      }
+    }
+  },
+  "required" : [
+    "name",
+    "filename",
+    "agent-type",
+    "capacity",
+    "provider",
+    "start",
+    "finish"
+  ]
+}

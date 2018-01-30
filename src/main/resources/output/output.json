@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "output description format",
+  "type": "object",
+  "properties" : {
+    "environment" : {
+      "type" : "env-out"
+    },
+    "pods": {
+      "type" : "array",
+      "members" : "pod-out",
+      "minItems" : 1
+    },
+    "platoons" : {
+      "type" : "array",
+      "members" : "platoon-out"
+    }
+  },
+  "required" : [
+    "environment",
+    "pods"
+  ]
+}

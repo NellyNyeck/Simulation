@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "input description format",
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" :"string"
+    },
+    "start": {
+      "type" : "string"
+    },
+    "end" : {
+      "type" : "string"
+    },
+    "lengths" : {
+      "type" : "array",
+      "elements" : "integer",
+      "minIntems" :1
+    },
+    "routes" : {
+      "type" : "array",
+      "elements" : "string",
+      "minItems" : 1
+    }
+  },
+  "required" : [
+    "name",
+    "start",
+    "end",
+    "lengths",
+    "routes"
+  ]
+}

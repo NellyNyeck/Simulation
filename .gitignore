@@ -1,13 +1,15 @@
 *.*
+!.gitignore
+!Dockerfile
+!circle.yml
+!pom.xml
+!*.md
+!*.java
+!*.json
+
 !src/site/*.doxyfile
 !src/site/*.css
 !src/site/*.xml
 !src/analysis/**/*.xml
-!.gitignore
-!pom.xml
-!*.md
-!*.java
-!src/test/resources/config/*.json
-!src/test/resources/Examples/*.json
 
 target/

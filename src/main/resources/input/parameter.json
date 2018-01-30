@@ -1,0 +1,17 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "key-value pair",
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "value" : {
+      "type" : "number"
+    }
+  },
+  "required": [
+    "name",
+    "value"
+  ]
+}

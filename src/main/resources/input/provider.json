@@ -1,0 +1,53 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description" : "the structure of a provider in this simulation environment",
+  "type" : "object",
+  "properties" : {
+    "name":{
+      "type" : "string"
+    },
+    "filename":{
+      "type":"string"
+    },
+    "agent-type" : {
+      "type" : "string",
+      "default" : "provider"
+    },
+    "colour" : {
+      "type" : "string"
+    },
+    "depots" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "$ref" : "node.json"
+      },
+      "minItems" : 1,
+      "uniqueItems" : true
+    },
+    "available-pods" : {
+      "type" : "integer",
+      "minimum":1
+    },
+    "pods" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "$ref" : "pod.json"
+      },
+      "minItems" : 1,
+      "uniqueItems" : true
+    },
+    "maximum-customers" : {
+      "type" : "integer"
+    },
+    "max-out-pods/time" : {
+      "type" : "number"
+    },
+    "client-selection" : {
+      "type" : "object",
+      "$ref" : "function.json"
+    }
+  },
+"required" :["name", "filename", "agent-type", "colour", "depots", "available-pods", "maximum-customers","max-out-pods/time", "client-selection"]
+}

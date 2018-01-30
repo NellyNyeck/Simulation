@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "split point output description format",
+  "type": "objetct",
+  "properties":{
+    "node" :{
+      "type" : "string"
+    },
+    "in" : {
+      "type" : "integer"
+    },
+    "out" : {
+      "type" : "integer"
+    },
+    "split" : {
+      "type" : "integer"
+    }
+  },
+  "required": [
+    "node",
+    "in",
+    "out",
+    "split"
+  ]
+}
