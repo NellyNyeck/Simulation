@@ -436,5 +436,87 @@
 				]
 			}
 		}
-	]
+	],
+  "bikes":[
+    {
+      "name": "bike1",
+      "filename": "",
+      "agent-type": "bike",
+      "start": {
+        "name": "node0",
+        "coordinates": {
+          "type": "synthetic",
+          "first coordinate": 0,
+          "second coordinate": 0
+        }
+      },
+      "finish": {
+        "name": "node0",
+        "coordinates": {
+          "type": "synthetic",
+          "first coordinate": 0,
+          "second coordinate": 0
+        }
+      }
+    }
+  ],
+  "vehicles": [
+    {
+      "name": "vehicle1",
+      "filename": "",
+      "agent-type": "vehicle",
+      "start": {
+        "name": "node0",
+        "coordinates": {
+          "type": "synthetic",
+          "first coordinate": 0,
+          "second coordinate": 0
+        }
+      },
+      "finish": {
+        "name": "node0",
+        "coordinates": {
+          "type": "synthetic",
+          "first coordinate": 0,
+          "second coordinate": 0
+        }
+      }
+    }
+  ],
+  "humans":[
+    {
+      "name": "human1",
+      "filename": "",
+      "agent-type": "human",
+      "start": {
+        "name": "node0",
+        "coordinates": {
+          "type": "synthetic",
+          "first coordinate": 0,
+          "second coordinate": 0
+        }
+      },
+      "finish": {
+          "name": "node0",
+          "coordinates": {
+            "type": "synthetic",
+            "first coordinate": 0,
+            "second coordinate": 0
+          }
+       }
+    }
+  ],
+  "clients":{
+    "name":"client1",
+    "filename":"",
+    "agent-type":"client",
+    "location": {
+      "name": "node0",
+      "coordinates": {
+        "type": "synthetic",
+        "first coordinate": 0,
+        "second coordinate": 0
+      }
+    }
+  }
 }

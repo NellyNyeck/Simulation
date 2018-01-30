@@ -1,15 +1,18 @@
 package org.socialcars.sinziana.simulation.data;
 
-import org.socialcars.sinziana.simulation.data.input.CProvider;
-import org.socialcars.sinziana.simulation.data.input.CConfiguration;
 import org.socialcars.sinziana.simulation.data.input.CInput;
-import org.socialcars.sinziana.simulation.data.input.CStart;
-import org.socialcars.sinziana.simulation.data.input.CEdge;
-import org.socialcars.sinziana.simulation.data.input.CPod;
-import org.socialcars.sinziana.simulation.data.input.CGraph;
+import org.socialcars.sinziana.simulation.data.input.CParameter;
+import org.socialcars.sinziana.simulation.data.input.CConfiguration;
 import org.socialcars.sinziana.simulation.data.input.CCoordinates;
 import org.socialcars.sinziana.simulation.data.input.CFunction;
-import org.socialcars.sinziana.simulation.data.input.CParameter;
+import org.socialcars.sinziana.simulation.data.input.CGraph;
+import org.socialcars.sinziana.simulation.data.input.CProvider;
+import org.socialcars.sinziana.simulation.data.input.CPod;
+import org.socialcars.sinziana.simulation.data.input.CStart;
+import org.socialcars.sinziana.simulation.data.input.CEdge;
+import org.socialcars.sinziana.simulation.data.input.CBicycle;
+import org.socialcars.sinziana.simulation.data.input.CHuman;
+import org.socialcars.sinziana.simulation.data.input.CVehicle;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -19,6 +22,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 
@@ -145,11 +149,83 @@ public final class TestCInput
             Assert.assertTrue( p.getAgentType().contentEquals( "pod" ) );
             Assert.assertTrue( p.getCapacity() == 1 );
             Assert.assertTrue( p.getProvider().contentEquals( "DHL" ) );
-            Assert.assertTrue( p.getStart().getName().contentEquals( "node0" ) );
-            Assert.assertTrue( p.getFinish().getName().contentEquals( "node0" ) );
+            Assert.assertNotNull( p.getStart() );
+            Assert.assertNotNull( p.getFinish() );
             Assert.assertTrue( p.getMaxAccel() == 0.5 );
             Assert.assertTrue( p.getMaxDecel() == 0.3 );
             Assert.assertTrue( p.getMaxSpeed() == 1 );
+            Assert.assertTrue( p.getMiddle().size() == 0 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
+            p.setAdditionalProperty( "extraness", 1 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+        } );
+    }
+
+    /**
+     * testing humans MUAHAHHAHAHAH
+     */
+    @Test
+    public void testhuman()
+    {
+        Assume.assumeNotNull( m_configuration );
+        Assert.assertNotNull( m_configuration.getHumans() );
+        final List<CHuman> l_humans = m_configuration.getHumans();
+        l_humans.forEach( p ->
+        {
+            Assert.assertNotNull( p.getName() );
+            Assert.assertTrue( p.getName().contains( "human" ) );
+            Assert.assertTrue( p.getFilename().contentEquals( "" ) );
+            Assert.assertTrue( p.getAgentType().contentEquals( "human" ) );
+            Assert.assertNotNull( p.getStart() );
+            Assert.assertNotNull( p.getFinish() );
+            Assert.assertTrue( p.getMiddle().size() == 0 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
+            p.setAdditionalProperty( "extraness", 1 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+        } );
+    }
+
+    /**
+     * testing bikes
+     */
+    @Test
+    public void testbikes()
+    {
+        Assume.assumeNotNull( m_configuration );
+        Assert.assertNotNull( m_configuration.getBikes() );
+        final List<CBicycle> l_bikes = m_configuration.getBikes();
+        l_bikes.forEach( p ->
+        {
+            Assert.assertNotNull( p.getName() );
+            Assert.assertTrue( p.getName().contains( "bike" ) );
+            Assert.assertTrue( p.getFilename().contentEquals( "" ) );
+            Assert.assertTrue( p.getAgentType().contentEquals( "bike" ) );
+            Assert.assertNotNull( p.getStart() );
+            Assert.assertNotNull( p.getFinish() );
+            Assert.assertTrue( p.getMiddle().size() == 0 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
+            p.setAdditionalProperty( "extraness", 1 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+        } );
+    }
+
+    /**
+     * testing the vehicles
+     */
+    @Test
+    public void testvehs()
+    {
+        Assume.assumeNotNull( m_configuration );
+        Assert.assertNotNull( m_configuration.getVehicles() );
+        final List<CVehicle> l_vehicles = m_configuration.getVehicles();
+        l_vehicles.forEach( p ->
+        {
+            Assert.assertNotNull( p.getName() );
+            Assert.assertTrue( p.getName().contains( "vehicle" ) );
+            Assert.assertTrue( p.getFilename().contentEquals( "" ) );
+            Assert.assertTrue( p.getAgentType().contentEquals( "vehicle" ) );
+            Assert.assertNotNull( p.getStart() );
+            Assert.assertNotNull( p.getFinish() );
             Assert.assertTrue( p.getMiddle().size() == 0 );
             Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
             p.setAdditionalProperty( "extraness", 1 );
