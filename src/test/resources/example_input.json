@@ -497,26 +497,28 @@
         }
       },
       "finish": {
-          "name": "node0",
-          "coordinates": {
-            "type": "synthetic",
-            "first coordinate": 0,
-            "second coordinate": 0
+        "name": "node0",
+        "coordinates": {
+          "type": "synthetic",
+          "first coordinate": 0,
+          "second coordinate": 0
           }
        }
     }
   ],
-  "clients":{
-    "name":"client1",
-    "filename":"",
-    "agent-type":"client",
-    "location": {
-      "name": "node0",
-      "coordinates": {
-        "type": "synthetic",
-        "first coordinate": 0,
-        "second coordinate": 0
+  "clients":[
+    {
+      "name":"client1",
+      "filename":"",
+      "agent-type":"client",
+      "location":{
+        "name": "node0",
+        "coordinates": {
+          "type": "synthetic",
+          "first coordinate": 0,
+          "second coordinate": 0
+        }
       }
     }
-  }
+  ]
 }

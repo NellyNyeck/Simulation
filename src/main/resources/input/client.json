@@ -6,6 +6,9 @@
     "name": {
       "type":"string"
     },
+    "filename":{
+      "type":"string"
+    },
     "agent-type": {
       "type": "string",
       "default": "client"

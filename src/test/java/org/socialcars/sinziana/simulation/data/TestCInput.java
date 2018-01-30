@@ -13,6 +13,7 @@ import org.socialcars.sinziana.simulation.data.input.CEdge;
 import org.socialcars.sinziana.simulation.data.input.CBicycle;
 import org.socialcars.sinziana.simulation.data.input.CHuman;
 import org.socialcars.sinziana.simulation.data.input.CVehicle;
+import org.socialcars.sinziana.simulation.data.input.CClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -230,6 +231,28 @@ public final class TestCInput
             Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
             p.setAdditionalProperty( "extraness", 1 );
             Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+        } );
+    }
+
+    /**
+     * testing clients
+     */
+    @Test
+    public void testclient()
+    {
+        Assume.assumeNotNull( m_configuration );
+        Assert.assertNotNull( m_configuration.getClients() );
+        final List<CClient> l_clients = m_configuration.getClients();
+        l_clients.stream().forEach( c ->
+        {
+            Assert.assertTrue( c.getName().contains( "client" ) );
+            Assert.assertTrue( c.getFilename().isEmpty() );
+            Assert.assertTrue( c.getAgentType().contentEquals( "client" ) );
+            Assert.assertNotNull( c.getLocation() );
+            Assert.assertTrue( c.getLabels().size() == 0 );
+            Assert.assertTrue( c.getAdditionalProperties().size() == 0 );
+            c.setAdditionalProperty( "miss extra", 1 );
+            Assert.assertTrue( c.getAdditionalProperties().size() == 1 );
         } );
     }
 
