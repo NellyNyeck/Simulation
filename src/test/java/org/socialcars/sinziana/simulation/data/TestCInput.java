@@ -1,24 +1,24 @@
 package org.socialcars.sinziana.simulation.data;
 
 import org.socialcars.sinziana.simulation.data.input.CProvider;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.socialcars.sinziana.simulation.data.input.CInput;
-import org.junit.Assert;
 import org.socialcars.sinziana.simulation.data.input.CConfiguration;
-import org.junit.Assume;
-import org.socialcars.sinziana.simulation.data.input.CGraph;
-import org.junit.Before;
+import org.socialcars.sinziana.simulation.data.input.CInput;
 import org.socialcars.sinziana.simulation.data.input.CStart;
-import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CEdge;
+import org.socialcars.sinziana.simulation.data.input.CPod;
+import org.socialcars.sinziana.simulation.data.input.CGraph;
 import org.socialcars.sinziana.simulation.data.input.CCoordinates;
 import org.socialcars.sinziana.simulation.data.input.CFunction;
 import org.socialcars.sinziana.simulation.data.input.CParameter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Test;
 
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -53,6 +53,11 @@ public final class TestCInput
         Assert.assertTrue( !m_configuration.toString().isEmpty() );
         Assert.assertTrue( m_configuration.getAdditionalProperties().size() == 0 );
         Assert.assertTrue( m_configuration.hashCode() != 0 );
+        Assert.assertNotNull( m_configuration.getBikes() );
+        Assert.assertNotNull( m_configuration.getClients() );
+        Assert.assertNotNull( m_configuration.getHumans() );
+        Assert.assertNotNull( m_configuration.getVehicles() );
+        Assert.assertNotNull( m_configuration.getBikes() );
     }
 
     /**
@@ -84,10 +89,10 @@ public final class TestCInput
     }
 
     /**
-     * test scenario agents
+     * test scenario providers
      */
     @Test
-    public void testagents()
+    public void testproviders()
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getProviders() );
@@ -99,18 +104,57 @@ public final class TestCInput
         Assert.assertTrue( 0 != l_prov.hashCode() );
         Assert.assertTrue( l_prov.getName().contentEquals( "DHL" ) );
         Assert.assertTrue( l_prov.getFilename().contentEquals( "" ) );
-        @// TODO: 29.01.18 do the thing to pass to the new object structure
-        /*final Map<String, Object> l_extra = l_prov.getAdditionalProperties();
-        Assert.assertNotNull( l_extra.get( "agent-type" ) );
-        Assert.assertTrue( l_extra.get( "agent-type" ).equals( "provider" ) );
-        Assert.assertNotNull( l_extra.get( "colour" ) );
-        Assert.assertTrue( l_extra.get( "colour" ).equals( "yellow" ) );
-        Assert.assertNotNull( l_extra.get( "available pods" ) );
-        Assert.assertTrue( l_extra.get( "available pods" ).equals( 1 ) );
-        Assert.assertNotNull( l_extra.get( "maximum number of customers" ) );
-        Assert.assertTrue( l_extra.get( "maximum number of customers" ).equals( 1 ) );
-        Assert.assertNotNull( l_extra.get( "maximum outgoing pods/time unit" ) );
-        Assert.assertTrue( l_extra.get( "maximum outgoing pods/time unit" ).equals( 1 ) );*/
+        Assert.assertNotNull( l_prov.getAgentType() );
+        Assert.assertTrue( l_prov.getAgentType().contentEquals( "provider" ) );
+        Assert.assertNotNull( l_prov.getColour() );
+        Assert.assertTrue( l_prov.getColour().contentEquals( "yellow" ) );
+        Assert.assertNotNull( l_prov.getAvailablePods() );
+        Assert.assertNotNull( l_prov.getAvailablePods() == 1 );
+        Assert.assertNotNull( l_prov.getMaximumCustomers() );
+        Assert.assertTrue( l_prov.getMaximumCustomers() == 1 );
+        Assert.assertNotNull( l_prov.getMaxOutPodsTime() );
+        Assert.assertTrue( l_prov.getMaxOutPodsTime() == 1  );
+        Assert.assertNotNull( l_prov.getFunction() );
+        Assert.assertTrue( l_prov.getFunction().getName().contentEquals( "normal" ) );
+        Assert.assertTrue( l_prov.getFunction().getParameters().size() == 2 );
+        Assert.assertNotNull( l_prov.getAdditionalProperties() );
+        Assert.assertTrue( l_prov.getAdditionalProperties().size() == 0 );
+        Assert.assertNotNull( l_prov.getPods() );
+        Assert.assertTrue( l_prov.getPods().size() == 1 );
+        Assert.assertNotNull( l_prov.getDepots() );
+        Assert.assertNotNull( l_prov.getDepots().size() == 1 );
+        l_prov.setAdditionalProperty( "extra ?", 1 );
+        Assert.assertTrue( l_prov.getAdditionalProperties().size() == 1 );
+    }
+
+    /**
+     * pod testing
+     */
+    @Test
+    public void testpod()
+    {
+        Assume.assumeNotNull( m_configuration );
+        Assert.assertNotNull( m_configuration.getProviders() );
+        final CProvider l_prov = m_configuration.getProviders().get( 0 );
+        final Set<CPod> l_pods = l_prov.getPods();
+        l_pods.forEach( p ->
+        {
+            Assert.assertNotNull( p.getName() );
+            Assert.assertTrue( p.getName().contains( "pod" ) );
+            Assert.assertTrue( p.getFilename().contentEquals( "" ) );
+            Assert.assertTrue( p.getAgentType().contentEquals( "pod" ) );
+            Assert.assertTrue( p.getCapacity() == 1 );
+            Assert.assertTrue( p.getProvider().contentEquals( "DHL" ) );
+            Assert.assertTrue( p.getStart().getName().contentEquals( "node0" ) );
+            Assert.assertTrue( p.getFinish().getName().contentEquals( "node0" ) );
+            Assert.assertTrue( p.getMaxAccel() == 0.5 );
+            Assert.assertTrue( p.getMaxDecel() == 0.3 );
+            Assert.assertTrue( p.getMaxSpeed() == 1 );
+            Assert.assertTrue( p.getMiddle().size() == 0 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
+            p.setAdditionalProperty( "extraness", 1 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+        } );
     }
 
 

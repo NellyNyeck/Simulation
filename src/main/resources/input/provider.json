@@ -38,16 +38,16 @@
       "minItems" : 1,
       "uniqueItems" : true
     },
-    "maximum number of customers" : {
+    "maximum-customers" : {
       "type" : "integer"
     },
-    "maximum outgoing pods/time unit" : {
+    "max-out-pods/time" : {
       "type" : "number"
     },
-    "poi selection function" : {
+    "client-selection" : {
       "type" : "object",
       "$ref" : "function.json"
     }
   },
-"required" :["name", "filename", "agent-type", "colour", "depots", "available-pods", "maximum number of customers","maximum outgoing pods/time unit", "poi selection function"]
+"required" :["name", "filename", "agent-type", "colour", "depots", "available-pods", "maximum-customers","max-out-pods/time", "client-selection"]
 }

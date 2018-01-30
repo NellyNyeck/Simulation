@@ -20,6 +20,15 @@
     "provider":{
       "type":"string"
     },
+    "max-accel":{
+      "type":"number"
+    },
+    "max-decel":{
+      "type":"number"
+    },
+    "max-speed":{
+      "type": "number"
+    },
     "start" :{
       "type":"object",
       "$ref":"node.json"

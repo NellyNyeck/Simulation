@@ -391,12 +391,15 @@
 					}
 				}
 			],
-			"available pods" : 1,
+			"available-pods" : 1,
 			"pods": [
 				{
 					"name" : "pod1",
 					"filename" : "",
-					"entry point": {
+          "agent-type":"pod",
+          "capacity": 1,
+          "provider": "DHL",
+					"start": {
 						"name" : "node0",
 						"coordinates": {
 							"type" : "synthetic",
@@ -404,7 +407,7 @@
 							"second coordinate": 0
 						}
 					},
-					"exit point" : {
+					"finish" : {
 						"name" : "node0",
 						"coordinates": {
 							"type" : "synthetic",
@@ -412,18 +415,15 @@
 							"second coordinate": 0
 						}
 					},
-					"max speed": 1,
-					"max accel" : 0.5,
-					"max decel": 0.3,
-					"agent-type": "pod",
-					"capacity": 1,
-					"provider": "DHL"
+					"max-speed": 1,
+					"max-accel" : 0.5,
+					"max-decel": 0.3
 				}
 			],
-			"maximum number of customers" : 1,
-			"maximum outgoing pods/time unit": 1,
-			"client selection function": {
-				"name": "even",
+			"maximum-customers" : 1,
+			"max-out-pods/time": 1,
+			"client-selection": {
+				"name": "normal",
 				"parameters": [
 					{
 						"name": "sigma",
