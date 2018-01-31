@@ -15,41 +15,51 @@ public class CUnits
     /**
      * ctor
      *
-     * @param p_time time step
-     * @param p_space space?
+     * @param p_time time given by runtime
+     * @param p_space space given by runtime
      *
-     * @todo bitte mal überlegen was der UNterschied zwischen double und Double ist, Du mischst hier
      */
-    CUnits( final Double p_time, final Double p_space )
+    CUnits( final Number p_time, final Number p_space )
     {
-        m_timestep = p_time;
-        m_stepstep = p_space;
+        m_timestep = p_time.doubleValue();
+        m_stepstep = p_space.doubleValue();
+    }
+
+
+    /**
+     * transforming acceleration to speed
+     * @param p_accel the acceleration given
+     * @return the resulting speed
+     */
+    public final Number accelToSpeed( final Number p_accel )
+    {
+        return p_accel.doubleValue() * m_timestep;
     }
 
     /**
-     * ???
-     * @param p_accel was ist das?
-     * @return ???
-     * @todo bitte mal auf ordentliche Benennung der Methoden und Parameter achten!
-     * Was heisst "p_accel" ? und was heisst "accel2speed"?
-     * @toto bitte mal lesen: http://www.programmierenlernenhq.de/java-programmieren-lernen-vergabe-von-namen-fur-klassen-methoden-und-variablen-in-java/
+     * transforming the distance
+     * @param p_dist the given distance
+     * @return the resulting distance
      */
-    public double accel2speed( final double p_accel )
+    public final Number getDist( final Number p_dist )
     {
-        return p_accel * m_timestep;
+        return p_dist.doubleValue() * m_stepstep;
     }
 
-    public double getDist( final double p_dist )
-    {
-        return p_dist * m_stepstep;
-    }
-
-    public double getTimestep()
+    /**
+     * returns the internal tact
+     * @return the internal tact
+     */
+    public final Number getTimestep()
     {
         return m_stepstep;
     }
 
-    public double getStepstep()
+    /**
+     * returns the internal distance step
+     * @return the internal distance step
+     */
+    public final Number getStepstep()
     {
         return m_stepstep;
     }
