@@ -19,7 +19,7 @@ public class CUnits implements IUnits
      * @param p_space space given by runtime
      *
      */
-    CUnits( final Number p_time, final Number p_space )
+    public CUnits( final Number p_time, final Number p_space )
     {
         m_timestep = p_time.doubleValue();
         m_block = p_space.doubleValue();

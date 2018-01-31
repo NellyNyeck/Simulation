@@ -3,9 +3,6 @@
   "description": "output description format",
   "type": "object",
   "properties" : {
-    "environment" : {
-      "type" : "env-out"
-    },
     "pods": {
       "type" : "array",
       "members" : "pod-out",
