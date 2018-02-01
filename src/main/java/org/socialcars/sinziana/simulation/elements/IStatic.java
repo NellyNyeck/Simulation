@@ -5,7 +5,5 @@ package org.socialcars.sinziana.simulation.elements;
  */
 public interface IStatic extends IElement
 {
-
     Object location();
-
 }

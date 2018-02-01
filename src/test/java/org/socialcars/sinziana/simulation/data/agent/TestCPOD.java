@@ -106,7 +106,9 @@ public class TestCPOD
     public void start()
     {
         Assume.assumeNotNull( m_pod );
-        Assert.assertTrue( m_pod.getStart().getName().contentEquals( "node0" ) );
+        Assert.assertTrue( m_pod.getStart().name().contentEquals( "node0" ) );
+        Assert.assertTrue( m_pod.getStart().coord().getFirstCoordinate() == 0 );
+        Assert.assertTrue( m_pod.getStart().coord().getSecondCoordinate() == 0 );
     }
 
     /**
@@ -116,7 +118,9 @@ public class TestCPOD
     public void finish()
     {
         Assume.assumeNotNull( m_pod );
-        Assert.assertTrue( m_pod.getFinish().getName().contentEquals( "node0" ) );
+        Assert.assertTrue( m_pod.getFinish().name().contentEquals( "node0" ) );
+        Assert.assertTrue( m_pod.getFinish().coord().getFirstCoordinate() == 0 );
+        Assert.assertTrue( m_pod.getFinish().coord().getSecondCoordinate() == 0 );
     }
 
     /**
@@ -126,7 +130,7 @@ public class TestCPOD
     public void middle()
     {
         Assume.assumeNotNull( m_pod );
-        Assert.assertTrue( m_pod.getMiddle().isEmpty() );
+        Assert.assertNull( m_pod.getMiddle() );
     }
 
     /**
@@ -149,4 +153,23 @@ public class TestCPOD
         Assert.assertTrue( m_pod.getAgentType().contentEquals( "pod" ) );
     }
 
+    /**
+     * testing provider
+     */
+    @Test
+    public void provider()
+    {
+        Assume.assumeNotNull( m_pod );
+        Assert.assertTrue( m_pod.getProvider().contentEquals( "DHL" ) );
+    }
+
+    /**
+     * testing capacity
+     */
+    @Test
+    public void capacity()
+    {
+        Assume.assumeNotNull( m_pod );
+        Assert.assertTrue( m_pod.getCapacity().equals( 1 ) );
+    }
 }

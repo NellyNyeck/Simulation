@@ -1,23 +1,41 @@
 package org.socialcars.sinziana.simulation.elements;
 
 import org.socialcars.sinziana.simulation.data.input.CPod;
-import org.socialcars.sinziana.simulation.data.input.CStart;
+import org.socialcars.sinziana.simulation.environment.CIntersection;
 
 import java.util.List;
 
 /**
  * the class for the pod
  */
-public class CPOD implements IMovable
+public class CPOD implements IPOD
 {
+    private CPod m_pod;
+
+    private CIntersection m_start;
+    private CIntersection m_finish;
+    private List<CIntersection> m_middle;
+
     private Number m_speed;
     private Number m_location;
 
-    private CPod m_pod;
 
+    /**
+     * constructor
+     * @param p_pod pod pojo
+     */
     public CPOD( final CPod p_pod )
     {
         m_pod = p_pod;
+        m_speed = 0;
+        m_location = null;
+        m_start = new CIntersection( m_pod.getStart() );
+        m_finish = new CIntersection( m_pod.getFinish() );
+        m_pod.getMiddle().stream().forEach( m ->
+        {
+            final CIntersection l_mid = new CIntersection( m );
+            m_middle.add( l_mid );
+        } );
     }
 
     @Override
@@ -45,21 +63,21 @@ public class CPOD implements IMovable
     }
 
     @Override
-    public CStart getStart()
+    public CIntersection getStart()
     {
-        return m_pod.getStart();
+        return m_start;
     }
 
     @Override
-    public CStart getFinish()
+    public CIntersection getFinish()
     {
-        return m_pod.getFinish();
+        return m_finish;
     }
 
     @Override
-    public List<CStart> getMiddle()
+    public List<CIntersection> getMiddle()
     {
-        return m_pod.getMiddle();
+        return m_middle;
     }
 
     @Override
@@ -108,5 +126,17 @@ public class CPOD implements IMovable
     public IElement call() throws Exception
     {
         return null;
+    }
+
+    @Override
+    public Number getCapacity()
+    {
+        return m_pod.getCapacity();
+    }
+
+    @Override
+    public String getProvider()
+    {
+        return m_pod.getProvider();
     }
 }

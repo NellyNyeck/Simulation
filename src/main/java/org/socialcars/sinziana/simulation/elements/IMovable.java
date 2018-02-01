@@ -1,7 +1,6 @@
 package org.socialcars.sinziana.simulation.elements;
 
-import org.socialcars.sinziana.simulation.data.input.CStart;
-
+import org.socialcars.sinziana.simulation.environment.CIntersection;
 import java.util.List;
 
 /**
@@ -17,11 +16,11 @@ public interface IMovable extends IElement
 
     void setLocation( Number p_location );
 
-    CStart getStart();
+    CIntersection getStart();
 
-    CStart getFinish();
+    CIntersection getFinish();
 
-    List<CStart> getMiddle();
+    List<CIntersection> getMiddle();
 
     Number getMaxAccel();
 
