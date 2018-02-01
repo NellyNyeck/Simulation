@@ -1,5 +1,9 @@
 package org.socialcars.sinziana.simulation.elements;
 
+import org.socialcars.sinziana.simulation.data.input.CStart;
+
+import java.util.List;
+
 /**
  * the interface for movable agents
  */
@@ -13,11 +17,11 @@ public interface IMovable extends IElement
 
     void setLocation( Number p_location );
 
-    Object getStart();
+    CStart getStart();
 
-    Object getFinish();
+    CStart getFinish();
 
-    Object getMiddle();
+    List<CStart> getMiddle();
 
     Number getMaxAccel();
 

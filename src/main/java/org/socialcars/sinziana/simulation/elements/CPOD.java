@@ -1,6 +1,9 @@
 package org.socialcars.sinziana.simulation.elements;
 
 import org.socialcars.sinziana.simulation.data.input.CPod;
+import org.socialcars.sinziana.simulation.data.input.CStart;
+
+import java.util.List;
 
 /**
  * the class for the pod
@@ -42,19 +45,19 @@ public class CPOD implements IMovable
     }
 
     @Override
-    public Object getStart()
+    public CStart getStart()
     {
         return m_pod.getStart();
     }
 
     @Override
-    public Object getFinish()
+    public CStart getFinish()
     {
         return m_pod.getFinish();
     }
 
     @Override
-    public Object getMiddle()
+    public List<CStart> getMiddle()
     {
         return m_pod.getMiddle();
     }
