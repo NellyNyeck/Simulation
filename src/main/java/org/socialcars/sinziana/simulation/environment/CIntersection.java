@@ -6,7 +6,7 @@ import org.socialcars.sinziana.simulation.data.input.CStart;
 /**
  * the class for the node object
  */
-public class CIntersection implements IIntersection<String>
+public class CIntersection implements INode<String>
 {
 
     private final CStart m_node;
@@ -15,7 +15,7 @@ public class CIntersection implements IIntersection<String>
      * constructor
      * @param p_node the pojo node given
      */
-    CIntersection( final CStart p_node )
+    public CIntersection( final CStart p_node )
     {
         m_node = p_node;
     }

@@ -14,10 +14,12 @@ import java.util.List;
  * @param <V> generic for intersection
  * @param <E> generic for street
  */
-public class CEnvironment<I, V extends IIntersection<I>, E extends IStreet> implements IEnvironment<I, V, E>
+public class CEnvironment<I, V extends INode<I>, E extends IStreet> implements IEnvironment<I, V, E>
 {
 
     private final Graph<V, E> m_graph = new DirectedSparseGraph<>();
+
+    // TODO: 01.02.18 find way to link graph with env
 
     /**
      * finds the best route

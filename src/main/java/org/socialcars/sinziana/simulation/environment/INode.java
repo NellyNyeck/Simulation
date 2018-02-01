@@ -6,7 +6,7 @@ import org.socialcars.sinziana.simulation.data.input.CCoordinates;
  * the interface for the node object
  * @param <T> generic type
  */
-public interface IIntersection<T>
+public interface INode<T>
 {
 
     T name();

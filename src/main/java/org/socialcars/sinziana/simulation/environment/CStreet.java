@@ -11,7 +11,7 @@ public class CStreet implements IStreet
 
     private CEdge m_edge;
 
-    CStreet( final CEdge p_edge )
+    public CStreet( final CEdge p_edge )
     {
         m_edge = p_edge;
     }

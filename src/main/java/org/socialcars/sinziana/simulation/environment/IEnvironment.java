@@ -10,7 +10,7 @@ import java.util.List;
  * @param <V> generic for node
  * @param <E> generic for edge
  */
-public interface IEnvironment<I, V extends IIntersection<I>, E extends IStreet>
+public interface IEnvironment<I, V extends INode<I>, E extends IStreet>
 {
 
     List<E> findBestRoute( V p_start, V p_finish,  List<V> p_middle );
