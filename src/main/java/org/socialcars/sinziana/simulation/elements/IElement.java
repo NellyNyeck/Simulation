@@ -8,6 +8,13 @@ import java.util.concurrent.Callable;
  */
 public interface IElement extends Callable<IElement>
 {
+
+    String getName();
+
+    String getFilename();
+
+    String getAgentType();
+
     /**
      * checks if the agent is terminated
      *
