@@ -3,6 +3,7 @@ package org.socialcars.sinziana.simulation.environment;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * the environment interface
@@ -10,7 +11,9 @@ import java.util.List;
 public interface IEnvironment
 {
 
-    List<? extends IEdge> findBestRoute( INode p_start, INode p_finish,  List<? extends INode> p_middle );
+    List<IEdge> route( INode p_start, INode p_finish, INode... p_middle );
+
+    List<IEdge> route( INode p_start, INode p_finish, Stream<INode> p_middle );
 
     void initSet( IElement p_el );
 }

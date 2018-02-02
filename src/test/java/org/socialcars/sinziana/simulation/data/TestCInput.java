@@ -183,6 +183,9 @@ public final class TestCInput
             Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
             p.setAdditionalProperty( "extraness", 1 );
             Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+            Assert.assertTrue( p.getMaxAccel() == 0 );
+            Assert.assertTrue( p.getMaxDecel() == 0 );
+            Assert.assertTrue( p.getMaxSpeed() == 0 );
         } );
     }
 
@@ -207,6 +210,10 @@ public final class TestCInput
             Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
             p.setAdditionalProperty( "extraness", 1 );
             Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+            Assert.assertTrue( p.getMaxAccel() == 0 );
+            Assert.assertTrue( p.getMaxDecel() == 0 );
+            Assert.assertTrue( p.getMaxSpeed() == 0 );
         } );
     }
 
@@ -231,6 +238,10 @@ public final class TestCInput
             Assert.assertTrue( p.getAdditionalProperties().size() == 0 );
             p.setAdditionalProperty( "extraness", 1 );
             Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+            Assert.assertTrue( p.getAdditionalProperties().size() == 1 );
+            Assert.assertTrue( p.getMaxAccel() == 0 );
+            Assert.assertTrue( p.getMaxDecel() == 0 );
+            Assert.assertTrue( p.getMaxSpeed() == 0 );
         } );
     }
 

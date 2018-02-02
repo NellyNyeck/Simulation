@@ -1,25 +1,28 @@
 package org.socialcars.sinziana.simulation.environment;
 
+import com.codepoetics.protonpack.StreamUtils;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 
 
-import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
-import org.socialcars.sinziana.simulation.data.input.CStartpojo;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * the environment class
  */
 public class CEnvironment implements IEnvironment
 {
-
-    private final Graph<CNode, CEdge> m_graph = new DirectedSparseGraph<>();
+    private final Graph<INode, IEdge> m_graph = new DirectedSparseGraph<>();
+    private final DijkstraShortestPath<INode, IEdge> m_pathalgorithm = new DijkstraShortestPath<>( m_graph );
 
     /**
      * construnctor
@@ -27,41 +30,39 @@ public class CEnvironment implements IEnvironment
      */
     public CEnvironment( final CGraphpojo p_gr )
     {
-        final Set<CStartpojo> l_nodes = p_gr.getNodes();
-        l_nodes.stream().forEach( n ->
+        final Map<String, INode> l_nodes = p_gr.getNodes()
+            .stream()
+            .map( CNode::new )
+            .peek( m_graph::addVertex )
+            .collect( Collectors.toMap( CNode::name, i -> i ) );
+        p_gr.getEdges().forEach( e ->
         {
-            m_graph.addVertex( new CNode( n ) );
-        } );
-        final Set<CEdgepojo> l_edges = p_gr.getEdges();
-        l_edges.stream().forEach( e ->
-        {
+            // TODO: 02.02.18 finish this
         } );
     }
 
-    /**
-     * gets the node
-     * @param p_name the name of the node
-     * @return the node found
-     */
-    public CNode getNode( final String p_name )
-    {
-        final CNode l_found = null;
-        return l_found;
-    }
 
-    /**
-     * finds the best route
-     * @param p_start start node
-     * @param p_finish end node
-     * @param p_middle middle list of nodes, not relevant does not apply
-     * @return list of edges
-     */
     @Override
-    public List<? extends IEdge> findBestRoute( final INode p_start, final INode p_finish, final List<? extends INode> p_middle )
+    public List<IEdge> route( final INode p_start, final INode p_finish, final INode... p_middle )
     {
-        final DijkstraShortestPath<CNode, CEdge> l_dijkstra = new DijkstraShortestPath<>( m_graph );
-        //final List<CEdge> l_route = l_dijkstra.getPath( p_start, p_finish );
-        return null;
+        return this.route( p_start, p_finish, Objects.isNull( p_middle ) ? Stream.empty() : Arrays.stream( p_middle ) );
+    }
+
+    @Override
+    public List<IEdge> route( final INode p_start, final INode p_finish, final Stream<INode> p_middle )
+    {
+        return StreamUtils.windowed(
+            Stream.concat(
+                Stream.concat(
+                    Stream.of( p_start ),
+                    p_middle
+                ),
+                Stream.of( p_finish )
+            ),
+        2
+        ).flatMap(
+            i -> m_pathalgorithm.getPath( i.get( 0 ), i.get( 1 ) ).stream()
+        ).collect( Collectors.toList() );
     }
 
     /**
