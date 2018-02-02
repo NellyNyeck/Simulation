@@ -1,6 +1,6 @@
 package org.socialcars.sinziana.simulation.elements;
 
-import org.socialcars.sinziana.simulation.data.input.CPodpojo;
+import org.socialcars.sinziana.simulation.data.input.CHumanpojo;
 import org.socialcars.sinziana.simulation.environment.CNode;
 import org.socialcars.sinziana.simulation.environment.INode;
 
@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * the class for the pod
+ * the human class
  */
-public class CPod implements IPod
+public class CHuman implements IHuman
 {
-    private CPodpojo m_pod;
+    private CHumanpojo m_human;
 
     private CNode m_start;
     private CNode m_finish;
@@ -21,19 +21,16 @@ public class CPod implements IPod
     private Number m_speed;
     private Number m_location;
 
-
     /**
      * constructor
-     * @param p_pod pod pojo
+     * @param p_human human pojo
      */
-    public CPod( final CPodpojo p_pod )
+    public CHuman( final CHumanpojo p_human )
     {
-        m_pod = p_pod;
-        m_speed = 0;
-        m_location = null;
-        m_start = new CNode( m_pod.getStart() );
-        m_finish = new CNode( m_pod.getFinish() );
-        m_pod.getMiddle().stream().forEach( m ->
+        m_human = p_human;
+        m_start = new CNode( p_human.getStart() );
+        m_finish = new CNode( p_human.getFinish() );
+        m_human.getMiddle().stream().forEach( m ->
         {
             m_middle.add( new CNode( m ) );
         } );
@@ -64,13 +61,13 @@ public class CPod implements IPod
     }
 
     @Override
-    public CNode getStart()
+    public INode getStart()
     {
         return m_start;
     }
 
     @Override
-    public CNode getFinish()
+    public INode getFinish()
     {
         return m_finish;
     }
@@ -84,37 +81,37 @@ public class CPod implements IPod
     @Override
     public Number getMaxAccel()
     {
-        return m_pod.getMaxAccel();
+        return m_human.getMaxAccel();
     }
 
     @Override
     public Number getMaxDeccel()
     {
-        return m_pod.getMaxDecel();
+        return m_human.getMaxDecel();
     }
 
     @Override
     public Number getMaxSpeed()
     {
-        return m_pod.getMaxSpeed();
+        return m_human.getMaxSpeed();
     }
 
     @Override
     public String getName()
     {
-        return m_pod.getName();
+        return m_human.getName();
     }
 
     @Override
     public String getFilename()
     {
-        return m_pod.getFilename();
+        return m_human.getFilename();
     }
 
     @Override
     public String getAgentType()
     {
-        return m_pod.getAgentType();
+        return m_human.getAgentType();
     }
 
     @Override
@@ -127,17 +124,5 @@ public class CPod implements IPod
     public IElement call() throws Exception
     {
         return null;
-    }
-
-    @Override
-    public Number getCapacity()
-    {
-        return m_pod.getCapacity();
-    }
-
-    @Override
-    public String getProvider()
-    {
-        return m_pod.getProvider();
     }
 }

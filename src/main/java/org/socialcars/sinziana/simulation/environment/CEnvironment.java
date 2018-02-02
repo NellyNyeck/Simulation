@@ -1,9 +1,11 @@
 package org.socialcars.sinziana.simulation.environment;
 
+import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 
 
+import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
 import org.socialcars.sinziana.simulation.data.input.CStartpojo;
 import org.socialcars.sinziana.simulation.elements.IElement;
@@ -28,9 +30,23 @@ public class CEnvironment implements IEnvironment
         final Set<CStartpojo> l_nodes = p_gr.getNodes();
         l_nodes.stream().forEach( n ->
         {
-            final CNode l_int = new CNode( n );
-            //m_graph.addVertex( l_int ); U WOT MATE?!?!?!?!!
+            m_graph.addVertex( new CNode( n ) );
         } );
+        final Set<CEdgepojo> l_edges = p_gr.getEdges();
+        l_edges.stream().forEach( e ->
+        {
+        } );
+    }
+
+    /**
+     * gets the node
+     * @param p_name the name of the node
+     * @return the node found
+     */
+    public CNode getNode( final String p_name )
+    {
+        final CNode l_found = null;
+        return l_found;
     }
 
     /**
@@ -40,10 +56,11 @@ public class CEnvironment implements IEnvironment
      * @param p_middle middle list of nodes, not relevant does not apply
      * @return list of edges
      */
-
     @Override
-    public List<IEdge> findBestRoute( final INode p_start, final INode p_finish, final List<INode> p_middle )
+    public List<? extends IEdge> findBestRoute( final INode p_start, final INode p_finish, final List<? extends INode> p_middle )
     {
+        final DijkstraShortestPath<CNode, CEdge> l_dijkstra = new DijkstraShortestPath<>( m_graph );
+        //final List<CEdge> l_route = l_dijkstra.getPath( p_start, p_finish );
         return null;
     }
 

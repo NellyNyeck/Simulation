@@ -10,7 +10,7 @@ import java.util.List;
 public interface IEnvironment
 {
 
-    List<IEdge> findBestRoute( INode p_start, INode p_finish,  List<INode> p_middle );
+    List<? extends IEdge> findBestRoute( INode p_start, INode p_finish,  List<? extends INode> p_middle );
 
     void initSet( IElement p_el );
 }

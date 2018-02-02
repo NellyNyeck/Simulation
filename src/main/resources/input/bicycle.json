@@ -27,6 +27,15 @@
         "type" : "object",
         "$ref" : "node.json"
       }
+    },
+    "max-accel":{
+      "type":"number"
+    },
+    "max-decel":{
+      "type":"number"
+    },
+    "max-speed":{
+      "type": "number"
     }
   },
   "required" : [
