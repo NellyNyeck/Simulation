@@ -1,7 +1,8 @@
 package org.socialcars.sinziana.simulation.elements;
 
-import org.socialcars.sinziana.simulation.environment.CIntersection;
-import java.util.List;
+import org.socialcars.sinziana.simulation.environment.INode;
+
+import java.util.Collection;
 
 /**
  * the interface for movable agents
@@ -16,11 +17,11 @@ public interface IMovable extends IElement
 
     void setLocation( Number p_location );
 
-    CIntersection getStart();
+    INode getStart();
 
-    CIntersection getFinish();
+    INode getFinish();
 
-    List<CIntersection> getMiddle();
+    Collection<? extends INode> getMiddle();
 
     Number getMaxAccel();
 

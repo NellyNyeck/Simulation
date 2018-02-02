@@ -1,8 +1,9 @@
 package org.socialcars.sinziana.simulation.elements;
 
-import org.socialcars.sinziana.simulation.environment.CIntersection;
 
-import java.util.List;
+import org.socialcars.sinziana.simulation.environment.INode;
+
+import java.util.Collection;
 
 /**
  * the provider interface
@@ -11,9 +12,9 @@ public interface IProvider extends IStatic
 {
     String colour();
 
-    List<CIntersection> depots();
+    Collection<? extends INode> depots();
 
-    List<CPOD> pods();
+    Collection<? extends IPod> pods();
 
     Number maxClients();
 

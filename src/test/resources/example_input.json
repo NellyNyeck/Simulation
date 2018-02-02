@@ -381,15 +381,15 @@
 			"filename" : "",
 			"agent-type" : "provider",
 			"colour": "yellow",
+      "location":{
+        "name" : "node0",
+        "coordinates": {
+          "type" : "synthetic",
+          "first coordinate": 0,
+          "second coordinate": 0
+        }
+      },
 			"depots" : [
-				{
-					"name" : "node0",
-					"coordinates": {
-						"type" : "synthetic",
-						"first coordinate": 0,
-						"second coordinate": 0
-					}
-				}
 			],
 			"available-pods" : 1,
 			"pods": [

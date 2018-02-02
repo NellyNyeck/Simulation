@@ -1,11 +1,11 @@
 package org.socialcars.sinziana.simulation.elements;
 
-import org.socialcars.sinziana.simulation.environment.CIntersection;
+import org.socialcars.sinziana.simulation.environment.INode;
 
 /**
  * the interface for static agents like client and provider
  */
 public interface IStatic extends IElement
 {
-    CIntersection location();
+    INode location();
 }

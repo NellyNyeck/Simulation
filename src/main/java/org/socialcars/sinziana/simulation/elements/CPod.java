@@ -1,20 +1,22 @@
 package org.socialcars.sinziana.simulation.elements;
 
-import org.socialcars.sinziana.simulation.data.input.CPod;
-import org.socialcars.sinziana.simulation.environment.CIntersection;
+import org.socialcars.sinziana.simulation.data.input.CPodpojo;
+import org.socialcars.sinziana.simulation.environment.CNode;
+import org.socialcars.sinziana.simulation.environment.INode;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * the class for the pod
  */
-public class CPOD implements IPOD
+public class CPod implements IPod
 {
-    private CPod m_pod;
+    private CPodpojo m_pod;
 
-    private CIntersection m_start;
-    private CIntersection m_finish;
-    private List<CIntersection> m_middle;
+    private CNode m_start;
+    private CNode m_finish;
+    private ArrayList<CNode> m_middle;
 
     private Number m_speed;
     private Number m_location;
@@ -24,16 +26,16 @@ public class CPOD implements IPOD
      * constructor
      * @param p_pod pod pojo
      */
-    public CPOD( final CPod p_pod )
+    public CPod( final CPodpojo p_pod )
     {
         m_pod = p_pod;
         m_speed = 0;
         m_location = null;
-        m_start = new CIntersection( m_pod.getStart() );
-        m_finish = new CIntersection( m_pod.getFinish() );
+        m_start = new CNode( m_pod.getStart() );
+        m_finish = new CNode( m_pod.getFinish() );
         m_pod.getMiddle().stream().forEach( m ->
         {
-            final CIntersection l_mid = new CIntersection( m );
+            final CNode l_mid = new CNode( m );
             m_middle.add( l_mid );
         } );
     }
@@ -63,19 +65,19 @@ public class CPOD implements IPOD
     }
 
     @Override
-    public CIntersection getStart()
+    public CNode getStart()
     {
         return m_start;
     }
 
     @Override
-    public CIntersection getFinish()
+    public CNode getFinish()
     {
         return m_finish;
     }
 
     @Override
-    public List<CIntersection> getMiddle()
+    public Collection<? extends INode> getMiddle()
     {
         return m_middle;
     }

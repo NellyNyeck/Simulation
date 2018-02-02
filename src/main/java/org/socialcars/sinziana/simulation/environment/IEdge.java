@@ -3,7 +3,7 @@ package org.socialcars.sinziana.simulation.environment;
 /**
  * the street interface
  */
-public interface IStreet
+public interface IEdge
 {
 
     String name();
@@ -14,6 +14,7 @@ public interface IStreet
 
     Number weight();
 
+    //TODO: 02.02.18 do the function
     Object function();
 
 }

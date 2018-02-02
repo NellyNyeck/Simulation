@@ -1,17 +1,16 @@
 package org.socialcars.sinziana.simulation.environment;
 
-
-import org.socialcars.sinziana.simulation.data.input.CEdge;
+import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
 
 /**
  * the street class
  */
-public class CStreet implements IStreet
+public class CEdge implements IEdge
 {
 
-    private CEdge m_edge;
+    private CEdgepojo m_edge;
 
-    public CStreet( final CEdge p_edge )
+    public CEdge( final CEdgepojo p_edge )
     {
         m_edge = p_edge;
     }

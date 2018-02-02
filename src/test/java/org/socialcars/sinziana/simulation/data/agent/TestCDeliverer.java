@@ -5,8 +5,8 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-import org.socialcars.sinziana.simulation.data.input.CInput;
-import org.socialcars.sinziana.simulation.elements.CDeliverer;
+import org.socialcars.sinziana.simulation.data.input.CInputpojo;
+import org.socialcars.sinziana.simulation.elements.CProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class TestCDeliverer
 {
-    private CDeliverer m_del;
+    private CProvider m_del;
 
     /**
      * initializing
@@ -25,8 +25,8 @@ public class TestCDeliverer
     @Before
     public void init() throws IOException
     {
-        final CInput l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInput.class );
-        m_del = new CDeliverer( l_configuration.getProviders().get( 0 ) );
+        final CInputpojo l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
+        m_del = new CProvider( l_configuration.getProviders().get( 0 ) );
     }
 
     /**
@@ -106,8 +106,7 @@ public class TestCDeliverer
     public void depots()
     {
         Assume.assumeNotNull( m_del );
-        Assert.assertTrue( m_del.depots().size() == 1 );
-        Assert.assertTrue( m_del.depots().get( 0 ).name().contentEquals( "node0" ) );
+        Assert.assertTrue( m_del.depots().size() == 0 );
     }
 
     /**
@@ -118,6 +117,9 @@ public class TestCDeliverer
     {
         Assume.assumeNotNull( m_del );
         Assert.assertTrue( m_del.pods().size() == 1 );
-        Assert.assertTrue( m_del.pods().get( 0 ).getName().contentEquals( "pod1" ) );
+        m_del.pods().iterator().forEachRemaining( p ->
+        {
+            Assert.assertTrue( p.getName().contentEquals( "pod1" ) );
+        } );
     }
 }

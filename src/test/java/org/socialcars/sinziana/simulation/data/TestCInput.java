@@ -1,19 +1,19 @@
 package org.socialcars.sinziana.simulation.data;
 
-import org.socialcars.sinziana.simulation.data.input.CInput;
-import org.socialcars.sinziana.simulation.data.input.CParameter;
-import org.socialcars.sinziana.simulation.data.input.CConfiguration;
-import org.socialcars.sinziana.simulation.data.input.CCoordinates;
-import org.socialcars.sinziana.simulation.data.input.CFunction;
-import org.socialcars.sinziana.simulation.data.input.CGraph;
-import org.socialcars.sinziana.simulation.data.input.CProvider;
-import org.socialcars.sinziana.simulation.data.input.CPod;
-import org.socialcars.sinziana.simulation.data.input.CStart;
-import org.socialcars.sinziana.simulation.data.input.CEdge;
-import org.socialcars.sinziana.simulation.data.input.CBicycle;
-import org.socialcars.sinziana.simulation.data.input.CHuman;
-import org.socialcars.sinziana.simulation.data.input.CVehicle;
-import org.socialcars.sinziana.simulation.data.input.CClient;
+import org.socialcars.sinziana.simulation.data.input.CInputpojo;
+import org.socialcars.sinziana.simulation.data.input.CParameterpojo;
+import org.socialcars.sinziana.simulation.data.input.CConfigurationpojo;
+import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
+import org.socialcars.sinziana.simulation.data.input.CFunctionpojo;
+import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
+import org.socialcars.sinziana.simulation.data.input.CProviderpojo;
+import org.socialcars.sinziana.simulation.data.input.CPodpojo;
+import org.socialcars.sinziana.simulation.data.input.CStartpojo;
+import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
+import org.socialcars.sinziana.simulation.data.input.CBicyclepojo;
+import org.socialcars.sinziana.simulation.data.input.CHumanpojo;
+import org.socialcars.sinziana.simulation.data.input.CVehiclepojo;
+import org.socialcars.sinziana.simulation.data.input.CClientpojo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -35,7 +35,7 @@ public final class TestCInput
     /**
      * configuration
      */
-    private CInput m_configuration;
+    private CInputpojo m_configuration;
 
     /**
      * initialize configuration
@@ -45,7 +45,7 @@ public final class TestCInput
     @Before
     public final void init() throws IOException
     {
-        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInput.class );
+        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
     }
 
     /**
@@ -73,7 +73,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getConfiguration() );
-        final CConfiguration l_config = m_configuration.getConfiguration();
+        final CConfigurationpojo l_config = m_configuration.getConfiguration();
         Assert.assertTrue( l_config.equals( l_config ) );
         Assert.assertTrue( l_config.getLengthUnit().contentEquals( "meter" ) );
         Assert.assertTrue( l_config.getSpeedUnit().contentEquals( "m/s" ) );
@@ -102,7 +102,7 @@ public final class TestCInput
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getProviders() );
         Assert.assertTrue( m_configuration.getProviders().size() == 1 );
-        final CProvider l_prov = m_configuration.getProviders().get( 0 );
+        final CProviderpojo l_prov = m_configuration.getProviders().get( 0 );
         Assert.assertNotNull( l_prov );
         Assert.assertTrue( l_prov.equals( l_prov ) );
         Assert.assertTrue( !l_prov.toString().isEmpty() );
@@ -140,8 +140,8 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getProviders() );
-        final CProvider l_prov = m_configuration.getProviders().get( 0 );
-        final Set<CPod> l_pods = l_prov.getPods();
+        final CProviderpojo l_prov = m_configuration.getProviders().get( 0 );
+        final Set<CPodpojo> l_pods = l_prov.getPods();
         l_pods.forEach( p ->
         {
             Assert.assertNotNull( p.getName() );
@@ -170,7 +170,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getHumans() );
-        final List<CHuman> l_humans = m_configuration.getHumans();
+        final List<CHumanpojo> l_humans = m_configuration.getHumans();
         l_humans.forEach( p ->
         {
             Assert.assertNotNull( p.getName() );
@@ -194,7 +194,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getBikes() );
-        final List<CBicycle> l_bikes = m_configuration.getBikes();
+        final List<CBicyclepojo> l_bikes = m_configuration.getBikes();
         l_bikes.forEach( p ->
         {
             Assert.assertNotNull( p.getName() );
@@ -218,7 +218,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getVehicles() );
-        final List<CVehicle> l_vehicles = m_configuration.getVehicles();
+        final List<CVehiclepojo> l_vehicles = m_configuration.getVehicles();
         l_vehicles.forEach( p ->
         {
             Assert.assertNotNull( p.getName() );
@@ -242,7 +242,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getClients() );
-        final List<CClient> l_clients = m_configuration.getClients();
+        final List<CClientpojo> l_clients = m_configuration.getClients();
         l_clients.stream().forEach( c ->
         {
             Assert.assertTrue( c.getName().contains( "client" ) );
@@ -266,7 +266,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getGraph() );
-        final CGraph l_graph = m_configuration.getGraph();
+        final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertTrue( l_graph.equals( l_graph ) );
         Assert.assertTrue( !l_graph.toString().isEmpty() );
         Assert.assertTrue( l_graph.getAdditionalProperties().size() == 0 );
@@ -282,16 +282,16 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getGraph() );
-        final CGraph l_graph = m_configuration.getGraph();
+        final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getNodes() );
-        final Set<CStart> l_nodes = l_graph.getNodes();
+        final Set<CStartpojo> l_nodes = l_graph.getNodes();
         Assert.assertTrue( l_nodes.size() == 8 );
         l_nodes.forEach( j ->
         {
             Assert.assertTrue( j.getName().contains( "node" ) );
             Assert.assertTrue( j.getCoordinates().getType().contentEquals( "synthetic" ) );
             Assert.assertTrue( j.getCoordinates().getFirstCoordinate() % 5 == 0 );
-            final CCoordinates l_coo = j.getCoordinates();
+            final CCoordinatespojo l_coo = j.getCoordinates();
             Assert.assertTrue( l_coo.equals( l_coo ) );
             Assert.assertTrue( l_coo.getAdditionalProperties().size() == 0 );
             l_coo.setAdditionalProperty( "extra2", 1 );
@@ -314,10 +314,10 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getGraph() );
-        final CGraph l_graph = m_configuration.getGraph();
+        final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getEdges() );
         Assert.assertTrue( l_graph.getEdges().size() == 20 );
-        final Set<CEdge> l_edges = l_graph.getEdges();
+        final Set<CEdgepojo> l_edges = l_graph.getEdges();
         l_edges.forEach( e ->
         {
             Assert.assertTrue( e.equals( e ) );
@@ -332,10 +332,10 @@ public final class TestCInput
             Assert.assertTrue( e.getTo().contains( "node" ) );
             Assert.assertTrue( ( e.getWeight() == 1.0 ) || ( e.getWeight() == 0.75 ) );
             Assert.assertNotNull( e.getFunction() );
-            final CFunction l_funct = e.getFunction();
+            final CFunctionpojo l_funct = e.getFunction();
             Assert.assertTrue( l_funct.getName().equals( "even" )  );
             Assert.assertTrue( l_funct.getParameters().size() == 1 );
-            final Set<CParameter> l_params = l_funct.getParameters();
+            final Set<CParameterpojo> l_params = l_funct.getParameters();
             l_params.forEach( p ->
             {
                 Assert.assertTrue( p.getName().equals( "dist" ) );

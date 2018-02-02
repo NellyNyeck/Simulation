@@ -16,6 +16,10 @@
     "colour" : {
       "type" : "string"
     },
+    "location":{
+      "type":"object",
+      "$ref": "node.json"
+    },
     "depots" : {
       "type" : "array",
       "items" : {

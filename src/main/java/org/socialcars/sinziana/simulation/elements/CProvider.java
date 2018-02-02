@@ -1,42 +1,46 @@
 package org.socialcars.sinziana.simulation.elements;
 
-import org.socialcars.sinziana.simulation.data.input.CProvider;
-import org.socialcars.sinziana.simulation.environment.CIntersection;
+import org.socialcars.sinziana.simulation.data.input.CProviderpojo;
+import org.socialcars.sinziana.simulation.environment.CNode;
+import org.socialcars.sinziana.simulation.environment.INode;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 
 /**
  * the provider lightjason class
  */
-public class CDeliverer implements IProvider
+public class CProvider implements IProvider
 {
 
-    private final CProvider m_provider;
+    private final CProviderpojo m_provider;
 
-    private ArrayList<CIntersection> m_depots;
+    private final CNode m_location;
 
-    private ArrayList<CPOD> m_pods;
+    private HashSet<CNode> m_depots;
+
+    private HashSet<CPod> m_pods;
 
     /**
      * constructor
      * @param p_provider provider pojo
      */
-    public CDeliverer( final CProvider p_provider )
+    public CProvider( final CProviderpojo p_provider )
     {
         m_provider = p_provider;
-        m_depots = new ArrayList<>();
-        m_pods = new ArrayList<>();
+        m_location = new CNode( p_provider.getLocation() );
+        m_depots = new HashSet<>();
+        m_pods = new HashSet<>();
         m_provider.getDepots().stream().forEach( d ->
         {
-            final CIntersection l_dep = new CIntersection( d );
+            final CNode l_dep = new CNode( d );
             m_depots.add( l_dep );
         } );
         m_provider.getPods().stream().forEach( p ->
         {
-            final CPOD l_pod = new CPOD( p );
+            final CPod l_pod = new CPod( p );
             m_pods.add( l_pod );
         } );
     }
@@ -48,13 +52,13 @@ public class CDeliverer implements IProvider
     }
 
     @Override
-    public List<CIntersection> depots()
+    public Collection<? extends INode> depots()
     {
         return m_depots;
     }
 
     @Override
-    public List<CPOD> pods()
+    public Collection<? extends IPod> pods()
     {
         return m_pods;
     }
@@ -72,9 +76,9 @@ public class CDeliverer implements IProvider
     }
 
     @Override
-    public CIntersection location()
+    public CNode location()
     {
-        return m_depots.get( 0 );
+        return m_location;
     }
 
     @Override

@@ -6,14 +6,11 @@ import java.util.List;
 
 /**
  * the environment interface
- * @param <I> generic for node identifier
- * @param <V> generic for node
- * @param <E> generic for edge
  */
-public interface IEnvironment<I, V extends INode<I>, E extends IStreet>
+public interface IEnvironment
 {
 
-    List<E> findBestRoute( V p_start, V p_finish,  List<V> p_middle );
+    List<IEdge> findBestRoute( INode p_start, INode p_finish,  List<INode> p_middle );
 
     void initSet( IElement p_el );
 }

@@ -1,16 +1,14 @@
 package org.socialcars.sinziana.simulation.environment;
 
-import org.socialcars.sinziana.simulation.data.input.CCoordinates;
+import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
 
 /**
  * the interface for the node object
- * @param <T> generic type
  */
-public interface INode<T>
+public interface INode
 {
+    String name();
 
-    T name();
-
-    CCoordinates coord();
+    CCoordinatespojo coord();
 
 }

@@ -1,11 +1,11 @@
 package org.socialcars.sinziana.simulation.environment;
 
-import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 
-import org.socialcars.sinziana.simulation.data.input.CGraph;
-import org.socialcars.sinziana.simulation.data.input.CStart;
+
+import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
+import org.socialcars.sinziana.simulation.data.input.CStartpojo;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
 import java.util.List;
@@ -13,25 +13,22 @@ import java.util.Set;
 
 /**
  * the environment class
- * @param <I> generic for intersection identifier
- * @param <V> generic for intersection
- * @param <E> generic for street
  */
-public class CEnvironment<I, V extends INode<I>, E extends IStreet> implements IEnvironment<I, V, E>
+public class CEnvironment implements IEnvironment
 {
 
-    private final Graph<V, E> m_graph = new DirectedSparseGraph<>();
+    private final Graph<CNode, CEdge> m_graph = new DirectedSparseGraph<>();
 
     /**
      * construnctor
      * @param p_gr the graph pojo given
      */
-    public CEnvironment( final CGraph p_gr )
+    public CEnvironment( final CGraphpojo p_gr )
     {
-        final Set<CStart> l_nodes = p_gr.getNodes();
+        final Set<CStartpojo> l_nodes = p_gr.getNodes();
         l_nodes.stream().forEach( n ->
         {
-            final CIntersection l_int = new CIntersection( n );
+            final CNode l_int = new CNode( n );
             //m_graph.addVertex( l_int ); U WOT MATE?!?!?!?!!
         } );
     }
@@ -43,12 +40,11 @@ public class CEnvironment<I, V extends INode<I>, E extends IStreet> implements I
      * @param p_middle middle list of nodes, not relevant does not apply
      * @return list of edges
      */
+
     @Override
-    public List<E> findBestRoute( final V p_start, final V p_finish, final List<V> p_middle )
+    public List<IEdge> findBestRoute( final INode p_start, final INode p_finish, final List<INode> p_middle )
     {
-        final DijkstraShortestPath<V, E> l_alg = new DijkstraShortestPath<V, E>( m_graph );
-        final List<E> l_rou = l_alg.getPath( p_start, p_finish );
-        return l_rou;
+        return null;
     }
 
     /**

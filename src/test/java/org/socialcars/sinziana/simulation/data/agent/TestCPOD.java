@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-import org.socialcars.sinziana.simulation.data.input.CInput;
-import org.socialcars.sinziana.simulation.data.input.CPod;
-import org.socialcars.sinziana.simulation.elements.CPOD;
+import org.socialcars.sinziana.simulation.data.input.CInputpojo;
+import org.socialcars.sinziana.simulation.data.input.CPodpojo;
+import org.socialcars.sinziana.simulation.elements.CPod;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.Set;
 public class TestCPOD
 {
 
-    private CPOD m_pod;
+    private CPod m_pod;
 
     /**
      * initializing
@@ -29,11 +29,11 @@ public class TestCPOD
     @Before
     public void init() throws IOException
     {
-        final CInput l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInput.class );
-        final Set<CPod> l_pods = l_configuration.getProviders().get( 0 ).getPods();
+        final CInputpojo l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
+        final Set<CPodpojo> l_pods = l_configuration.getProviders().get( 0 ).getPods();
         l_pods.stream().forEach( p ->
         {
-            m_pod = new CPOD( p );
+            m_pod = new CPod( p );
         } );
     }
 

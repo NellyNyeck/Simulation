@@ -280,6 +280,7 @@
                 <version>0.5.1</version>
                 <configuration>
                     <classNamePrefix>C</classNamePrefix>
+                    <classNameSuffix>pojo</classNameSuffix>
                     <sourceDirectory>${basedir}/src/main/resources/</sourceDirectory>
                     <outputDirectory>${project.build.directory}/generated-sources//jsonschema</outputDirectory>
                     <targetPackage>org.socialcars.sinziana.simulation.data</targetPackage>
