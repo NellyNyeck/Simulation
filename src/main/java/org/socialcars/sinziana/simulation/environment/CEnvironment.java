@@ -4,9 +4,12 @@ import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 
+import org.socialcars.sinziana.simulation.data.input.CGraph;
+import org.socialcars.sinziana.simulation.data.input.CStart;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * the environment class
@@ -19,7 +22,19 @@ public class CEnvironment<I, V extends INode<I>, E extends IStreet> implements I
 
     private final Graph<V, E> m_graph = new DirectedSparseGraph<>();
 
-    // TODO: 01.02.18 find way to link graph with env
+    /**
+     * construnctor
+     * @param p_gr the graph pojo given
+     */
+    public CEnvironment( final CGraph p_gr )
+    {
+        final Set<CStart> l_nodes = p_gr.getNodes();
+        l_nodes.stream().forEach( n ->
+        {
+            final CIntersection l_int = new CIntersection( n );
+            //m_graph.addVertex( l_int ); U WOT MATE?!?!?!?!!
+        } );
+    }
 
     /**
      * finds the best route

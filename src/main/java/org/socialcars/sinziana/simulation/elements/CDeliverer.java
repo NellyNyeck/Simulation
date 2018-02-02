@@ -3,6 +3,8 @@ package org.socialcars.sinziana.simulation.elements;
 import org.socialcars.sinziana.simulation.data.input.CProvider;
 import org.socialcars.sinziana.simulation.environment.CIntersection;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,9 +16,9 @@ public class CDeliverer implements IProvider
 
     private final CProvider m_provider;
 
-    private final List<CIntersection> m_depots = null;
+    private ArrayList<CIntersection> m_depots;
 
-    private final List<CPOD> m_pods = null;
+    private ArrayList<CPOD> m_pods;
 
     /**
      * constructor
@@ -25,6 +27,8 @@ public class CDeliverer implements IProvider
     public CDeliverer( final CProvider p_provider )
     {
         m_provider = p_provider;
+        m_depots = new ArrayList<>();
+        m_pods = new ArrayList<>();
         m_provider.getDepots().stream().forEach( d ->
         {
             final CIntersection l_dep = new CIntersection( d );
@@ -68,7 +72,7 @@ public class CDeliverer implements IProvider
     }
 
     @Override
-    public Object location()
+    public CIntersection location()
     {
         return m_depots.get( 0 );
     }
