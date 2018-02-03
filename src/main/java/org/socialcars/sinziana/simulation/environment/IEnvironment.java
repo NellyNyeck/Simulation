@@ -15,5 +15,11 @@ public interface IEnvironment
 
     List<IEdge> route( INode p_start, INode p_finish, Stream<INode> p_middle );
 
-    void initSet( IElement p_el );
+    /**
+     * initialize element
+     * @param p_element input elements
+     * @todo methode geändert, bitte nachvollziehen, warum das so wesentlich sinnvoller ist
+     * @todo beachte ebenso, dass die DOkumentation in das Interface gehört und nicht in die implementierte Klasse
+     */
+    IEnvironment initialize( final IElement... p_element );
 }

@@ -65,13 +65,10 @@ public class CEnvironment implements IEnvironment
         ).collect( Collectors.toList() );
     }
 
-    /**
-     * puts all agents in the environment
-     * @param p_el the set of elements
-     */
     @Override
-    public void initSet( final IElement p_el )
+    public IEnvironment initialize(IElement... p_element)
     {
-
+        return this;
     }
+
 }

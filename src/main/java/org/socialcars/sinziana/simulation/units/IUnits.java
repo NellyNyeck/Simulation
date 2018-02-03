@@ -2,6 +2,9 @@ package org.socialcars.sinziana.simulation.units;
 
 /**
  * the units interface
+ *
+ * @todo Dokumentation fehlt!
+ * @todo Benennung ist mal wieder schlecht, was ist "dist", was ist "accel", was macht "newPosition"?
  */
 public interface IUnits
 {
