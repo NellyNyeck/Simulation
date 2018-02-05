@@ -1,7 +1,5 @@
 package org.socialcars.sinziana.simulation.environment;
 
-import org.socialcars.sinziana.simulation.function.IFunction;
-
 /**
  * the street interface
  * @todo Im Moment ist eine Edge kein Agent, wenn Du aber z.B. Lanes ab einer gewissen Zeit mal sperren willst,
@@ -35,7 +33,5 @@ public interface IEdge
      * @todo wie ist diese Methode mit den Dijekstra-Algorithmus im Environment-Graph verbunden?
      */
     Number weight();
-
-    IFunction<Number> function();
 
 }

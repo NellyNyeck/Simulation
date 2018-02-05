@@ -2,13 +2,16 @@ package org.socialcars.sinziana.simulation.environment;
 
 import org.socialcars.sinziana.simulation.data.input.CStartpojo;
 
+import java.util.Objects;
+
+
 /**
  * the class for the node object
  */
 public class CNode implements INode
 {
 
-    private final CStartpojo m_node;
+    private final String m_name;
 
     private final CCoordinate m_coordinates;
 
@@ -18,7 +21,7 @@ public class CNode implements INode
      */
     public CNode( final CStartpojo p_node )
     {
-        m_node = p_node;
+        m_name = p_node.getName();
         m_coordinates = new CCoordinate( p_node.getCoordinates() );
     }
 
@@ -27,7 +30,7 @@ public class CNode implements INode
     @Override
     public String id()
     {
-        return m_node.getName();
+        return m_name;
     }
 
     @Override
@@ -36,4 +39,21 @@ public class CNode implements INode
         return m_coordinates;
     }
 
+    @Override
+    public int hashCode()
+    {
+        return m_name.hashCode();
+    }
+
+    @Override
+    public boolean equals( final Object p_object )
+    {
+        return Objects.nonNull( p_object ) && ( p_object instanceof INode ) && ( p_object.hashCode() == this.hashCode() );
+    }
+
+    @Override
+    public String toString()
+    {
+        return m_name;
+    }
 }

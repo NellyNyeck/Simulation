@@ -1,8 +1,11 @@
 package org.socialcars.sinziana.simulation.environment;
 
-import org.socialcars.sinziana.simulation.function.CFunction;
-import org.socialcars.sinziana.simulation.function.IFunction;
 import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
+
+import java.text.MessageFormat;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
+
 
 /**
  * the street class
@@ -10,13 +13,13 @@ import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
 public class CEdge implements IEdge
 {
 
-    private CEdgepojo m_edge;
+    private final String m_name;
 
     private INode m_from;
 
     private INode m_to;
 
-    private IFunction<Number> m_function;
+    private final AtomicReference<Number> m_weight = new AtomicReference<>();
 
     /**
      * constructor
@@ -26,19 +29,17 @@ public class CEdge implements IEdge
      */
     public CEdge( final CEdgepojo p_edge, final INode p_from,  final INode p_to )
     {
-        m_edge = p_edge;
+        m_name = p_edge.getName();
         m_from = p_from;
         m_to = p_to;
-        // TODO: 05.02.18 figure this out
-        final CFunction l_funct = new CFunction();
-        m_function = l_funct.createFunction( p_edge.getFunction() );
+        m_weight.set( p_edge.getWeight() );
     }
 
 
     @Override
     public String id()
     {
-        return m_edge.getName();
+        return m_name;
     }
 
     @Override
@@ -56,13 +57,25 @@ public class CEdge implements IEdge
     @Override
     public Number weight()
     {
-        return m_edge.getWeight();
+        return m_weight.get();
     }
 
     @Override
-    public IFunction<Number> function()
+    public int hashCode()
     {
-        return m_function;
+        return m_name.hashCode();
+    }
+
+    @Override
+    public boolean equals( final Object p_object )
+    {
+        return Objects.nonNull( p_object ) && ( p_object instanceof IEdge ) && ( p_object.hashCode() == this.hashCode() );
+    }
+
+    @Override
+    public String toString()
+    {
+        return MessageFormat.format( "{0}({1})", m_name, m_weight.get() );
     }
 
 }
