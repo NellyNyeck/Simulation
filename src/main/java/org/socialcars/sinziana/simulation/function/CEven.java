@@ -2,20 +2,26 @@ package org.socialcars.sinziana.simulation.function;
 
 import org.socialcars.sinziana.simulation.data.input.CParameterpojo;
 
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * the even distribution function
  */
-public class CEven implements IFunction<Number>
+public class CEven implements IFunction
 {
-    private final String m_name = "even";
-
     private Number m_parameter;
 
-    public CEven( final Set<CParameterpojo> p_parameters )
+    /**
+     * ctor
+     *
+     * @param p_parameters parameter
+     */
+    public CEven( final Collection<CParameterpojo> p_parameters )
     {
-        p_parameters.forEach( p -> m_parameter = p.getValue() );
+        m_parameter = p_parameters.stream()
+                                  .findFirst()
+                                  .orElseThrow( () -> new RuntimeException( "no parameter found" ) )
+                                  .getValue();
     }
 
     @Override

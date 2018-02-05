@@ -3,12 +3,34 @@ package org.socialcars.sinziana.simulation.function;
 /**
  * the function inferface
  */
-public interface IFunction<T extends Number>
+public interface IFunction
 {
-    T apply( T a, T b, T c );
+    IFunction EMPTY = new IFunction()
+    {
+        @Override
+        public Number apply( final Number a, final Number b, final Number c )
+        {
+            return 0;
+        }
 
-    T apply( T p_sigma, T p_mu );
+        @Override
+        public Number apply( final Number p_sigma, final Number p_mu )
+        {
+            return 0;
+        }
 
-    T apply( T p_distance );
+        @Override
+        public Number apply( final Number p_distance )
+        {
+            return 0;
+        }
+    };
+
+
+    Number apply( Number a, Number b, Number c );
+
+    Number apply( Number p_sigma, Number p_mu );
+
+    Number apply( Number p_distance );
 
 }
