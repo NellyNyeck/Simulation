@@ -2,16 +2,15 @@ package org.socialcars.sinziana.simulation.environment;
 
 import com.codepoetics.protonpack.StreamUtils;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
+import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.graph.util.Graphs;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,10 +19,10 @@ import java.util.stream.Stream;
  */
 public class CEnvironment implements IEnvironment
 {
-    private final Graph<INode, IEdge> m_graph = new DirectedSparseGraph<>();
-    private final DijkstraShortestPath<INode, IEdge> m_pathalgorithm = new DijkstraShortestPath<>( m_graph );
+    private final Graph<INode, IEdge> m_graph;
+    private final DijkstraShortestPath<INode, IEdge> m_pathalgorithm;
     private final Map<String, INode> m_nodes;
-    private final Random m_random = new Random();
+    private final INode[] m_nodelist;
 
     /**
      * construnctor
@@ -31,13 +30,16 @@ public class CEnvironment implements IEnvironment
      */
     public CEnvironment( final CGraphpojo p_gr )
     {
+        final DirectedGraph<INode, IEdge> l_graph = new DirectedSparseGraph<>();
+
         m_nodes = p_gr.getNodes()
             .stream()
             .map( CNode::new )
-            .peek( m_graph::addVertex )
+            .peek( l_graph::addVertex )
             .collect( Collectors.toMap( CNode::id, i -> i ) );
+
         p_gr.getEdges()
-            .forEach( e -> m_graph.addEdge(
+            .forEach( e -> l_graph.addEdge(
                 new CEdge(
                     e,
                     m_nodes.get( e.getFrom() ),
@@ -46,6 +48,10 @@ public class CEnvironment implements IEnvironment
                 m_nodes.get( e.getFrom() ),
                 m_nodes.get( e.getTo() ) )
             );
+
+        m_nodelist = m_nodes.values().toArray( new INode[0] );
+        m_graph = Graphs.unmodifiableGraph( l_graph );
+        m_pathalgorithm = new DijkstraShortestPath<>( m_graph, IEdge::weight );
     }
 
 
@@ -85,10 +91,15 @@ public class CEnvironment implements IEnvironment
     }
 
     @Override
-    public String randomnode()
+    public String randomnodebyname()
     {
-        final String[] l_keys = m_nodes.keySet().toArray( new String[0] );
-        return l_keys[m_random.nextInt( l_keys.length )];
+        return this.randomnode().id();
+    }
+
+    @Override
+    public INode randomnode()
+    {
+        return m_nodelist[ ThreadLocalRandom.current().nextInt( m_nodelist.length ) ];
     }
 
     @Override
@@ -103,7 +114,7 @@ public class CEnvironment implements IEnvironment
         return m_graph.toString();
     }
 
-    public Graph<INode, IEdge> getGraph()
+    public Graph<INode, IEdge> graph()
     {
         return m_graph;
     }

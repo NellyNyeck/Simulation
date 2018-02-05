@@ -2,11 +2,8 @@ package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
-import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.util.RandomLocationTransformer;
-import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.renderers.BasicRenderer;
 import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
@@ -15,10 +12,8 @@ import org.socialcars.sinziana.simulation.environment.IEdge;
 import org.socialcars.sinziana.simulation.environment.IEnvironment;
 import org.socialcars.sinziana.simulation.environment.INode;
 
-import javax.swing.JFrame;
-import javax.swing.Renderer;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Dimension2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -32,13 +27,13 @@ import java.util.stream.IntStream;
  */
 public final class TestCEnvironment
 {
-    private static CInputpojo m_input;
+    private static CInputpojo s_input;
 
     static
     {
         try
         {
-            m_input = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
+            s_input = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -55,15 +50,21 @@ public final class TestCEnvironment
     @Before
     public void init() throws IOException
     {
-        m_env = new CEnvironment( m_input.getGraph() );
+        m_env = new CEnvironment( s_input.getGraph() );
     }
 
+    /**
+     * graph output
+     */
     @Test
     public void graph()
     {
         System.out.println( m_env );
     }
 
+    /**
+     * heatmap
+     */
     @Test
     public void heatmap()
     {
@@ -71,25 +72,30 @@ public final class TestCEnvironment
 
         IntStream.range( 0, 1000 )
                  .boxed()
-                 .flatMap( i -> m_env.route( m_env.randomnode(), m_env.randomnode() ).stream() )
+                 .flatMap( i -> m_env.route( m_env.randomnodebyname(), m_env.randomnodebyname() ).stream() )
                  .forEach( i -> l_heatmap.put( i.id(), l_heatmap.getOrDefault( i.id(), 0 ) + 1 ) );
 
         System.out.println( l_heatmap );
     }
 
-    public static void main( final String[] p_args ) throws IOException
+    /**
+     * main
+     *
+     * @param p_args cli arguments
+     */
+    public static void main( final String[] p_args )
     {
         final JFrame l_frame = new JFrame();
-        l_frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         l_frame.setSize( new Dimension( 1200, 1200 ) );
 
 
-        final IEnvironment l_env = new CEnvironment( m_input.getGraph() );
+        final IEnvironment l_env = new CEnvironment( s_input.getGraph() );
 
-        final FRLayout<INode, IEdge> l_projection = new FRLayout<>( l_env.getGraph(), l_frame.getSize() );
+        final FRLayout<INode, IEdge> l_projection = new FRLayout<>( l_env.graph(), l_frame.getSize() );
         l_projection.setInitializer( new RandomLocationTransformer<>( l_frame.getSize(), 1 ) );
 
-        l_frame.getContentPane().add ( new VisualizationViewer<>( l_projection ) );
+        l_frame.getContentPane().add( new VisualizationViewer<>( l_projection ) );
         l_frame.setVisible( true );
     }
 

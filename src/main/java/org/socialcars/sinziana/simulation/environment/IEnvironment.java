@@ -33,8 +33,9 @@ public interface IEnvironment
 
     List<IEdge> route( String p_start, String p_end, Stream<String> p_via );
 
+    String randomnodebyname();
 
-    String randomnode();
+    INode randomnode();
 
 
      //@todo methode geändert, bitte nachvollziehen, warum das so wesentlich sinnvoller ist
@@ -46,5 +47,5 @@ public interface IEnvironment
      */
     IEnvironment initialize( final IElement... p_element );
 
-    Graph<INode, IEdge> getGraph();
+    Graph<INode, IEdge> graph();
 }
