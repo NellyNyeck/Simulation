@@ -1,9 +1,11 @@
 package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Function;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.util.RandomLocationTransformer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
@@ -95,7 +97,12 @@ public final class TestCEnvironment
         final FRLayout<INode, IEdge> l_projection = new FRLayout<>( l_env.graph(), l_frame.getSize() );
         l_projection.setInitializer( new RandomLocationTransformer<>( l_frame.getSize(), 1 ) );
 
-        l_frame.getContentPane().add( new VisualizationViewer<>( l_projection ) );
+        final Function<Object, String> l_labeling = new ToStringLabeller();
+        final VisualizationViewer<INode, IEdge> l_view = new VisualizationViewer<>( l_projection );
+        l_view.getRenderContext().setVertexLabelTransformer( l_labeling );
+        l_view.getRenderContext().setEdgeLabelTransformer( l_labeling );
+
+        l_frame.getContentPane().add( l_view );
         l_frame.setVisible( true );
     }
 

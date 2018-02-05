@@ -1,25 +1,24 @@
 package org.socialcars.sinziana.simulation.data;
 
-import org.socialcars.sinziana.simulation.data.input.CInputpojo;
-import org.socialcars.sinziana.simulation.data.input.CParameterpojo;
-import org.socialcars.sinziana.simulation.data.input.CConfigurationpojo;
-import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
-import org.socialcars.sinziana.simulation.data.input.CFunctionpojo;
-import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
-import org.socialcars.sinziana.simulation.data.input.CProviderpojo;
-import org.socialcars.sinziana.simulation.data.input.CPodpojo;
-import org.socialcars.sinziana.simulation.data.input.CStartpojo;
-import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
-import org.socialcars.sinziana.simulation.data.input.CBicyclepojo;
-import org.socialcars.sinziana.simulation.data.input.CHumanpojo;
-import org.socialcars.sinziana.simulation.data.input.CVehiclepojo;
-import org.socialcars.sinziana.simulation.data.input.CClientpojo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-
+import org.socialcars.sinziana.simulation.data.input.CBicyclepojo;
+import org.socialcars.sinziana.simulation.data.input.CClientpojo;
+import org.socialcars.sinziana.simulation.data.input.CConfigurationpojo;
+import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
+import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
+import org.socialcars.sinziana.simulation.data.input.CFunctionpojo;
+import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
+import org.socialcars.sinziana.simulation.data.input.CHumanpojo;
+import org.socialcars.sinziana.simulation.data.input.CInputpojo;
+import org.socialcars.sinziana.simulation.data.input.CParameterpojo;
+import org.socialcars.sinziana.simulation.data.input.CPodpojo;
+import org.socialcars.sinziana.simulation.data.input.CProviderpojo;
+import org.socialcars.sinziana.simulation.data.input.CStartpojo;
+import org.socialcars.sinziana.simulation.data.input.CVehiclepojo;
 
 import java.io.File;
 import java.io.IOException;

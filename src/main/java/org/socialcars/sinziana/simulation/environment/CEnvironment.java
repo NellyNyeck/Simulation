@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 
 /**
  * the environment class
+ * @todo change to directed multigraph (multiple edges)
  */
 public class CEnvironment implements IEnvironment
 {

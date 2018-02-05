@@ -96,7 +96,7 @@
         <module name = "AvoidNestedBlocks" />
 
         <module name = "AvoidStarImport">
-            <property name = "excludes" value = "java.swing, javax.swing, java.awt, java.util" />
+            <property name = "excludes" value = "java.awt, java.swing, javax.swing, java.util" />
             <property name = "allowClassImports" value = "false" />
             <property name = "allowStaticMemberImports" value = "false" />
         </module>
