@@ -1,6 +1,5 @@
 package org.socialcars.sinziana.simulation.environment;
 
-import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
 import org.socialcars.sinziana.simulation.data.input.CStartpojo;
 
 /**
@@ -11,6 +10,8 @@ public class CNode implements INode
 
     private final CStartpojo m_node;
 
+    private final CCoordinate m_coordinates;
+
     /**
      * constructor
      * @param p_node the pojo node given
@@ -18,17 +19,21 @@ public class CNode implements INode
     public CNode( final CStartpojo p_node )
     {
         m_node = p_node;
+        m_coordinates = new CCoordinate( p_node.getCoordinates() );
     }
 
+
+
     @Override
-    public String name()
+    public String id()
     {
         return m_node.getName();
     }
 
     @Override
-    public CCoordinatespojo coord()
+    public CCoordinate coordinate()
     {
-        return m_node.getCoordinates();
+        return m_coordinates;
     }
+
 }

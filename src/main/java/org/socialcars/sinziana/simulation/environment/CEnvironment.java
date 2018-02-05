@@ -34,10 +34,10 @@ public class CEnvironment implements IEnvironment
             .stream()
             .map( CNode::new )
             .peek( m_graph::addVertex )
-            .collect( Collectors.toMap( CNode::name, i -> i ) );
+            .collect( Collectors.toMap( CNode::id, i -> i ) );
         p_gr.getEdges().forEach( e ->
         {
-            // TODO: 02.02.18 finish this
+            m_graph.addEdge( new CEdge( e, l_nodes.get( e.getFrom() ), l_nodes.get( e.getTo() ) ), l_nodes.get( e.getFrom() ), l_nodes.get( e.getTo() ) );
         } );
     }
 
@@ -66,7 +66,7 @@ public class CEnvironment implements IEnvironment
     }
 
     @Override
-    public IEnvironment initialize(IElement... p_element)
+    public IEnvironment initialize( final IElement... p_element )
     {
         return this;
     }

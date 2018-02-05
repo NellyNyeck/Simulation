@@ -2,10 +2,7 @@ package org.socialcars.sinziana.simulation.elements;
 
 import org.socialcars.sinziana.simulation.data.input.CProviderpojo;
 import org.socialcars.sinziana.simulation.environment.CNode;
-import org.socialcars.sinziana.simulation.environment.INode;
 
-
-import java.util.Collection;
 import java.util.HashSet;
 
 
@@ -43,60 +40,6 @@ public class CProvider implements IProvider
             final CPod l_pod = new CPod( p );
             m_pods.add( l_pod );
         } );
-    }
-
-    @Override
-    public String colour()
-    {
-        return m_provider.getColour();
-    }
-
-    @Override
-    public Collection<? extends INode> depots()
-    {
-        return m_depots;
-    }
-
-    @Override
-    public Collection<? extends IPod> pods()
-    {
-        return m_pods;
-    }
-
-    @Override
-    public Number maxClients()
-    {
-        return m_provider.getMaximumCustomers();
-    }
-
-    @Override
-    public Number maxPodsTime()
-    {
-        return m_provider.getMaxOutPodsTime();
-    }
-
-    @Override
-    public CNode location()
-    {
-        return m_location;
-    }
-
-    @Override
-    public String getName()
-    {
-        return m_provider.getName();
-    }
-
-    @Override
-    public String getFilename()
-    {
-        return m_provider.getFilename();
-    }
-
-    @Override
-    public String getAgentType()
-    {
-        return m_provider.getAgentType();
     }
 
     @Override
