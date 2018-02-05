@@ -5,5 +5,4 @@ package org.socialcars.sinziana.simulation.elements;
  */
 public interface IProvider extends IStatic
 {
-    //TODO: 01.02.18 function class and obvs parameter need to be written but WHERE????
 }

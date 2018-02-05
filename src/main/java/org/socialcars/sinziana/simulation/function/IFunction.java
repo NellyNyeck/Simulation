@@ -3,7 +3,7 @@ package org.socialcars.sinziana.simulation.function;
 /**
  * the function inferface
  */
-public interface IFunction<T>
+public interface IFunction<T extends Number>
 {
     T apply( T a, T b, T c );
 

@@ -12,11 +12,11 @@ public class CEdge implements IEdge
 
     private CEdgepojo m_edge;
 
-    private CNode m_from;
+    private INode m_from;
 
-    private CNode m_to;
+    private INode m_to;
 
-    private CFunction m_function;
+    private IFunction<Number> m_function;
 
     /**
      * constructor
@@ -27,10 +27,11 @@ public class CEdge implements IEdge
     public CEdge( final CEdgepojo p_edge, final INode p_from,  final INode p_to )
     {
         m_edge = p_edge;
-        //m_from = p_from;
-        //m_to = p_to;
+        m_from = p_from;
+        m_to = p_to;
         // TODO: 05.02.18 figure this out
-        //m_function = p_edge.getFunction();
+        final CFunction l_funct = new CFunction();
+        m_function = l_funct.createFunction( p_edge.getFunction() );
     }
 
 
