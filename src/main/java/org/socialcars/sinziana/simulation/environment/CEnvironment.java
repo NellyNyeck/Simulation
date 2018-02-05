@@ -102,4 +102,9 @@ public class CEnvironment implements IEnvironment
     {
         return m_graph.toString();
     }
+
+    public Graph<INode, IEdge> getGraph()
+    {
+        return m_graph;
+    }
 }

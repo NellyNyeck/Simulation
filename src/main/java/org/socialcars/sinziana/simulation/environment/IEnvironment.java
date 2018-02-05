@@ -1,5 +1,6 @@
 package org.socialcars.sinziana.simulation.environment;
 
+import edu.uci.ics.jung.graph.Graph;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
 import java.util.List;
@@ -44,4 +45,6 @@ public interface IEnvironment
      * @return an element
      */
     IEnvironment initialize( final IElement... p_element );
+
+    Graph<INode, IEdge> getGraph();
 }
