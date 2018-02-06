@@ -6,6 +6,8 @@ import edu.uci.ics.jung.algorithms.layout.FRLayout;
 import edu.uci.ics.jung.algorithms.layout.util.RandomLocationTransformer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import org.junit.Before;
+import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.environment.CEnvironment;
 import org.socialcars.sinziana.simulation.environment.IEdge;
@@ -30,23 +32,39 @@ import java.util.stream.IntStream;
  */
 public final class TestCHeatmap
 {
-    private TestCHeatmap()
-    {
-        //not called
-    }
-
-   private static CInputpojo s_input;
+    private static CInputpojo s_input;
 
     static
     {
         try
         {
-            s_input = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
+            s_input = new ObjectMapper().readValue( new File( "src/test/resources/env.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
             throw new UncheckedIOException( l_exception );
         }
+    }
+
+    private CEnvironment m_env;
+
+    /**
+     * initializing
+     * @throws IOException file
+     */
+    @Before
+    public void init() throws IOException
+    {
+        m_env = new CEnvironment( s_input.getGraph() );
+    }
+
+    /**
+     * graph output
+     */
+    @Test
+    public void graph()
+    {
+        System.out.println( m_env );
     }
 
     /**
@@ -92,20 +110,22 @@ public final class TestCHeatmap
     {
         private Map<IEdge, Color> m_coding = new HashMap<>();
 
-        CHeat( Map<IEdge, Integer> p_countingmap )
+        CHeat( final Map<IEdge, Integer> p_countingmap )
         {
-            final Integer l_max = p_countingmap.entrySet().stream().max(Map.Entry.comparingByValue()).get().getValue();
-            p_countingmap.entrySet().forEach( p -> {
+            final Integer l_max = p_countingmap.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
+            p_countingmap.entrySet().forEach( p ->
+            {
                 final float l_number = p.getValue().floatValue() / l_max.floatValue();
-                final Color l_color = new Color(l_number, 0, 0);
+                final Color l_color = new Color( l_number, 0, 0 );
                 m_coding.put( p.getKey(), l_color );
             } );
         }
 
         @Nullable
         @Override
-        public Color apply(@Nullable IEdge iEdge) {
-            return m_coding.get( iEdge );
+        public Color apply( @Nullable final IEdge p_edge )
+        {
+            return m_coding.get( p_edge );
         }
     }
 
@@ -114,8 +134,9 @@ public final class TestCHeatmap
 
         @Nullable
         @Override
-        public Paint apply(@Nullable INode iNode) {
-            return new Color(0, 0, 0);
+        public Paint apply( @Nullable final INode p_node )
+        {
+            return new Color( 0, 0, 0 );
         }
     }
 }

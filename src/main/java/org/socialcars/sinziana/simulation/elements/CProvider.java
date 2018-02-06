@@ -14,8 +14,6 @@ public class CProvider implements IProvider
 
     private final CProviderpojo m_provider;
 
-    private final CNode m_location;
-
     private HashSet<CNode> m_depots;
 
     private HashSet<CPod> m_pods;
@@ -27,7 +25,6 @@ public class CProvider implements IProvider
     public CProvider( final CProviderpojo p_provider )
     {
         m_provider = p_provider;
-        m_location = new CNode( p_provider.getLocation() );
         m_depots = new HashSet<>();
         m_pods = new HashSet<>();
         m_provider.getDepots().stream().forEach( d ->

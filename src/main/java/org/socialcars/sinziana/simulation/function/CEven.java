@@ -39,6 +39,6 @@ public class CEven implements IFunction
     @Override
     public Number apply( final Number p_distance )
     {
-        return null;
+        return m_parameter;
     }
 }

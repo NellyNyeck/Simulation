@@ -29,8 +29,6 @@ public interface IEdge
     /**
      * weight
      * @return weight
-     *
-     * @todo wie ist diese Methode mit den Dijekstra-Algorithmus im Environment-Graph verbunden?
      */
     Number weight();
 

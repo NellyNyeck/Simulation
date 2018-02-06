@@ -14,7 +14,7 @@ public class CPod implements IPod
 
     private CNode m_start;
     private CNode m_finish;
-    private ArrayList<CNode> m_middle;
+    private ArrayList<CNode> m_middle = new ArrayList<>();
 
     private Number m_speed;
     private Number m_location;

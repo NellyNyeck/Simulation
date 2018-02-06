@@ -61,7 +61,6 @@ public interface IEnvironment
 
 
      //@todo methode geändert, bitte nachvollziehen, warum das so wesentlich sinnvoller ist
-     //@todo beachte ebenso, dass die DOkumentation in das Interface gehört und nicht in die implementierte Klasse
     /**
      * initialize element
      * @param p_element input element
