@@ -82,7 +82,7 @@ public final class TestCHeatmap
         final Function<IEdge, Paint> l_coloring = new CHeat( l_countingmap );
 
 
-        l_view.getRenderContext().setArrowFillPaintTransformer( l_coloring );
+        l_view.getRenderContext().setEdgeFillPaintTransformer( l_coloring );
     }
 
     private static class CHeat implements Function<IEdge, Paint>
@@ -93,8 +93,8 @@ public final class TestCHeatmap
         {
             final Integer l_max = p_countingmap.entrySet().stream().max(Map.Entry.comparingByValue()).get().getValue();
             p_countingmap.entrySet().forEach( p -> {
-                final float l_double = (p.getValue() / l_max);
-                final Color l_color = new Color(l_double, 0, 0);
+                final float l_number = p.getValue().floatValue() / l_max.floatValue();
+                final Color l_color = new Color(l_number, 0, 0);
                 m_coding.put( p.getKey(), l_color );
             } );
         }
