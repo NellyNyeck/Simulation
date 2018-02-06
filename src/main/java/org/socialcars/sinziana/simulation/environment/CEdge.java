@@ -21,6 +21,12 @@ public class CEdge implements IEdge
 
     private final AtomicReference<Number> m_weight = new AtomicReference<>();
 
+    /**
+     * constructor
+     * @param p_edge the edge pojo
+     * @param p_from origin node
+     * @param p_to destination node
+     */
     public CEdge( final CEdgepojo p_edge, final INode p_from,  final INode p_to )
     {
         m_name = p_edge.getName();

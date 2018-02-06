@@ -62,7 +62,7 @@ public class TestCUnit
     public void accelToSpeed()
     {
         Assume.assumeNotNull( m_units );
-        Assert.assertTrue( m_units.accelToSpeed( 13 ).equals( 13.0 ) );
+        Assert.assertTrue( m_units.accelerationToSpeed( 13 ).equals( 13.0 ) );
     }
 
     /**
@@ -72,7 +72,7 @@ public class TestCUnit
     public void blockToDist()
     {
         Assume.assumeNotNull( m_units );
-        Assert.assertTrue( m_units.blockToDist( 8 ).equals( 80.0 ) );
+        Assert.assertTrue( m_units.blockToDistance( 8 ).equals( 80.0 ) );
     }
 
     /**
@@ -102,7 +102,7 @@ public class TestCUnit
     public void testToDist()
     {
         Assume.assumeNotNull( m_units );
-        Assert.assertTrue( m_units.speedToDist( 65 ).equals( 65.0 ) );
+        Assert.assertTrue( m_units.speedToDistance( 65 ).equals( 65.0 ) );
     }
 
     /**
@@ -112,6 +112,6 @@ public class TestCUnit
     public void distToBlocks()
     {
         Assume.assumeNotNull( m_units );
-        Assert.assertTrue( m_units.distToBlock( 54 ).equals( 5.4 ) );
+        Assert.assertTrue( m_units.distanceToBlock( 54 ).equals( 5.4 ) );
     }
 }

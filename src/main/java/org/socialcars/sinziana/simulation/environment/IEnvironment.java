@@ -71,7 +71,7 @@ public interface IEnvironment
 
     /**
      * returns the graph
-     * @return
+     * @return the graph
      */
     Graph<INode, IEdge> graph();
 }

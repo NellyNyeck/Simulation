@@ -7,13 +7,13 @@ public interface INode
 {
     /**
      * returns the name of the node
-     * @return
+     * @return the string id
      */
     String id();
 
     /**
      * returns the coordinates of the node
-     * @return
+     * @return the coordinates
      */
     CCoordinate coordinate();
 }

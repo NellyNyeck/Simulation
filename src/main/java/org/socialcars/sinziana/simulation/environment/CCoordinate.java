@@ -5,6 +5,7 @@ import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
 /**
  * coordinates class
  */
+// TODO: 06.02.18 delete this
 public class CCoordinate implements ICoordinate
 {
     private CCoordinatespojo m_coordinate;
@@ -13,7 +14,7 @@ public class CCoordinate implements ICoordinate
      * constructor
      * @param p_coord coordinate pojo given
      */
-    CCoordinate(final CCoordinatespojo p_coord)
+    CCoordinate( final CCoordinatespojo p_coord )
     {
         m_coordinate = p_coord;
     }
