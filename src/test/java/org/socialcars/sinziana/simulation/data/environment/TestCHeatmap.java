@@ -38,7 +38,7 @@ public final class TestCHeatmap
     {
         try
         {
-            s_input = new ObjectMapper().readValue( new File( "src/test/resources/env.json" ), CInputpojo.class );
+            s_input = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -81,7 +81,7 @@ public final class TestCHeatmap
         final IEnvironment l_env = new CEnvironment( s_input.getGraph() );
 
         final FRLayout<INode, IEdge> l_projection = new FRLayout<>( l_env.graph(), l_frame.getSize() );
-        l_projection.setInitializer( new RandomLocationTransformer<>( l_frame.getSize(), 14 ) );
+        l_projection.setInitializer( new RandomLocationTransformer<>( l_frame.getSize(), 2 ) );
 
         final Function<Object, String> l_labeling = new ToStringLabeller();
         final VisualizationViewer<INode, IEdge> l_view = new VisualizationViewer<>( l_projection );
