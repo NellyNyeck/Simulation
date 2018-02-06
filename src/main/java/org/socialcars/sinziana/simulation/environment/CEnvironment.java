@@ -3,7 +3,7 @@ package org.socialcars.sinziana.simulation.environment;
 import com.codepoetics.protonpack.StreamUtils;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedGraph;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
+import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.Graphs;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
@@ -16,7 +16,6 @@ import java.util.stream.Stream;
 
 /**
  * the environment class
- * @todo change to directed multigraph (multiple edges)
  */
 public class CEnvironment implements IEnvironment
 {
@@ -31,7 +30,7 @@ public class CEnvironment implements IEnvironment
      */
     public CEnvironment( final CGraphpojo p_gr )
     {
-        final DirectedGraph<INode, IEdge> l_graph = new DirectedSparseGraph<>();
+        final DirectedGraph<INode, IEdge> l_graph = new DirectedSparseMultigraph<>();
 
         m_nodes = p_gr.getNodes()
             .stream()
