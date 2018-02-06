@@ -89,7 +89,7 @@ public final class TestCEnvironment
     {
         final JFrame l_frame = new JFrame();
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        l_frame.setSize( new Dimension( 1200, 1200 ) );
+        l_frame.setSize( new Dimension( 900, 900 ) );
 
 
         final IEnvironment l_env = new CEnvironment( s_input.getGraph() );
