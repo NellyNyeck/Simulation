@@ -32,7 +32,7 @@ public class CUnits implements IUnits
      * @return simulation distance
      */
     @Override
-    public final Number distToBlock( final Number p_dist )
+    public final Number distanceToBlock( final Number p_dist )
     {
         return p_dist.doubleValue() / m_block;
     }
@@ -43,7 +43,7 @@ public class CUnits implements IUnits
      * @return corresponding meters
      */
     @Override
-    public final Number blockToDist( final Number p_blocks )
+    public final Number blockToDistance( final Number p_blocks )
     {
         return p_blocks.doubleValue() * m_block;
     }
@@ -54,7 +54,7 @@ public class CUnits implements IUnits
      * @return distance covered
      */
     @Override
-    public final Number speedToDist( final Number p_speed )
+    public final Number speedToDistance( final Number p_speed )
     {
         return p_speed.doubleValue() * m_timestep;
     }
@@ -73,7 +73,8 @@ public class CUnits implements IUnits
      * @param p_accel the acceleration/deceleration given
      * @return the resulting speed
      */
-    public final Number accelToSpeed( final Number p_accel )
+    @Override
+    public final Number accelerationToSpeed( final Number p_accel )
     {
         return p_accel.doubleValue() * m_timestep;
     }

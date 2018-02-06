@@ -29,12 +29,34 @@ public interface IEnvironment
      */
     List<IEdge> route( INode p_start, INode p_finish, Stream<INode> p_via );
 
+    /**
+     * finding a route with given strings, so node object needs to be found first
+     * @param p_start start node
+     * @param p_end end node
+     * @param p_via middle destination points
+     * @return the list of edges
+     */
     List<IEdge> route( String p_start, String p_end, String... p_via );
 
+    /**
+     * finding a route with given strings, fixed input, node object needs to be found first
+     * @param p_start start node
+     * @param p_end end node
+     * @param p_via middle destination points
+     * @return the list of edges
+     */
     List<IEdge> route( String p_start, String p_end, Stream<String> p_via );
 
+    /**
+     * returns the id of a random node
+     * @return the name
+     */
     String randomnodebyname();
 
+    /**
+     * retunrs a random node
+     * @return node
+     */
     INode randomnode();
 
 
@@ -47,5 +69,9 @@ public interface IEnvironment
      */
     IEnvironment initialize( final IElement... p_element );
 
+    /**
+     * returns the graph
+     * @return
+     */
     Graph<INode, IEdge> graph();
 }
