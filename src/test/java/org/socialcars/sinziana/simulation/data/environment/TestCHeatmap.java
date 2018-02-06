@@ -63,7 +63,7 @@ public final class TestCHeatmap
         final IEnvironment l_env = new CEnvironment( s_input.getGraph() );
 
         final FRLayout<INode, IEdge> l_projection = new FRLayout<>( l_env.graph(), l_frame.getSize() );
-        l_projection.setInitializer( new RandomLocationTransformer<>( l_frame.getSize(), 1 ) );
+        l_projection.setInitializer( new RandomLocationTransformer<>( l_frame.getSize(), 14 ) );
 
         final Function<Object, String> l_labeling = new ToStringLabeller();
         final VisualizationViewer<INode, IEdge> l_view = new VisualizationViewer<>( l_projection );
@@ -79,10 +79,13 @@ public final class TestCHeatmap
             .flatMap( i -> l_env.route( "node0", l_env.randomnodebyname() ).stream() )
             .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
 
-        final Function<IEdge, Paint> l_coloring = new CHeat( l_countingmap );
+        System.out.println( l_countingmap );
 
+        final Function<IEdge, Paint> l_coloring = new CHeat( l_countingmap );
+        final Function<INode, Paint> l_black = new CBlack();
 
         l_view.getRenderContext().setEdgeFillPaintTransformer( l_coloring );
+        l_view.getRenderContext().setVertexFillPaintTransformer( l_black );
     }
 
     private static class CHeat implements Function<IEdge, Paint>
@@ -103,6 +106,16 @@ public final class TestCHeatmap
         @Override
         public Color apply(@Nullable IEdge iEdge) {
             return m_coding.get( iEdge );
+        }
+    }
+
+    private static class CBlack implements Function<INode, Paint>
+    {
+
+        @Nullable
+        @Override
+        public Paint apply(@Nullable INode iNode) {
+            return new Color(0, 0, 0);
         }
     }
 }
