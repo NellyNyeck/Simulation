@@ -12,4 +12,6 @@
 !src/site/*.xml
 !src/analysis/**/*.xml
 
+src/test/graphlocation/
+
 target/
