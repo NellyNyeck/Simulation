@@ -1,15 +1,29 @@
-package org.socialcars.sinziana.simulation.environment;
+package org.socialcars.sinziana.simulation.environment.jung;
 
 import com.codepoetics.protonpack.StreamUtils;
+import com.google.common.base.Function;
+import edu.uci.ics.jung.algorithms.layout.FRLayout;
+import edu.uci.ics.jung.algorithms.layout.util.RandomLocationTransformer;
 import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.Graphs;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
 import org.socialcars.sinziana.simulation.elements.IElement;
+import org.socialcars.sinziana.simulation.environment.CEdge;
+import org.socialcars.sinziana.simulation.environment.CNode;
+import org.socialcars.sinziana.simulation.environment.IEdge;
+import org.socialcars.sinziana.simulation.environment.IEnvironment;
+import org.socialcars.sinziana.simulation.environment.INode;
 
-import java.util.*;
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,7 +31,7 @@ import java.util.stream.Stream;
 /**
  * the environment class
  */
-public class CEnvironment implements IEnvironment
+public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode, IEdge>>
 {
     private final Graph<INode, IEdge> m_graph;
     private final DijkstraShortestPath<INode, IEdge> m_pathalgorithm;
@@ -28,7 +42,7 @@ public class CEnvironment implements IEnvironment
      * construnctor
      * @param p_gr the graph pojo given
      */
-    public CEnvironment( final CGraphpojo p_gr )
+    public CJungEnvironment( final CGraphpojo p_gr )
     {
         final DirectedGraph<INode, IEdge> l_graph = new DirectedSparseMultigraph<>();
 
@@ -109,13 +123,23 @@ public class CEnvironment implements IEnvironment
     }
 
     @Override
+    public VisualizationViewer<INode, IEdge> panel( final Dimension p_dimension )
+    {
+        final FRLayout<INode, IEdge> l_projection = new FRLayout<>( m_graph, p_dimension );
+        l_projection.setInitializer( new RandomLocationTransformer<>( p_dimension, 1 ) );
+
+        final Function<Object, String> l_labeling = new ToStringLabeller();
+        final VisualizationViewer<INode, IEdge> l_view = new VisualizationViewer<>( l_projection );
+        l_view.getRenderContext().setVertexLabelTransformer( l_labeling );
+        l_view.getRenderContext().setEdgeLabelTransformer( l_labeling );
+
+        return l_view;
+    }
+
+    @Override
     public String toString()
     {
         return m_graph.toString();
     }
 
-    public Graph<INode, IEdge> graph()
-    {
-        return m_graph;
-    }
 }

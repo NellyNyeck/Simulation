@@ -1,15 +1,16 @@
 package org.socialcars.sinziana.simulation.environment;
 
-import edu.uci.ics.jung.graph.Graph;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import java.util.stream.Stream;
 
 /**
  * the environment interface
  */
-public interface IEnvironment
+public interface IEnvironment<V extends JPanel>
 {
     /**
      * finding a route with more middle points
@@ -69,8 +70,10 @@ public interface IEnvironment
     IEnvironment initialize( final IElement... p_element );
 
     /**
-     * returns the graph
-     * @return the graph
+     * returns a panel with graph visualization
+     *
+     * @param p_dimension dimension
+     * @return panel
      */
-    Graph<INode, IEdge> graph();
+    V panel( final Dimension p_dimension );
 }

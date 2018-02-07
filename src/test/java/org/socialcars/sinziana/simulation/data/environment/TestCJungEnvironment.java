@@ -1,18 +1,10 @@
 package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Function;
-import edu.uci.ics.jung.algorithms.layout.FRLayout;
-import edu.uci.ics.jung.algorithms.layout.util.RandomLocationTransformer;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
-import org.socialcars.sinziana.simulation.environment.CEnvironment;
-import org.socialcars.sinziana.simulation.environment.IEdge;
-import org.socialcars.sinziana.simulation.environment.IEnvironment;
-import org.socialcars.sinziana.simulation.environment.INode;
+import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +19,7 @@ import java.util.stream.IntStream;
 /**
  * test class for environment
  */
-public final class TestCEnvironment
+public final class TestCJungEnvironment
 {
     private static CInputpojo s_input;
 
@@ -43,7 +35,7 @@ public final class TestCEnvironment
         }
     }
 
-    private CEnvironment m_env;
+    private CJungEnvironment m_env;
 
     /**
      * initializing
@@ -52,7 +44,7 @@ public final class TestCEnvironment
     @Before
     public void init() throws IOException
     {
-        m_env = new CEnvironment( s_input.getGraph() );
+        m_env = new CJungEnvironment( s_input.getGraph() );
     }
 
     /**
@@ -90,19 +82,7 @@ public final class TestCEnvironment
         final JFrame l_frame = new JFrame();
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         l_frame.setSize( new Dimension( 900, 900 ) );
-
-
-        final IEnvironment l_env = new CEnvironment( s_input.getGraph() );
-
-        final FRLayout<INode, IEdge> l_projection = new FRLayout<>( l_env.graph(), l_frame.getSize() );
-        l_projection.setInitializer( new RandomLocationTransformer<>( l_frame.getSize(), 1 ) );
-
-        final Function<Object, String> l_labeling = new ToStringLabeller();
-        final VisualizationViewer<INode, IEdge> l_view = new VisualizationViewer<>( l_projection );
-        l_view.getRenderContext().setVertexLabelTransformer( l_labeling );
-        l_view.getRenderContext().setEdgeLabelTransformer( l_labeling );
-
-        l_frame.getContentPane().add( l_view );
+        l_frame.getContentPane().add( new CJungEnvironment( s_input.getGraph() ).panel( l_frame.getSize() ) );
         l_frame.setVisible( true );
     }
 
