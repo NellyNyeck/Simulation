@@ -19,6 +19,13 @@ public class CCoordinate implements ICoordinate
         m_coordinate = p_coord;
     }
 
+    public CCoordinate( final Double p_latitude, final Double p_longitude )
+    {
+        m_coordinate.setType( "GPS" );
+        m_coordinate.setFirstCoordinate( p_latitude );
+        m_coordinate.setSecondCoordinate( p_longitude );
+    }
+
     @Override
     public String type()
     {

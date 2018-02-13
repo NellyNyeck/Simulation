@@ -1,4 +1,4 @@
-package org.socialcars.sinziana.simulation;
+package org.socialcars.sinziana.simulation.data.environment;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
@@ -8,6 +8,8 @@ import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.InstructionList;
 import com.graphhopper.util.PointList;
+import org.json.simple.JSONObject;
+import org.junit.Test;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.painter.CompoundPainter;
@@ -15,43 +17,27 @@ import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.socialcars.sinziana.simulation.RoutePainter;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * main application
- */
-public final class CMain
-{
-    /**
-     * ctor
-     */
-    private CMain()
-    {}
+public class TestOSMmap {
 
-    public static void main( final String[] p_args ) throws IOException {
-
-        /*GraphHopperStorage m_storage = new GraphHopperStorage( new RAMDirectory(), new EncodingManager("car"), false,
-            new GraphExtension.NoOpExtension() );
-
-        OSMReader m_reader = new OSMReader(m_storage);
-        m_reader.setFile( new File( "src/test/resources/netherlands-latest.osm.pbf" ) );
-
-        m_reader.readGraph();*/
-
+    @Test
+    public void amsterdamRoute()
+    {
         GraphHopper hopper = new GraphHopperOSM().forServer();
         hopper.setDataReaderFile( "src/test/resources/netherlands-latest.osm.pbf" );
         hopper.setGraphHopperLocation( String.valueOf(new File("src/test/graphlocation")) );
         hopper.setEncodingManager(new EncodingManager("car"));
 
         hopper.importOrLoad();
-
 
 
 
@@ -98,23 +84,6 @@ public final class CMain
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);
-
-
-
-        /*JXMapKit mapKit = new JXMapKit();
-        JFrame frame = new JFrame("Routing");
-        GeoPosition m_amsterdam = new GeoPosition(52.3702, 4.8952);
-
-
-        mapKit.setAddressLocation( m_amsterdam );
-
-        // Display the viewer in a JFrame
-        frame.getContentPane().add(mapKit);
-        //frame.getContentPane().add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);*/
-
-
     }
+
 }
