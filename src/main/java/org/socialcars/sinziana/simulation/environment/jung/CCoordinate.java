@@ -1,4 +1,4 @@
-package org.socialcars.sinziana.simulation.environment;
+package org.socialcars.sinziana.simulation.environment.jung;
 
 import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
 
@@ -17,13 +17,6 @@ public class CCoordinate implements ICoordinate
     CCoordinate( final CCoordinatespojo p_coord )
     {
         m_coordinate = p_coord;
-    }
-
-    public CCoordinate( final Double p_latitude, final Double p_longitude )
-    {
-        m_coordinate.setType( "GPS" );
-        m_coordinate.setFirstCoordinate( p_latitude );
-        m_coordinate.setSecondCoordinate( p_longitude );
     }
 
     @Override

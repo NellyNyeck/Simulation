@@ -6,9 +6,9 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
-import org.socialcars.sinziana.simulation.environment.IEdge;
-import org.socialcars.sinziana.simulation.environment.IEnvironment;
-import org.socialcars.sinziana.simulation.environment.INode;
+import org.socialcars.sinziana.simulation.environment.jung.IEdge;
+import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
+import org.socialcars.sinziana.simulation.environment.jung.INode;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 
 import javax.annotation.Nullable;

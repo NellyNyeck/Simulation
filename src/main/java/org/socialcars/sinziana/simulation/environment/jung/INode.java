@@ -1,4 +1,4 @@
-package org.socialcars.sinziana.simulation.environment;
+package org.socialcars.sinziana.simulation.environment.jung;
 
 /**
  * the interface for the node object
@@ -15,5 +15,5 @@ public interface INode
      * returns the coordinates of the node
      * @return the coordinates
      */
-    CCoordinate coordinate();
+    org.socialcars.sinziana.simulation.environment.jung.CCoordinate coordinate();
 }

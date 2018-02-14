@@ -1,4 +1,4 @@
-package org.socialcars.sinziana.simulation.environment;
+package org.socialcars.sinziana.simulation.environment.jung;
 
 import org.socialcars.sinziana.simulation.data.input.CStartpojo;
 
@@ -25,12 +25,6 @@ public class CNode implements INode
     {
         m_name = p_node.getName();
         m_coordinates = new CCoordinate( p_node.getCoordinates() );
-    }
-
-    public CNode( final Double p_latitude, final Double p_longitude )
-    {
-        m_name = MessageFormat.format( "{0}{1}", p_latitude, p_longitude );
-        m_coordinates = new CCoordinate( p_latitude, p_longitude );
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.socialcars.sinziana.simulation.environment;
+package org.socialcars.sinziana.simulation.environment.jung;
 
 /**
  * the street interface

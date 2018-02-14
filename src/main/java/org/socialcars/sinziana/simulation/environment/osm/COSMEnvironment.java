@@ -11,9 +11,9 @@ import com.graphhopper.util.PointList;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.socialcars.sinziana.simulation.elements.IElement;
-import org.socialcars.sinziana.simulation.environment.IEdge;
-import org.socialcars.sinziana.simulation.environment.IEnvironment;
-import org.socialcars.sinziana.simulation.environment.INode;
+import org.socialcars.sinziana.simulation.environment.jung.IEdge;
+import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
+import org.socialcars.sinziana.simulation.environment.jung.INode;
 
 import java.awt.*;
 import java.io.File;
@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.stream.Stream;
 
 
-public class COSMEnvironment implements IEnvironment<JXMapViewer>
+public class COSMEnvironment
 {
     GraphHopper m_hopper;
 
@@ -36,66 +36,53 @@ public class COSMEnvironment implements IEnvironment<JXMapViewer>
         m_hopper.importOrLoad();
     }
 
-    @Override
-    public List<IEdge> route( final INode p_start, final INode p_finish, final INode... p_via )
+
+    public List<GeoPosition> route( final INode p_start, final INode p_finish, final INode... p_via )
     {
-        GHRequest request = new GHRequest(
-            p_start.coordinate().firstCoordinate().doubleValue(),
-            p_start.coordinate().secondCoordinate().doubleValue(),
-            p_finish.coordinate().firstCoordinate().doubleValue(),
-            p_finish.coordinate().secondCoordinate().doubleValue() ).
-            setVehicle("car").
-            setLocale(Locale.US);
-        GHResponse response = m_hopper.route( request );
-        PathWrapper path = response.getBest();
-        InstructionList howTo = path.getInstructions();
+        return this.route( p_start, p_finish, java.util.Objects.isNull( p_via ) ? Stream.empty() : java.util.Arrays.stream( p_via ) );
+    }
+
+    public List<GeoPosition> route( final INode p_start, final INode p_finish, final Stream<INode> p_via )
+    {
         final ArrayList<GeoPosition> m_list = new ArrayList<>();
-        howTo.forEach( i -> {
-            i.getPoints().forEach( j -> {
-                m_list.add( new GeoPosition( j.lat, j.lon ) );
-            });
+        /*return com.codepoetics.protonpack.StreamUtils.windowed(
+            Stream.concat(
+                Stream.concat(
+                    Stream.of( p_start ),
+                    p_via
+                ),
+                Stream.of( p_finish )
+            ),
+        2
+        ).flatMap(
+            i ->
+            {
+                GHRequest request = new GHRequest(
+                    i.get(0).coordinate().firstCoordinate().doubleValue(),
+                    i.get(0).coordinate().secondCoordinate().doubleValue(),
+                    i.get(1).coordinate().firstCoordinate().doubleValue(),
+                    i.get(1).coordinate().secondCoordinate().doubleValue() ).
+                    setVehicle("car").
+                    setLocale(Locale.US);
+                GHResponse response = m_hopper.route( request );
+                PathWrapper path = response.getBest();
+                InstructionList howTo = path.getInstructions();
+                howTo.forEach( m -> {
+                    m.getPoints().forEach( j -> {
+                        m_list.add( new GeoPosition( j.lat, j.lon ) );
+                    } );
+                } );
+            }
+        );*/
+        return m_list;
 
-        });
-        return null;
     }
 
-    @Override
-    public List<IEdge> route( final INode p_start, final INode p_finish, final Stream<INode> p_via )
-    {
-        return null;
-    }
-
-    @Override
-    public List<IEdge> route( final String p_start, final String p_end, final String... p_via )
-    {
-        return null;
-    }
-
-    @Override
-    public List<IEdge> route( final String p_start, final String p_end, final Stream<String> p_via )
-    {
-        return null;
-    }
-
-    @Override
-    public String randomnodebyname()
-    {
-        return null;
-    }
-
-    @Override
     public INode randomnode()
     {
         return null;
     }
 
-    @Override
-    public IEnvironment initialize( final IElement... p_element )
-    {
-        return null;
-    }
-
-    @Override
     public JXMapViewer panel( final Dimension p_dimension )
     {
         return null;
