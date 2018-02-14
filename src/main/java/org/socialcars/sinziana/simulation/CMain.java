@@ -71,9 +71,7 @@ public final class CMain
         System.out.println("duration is:"+timeInMs);
         final ArrayList<GeoPosition> m_list = new ArrayList<>();
         howTo.forEach( i -> {
-            i.getPoints().forEach( j -> {
-                m_list.add( new GeoPosition( j.lat, j.lon ) );
-            });
+            i.getPoints().forEach( j -> m_list.add( new GeoPosition( j.lat, j.lon ) ) );
 
         });
 
