@@ -1,4 +1,4 @@
-package org.socialcars.sinziana.simulation.environment;
+package org.socialcars.sinziana.simulation.environment.jung;
 
 import org.socialcars.sinziana.simulation.data.input.CStartpojo;
 

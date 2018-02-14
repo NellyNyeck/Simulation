@@ -2,9 +2,9 @@ package org.socialcars.sinziana.simulation.environment.osm;
 
 import org.jxmapviewer.JXMapViewer;
 import org.socialcars.sinziana.simulation.elements.IElement;
-import org.socialcars.sinziana.simulation.environment.IEdge;
-import org.socialcars.sinziana.simulation.environment.IEnvironment;
-import org.socialcars.sinziana.simulation.environment.INode;
+import org.socialcars.sinziana.simulation.environment.jung.IEdge;
+import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
+import org.socialcars.sinziana.simulation.environment.jung.INode;
 
 import java.awt.*;
 import java.util.List;

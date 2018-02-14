@@ -1,7 +1,7 @@
 package org.socialcars.sinziana.simulation.elements;
 
 import org.socialcars.sinziana.simulation.data.input.CBicyclepojo;
-import org.socialcars.sinziana.simulation.environment.CNode;
+import org.socialcars.sinziana.simulation.environment.jung.CNode;
 
 import java.util.ArrayList;
 

@@ -1,9 +1,9 @@
-package org.socialcars.sinziana.simulation.environment;
+package org.socialcars.sinziana.simulation.environment.jung;
 
 import org.socialcars.sinziana.simulation.elements.IElement;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Dimension;
 import java.util.List;
 import java.util.stream.Stream;
 
