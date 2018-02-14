@@ -2,7 +2,9 @@ package org.socialcars.sinziana.simulation.environment.jung;
 
 import org.socialcars.sinziana.simulation.data.input.CStartpojo;
 
+import java.text.MessageFormat;
 import java.util.Objects;
+import java.util.Random;
 
 
 /**
@@ -24,8 +26,6 @@ public class CNode implements INode
         m_name = p_node.getName();
         m_coordinates = new CCoordinate( p_node.getCoordinates() );
     }
-
-
 
     @Override
     public String id()

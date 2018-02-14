@@ -15,5 +15,5 @@ public interface INode
      * returns the coordinates of the node
      * @return the coordinates
      */
-    CCoordinate coordinate();
+    org.socialcars.sinziana.simulation.environment.jung.CCoordinate coordinate();
 }
