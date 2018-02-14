@@ -7,13 +7,9 @@ import com.graphhopper.PathWrapper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.InstructionList;
-import com.graphhopper.util.PointList;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
-import org.socialcars.sinziana.simulation.elements.IElement;
-import org.socialcars.sinziana.simulation.environment.jung.IEdge;
-import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
-import org.socialcars.sinziana.simulation.environment.jung.INode;
+
 
 import java.awt.*;
 import java.io.File;
@@ -27,25 +23,25 @@ public class COSMEnvironment
 {
     GraphHopper m_hopper;
 
-    public COSMEnvironment( String p_file )
+    public COSMEnvironment( final String p_file )
     {
         m_hopper = new GraphHopperOSM().forServer();
         m_hopper.setDataReaderFile( p_file );
-        m_hopper.setGraphHopperLocation( String.valueOf(new File("src/test/graphlocation")) );
-        m_hopper.setEncodingManager(new EncodingManager("car"));
+        m_hopper.setGraphHopperLocation( String.valueOf(new File( "src/test/graphlocation" ) ) );
+        m_hopper.setEncodingManager( new EncodingManager( "car" ) );
         m_hopper.importOrLoad();
     }
 
 
-    public List<GeoPosition> route( final INode p_start, final INode p_finish, final INode... p_via )
+    public List<GeoPosition> route( final GeoPosition p_start, final GeoPosition p_finish, final GeoPosition... p_via )
     {
         return this.route( p_start, p_finish, java.util.Objects.isNull( p_via ) ? Stream.empty() : java.util.Arrays.stream( p_via ) );
     }
 
-    public List<GeoPosition> route( final INode p_start, final INode p_finish, final Stream<INode> p_via )
+    public List<GeoPosition> route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
     {
         final ArrayList<GeoPosition> m_list = new ArrayList<>();
-        /*return com.codepoetics.protonpack.StreamUtils.windowed(
+        return com.codepoetics.protonpack.StreamUtils.windowed(
             Stream.concat(
                 Stream.concat(
                     Stream.of( p_start ),
@@ -58,10 +54,10 @@ public class COSMEnvironment
             i ->
             {
                 GHRequest request = new GHRequest(
-                    i.get(0).coordinate().firstCoordinate().doubleValue(),
-                    i.get(0).coordinate().secondCoordinate().doubleValue(),
-                    i.get(1).coordinate().firstCoordinate().doubleValue(),
-                    i.get(1).coordinate().secondCoordinate().doubleValue() ).
+                    i.get(0).getLatitude(),
+                    i.get(0).getLongitude(),
+                    i.get(1).getLatitude(),
+                    i.get(1).getLongitude()).
                     setVehicle("car").
                     setLocale(Locale.US);
                 GHResponse response = m_hopper.route( request );
@@ -73,12 +69,13 @@ public class COSMEnvironment
                     } );
                 } );
             }
-        );*/
+
+        );
         return m_list;
 
     }
 
-    public INode randomnode()
+    public GeoPosition randomnode()
     {
         return null;
     }
