@@ -1,5 +1,6 @@
 package org.socialcars.sinziana.simulation.environment.osm;
 
+import com.codepoetics.protonpack.StreamUtils;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
@@ -48,24 +49,24 @@ public class COSMEnvironment
     }
 
 
-    public List<GeoPosition> route( final GeoPosition p_start, final GeoPosition p_finish, final GeoPosition... p_via )
+    public InstructionList route( final GeoPosition p_start, final GeoPosition p_finish, final GeoPosition... p_via )
     {
         return this.route( p_start, p_finish, java.util.Objects.isNull( p_via ) ? Stream.empty() : java.util.Arrays.stream( p_via ) );
     }
 
-    public List<GeoPosition> route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
+    public InstructionList route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
     {
-        final ArrayList<GeoPosition> m_list = new ArrayList<>();
-        return com.codepoetics.protonpack.StreamUtils.windowed(
+        final InstructionList l_routes = null;
+        StreamUtils.windowed(
             Stream.concat(
                 Stream.concat(
-                    Stream.of( p_start ),
+                    Stream.of(p_start),
                     p_via
                 ),
-                Stream.of( p_finish )
+                Stream.of(p_finish)
             ),
-        2
-        ).flatMap(
+            2
+        ).forEach(
             i ->
             {
                 GHRequest request = new GHRequest(
@@ -75,12 +76,20 @@ public class COSMEnvironment
                     i.get(1).getLongitude()).
                     setVehicle("car").
                     setLocale(Locale.US);
-                GHResponse response = m_hopper.route( request );
+                GHResponse response = m_hopper.route(request);
                 PathWrapper path = response.getBest();
-                InstructionList howTo = path.getInstructions();
-                howTo.forEach( m -> m.getPoints().forEach( j -> m_list.add( new GeoPosition( j.lat, j.lon ) ) ) );
+                path.getInstructions().stream()
+                    .forEach(n -> l_routes.add(n));
             }
-        ).collect(Collectors.toList());
+        );
+        return l_routes;
+    }
+
+    public List<GeoPosition> drawRoutes( final InstructionList p_routes )
+    {
+        List<GeoPosition> l_list = new ArrayList<>();
+        p_routes.forEach( r -> r.getPoints().forEach( p -> l_list.add( new GeoPosition( p.lat, p.lon ) ) ) );
+        return l_list;
     }
 
     public GeoPosition randomnode()

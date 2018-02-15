@@ -77,7 +77,7 @@ public class TestOSMmap {
         mapViewer.setTileFactory(tileFactory);
 
         RoutePainter routePainter = new RoutePainter(m_list);
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>(m_list), 0.7);
+        mapViewer.zoomToBestFit(new HashSet<>(m_list), 0.7);
 
         List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
         painters.add(routePainter);
