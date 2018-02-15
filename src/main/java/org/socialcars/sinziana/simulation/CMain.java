@@ -118,9 +118,9 @@ public final class CMain
         COSMEnvironment m_env = new COSMEnvironment("src/test/resources/netherlands-latest.osm.pbf", 52.430740,52.279503, 5.067963, 4.728887);
         GeoPosition l_start = m_env.randomnode();
         GeoPosition l_finish = m_env.randomnode();
-        GeoPosition l_mid1 = m_env.randomnode();
-        GeoPosition l_mid2 = m_env.randomnode();
-        if( l_start != l_finish )  m_env.route(l_start, l_finish, Stream.of( l_mid1, l_mid2 ));
-        // TODO: 15.02.18 paint the nodes black
+        //GeoPosition l_mid1 = m_env.randomnode();
+        //GeoPosition l_mid2 = m_env.randomnode();
+        if( l_start != l_finish )  m_env.drawRoutes( m_env.route(l_start, l_finish, Stream.empty() ) );
+        // TODO: 15.02.18 paint the nodes black or try to at least
     }
 }

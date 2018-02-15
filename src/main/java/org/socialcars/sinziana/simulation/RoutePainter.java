@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoutePainter implements Painter<JXMapViewer>
 {
@@ -40,13 +41,13 @@ public class RoutePainter implements Painter<JXMapViewer>
 
         // do the drawing
         g.setColor(Color.BLACK);
-        g.setStroke(new BasicStroke(4));
+        g.setStroke(new BasicStroke(3));
 
         drawRoute(g, map);
 
         // do the drawing again
         g.setColor(color);
-        g.setStroke(new BasicStroke(2));
+        g.setStroke(new BasicStroke(1));
 
         drawRoute(g, map);
 

@@ -51,7 +51,7 @@ public class COSMEnvironment
         this.route( p_start, p_finish, java.util.Objects.isNull( p_via ) ? Stream.empty() : java.util.Arrays.stream( p_via ) );
     }
 
-    public void route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
+    public List<GeoPosition> route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
     {
         List<GeoPosition> l_list = new ArrayList<>();
         StreamUtils.windowed(
@@ -80,7 +80,9 @@ public class COSMEnvironment
             }
         );
 
-        JXMapViewer mapViewer = new JXMapViewer();
+        return l_list;
+
+        /*JXMapViewer mapViewer = new JXMapViewer();
         mapViewer.setZoom( 9 );
         JFrame frame = new JFrame("Routing");
         frame.getContentPane().add(mapViewer);
@@ -100,8 +102,33 @@ public class COSMEnvironment
         painters.add(routePainter);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
-        mapViewer.setOverlayPainter(painter);
+        mapViewer.setOverlayPainter(painter);*/
 
+    }
+
+    public void drawRoutes( List<GeoPosition>  l_routes)
+    {
+        JXMapViewer mapViewer = new JXMapViewer();
+        mapViewer.setZoom( 9 );
+        JFrame frame = new JFrame("Routing");
+        frame.getContentPane().add(mapViewer);
+        frame.setSize(800, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        // Create a TileFactoryInfo for OpenStreetMap
+        TileFactoryInfo info = new OSMTileFactoryInfo();
+        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+        mapViewer.setTileFactory(tileFactory);
+
+        RoutePainter routePainter = new RoutePainter( l_routes );
+        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes ), 0.7);
+
+        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+        painters.add(routePainter);
+
+        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
+        mapViewer.setOverlayPainter(painter);
     }
 
     public GeoPosition randomnode()
