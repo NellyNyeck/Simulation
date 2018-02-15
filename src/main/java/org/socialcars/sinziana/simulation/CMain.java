@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -119,6 +120,11 @@ public final class CMain
         COSMEnvironment m_env = new COSMEnvironment("src/test/resources/netherlands-latest.osm.pbf", 52.430740,52.279503, 5.067963, 4.728887);
 
         List<List<GeoPosition>> l_routes = new ArrayList<>();
+        IntStream.range( 0, 1000 )
+            .boxed()
+            .flatMap( i -> m_env.route( m_env.randomnode(), m_env.randomnode(), Stream.empty() ).stream() )
+            .forEach( p -> // TODO: 15.02.18 paint in in the thing );
+
 
         for ( int i = 0; i < 3; i++)
         {
