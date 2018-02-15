@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -116,11 +117,26 @@ public final class CMain
         frame.setVisible(true);*/
 
         COSMEnvironment m_env = new COSMEnvironment("src/test/resources/netherlands-latest.osm.pbf", 52.430740,52.279503, 5.067963, 4.728887);
-        GeoPosition l_start = m_env.randomnode();
+
+        List<List<GeoPosition>> l_routes = new ArrayList<>();
+
+        for ( int i = 0; i < 3; i++)
+        {
+            GeoPosition l_start = m_env.randomnode();
+            GeoPosition l_finish = m_env.randomnode();
+            if( !l_start.equals( l_finish ) )
+            {
+                l_routes.add( m_env.route( l_start, l_finish, Stream.empty() ) );
+            }
+        }
+        m_env.drawRoutes( l_routes );
+
+
+        /*GeoPosition l_start = m_env.randomnode();
         GeoPosition l_finish = m_env.randomnode();
         //GeoPosition l_mid1 = m_env.randomnode();
         //GeoPosition l_mid2 = m_env.randomnode();
         if( l_start != l_finish )  m_env.drawRoutes( m_env.route(l_start, l_finish, Stream.empty() ) );
-        // TODO: 15.02.18 paint the nodes black or try to at least
+        // TODO: 15.02.18 paint the nodes black or try to at least*/
     }
 }

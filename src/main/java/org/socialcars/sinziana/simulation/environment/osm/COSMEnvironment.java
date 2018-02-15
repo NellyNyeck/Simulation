@@ -106,7 +106,7 @@ public class COSMEnvironment
 
     }
 
-    public void drawRoutes( List<GeoPosition>  l_routes)
+    public void drawRoutes( List<List<GeoPosition>>  l_routes)
     {
         JXMapViewer mapViewer = new JXMapViewer();
         mapViewer.setZoom( 9 );
@@ -121,11 +121,16 @@ public class COSMEnvironment
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         mapViewer.setTileFactory(tileFactory);
 
-        RoutePainter routePainter = new RoutePainter( l_routes );
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes ), 0.7);
-
         List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
-        painters.add(routePainter);
+
+        l_routes.stream().forEach( l -> {
+            RoutePainter routePainter = new RoutePainter( l );
+            painters.add(routePainter);
+
+            }
+        );
+
+        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes.get(0) ), 0.6);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);
