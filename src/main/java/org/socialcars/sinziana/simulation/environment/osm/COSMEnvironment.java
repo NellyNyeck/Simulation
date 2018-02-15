@@ -7,7 +7,6 @@ import com.graphhopper.GraphHopper;
 import com.graphhopper.PathWrapper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
-import com.graphhopper.util.InstructionList;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.painter.CompoundPainter;
@@ -19,14 +18,12 @@ import org.socialcars.sinziana.simulation.RoutePainter;
 
 
 import javax.swing.JFrame;
-import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
