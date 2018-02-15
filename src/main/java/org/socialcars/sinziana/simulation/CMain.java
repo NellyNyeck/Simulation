@@ -15,6 +15,7 @@ import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
 import javax.swing.*;
 import java.io.File;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 /**
  * main application
@@ -45,7 +47,7 @@ public final class CMain
 
         m_reader.readGraph();*/
 
-        GraphHopper hopper = new GraphHopperOSM().forServer();
+        /*GraphHopper hopper = new GraphHopperOSM().forServer();
         hopper.setDataReaderFile( "src/test/resources/netherlands-latest.osm.pbf" );
         hopper.setGraphHopperLocation( String.valueOf(new File("src/test/graphlocation")) );
         hopper.setEncodingManager(new EncodingManager("car"));
@@ -113,6 +115,9 @@ public final class CMain
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);*/
 
-
+        COSMEnvironment m_env = new COSMEnvironment("src/test/resources/netherlands-latest.osm.pbf", 52.430740,52.279503, 5.067963, 4.728887);
+        GeoPosition l_start = m_env.randomnode();
+        GeoPosition l_finish = m_env.randomnode();
+        if( l_start != l_finish )  m_env.route(l_start, l_finish, Stream.empty());
     }
 }

@@ -49,14 +49,14 @@ public class COSMEnvironment
     }
 
 
-    public InstructionList route( final GeoPosition p_start, final GeoPosition p_finish, final GeoPosition... p_via )
+    public void route( final GeoPosition p_start, final GeoPosition p_finish, final GeoPosition... p_via )
     {
-        return this.route( p_start, p_finish, java.util.Objects.isNull( p_via ) ? Stream.empty() : java.util.Arrays.stream( p_via ) );
+        this.route( p_start, p_finish, java.util.Objects.isNull( p_via ) ? Stream.empty() : java.util.Arrays.stream( p_via ) );
     }
 
-    public InstructionList route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
+    public void route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
     {
-        final InstructionList l_routes = null;
+        List<GeoPosition> l_list = new ArrayList<>();
         StreamUtils.windowed(
             Stream.concat(
                 Stream.concat(
@@ -79,28 +79,10 @@ public class COSMEnvironment
                 GHResponse response = m_hopper.route(request);
                 PathWrapper path = response.getBest();
                 path.getInstructions().stream()
-                    .forEach(n -> l_routes.add(n));
+                    .forEach(n ->  n.getPoints().forEach( p -> l_list.add( new GeoPosition( p.lat, p.lon ) )) );
             }
         );
-        return l_routes;
-    }
 
-    public List<GeoPosition> drawRoutes( final InstructionList p_routes )
-    {
-        List<GeoPosition> l_list = new ArrayList<>();
-        p_routes.forEach( r -> r.getPoints().forEach( p -> l_list.add( new GeoPosition( p.lat, p.lon ) ) ) );
-        return l_list;
-    }
-
-    public GeoPosition randomnode()
-    {
-        Double l_latitude = ThreadLocalRandom.current().nextDouble( m_topleft.getLatitude(), m_bottomright.getLatitude() );
-        Double l_longiture = ThreadLocalRandom.current().nextDouble( m_topleft.getLongitude(), m_bottomright.getLongitude() );
-        return new GeoPosition(l_latitude, l_longiture);
-    }
-
-    public JXMapViewer panel( final Dimension p_dimension, final List<GeoPosition> p_list )
-    {
         JXMapViewer mapViewer = new JXMapViewer();
         mapViewer.setZoom( 9 );
         JFrame frame = new JFrame("Routing");
@@ -114,14 +96,38 @@ public class COSMEnvironment
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         mapViewer.setTileFactory(tileFactory);
 
-        RoutePainter routePainter = new RoutePainter( p_list );
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( p_list ), 0.7);
+        RoutePainter routePainter = new RoutePainter( l_list );
+        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_list ), 0.7);
 
         List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
         painters.add(routePainter);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);
+
+    }
+
+    public GeoPosition randomnode()
+    {
+        Double l_latitude = ThreadLocalRandom.current().nextDouble( m_bottomright.getLatitude(), m_topleft.getLatitude() );
+        Double l_longiture = ThreadLocalRandom.current().nextDouble( m_topleft.getLongitude(), m_bottomright.getLongitude() );
+        return new GeoPosition(l_latitude, l_longiture);
+    }
+
+    public JXMapViewer panel()
+    {
+        JXMapViewer mapViewer = new JXMapViewer();
+        mapViewer.setZoom( 9 );
+        JFrame frame = new JFrame("Routing");
+        frame.getContentPane().add(mapViewer);
+        frame.setSize(800, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        // Create a TileFactoryInfo for OpenStreetMap
+        TileFactoryInfo info = new OSMTileFactoryInfo();
+        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+        mapViewer.setTileFactory(tileFactory);
 
         return mapViewer;
     }

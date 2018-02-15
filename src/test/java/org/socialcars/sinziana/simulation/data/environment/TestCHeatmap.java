@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
  */
 public final class TestCHeatmap
 {
-    private static CInputpojo s_input;
+    /*private static CInputpojo s_input;
 
     static
     {
@@ -46,7 +46,8 @@ public final class TestCHeatmap
      * initializing
      * @throws IOException file
      */
-    @Before
+
+    /*@Before
     public void init() throws IOException
     {
         m_env = new CJungEnvironment( s_input.getGraph() );
@@ -55,7 +56,7 @@ public final class TestCHeatmap
     /**
      * graph output
      */
-    @Test
+    /*@Test
     public void graph()
     {
         System.out.println( m_env );
@@ -65,7 +66,7 @@ public final class TestCHeatmap
      * testing the heatmap
      * @param p_args cli arguments
      */
-    public static void main( final String[] p_args )
+    /*public static void main( final String[] p_args )
     {
         final JFrame l_frame = new JFrame();
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
@@ -91,7 +92,7 @@ public final class TestCHeatmap
         l_view.getRenderContext().setVertexFillPaintTransformer( l_black );
     }
 
-    private static class CHeat implements Function<IEdge, Paint>
+    static class CHeat implements Function<IEdge, Paint>
     {
         private Map<IEdge, Color> m_coding = new HashMap<>();
 
@@ -114,7 +115,7 @@ public final class TestCHeatmap
         }
     }
 
-    private static class CBlack implements Function<INode, Paint>
+    static class CBlack implements Function<INode, Paint>
     {
 
         @Nullable
@@ -123,5 +124,5 @@ public final class TestCHeatmap
         {
             return new Color( 0, 0, 0 );
         }
-    }
+    }*/
 }

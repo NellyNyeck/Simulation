@@ -9,6 +9,7 @@ import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.InstructionList;
 import com.graphhopper.util.PointList;
 import org.json.simple.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -18,7 +19,9 @@ import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.socialcars.sinziana.simulation.RoutePainter;
+import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
+import javax.sound.midi.Soundbank;
 import javax.swing.JFrame;
 import java.io.File;
 import java.util.ArrayList;
@@ -26,8 +29,34 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
 public class TestOSMmap {
+
+    COSMEnvironment m_env;
+
+    @Before
+    public void init()
+    {
+        m_env = new COSMEnvironment("src/test/resources/netherlands-latest.osm.pbf", 52.430740,52.279503, 5.067963, 4.728887 );
+
+    }
+    @Test
+    public void randomPosition()
+    {
+        GeoPosition newNode = m_env.randomnode();
+        System.out.println( newNode.getLatitude() );
+        System.out.println( newNode.getLongitude() );
+    }
+
+    @Test
+    public void panel()
+    {
+        GeoPosition l_start = m_env.randomnode();
+        GeoPosition l_finish = m_env.randomnode();
+        m_env.route(l_start, l_finish, Stream.empty());
+    }
+
 
     @Test
     public void amsterdamRoute()
@@ -38,8 +67,6 @@ public class TestOSMmap {
         hopper.setEncodingManager(new EncodingManager("car"));
 
         hopper.importOrLoad();
-
-
 
         GHRequest request = new GHRequest(52.3702, 4.8952, 52.3600, 4.8940).
             setVehicle("car").
