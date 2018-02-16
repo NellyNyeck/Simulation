@@ -4,6 +4,7 @@ import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.GeoPosition;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -43,6 +44,7 @@ public class CHeatPainter  implements Painter<JXMapViewer> {
         if (antiAlias)
             graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        graphics2D.setStroke( new BasicStroke( 3 ));
         drawHeat( graphics2D, jxMapViewer );
 
         graphics2D.dispose();

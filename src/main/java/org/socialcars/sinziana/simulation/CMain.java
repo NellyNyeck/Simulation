@@ -25,7 +25,7 @@ public final class CMain
         COSMEnvironment m_env = new COSMEnvironment("src/test/resources/netherlands-latest.osm.pbf", 52.378023,52.358227, 4.926724, 4.874718);
 
         List<List<GeoPosition>> l_routes = new ArrayList<>();
-        IntStream.range( 0, 1000 )
+        IntStream.range( 0, 10000 )
             .boxed()
             .forEach( i -> l_routes.add( m_env.route( m_env.randomnode(), m_env.randomnode(), Stream.empty() ) ) );
 
