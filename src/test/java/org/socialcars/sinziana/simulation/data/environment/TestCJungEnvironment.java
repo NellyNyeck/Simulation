@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
@@ -28,7 +29,11 @@ import java.util.stream.IntStream;
  */
 public final class TestCJungEnvironment
 {
-    private static CInputpojo s_input;
+    private static final int ROUTENUMBER = 1000;
+
+    private static final CInputpojo s_input;
+
+    private CJungEnvironment m_env;
 
     static
     {
@@ -42,8 +47,6 @@ public final class TestCJungEnvironment
         }
     }
 
-    private CJungEnvironment m_env;
-
     /**
      * initializing
      * @throws IOException file
@@ -52,26 +55,31 @@ public final class TestCJungEnvironment
     public void init() throws IOException
     {
         m_env = new CJungEnvironment( s_input.getGraph() );
+
     }
 
     /**
-     * graph output
+     * graph only
      */
     @Test
-    public void graph()
+    public final void graph()
     {
-        System.out.println( m_env );
+        final JFrame l_frame = new JFrame();
+        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        l_frame.setSize( new Dimension( 900, 900 ) );
+        l_frame.getContentPane().add( new CJungEnvironment( s_input.getGraph() ).panel( l_frame.getSize() ) );
+        l_frame.setVisible( true );
     }
 
     /**
      * heatmap
      */
     @Test
-    public void heatmap()
+    public final void heatmap()
     {
         final JFrame l_frame = new JFrame();
         l_frame.setSize( new Dimension( 900, 900 ) );
-        l_frame.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
+        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( s_input.getGraph() );
         final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
@@ -79,35 +87,26 @@ public final class TestCJungEnvironment
         l_frame.setVisible( true );
 
         final Map<IEdge, Integer> l_countingmap = new HashMap<>();
-        IntStream.range( 0, 1000 )
-            .boxed()
-            .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
-            .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
+        IntStream.range( 0, ROUTENUMBER )
+                 .boxed()
+                 .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
+                 .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
 
-        System.out.println( l_countingmap );
-
-        final Function<IEdge, Paint> l_coloring = new CHeat( l_countingmap );
-        final Function<INode, Paint> l_black = new CBlack();
-
-        l_view.getRenderContext().setEdgeFillPaintTransformer( l_coloring );
-        l_view.getRenderContext().setVertexFillPaintTransformer( l_black );
-
-
+        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeat( l_countingmap ) );
+        l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
     }
 
-    static class CHeat implements Function<IEdge, Paint>
+    /**
+     * heatmap class
+     */
+    private final static class CHeat implements Function<IEdge, Paint>
     {
-        private Map<IEdge, Color> m_coding = new HashMap<>();
+        private Map<IEdge, Color> m_coding;
 
         CHeat( final Map<IEdge, Integer> p_countingmap )
         {
             final Integer l_max = p_countingmap.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
-            p_countingmap.entrySet().forEach( p -> EColorMap.VIDRIS.apply(p.getValue(), l_max) );
-            /*{
-                final float l_number = p.getValue().floatValue() / l_max.floatValue();
-                final Color l_color = new Color( l_number, 0, 0 );
-                m_coding.put( p.getKey(), l_color );
-            } */
+            m_coding = p_countingmap.entrySet().stream().collect( Collectors.toMap( Map.Entry::getKey, i -> EColorMap.MAGMA.apply( i.getValue(), l_max ) ) );
         }
 
         @Nullable
@@ -118,55 +117,18 @@ public final class TestCJungEnvironment
         }
     }
 
-    static class CBlack implements Function<INode, Paint>
-    {
-
-        @Nullable
-        @Override
-        public Paint apply( @Nullable final INode p_node )
-        {
-            return new Color( 0, 0, 0 );
-        }
-    }
 
     /**
      * main
      *
      * @param p_args cli arguments
      */
-    public static void main( final String[] p_args )
+    public static void main( final String[] p_args ) throws IOException
     {
-        /*final JFrame l_frame = new JFrame();
-        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        l_frame.setSize( new Dimension( 900, 900 ) );
-        l_frame.getContentPane().add( new CJungEnvironment( s_input.getGraph() ).panel( l_frame.getSize() ) );
-        l_frame.setVisible( true );*/
-
-        final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 900, 900 ) );
-        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-
-        final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( s_input.getGraph() );
-        final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
-        l_frame.getContentPane().add( l_view );
-        l_frame.setVisible( true );
-
-        final Map<IEdge, Integer> l_countingmap = new HashMap<>();
-        IntStream.range( 0, 1000 )
-            .boxed()
-            .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
-            .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
-
-        System.out.println( l_countingmap );
-
-        final Function<IEdge, Paint> l_coloring = new CHeat( l_countingmap );
-        final Function<INode, Paint> l_black = new CBlack();
-
-        l_view.getRenderContext().setEdgeFillPaintTransformer( l_coloring );
-        l_view.getRenderContext().setVertexFillPaintTransformer( l_black );
-
-
-
+        final TestCJungEnvironment l_test = new TestCJungEnvironment();
+        l_test.init();
+        l_test.graph();
+        l_test.heatmap();
     }
 
 }
