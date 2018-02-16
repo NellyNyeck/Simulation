@@ -290,6 +290,6 @@ public enum EColorMap implements BiFunction<Number, Number, Color>
     @Override
     public final Color apply( @Nonnull final Number p_value, @Nonnull final Number p_max )
     {
-        return m_map[ (int) ( m_map.length / p_max.doubleValue() * p_value.doubleValue() ) ];
+        return m_map[ (int) ( ( m_map.length - 1) / p_max.doubleValue() * p_value.doubleValue() ) ];
     }
 }
