@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
@@ -133,7 +134,9 @@ public class COSMEnvironment
             }
         );
 
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes.get(0) ), 0.5);
+        mapViewer.zoomToBestFit(Set.of( m_bottomright, m_topleft ), 0.8);
+
+        //mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes.get(0) ), 0.5);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);
