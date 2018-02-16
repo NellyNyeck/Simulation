@@ -64,21 +64,22 @@ public class COSMEnvironment
                 Stream.of(p_finish)
             ),
             2
-        ).forEach(
+        ).map( i -> new GHRequest(
+            i.get(0).getLatitude(),
+            i.get(0).getLongitude(),
+            i.get(1).getLatitude(),
+            i.get(1).getLongitude()).
+            setVehicle("car").
+            setLocale(Locale.US) )
+            .map( i -> m_hopper.route(i) )
+            .filter( i -> !i.hasErrors())
+            .map( i -> i.getBest().getInstructions().stream().map( i -> i.getPoints()..forEach().map( i -> new GeoPosition( i.lat)) )
+
+            .forEach(
             i ->
             {
-                GHRequest request = new GHRequest(
-                    i.get(0).getLatitude(),
-                    i.get(0).getLongitude(),
-                    i.get(1).getLatitude(),
-                    i.get(1).getLongitude()).
-                    setVehicle("car").
-                    setLocale(Locale.US);
-                GHResponse response = m_hopper.route(request);
-                if(response.hasErrors()) {
-                    return;
-                }
-                PathWrapper path = response.getBest();
+
+
                 path.getInstructions().stream()
                     .forEach(n ->  n.getPoints().forEach( p -> l_list.add( new GeoPosition( p.lat, p.lon ) )) );
             }

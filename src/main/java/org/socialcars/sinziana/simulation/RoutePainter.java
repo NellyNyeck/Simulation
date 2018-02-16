@@ -41,13 +41,14 @@ public class RoutePainter implements Painter<JXMapViewer>
 
         // do the drawing
         g.setColor(Color.BLACK);
-        g.setStroke(new BasicStroke(3));
+        g.setStroke(new BasicStroke(2));
 
         drawRoute(g, map);
 
         // do the drawing again
         g.setColor(color);
         g.setStroke(new BasicStroke(1));
+
 
         drawRoute(g, map);
 
@@ -83,4 +84,6 @@ public class RoutePainter implements Painter<JXMapViewer>
             lastY = (int) pt.getY();
         }
     }
+
+    //private void drawHeat( Graphics2D g,  )
 }
