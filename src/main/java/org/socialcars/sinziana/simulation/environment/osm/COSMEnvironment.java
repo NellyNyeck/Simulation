@@ -7,6 +7,7 @@ import com.graphhopper.GraphHopper;
 import com.graphhopper.PathWrapper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.util.Instruction;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.painter.CompoundPainter;
@@ -24,8 +25,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 
 public class COSMEnvironment
@@ -54,8 +60,7 @@ public class COSMEnvironment
 
     public List<GeoPosition> route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
     {
-        List<GeoPosition> l_list = new ArrayList<>();
-        StreamUtils.windowed(
+        return StreamUtils.windowed(
             Stream.concat(
                 Stream.concat(
                     Stream.of(p_start),
@@ -70,22 +75,17 @@ public class COSMEnvironment
             i.get(1).getLatitude(),
             i.get(1).getLongitude()).
             setVehicle("car").
-            setLocale(Locale.US) )
-            .map( i -> m_hopper.route(i) )
-            .filter( i -> !i.hasErrors())
-            .map( i -> i.getBest().getInstructions().stream().map( i -> i.getPoints()..forEach().map( i -> new GeoPosition( i.lat)) )
-
-            .forEach(
-            i ->
-            {
-
-
-                path.getInstructions().stream()
-                    .forEach(n ->  n.getPoints().forEach( p -> l_list.add( new GeoPosition( p.lat, p.lon ) )) );
-            }
-        );
-
-        return l_list;
+            setLocale(Locale.US)
+        )
+        .map( i -> m_hopper.route(i) )
+        .filter( i -> !i.hasErrors())
+        .flatMap( i -> i.getBest().getInstructions().stream() )
+        .map( Instruction::getPoints )
+        .flatMap( i -> IntStream.range( 0, i.size() )
+                                .boxed()
+                                .map( j -> new GeoPosition( i.getLatitude( j ), i.getLongitude( j ) ) )
+        )
+        .collect( Collectors.toList() );
 
         /*JXMapViewer mapViewer = new JXMapViewer();
         mapViewer.setZoom( 9 );
