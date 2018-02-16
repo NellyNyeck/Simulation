@@ -17,18 +17,19 @@ import java.util.Map;
 /**
  * the heatpainter class
  */
-public class CHeatPainter  implements Painter<JXMapViewer> {
+public class CHeatPainter  implements Painter<JXMapViewer>
+{
 
     private List<List<GeoPosition>> m_routes;
     private HashMap<GeoPosition, Integer> m_values;
-    private boolean m_antiAlias = true;
+    private boolean m_antialias = true;
     private HashMap<GeoPosition, Color> m_heat;
 
     /**
      * ctor
      * @param p_tracks the list of routes
      */
-    public CHeatPainter( List<List<GeoPosition>> p_tracks )
+    public CHeatPainter( final List<List<GeoPosition>> p_tracks )
     {
         m_routes = p_tracks;
         m_values = new HashMap<>();
@@ -48,7 +49,7 @@ public class CHeatPainter  implements Painter<JXMapViewer> {
         final Rectangle l_rect = p_viewer.getViewportBounds();
         p_graphics.translate( -l_rect.x, -l_rect.y );
 
-        if ( m_antiAlias )
+        if ( m_antialias )
             p_graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
         p_graphics.setStroke( new BasicStroke( 3 ) );

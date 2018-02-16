@@ -5,16 +5,19 @@ import com.google.common.base.Function;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import org.junit.Before;
 import org.junit.Test;
-import org.socialcars.sinziana.simulation.visualization.EColorMap;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
+import org.socialcars.sinziana.simulation.visualization.EColorMap;
 
 import javax.annotation.Nullable;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Paint;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -31,7 +34,7 @@ public final class TestCJungEnvironment
 {
     private static final int ROUTENUMBER = 1000;
 
-    private static final CInputpojo s_input;
+    private static final CInputpojo INPUT;
 
     private CJungEnvironment m_env;
 
@@ -39,7 +42,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            s_input = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -54,7 +57,7 @@ public final class TestCJungEnvironment
     @Before
     public void init() throws IOException
     {
-        m_env = new CJungEnvironment( s_input.getGraph() );
+        m_env = new CJungEnvironment( INPUT.getGraph() );
 
     }
 
@@ -67,7 +70,7 @@ public final class TestCJungEnvironment
         final JFrame l_frame = new JFrame();
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         l_frame.setSize( new Dimension( 900, 900 ) );
-        l_frame.getContentPane().add( new CJungEnvironment( s_input.getGraph() ).panel( l_frame.getSize() ) );
+        l_frame.getContentPane().add( new CJungEnvironment( INPUT.getGraph() ).panel( l_frame.getSize() ) );
         l_frame.setVisible( true );
     }
 
@@ -81,7 +84,7 @@ public final class TestCJungEnvironment
         l_frame.setSize( new Dimension( 900, 900 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
-        final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( s_input.getGraph() );
+        final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
         final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
         l_frame.getContentPane().add( l_view );
         l_frame.setVisible( true );
@@ -120,8 +123,8 @@ public final class TestCJungEnvironment
 
     /**
      * main
-     *
      * @param p_args cli arguments
+     * @throws IOException file
      */
     public static void main( final String[] p_args ) throws IOException
     {
