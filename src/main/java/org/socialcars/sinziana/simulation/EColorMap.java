@@ -1575,7 +1575,7 @@ public enum EColorMap implements BiFunction<Number, Number, Color>
             new Color( 0.9969313f, 0.98658659f, 0.79581965f),
             new Color( 0.99962532f, 0.99137112f, 0.80410124f)
         ).toArray( Color[]::new )
-    )
+    );
 
     /**
      * map colors
