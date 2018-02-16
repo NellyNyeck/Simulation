@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * the heatpainter class
+ */
 public class CHeatPainter  implements Painter<JXMapViewer> {
 
     private List<List<GeoPosition>> m_routes;
@@ -21,6 +24,10 @@ public class CHeatPainter  implements Painter<JXMapViewer> {
     private boolean m_antiAlias = true;
     private HashMap<GeoPosition, Color> m_heat;
 
+    /**
+     * ctor
+     * @param p_tracks the list of routes
+     */
     public CHeatPainter( List<List<GeoPosition>> p_tracks )
     {
         m_routes = p_tracks;
@@ -33,44 +40,44 @@ public class CHeatPainter  implements Painter<JXMapViewer> {
     }
 
     @Override
-    public void paint( Graphics2D p_graphics, JXMapViewer p_viewer, int i, int i1 )
+    public void paint( Graphics2D p_graphics, final JXMapViewer p_viewer, final int p_wigth, final int p_height )
     {
         p_graphics = (Graphics2D) p_graphics.create();
 
         // convert from viewport to world bitmap
-        Rectangle l_rect = p_viewer.getViewportBounds();
+        final Rectangle l_rect = p_viewer.getViewportBounds();
         p_graphics.translate( -l_rect.x, -l_rect.y );
 
         if ( m_antiAlias )
-            p_graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            p_graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
-        p_graphics.setStroke( new BasicStroke( 3 ));
+        p_graphics.setStroke( new BasicStroke( 3 ) );
         drawHeat( p_graphics, p_viewer );
 
         p_graphics.dispose();
 
     }
 
-    private void drawHeat(Graphics2D p_graphics, JXMapViewer p_map)
+    private void drawHeat( final Graphics2D p_graphics, final JXMapViewer p_map )
     {
         m_routes.stream().forEach( i ->
         {
-            int lastX = 0;
-            int lastY = 0;
+            int l_lastx = 0;
+            int l_lasty = 0;
             boolean first = true;
 
 
-            for (GeoPosition gp : i )
+            for ( final GeoPosition l_gp : i )
             {
-                Point2D pt = p_map.getTileFactory().geoToPixel(gp, p_map.getZoom());
-                if (first) first = false;
+                final Point2D l_pt = p_map.getTileFactory().geoToPixel( l_gp, p_map.getZoom() );
+                if ( first ) first = false;
                 else
                 {
-                    p_graphics.setColor(m_heat.get(gp));
-                    p_graphics.drawLine(lastX, lastY, (int) pt.getX(), (int) pt.getY());
+                    p_graphics.setColor( m_heat.get( l_gp ) );
+                    p_graphics.drawLine( l_lastx, l_lasty, (int) l_pt.getX(), (int) l_pt.getY() );
                 }
-                lastX = (int) pt.getX();
-                lastY = (int) pt.getY();
+                l_lastx = (int) l_pt.getX();
+                l_lasty = (int) l_pt.getY();
             }
         } );
     }
