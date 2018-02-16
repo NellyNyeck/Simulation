@@ -15,6 +15,7 @@ import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.socialcars.sinziana.simulation.CHeatPainter;
 import org.socialcars.sinziana.simulation.RoutePainter;
 
 
@@ -111,7 +112,7 @@ public class COSMEnvironment
 
     }
 
-    public void drawRoutes( List<List<GeoPosition>>  l_routes)
+    public void drawRoutes( List<List<GeoPosition>> l_routes)
     {
         JXMapViewer mapViewer = new JXMapViewer();
         mapViewer.setZoom( 9 );
@@ -141,6 +142,35 @@ public class COSMEnvironment
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);
+    }
+
+    public void drawHeat( List<List<GeoPosition>> l_routes )
+    {
+        JXMapViewer mapViewer = new JXMapViewer();
+        mapViewer.setZoom( 9 );
+        JFrame frame = new JFrame("Routing");
+        frame.getContentPane().add(mapViewer);
+        frame.setSize(800, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        // Create a TileFactoryInfo for OpenStreetMap
+        TileFactoryInfo info = new OSMTileFactoryInfo();
+        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+        mapViewer.setTileFactory(tileFactory);
+
+        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+
+        CHeatPainter heatPainter = new CHeatPainter( l_routes );
+        painters.add( heatPainter );
+
+        mapViewer.zoomToBestFit(Set.of( m_bottomright, m_topleft ), 0.8);
+
+        //mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes.get(0) ), 0.5);
+
+        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
+        mapViewer.setOverlayPainter(painter);
+
     }
 
     public GeoPosition randomnode()
