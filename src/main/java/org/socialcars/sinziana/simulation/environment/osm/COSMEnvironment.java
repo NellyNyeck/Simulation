@@ -17,8 +17,8 @@ import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
-import org.socialcars.sinziana.simulation.CHeatPainter;
-import org.socialcars.sinziana.simulation.RoutePainter;
+import org.socialcars.sinziana.simulation.visualization.CHeatPainter;
+import org.socialcars.sinziana.simulation.visualization.CRoutePainter;
 
 import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
@@ -86,28 +86,6 @@ public class COSMEnvironment
         )
         .collect( Collectors.toList() );
 
-        /*JXMapViewer mapViewer = new JXMapViewer();
-        mapViewer.setZoom( 9 );
-        JFrame frame = new JFrame("Routing");
-        frame.getContentPane().add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-        // Create a TileFactoryInfo for OpenStreetMap
-        TileFactoryInfo info = new OSMTileFactoryInfo();
-        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
-        mapViewer.setTileFactory(tileFactory);
-
-        RoutePainter routePainter = new RoutePainter( l_list );
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_list ), 0.7);
-
-        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
-        painters.add(routePainter);
-
-        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
-        mapViewer.setOverlayPainter(painter);*/
-
     }
 
     public void drawRoutes( List<List<GeoPosition>> l_routes)
@@ -128,15 +106,13 @@ public class COSMEnvironment
         List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
 
         l_routes.stream().forEach( l -> {
-            RoutePainter routePainter = new RoutePainter( l );
-            painters.add(routePainter);
+            CRoutePainter CRoutePainter = new CRoutePainter( l );
+            painters.add(CRoutePainter);
 
             }
         );
 
         mapViewer.zoomToBestFit(Set.of( m_bottomright, m_topleft ), 0.8);
-
-        //mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes.get(0) ), 0.5);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);
@@ -163,8 +139,6 @@ public class COSMEnvironment
         painters.add( heatPainter );
 
         mapViewer.zoomToBestFit(Set.of( m_bottomright, m_topleft ), 0.8);
-
-        //mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes.get(0) ), 0.5);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);

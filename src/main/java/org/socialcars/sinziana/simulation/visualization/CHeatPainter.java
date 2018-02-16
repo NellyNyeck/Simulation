@@ -1,4 +1,4 @@
-package org.socialcars.sinziana.simulation;
+package org.socialcars.sinziana.simulation.visualization;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.Painter;
@@ -18,66 +18,60 @@ public class CHeatPainter  implements Painter<JXMapViewer> {
 
     private List<List<GeoPosition>> m_routes;
     private HashMap<GeoPosition, Integer> m_values;
-    private boolean antiAlias = true;
+    private boolean m_antiAlias = true;
     private HashMap<GeoPosition, Color> m_heat;
 
-    public CHeatPainter( List<List<GeoPosition>> tracks )
+    public CHeatPainter( List<List<GeoPosition>> p_tracks )
     {
-        m_routes = tracks;
+        m_routes = p_tracks;
         m_values = new HashMap<>();
-        tracks.stream()
-            .forEach( l -> l.stream().forEach( i -> m_values.put(i, m_values.getOrDefault( i, 0 ) + 1) ) );
+        p_tracks.stream()
+            .forEach( l -> l.stream().forEach( i -> m_values.put( i, m_values.getOrDefault( i, 0 ) + 1 ) ) );
         m_heat = new HashMap<>();
         final Integer l_max = m_values.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
         m_values.entrySet().forEach( p -> m_heat.put( p.getKey(), EColorMap.VIDRIS.apply( p.getValue(), l_max ) ) );
     }
 
     @Override
-    public void paint(Graphics2D graphics2D, JXMapViewer jxMapViewer, int i, int i1)
+    public void paint( Graphics2D p_graphics, JXMapViewer p_viewer, int i, int i1 )
     {
-        graphics2D = (Graphics2D) graphics2D.create();
+        p_graphics = (Graphics2D) p_graphics.create();
 
         // convert from viewport to world bitmap
-        Rectangle rect =jxMapViewer.getViewportBounds();
-        graphics2D.translate(-rect.x, -rect.y);
+        Rectangle l_rect = p_viewer.getViewportBounds();
+        p_graphics.translate( -l_rect.x, -l_rect.y );
 
-        if (antiAlias)
-            graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        if ( m_antiAlias )
+            p_graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        graphics2D.setStroke( new BasicStroke( 3 ));
-        drawHeat( graphics2D, jxMapViewer );
+        p_graphics.setStroke( new BasicStroke( 3 ));
+        drawHeat( p_graphics, p_viewer );
 
-        graphics2D.dispose();
+        p_graphics.dispose();
 
     }
 
-    private void drawHeat(Graphics2D g, JXMapViewer map)
+    private void drawHeat(Graphics2D p_graphics, JXMapViewer p_map)
     {
         m_routes.stream().forEach( i ->
         {
             int lastX = 0;
             int lastY = 0;
-
             boolean first = true;
+
 
             for (GeoPosition gp : i )
             {
-                // convert geo-coordinate to world bitmap pixel
-                Point2D pt = map.getTileFactory().geoToPixel(gp, map.getZoom());
-
-                if (first)
-                {
-                    first = false;
-                }
+                Point2D pt = p_map.getTileFactory().geoToPixel(gp, p_map.getZoom());
+                if (first) first = false;
                 else
                 {
-                    g.setColor(m_heat.get(gp));
-                    g.drawLine(lastX, lastY, (int) pt.getX(), (int) pt.getY());
+                    p_graphics.setColor(m_heat.get(gp));
+                    p_graphics.drawLine(lastX, lastY, (int) pt.getX(), (int) pt.getY());
                 }
                 lastX = (int) pt.getX();
                 lastY = (int) pt.getY();
             }
-
-        });
+        } );
     }
 }

@@ -8,7 +8,6 @@ import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.InstructionList;
 import com.graphhopper.util.PointList;
-import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.jxmapviewer.JXMapViewer;
@@ -18,17 +17,15 @@ import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
-import org.socialcars.sinziana.simulation.RoutePainter;
+import org.socialcars.sinziana.simulation.visualization.CRoutePainter;
 import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
-import javax.sound.midi.Soundbank;
 import javax.swing.JFrame;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 public class TestOSMmap {
@@ -103,11 +100,11 @@ public class TestOSMmap {
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         mapViewer.setTileFactory(tileFactory);
 
-        RoutePainter routePainter = new RoutePainter(m_list);
+        CRoutePainter CRoutePainter = new CRoutePainter(m_list);
         mapViewer.zoomToBestFit(new HashSet<>(m_list), 0.7);
 
         List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
-        painters.add(routePainter);
+        painters.add(CRoutePainter);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);

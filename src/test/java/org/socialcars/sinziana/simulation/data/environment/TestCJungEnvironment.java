@@ -5,7 +5,7 @@ import com.google.common.base.Function;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import org.junit.Before;
 import org.junit.Test;
-import org.socialcars.sinziana.simulation.EColorMap;
+import org.socialcars.sinziana.simulation.visualization.EColorMap;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
