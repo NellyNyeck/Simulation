@@ -7,6 +7,7 @@ import org.jxmapviewer.viewer.GeoPosition;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,6 +85,4 @@ public class RoutePainter implements Painter<JXMapViewer>
             lastY = (int) pt.getY();
         }
     }
-
-    //private void drawHeat( Graphics2D g,  )
 }

@@ -134,7 +134,7 @@ public final class CMain
                 l_routes.add( m_env.route( l_start, l_finish, Stream.empty() ) );
             }
         }*/
-        m_env.drawRoutes( l_routes );
+        m_env.drawHeat( l_routes );
 
 
         /*GeoPosition l_start = m_env.randomnode();
