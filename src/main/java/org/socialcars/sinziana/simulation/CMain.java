@@ -122,11 +122,10 @@ public final class CMain
         List<List<GeoPosition>> l_routes = new ArrayList<>();
         IntStream.range( 0, 1000 )
             .boxed()
-            .flatMap( i -> m_env.route( m_env.randomnode(), m_env.randomnode(), Stream.empty() ).stream() )
-            .forEach( p -> // TODO: 15.02.18 paint in in the thing );
+            .forEach( i -> l_routes.add( m_env.route( m_env.randomnode(), m_env.randomnode(), Stream.empty() ) ) );
 
 
-        for ( int i = 0; i < 3; i++)
+        /*for ( int i = 0; i < 3; i++)
         {
             GeoPosition l_start = m_env.randomnode();
             GeoPosition l_finish = m_env.randomnode();
@@ -134,7 +133,7 @@ public final class CMain
             {
                 l_routes.add( m_env.route( l_start, l_finish, Stream.empty() ) );
             }
-        }
+        }*/
         m_env.drawRoutes( l_routes );
 
 

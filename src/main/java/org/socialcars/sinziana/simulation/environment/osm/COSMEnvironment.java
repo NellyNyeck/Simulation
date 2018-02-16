@@ -74,6 +74,9 @@ public class COSMEnvironment
                     setVehicle("car").
                     setLocale(Locale.US);
                 GHResponse response = m_hopper.route(request);
+                if(response.hasErrors()) {
+                    return;
+                }
                 PathWrapper path = response.getBest();
                 path.getInstructions().stream()
                     .forEach(n ->  n.getPoints().forEach( p -> l_list.add( new GeoPosition( p.lat, p.lon ) )) );
@@ -130,7 +133,7 @@ public class COSMEnvironment
             }
         );
 
-        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes.get(0) ), 0.6);
+        mapViewer.zoomToBestFit(new HashSet<GeoPosition>( l_routes.get(0) ), 0.5);
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         mapViewer.setOverlayPainter(painter);
