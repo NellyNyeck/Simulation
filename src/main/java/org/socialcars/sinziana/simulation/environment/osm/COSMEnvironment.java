@@ -32,19 +32,29 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-
+/**
+ * the environment based on Open Street Map
+ */
 public class COSMEnvironment
 {
-    GraphHopper m_hopper;
+    private GraphHopper m_hopper;
 
-    final GeoPosition m_topleft;
-    final GeoPosition m_bottomright;
+    private final GeoPosition m_topleft;
+    private final GeoPosition m_bottomright;
 
+    /**
+     * ctor
+     * @param p_file the osm file
+     * @param p_north northern most point
+     * @param p_south southern most point
+     * @param p_east eastern most point
+     * @param p_west western most point
+     */
     public COSMEnvironment( final String p_file, final Double p_north, final Double p_south, final Double p_east, final Double p_west )
     {
         m_hopper = new GraphHopperOSM().forServer();
         m_hopper.setDataReaderFile( p_file );
-        m_hopper.setGraphHopperLocation( String.valueOf(new File( "src/test/graphlocation" ) ) );
+        m_hopper.setGraphHopperLocation( String.valueOf( new File( "src/test/graphlocation" ) ) );
         m_hopper.setEncodingManager( new EncodingManager( "car" ) );
         m_hopper.importOrLoad();
         m_topleft = new GeoPosition( p_north, p_west );
@@ -57,27 +67,34 @@ public class COSMEnvironment
         this.route( p_start, p_finish, java.util.Objects.isNull( p_via ) ? Stream.empty() : java.util.Arrays.stream( p_via ) );
     }
 
+    /**
+     * the routing program
+     * @param p_start the start point
+     * @param p_finish the finish point
+     * @param p_via the list of middle
+     * @return a list of geographical points with the route
+     */
     public List<GeoPosition> route( final GeoPosition p_start, final GeoPosition p_finish, final Stream<GeoPosition> p_via )
     {
         return StreamUtils.windowed(
             Stream.concat(
                 Stream.concat(
-                    Stream.of(p_start),
+                    Stream.of( p_start ),
                     p_via
                 ),
-                Stream.of(p_finish)
+                Stream.of( p_finish )
             ),
             2
         ).map( i -> new GHRequest(
-            i.get(0).getLatitude(),
-            i.get(0).getLongitude(),
-            i.get(1).getLatitude(),
-            i.get(1).getLongitude()).
-            setVehicle("car").
-            setLocale(Locale.US)
+            i.get( 0 ).getLatitude(),
+            i.get( 0 ).getLongitude(),
+            i.get( 1 ).getLatitude(),
+            i.get( 1 ).getLongitude() )
+            .setVehicle( "car" )
+            .setLocale( Locale.US )
         )
-        .map( i -> m_hopper.route(i) )
-        .filter( i -> !i.hasErrors())
+        .map( i -> m_hopper.route( i ) )
+        .filter( i -> !i.hasErrors() )
         .flatMap( i -> i.getBest().getInstructions().stream() )
         .map( Instruction::getPoints )
         .flatMap( i -> IntStream.range( 0, i.size() )
@@ -88,96 +105,112 @@ public class COSMEnvironment
 
     }
 
-    public void drawRoutes( List<List<GeoPosition>> l_routes)
+    /**
+     * draws the routes
+     * @param p_routes the list of routes
+     */
+    public void drawRoutes( final List<List<GeoPosition>> p_routes )
     {
-        JXMapViewer mapViewer = new JXMapViewer();
-        mapViewer.setZoom( 9 );
-        JFrame frame = new JFrame("Routing");
-        frame.getContentPane().add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        final JXMapViewer l_mapviewer = new JXMapViewer();
+        l_mapviewer.setZoom( 9 );
+        final JFrame l_frame = new JFrame( "Routing" );
+        l_frame.getContentPane().add( l_mapviewer );
+        l_frame.setSize( 800,  600 );
+        l_frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        l_frame.setVisible( true );
 
         // Create a TileFactoryInfo for OpenStreetMap
-        TileFactoryInfo info = new OSMTileFactoryInfo();
-        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
-        mapViewer.setTileFactory(tileFactory);
+        final TileFactoryInfo l_info = new OSMTileFactoryInfo();
+        final DefaultTileFactory l_tilefactory = new DefaultTileFactory( l_info );
+        l_mapviewer.setTileFactory( l_tilefactory );
 
-        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+        final List<Painter<JXMapViewer>> l_painters = new ArrayList<Painter<JXMapViewer>>();
 
-        l_routes.stream().forEach( l -> {
-            CRoutePainter CRoutePainter = new CRoutePainter( l );
-            painters.add(CRoutePainter);
-
+        p_routes.stream().forEach( l ->
+            {
+                final CRoutePainter l_routepainter = new CRoutePainter( l );
+                l_painters.add( l_routepainter );
             }
         );
 
-        mapViewer.zoomToBestFit(Set.of( m_bottomright, m_topleft ), 0.8);
+        l_mapviewer.zoomToBestFit( Set.of( m_bottomright, m_topleft ),  0.8 );
 
-        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
-        mapViewer.setOverlayPainter(painter);
+        final CompoundPainter<JXMapViewer> l_painter = new CompoundPainter<JXMapViewer>( l_painters );
+        l_mapviewer.setOverlayPainter( l_painter );
     }
 
-    public void drawHeat( List<List<GeoPosition>> l_routes )
+    /**
+     * draws a heatmap
+     * @param p_routes the list of routes
+     */
+    public void drawHeat( final List<List<GeoPosition>> p_routes )
     {
-        JXMapViewer mapViewer = new JXMapViewer();
-        mapViewer.setZoom( 9 );
-        JFrame frame = new JFrame("Routing");
-        frame.getContentPane().add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        final JXMapViewer l_mapviewer = new JXMapViewer();
+        l_mapviewer.setZoom( 9 );
+        final JFrame l_frame = new JFrame( "Routing" );
+        l_frame.getContentPane().add( l_mapviewer );
+        l_frame.setSize( 800,  600 );
+        l_frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        l_frame.setVisible( true );
 
         // Create a TileFactoryInfo for OpenStreetMap
-        TileFactoryInfo info = new OSMTileFactoryInfo();
-        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
-        mapViewer.setTileFactory(tileFactory);
+        final TileFactoryInfo l_info = new OSMTileFactoryInfo();
+        final DefaultTileFactory l_tilefactory = new DefaultTileFactory( l_info );
+        l_mapviewer.setTileFactory( l_tilefactory );
 
-        List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
+        final List<Painter<JXMapViewer>> l_painters = new ArrayList<Painter<JXMapViewer>>();
 
-        CHeatPainter heatPainter = new CHeatPainter( l_routes );
-        painters.add( heatPainter );
+        final CHeatPainter l_heatpainter = new CHeatPainter( p_routes );
+        l_painters.add( l_heatpainter );
 
-        mapViewer.zoomToBestFit(Set.of( m_bottomright, m_topleft ), 0.8);
+        l_mapviewer.zoomToBestFit( Set.of( m_bottomright, m_topleft ),  0.8 );
 
-        CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
-        mapViewer.setOverlayPainter(painter);
+        final CompoundPainter<JXMapViewer> l_painter = new CompoundPainter<JXMapViewer>( l_painters );
+        l_mapviewer.setOverlayPainter( l_painter );
 
-        MouseInputListener mia = new PanMouseInputListener(mapViewer);
-        mapViewer.addMouseListener(mia);
-        mapViewer.addMouseMotionListener(mia);
-
-        mapViewer.addMouseListener(new CenterMapListener(mapViewer));
-
-        mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
-
-        mapViewer.addKeyListener(new PanKeyListener(mapViewer));
+        /**
+         * the zoom
+         */
+        final MouseInputListener l_mia = new PanMouseInputListener( l_mapviewer );
+        l_mapviewer.addMouseListener( l_mia );
+        l_mapviewer.addMouseMotionListener( l_mia );
+        l_mapviewer.addMouseListener( new CenterMapListener( l_mapviewer ) );
+        l_mapviewer.addMouseWheelListener( new ZoomMouseWheelListenerCursor( l_mapviewer ) );
+        l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
 
     }
 
+    /**
+     * generates a radom point
+     * @return the random node generated
+     */
     public GeoPosition randomnode()
     {
-        Double l_latitude = ThreadLocalRandom.current().nextDouble( m_bottomright.getLatitude(), m_topleft.getLatitude() );
-        Double l_longiture = ThreadLocalRandom.current().nextDouble( m_topleft.getLongitude(), m_bottomright.getLongitude() );
-        return new GeoPosition(l_latitude, l_longiture);
+        final Double l_latitude = ThreadLocalRandom.current().nextDouble( m_bottomright.getLatitude(), m_topleft.getLatitude() );
+        final Double l_longiture = ThreadLocalRandom.current().nextDouble( m_topleft.getLongitude(), m_bottomright.getLongitude() );
+        return new GeoPosition( l_latitude, l_longiture );
     }
 
+    /**
+     * creating the panel
+     * @return the map viewer
+     */
     public JXMapViewer panel()
     {
-        JXMapViewer mapViewer = new JXMapViewer();
-        mapViewer.setZoom( 9 );
-        JFrame frame = new JFrame("Routing");
-        frame.getContentPane().add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        final JXMapViewer l_mapviewer = new JXMapViewer();
+        l_mapviewer.setZoom( 9 );
+        final JFrame l_frame = new JFrame( "Routing" );
+        l_frame.getContentPane().add( l_mapviewer );
+        l_frame.setSize( 800,  600 );
+        l_frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        l_frame.setVisible( true );
 
         // Create a TileFactoryInfo for OpenStreetMap
-        TileFactoryInfo info = new OSMTileFactoryInfo();
-        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
-        mapViewer.setTileFactory(tileFactory);
+        final TileFactoryInfo l_info = new OSMTileFactoryInfo();
+        final DefaultTileFactory l_tilefactory = new DefaultTileFactory( l_info );
+        l_mapviewer.setTileFactory( l_tilefactory );
 
-        return mapViewer;
+        return l_mapviewer;
     }
 
 }
