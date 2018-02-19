@@ -38,7 +38,6 @@ import java.util.stream.Stream;
 public class COSMEnvironment
 {
     private GraphHopper m_hopper;
-
     private final GeoPosition m_topleft;
     private final GeoPosition m_bottomright;
 
