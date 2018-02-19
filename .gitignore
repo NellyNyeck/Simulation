@@ -17,5 +17,7 @@ src/test/Amsterdam
 src/test/Bucharest
 src/test/Manhattan
 src/test/Barcelona
+src/test/Hannover
+src/test/SiouxFalls
 
 target/
