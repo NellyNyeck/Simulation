@@ -1,13 +1,15 @@
 package org.socialcars.sinziana.simulation;
 
-import org.jxmapviewer.viewer.GeoPosition;
+import com.graphhopper.reader.osm.OSMReader;
+import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.storage.GraphExtension;
+import com.graphhopper.storage.GraphHopperStorage;
+import com.graphhopper.storage.RAMDirectory;
 import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
 
 /**
  * main application
@@ -23,19 +25,12 @@ public final class CMain
     /**
      * main funtcion
      * @param p_args cli arguments
-     * @throws IOException file
      */
     public static void main( final String[] p_args ) throws IOException
     {
-
-        final COSMEnvironment l_env = new COSMEnvironment( "src/test/resources/netherlands-latest.osm.pbf",  52.378023,  52.358227,  4.926724,  4.874718 );
-
-        final List<List<GeoPosition>> l_routes = new ArrayList<>();
-        IntStream.range( 0, 10000 )
-            .boxed()
-            .forEach( i -> l_routes.add( l_env.route( l_env.randomnode(), l_env.randomnode(), Stream.empty() ) ) );
-
-        l_env.drawHeat( l_routes );
-
+        GraphHopperStorage m_storage = new GraphHopperStorage( new RAMDirectory(), new EncodingManager("car"), false, new GraphExtension.NoOpExtension() );
+        OSMReader m_reader = new OSMReader(m_storage);
+        m_reader.setFile( new File( "src/test/resources/new-york-latest.osm.pbf" ));
+        m_reader.readGraph();
     }
 }

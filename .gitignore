@@ -13,5 +13,8 @@
 !src/analysis/**/*.xml
 
 src/test/graphlocation/
+src/test/Amsterdam
+src/test/Bucharest
+src/test/Manhattan
 
 target/

@@ -37,7 +37,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
             .forEach( l -> l.stream().forEach( i -> m_values.put( i, m_values.getOrDefault( i, 0 ) + 1 ) ) );
         m_heat = new HashMap<>();
         final Integer l_max = m_values.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
-        m_values.entrySet().forEach( p -> m_heat.put( p.getKey(), EColorMap.VIDRIS.apply( p.getValue(), l_max ) ) );
+        m_values.entrySet().forEach( p -> m_heat.put( p.getKey(), EColorMap.PLASMA.apply( p.getValue(), l_max ) ) );
     }
 
     @Override

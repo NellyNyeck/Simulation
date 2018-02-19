@@ -4,7 +4,11 @@ import com.codepoetics.protonpack.StreamUtils;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.reader.osm.OSMReader;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.storage.GraphExtension;
+import com.graphhopper.storage.GraphHopperStorage;
+import com.graphhopper.storage.RAMDirectory;
 import com.graphhopper.util.Instruction;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -23,9 +27,11 @@ import org.socialcars.sinziana.simulation.visualization.CRoutePainter;
 import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -48,14 +54,20 @@ public class COSMEnvironment
      * @param p_south southern most point
      * @param p_east eastern most point
      * @param p_west western most point
+     * @throws IOException file
      */
-    public COSMEnvironment( final String p_file, final Double p_north, final Double p_south, final Double p_east, final Double p_west )
+    public COSMEnvironment( final String p_file, final String p_graphlocation, final Double p_north, final Double p_south, final Double p_east, final Double p_west ) throws IOException
     {
+        /*GraphHopperStorage m_storage = new GraphHopperStorage( new RAMDirectory(), new EncodingManager("car"), false, new GraphExtension.NoOpExtension() );
+        OSMReader m_reader = new OSMReader(m_storage);
+        m_reader.setFile( new File( p_file ));
+        m_reader.readGraph();*/
         m_hopper = new GraphHopperOSM().forServer();
         m_hopper.setDataReaderFile( p_file );
-        m_hopper.setGraphHopperLocation( String.valueOf( new File( "src/test/graphlocation" ) ) );
+        m_hopper.setGraphHopperLocation( String.valueOf( new File( p_graphlocation ) ) );
         m_hopper.setEncodingManager( new EncodingManager( "car" ) );
         m_hopper.importOrLoad();
+
         m_topleft = new GeoPosition( p_north, p_west );
         m_bottomright = new GeoPosition( p_south, p_east );
     }
@@ -146,7 +158,7 @@ public class COSMEnvironment
     {
         final JXMapViewer l_mapviewer = new JXMapViewer();
         l_mapviewer.setZoom( 9 );
-        final JFrame l_frame = new JFrame( "Routing" );
+        final JFrame l_frame = new JFrame( "Heatmap" );
         l_frame.getContentPane().add( l_mapviewer );
         l_frame.setSize( 800,  600 );
         l_frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
