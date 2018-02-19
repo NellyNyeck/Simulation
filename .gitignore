@@ -16,5 +16,6 @@ src/test/graphlocation/
 src/test/Amsterdam
 src/test/Bucharest
 src/test/Manhattan
+src/test/Barcelona
 
 target/
