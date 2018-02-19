@@ -1,7 +1,6 @@
 package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Function;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,20 +9,17 @@ import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
-import org.socialcars.sinziana.simulation.visualization.EColorMap;
+import org.socialcars.sinziana.simulation.visualization.CHeatFunction;
 
-import javax.annotation.Nullable;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Paint;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
@@ -95,31 +91,9 @@ public final class TestCJungEnvironment
                  .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
                  .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
 
-        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeat( l_countingmap ) );
+        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
     }
-
-    /**
-     * heatmap class
-     */
-    private final static class CHeat implements Function<IEdge, Paint>
-    {
-        private Map<IEdge, Color> m_coding;
-
-        CHeat( final Map<IEdge, Integer> p_countingmap )
-        {
-            final Integer l_max = p_countingmap.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
-            m_coding = p_countingmap.entrySet().stream().collect( Collectors.toMap( Map.Entry::getKey, i -> EColorMap.MAGMA.apply( i.getValue(), l_max ) ) );
-        }
-
-        @Nullable
-        @Override
-        public Color apply( @Nullable final IEdge p_edge )
-        {
-            return m_coding.get( p_edge );
-        }
-    }
-
 
     /**
      * main

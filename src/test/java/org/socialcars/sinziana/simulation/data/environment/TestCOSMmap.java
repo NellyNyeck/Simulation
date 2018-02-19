@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -37,6 +36,9 @@ public class TestCOSMmap
         Assert.assertNotNull( l_newnode );
     }
 
+    /**
+     * testing the routing visualization
+     */
     @Test
     public void route()
     {
@@ -48,6 +50,9 @@ public class TestCOSMmap
         m_env.drawRoutes( l_routes );
     }
 
+    /**
+     * testing the heat visualization
+     */
     @Test
     public void heat()
     {
@@ -59,6 +64,9 @@ public class TestCOSMmap
         m_env.drawHeat( l_routes );
     }
 
+    /**
+     * main function
+     */
     public static void main( final String[] p_args )
     {
         final TestCOSMmap l_test = new TestCOSMmap();
