@@ -19,5 +19,6 @@ src/test/Manhattan
 src/test/Barcelona
 src/test/Hannover
 src/test/SiouxFalls
+src/test/Manhattanbike
 
 target/
