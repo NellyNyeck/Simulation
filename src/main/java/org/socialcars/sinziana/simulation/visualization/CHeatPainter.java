@@ -1,5 +1,7 @@
 package org.socialcars.sinziana.simulation.visualization;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -46,24 +48,12 @@ public class CHeatPainter  implements Painter<JXMapViewer>
 
     public void writeValues( HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
-        FileWriter writer = new FileWriter("test.csv");
-        writer.append( "geoposition" );
-        writer.append( "," );
-        writer.append( "visited" );
-        writer.append( "/n" );
-        writer.flush();
+        FileWriter writer = new FileWriter("heatmap.json");
         Set<GeoPosition> l_keys = p_values.keySet();
-        l_keys.forEach( g -> {
-            try {
-                writer.append( g.toString() );
-                writer.append(",");
-                writer.append( p_values.get( g ).toString() );
-                writer.append("/n");
-                writer.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } );
+        JSONArray l_data = new JSONArray();
+        l_data.addAll( p_values.entrySet() );
+        writer.write( l_data.toString() );
+        writer.flush();
         writer.close();
     }
 
