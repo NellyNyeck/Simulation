@@ -51,7 +51,12 @@ public class CHeatPainter  implements Painter<JXMapViewer>
         FileWriter writer = new FileWriter("heatmap.json");
         Set<GeoPosition> l_keys = p_values.keySet();
         JSONArray l_data = new JSONArray();
-        l_data.addAll( p_values.entrySet() );
+        l_keys.forEach( p -> {
+            JSONObject l_new = new JSONObject();
+            l_new.put( "Geoposition", p );
+            l_new.put( "Value", p_values.get( p ) );
+            l_data.add( l_new );
+        } );
         writer.write( l_data.toString() );
         writer.flush();
         writer.close();
