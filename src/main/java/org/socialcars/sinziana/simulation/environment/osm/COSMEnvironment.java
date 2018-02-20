@@ -71,7 +71,7 @@ public class COSMEnvironment
         m_hopper = new GraphHopperOSM().forServer();
         m_hopper.setDataReaderFile( p_file );
         m_hopper.setGraphHopperLocation( String.valueOf( new File( p_graphlocation ) ) );
-        m_hopper.setEncodingManager( new EncodingManager( "car" ) );
+        m_hopper.setEncodingManager( new EncodingManager( "bike" ) );
         m_hopper.importOrLoad();
 
         m_topleft = new GeoPosition( p_north, p_west );
@@ -107,7 +107,7 @@ public class COSMEnvironment
             i.get( 0 ).getLongitude(),
             i.get( 1 ).getLatitude(),
             i.get( 1 ).getLongitude() )
-            .setVehicle( "car" )
+            .setVehicle( "bike" )
             .setLocale( Locale.US )
         )
         .map( i -> m_hopper.route( i ) )

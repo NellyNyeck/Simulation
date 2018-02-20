@@ -21,7 +21,7 @@ public class TestCOSMmapManhattan
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/new-york-latest.osm.pbf", "src/test/Manhattan", 40.876488, 40.688021,  -73.925974,  -74.009709 );
+        m_env = new COSMEnvironment( "src/test/resources/new-york-latest.osm.pbf", "src/test/Manhattanbike", 40.834435, 40.701797,  -73.984795,  -74.005243 );
     }
 
     /**
@@ -73,7 +73,9 @@ public class TestCOSMmapManhattan
     {
         final TestCOSMmapManhattan l_test = new TestCOSMmapManhattan();
         l_test.init();
-        l_test.paintOne();
+        //l_test.paintOne();
+        //l_test.route();
+        l_test.heat();
 
     }
 }
