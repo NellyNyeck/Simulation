@@ -22,3 +22,4 @@ src/test/SiouxFalls
 src/test/Manhattanbike
 
 target/
+.Rproj.user
