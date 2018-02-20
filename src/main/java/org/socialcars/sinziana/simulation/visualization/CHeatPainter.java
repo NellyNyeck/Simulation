@@ -34,7 +34,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
      * ctor
      * @param p_tracks the list of routes
      */
-    public CHeatPainter( final List<List<GeoPosition>> p_tracks ) throws IOException
+    public CHeatPainter( final List<List<GeoPosition>> p_tracks )
     {
         m_routes = p_tracks;
         m_values = new HashMap<>();
@@ -43,23 +43,8 @@ public class CHeatPainter  implements Painter<JXMapViewer>
         m_heat = new HashMap<>();
         final Integer l_max = m_values.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
         m_values.entrySet().forEach( p -> m_heat.put( p.getKey(), EColorMap.PLASMA.apply( p.getValue(), l_max ) ) );
-        writeValues( m_values );
     }
 
-    public void writeValues( HashMap<GeoPosition, Integer> p_values ) throws IOException
-    {
-        FileWriter writer = new FileWriter("heatmap.json");
-        Set<GeoPosition> l_keys = p_values.keySet();
-        JSONArray l_data = new JSONArray();
-        l_keys.forEach( p -> {
-            JSONObject l_new = new JSONObject();
-            l_new.put( p, p_values.get( p ) );
-            l_data.add( l_new );
-        } );
-        writer.write( l_data.toString() );
-        writer.flush();
-        writer.close();
-    }
 
     @Override
     public void paint( Graphics2D p_graphics, final JXMapViewer p_viewer, final int p_wigth, final int p_height )
@@ -103,4 +88,10 @@ public class CHeatPainter  implements Painter<JXMapViewer>
             }
         } );
     }
+
+    public HashMap<GeoPosition, Integer> getValues()
+    {
+        return m_values;
+    }
+
 }

@@ -68,10 +68,11 @@ public class TestCOSMmapBucharest
     {
         final TestCOSMmapBucharest l_test = new TestCOSMmapBucharest();
         l_test.init();
+
         /*GeoPosition l_start = new GeoPosition(44.425946, 26.149483 );
         GeoPosition l_finish = new GeoPosition( 44.428458, 26.146017 );
         l_test.m_env.routeOne( l_start, l_finish );
-        l_test.m_env.drawRoutes( List.of( l_test.m_env.route( l_start, l_finish, Stream.empty() ) ) ); */
+        l_test.m_env.drawRoutes( List.of( l_test.m_env.route( l_start, l_finish, Stream.empty() ) ) );*/
 
         //l_test.route();
         l_test.heat();

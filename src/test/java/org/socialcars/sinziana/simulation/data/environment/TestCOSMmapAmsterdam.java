@@ -71,9 +71,9 @@ public class TestCOSMmapAmsterdam
     {
         final TestCOSMmapAmsterdam l_test = new TestCOSMmapAmsterdam();
         l_test.init();
-        l_test.m_env.routeOne( l_test.m_env.randomnode(), l_test.m_env.randomnode() );
+       // l_test.m_env.routeOne( l_test.m_env.randomnode(), l_test.m_env.randomnode() );
         //l_test.route();
-        //l_test.heat();
+        l_test.heat();
     }
 
 }

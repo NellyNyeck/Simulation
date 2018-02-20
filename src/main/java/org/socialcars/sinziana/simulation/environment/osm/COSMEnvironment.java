@@ -6,11 +6,14 @@ import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.reader.osm.OSMReader;
+import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.storage.GraphExtension;
 import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.storage.RAMDirectory;
 import com.graphhopper.util.Instruction;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
@@ -31,6 +34,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -164,6 +168,8 @@ public class COSMEnvironment
 
     public void routeOne( GeoPosition p_start, GeoPosition p_finish )
     {
+        System.out.println( m_hopper.getLocationIndex().findClosest( p_start.getLatitude(), p_start.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getName() );
+        System.out.println( m_hopper.getLocationIndex().findClosest( p_finish.getLatitude(), p_finish.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName() );
         GHRequest l_req = new GHRequest(p_start.getLatitude(),p_start.getLongitude(), p_finish.getLatitude(), p_finish.getLongitude() );
         GHResponse l_resp = m_hopper.route( l_req );
         if ( l_resp.hasErrors() ) System.out.println( "no bueno" );
@@ -189,7 +195,8 @@ public class COSMEnvironment
      * draws a heatmap
      * @param p_routes the list of routes
      */
-    public void drawHeat( final List<List<GeoPosition>> p_routes ) throws IOException {
+    public void drawHeat( final List<List<GeoPosition>> p_routes ) throws IOException
+    {
         final JXMapViewer l_mapviewer = new JXMapViewer();
         l_mapviewer.setZoom( 9 );
         final JFrame l_frame = new JFrame( "Heatmap" );
@@ -223,7 +230,30 @@ public class COSMEnvironment
         l_mapviewer.addMouseWheelListener( new ZoomMouseWheelListenerCursor( l_mapviewer ) );
         l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
 
+        writeHeats( l_heatpainter.getValues() );
+
     }
+
+    private void writeHeats( HashMap<GeoPosition, Integer> p_values ) throws IOException
+    {
+        FileWriter writer = new FileWriter("heatmap.json");
+        HashMap<String, Integer> l_heats = new HashMap<>();
+        final Set<GeoPosition> l_keys = p_values.keySet();
+        l_keys.forEach( p-> {
+            String l_name = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getName();
+            l_heats.put( l_name , l_heats.getOrDefault( l_name, p_values.get( p )) + p_values.get( p ) );
+        } );
+
+        JSONArray l_json = new JSONArray();
+        l_heats.keySet().forEach( s -> {
+            JSONObject l_new = new JSONObject();
+            l_new.put( s, p_values.get( s ) );
+            l_json.add( l_new );
+        } );
+        writer.write( l_json.toString() );
+        writer.flush();
+        writer.close();
+}
 
     /**
      * generates a radom point
