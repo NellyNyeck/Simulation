@@ -53,8 +53,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
         JSONArray l_data = new JSONArray();
         l_keys.forEach( p -> {
             JSONObject l_new = new JSONObject();
-            l_new.put( "Geoposition", p );
-            l_new.put( "Value", p_values.get( p ) );
+            l_new.put( p, p_values.get( p ) );
             l_data.add( l_new );
         } );
         writer.write( l_data.toString() );
