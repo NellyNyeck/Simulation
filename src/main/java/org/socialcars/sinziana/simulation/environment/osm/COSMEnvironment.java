@@ -247,7 +247,7 @@ public class COSMEnvironment
         JSONArray l_json = new JSONArray();
         l_heats.keySet().forEach( s -> {
             JSONObject l_new = new JSONObject();
-            l_new.put( s, p_values.get( s ) );
+            l_new.put( s, l_heats.get( s ) );
             l_json.add( l_new );
         } );
         writer.write( l_json.toString() );
