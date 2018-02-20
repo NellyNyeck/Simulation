@@ -21,7 +21,7 @@ public class TestCOSMmapManhattan
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/new-york-latest.osm.pbf", "src/test/Manhattanbike", 40.876488, 40.688021,  -73.925974,  -74.009709 );
+        m_env = new COSMEnvironment( "src/test/resources/new-york-latest.osm.pbf", "src/test/Manhattan", 40.876488, 40.688021,  -73.925974,  -74.009709 );
     }
 
     /**
@@ -52,8 +52,7 @@ public class TestCOSMmapManhattan
      * testing the heat visualization
      */
     @Test
-    public void heat()
-    {
+    public void heat() throws IOException {
         Assume.assumeNotNull( m_env );
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
         IntStream.range( 0, ROUTENUMBER )

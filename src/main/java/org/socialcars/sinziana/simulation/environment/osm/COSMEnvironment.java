@@ -2,6 +2,7 @@ package org.socialcars.sinziana.simulation.environment.osm;
 
 import com.codepoetics.protonpack.StreamUtils;
 import com.graphhopper.GHRequest;
+import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.reader.osm.OSMReader;
@@ -27,6 +28,7 @@ import org.socialcars.sinziana.simulation.visualization.CRoutePainter;
 import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,7 @@ public class COSMEnvironment
         m_hopper = new GraphHopperOSM().forServer();
         m_hopper.setDataReaderFile( p_file );
         m_hopper.setGraphHopperLocation( String.valueOf( new File( p_graphlocation ) ) );
-        m_hopper.setEncodingManager( new EncodingManager( "bike" ) );
+        m_hopper.setEncodingManager( new EncodingManager( "car" ) );
         m_hopper.importOrLoad();
 
         m_topleft = new GeoPosition( p_north, p_west );
@@ -148,14 +150,46 @@ public class COSMEnvironment
 
         final CompoundPainter<JXMapViewer> l_painter = new CompoundPainter<JXMapViewer>( l_painters );
         l_mapviewer.setOverlayPainter( l_painter );
+
+        /**
+         * the zoom
+         */
+        final MouseInputListener l_mia = new PanMouseInputListener( l_mapviewer );
+        l_mapviewer.addMouseListener( l_mia );
+        l_mapviewer.addMouseMotionListener( l_mia );
+        l_mapviewer.addMouseListener( new CenterMapListener( l_mapviewer ) );
+        l_mapviewer.addMouseWheelListener( new ZoomMouseWheelListenerCursor( l_mapviewer ) );
+        l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
+    }
+
+    public void routeOne( GeoPosition p_start, GeoPosition p_finish )
+    {
+        GHRequest l_req = new GHRequest(p_start.getLatitude(),p_start.getLongitude(), p_finish.getLatitude(), p_finish.getLongitude() );
+        GHResponse l_resp = m_hopper.route( l_req );
+        if ( l_resp.hasErrors() ) System.out.println( "no bueno" );
+        else {
+            try {
+                FileWriter fileWriter = new FileWriter("info.json");
+                fileWriter.write( l_resp.getBest().getInstructions().createJson().toString() );
+                l_resp.getBest().getInstructions().stream().forEach( i -> {
+                    try {
+                        fileWriter.write( i.getExtraInfoJSON().toString() );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                fileWriter.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
      * draws a heatmap
      * @param p_routes the list of routes
      */
-    public void drawHeat( final List<List<GeoPosition>> p_routes )
-    {
+    public void drawHeat( final List<List<GeoPosition>> p_routes ) throws IOException {
         final JXMapViewer l_mapviewer = new JXMapViewer();
         l_mapviewer.setZoom( 9 );
         final JFrame l_frame = new JFrame( "Heatmap" );

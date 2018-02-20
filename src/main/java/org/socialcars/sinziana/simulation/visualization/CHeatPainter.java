@@ -10,9 +10,12 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * the heatpainter class
@@ -29,7 +32,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
      * ctor
      * @param p_tracks the list of routes
      */
-    public CHeatPainter( final List<List<GeoPosition>> p_tracks )
+    public CHeatPainter( final List<List<GeoPosition>> p_tracks ) throws IOException
     {
         m_routes = p_tracks;
         m_values = new HashMap<>();
@@ -38,6 +41,30 @@ public class CHeatPainter  implements Painter<JXMapViewer>
         m_heat = new HashMap<>();
         final Integer l_max = m_values.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
         m_values.entrySet().forEach( p -> m_heat.put( p.getKey(), EColorMap.PLASMA.apply( p.getValue(), l_max ) ) );
+        writeValues( m_values );
+    }
+
+    public void writeValues( HashMap<GeoPosition, Integer> p_values ) throws IOException
+    {
+        FileWriter writer = new FileWriter("test.csv");
+        writer.append( "geoposition" );
+        writer.append( "," );
+        writer.append( "visited" );
+        writer.append( "/n" );
+        writer.flush();
+        Set<GeoPosition> l_keys = p_values.keySet();
+        l_keys.forEach( g -> {
+            try {
+                writer.append( g.toString() );
+                writer.append(",");
+                writer.append( p_values.get( g ).toString() );
+                writer.append("/n");
+                writer.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } );
+        writer.close();
     }
 
     @Override

@@ -55,8 +55,7 @@ public class TestCOSMmapAmsterdam
      * testing the heat visualization
      */
     @Test
-    public void heat()
-    {
+    public void heat() throws IOException {
         Assume.assumeNotNull( m_env );
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
         IntStream.range( 0, ROUTENUMBER )
@@ -72,8 +71,9 @@ public class TestCOSMmapAmsterdam
     {
         final TestCOSMmapAmsterdam l_test = new TestCOSMmapAmsterdam();
         l_test.init();
+        l_test.m_env.routeOne( l_test.m_env.randomnode(), l_test.m_env.randomnode() );
         //l_test.route();
-        l_test.heat();
+        //l_test.heat();
     }
 
 }

@@ -52,8 +52,7 @@ public class TestCOSMmapClausthal
      * testing the heat visualization
      */
     @Test
-    public void heat()
-    {
+    public void heat() throws IOException {
         Assume.assumeNotNull( m_env );
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
         IntStream.range( 0, ROUTENUMBER )
