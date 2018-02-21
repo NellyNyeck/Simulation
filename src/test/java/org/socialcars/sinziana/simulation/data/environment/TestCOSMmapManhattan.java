@@ -15,13 +15,13 @@ import java.util.stream.Stream;
 
 public class TestCOSMmapManhattan
 {
-    private static final int ROUTENUMBER = 10000;
+    private static final int ROUTENUMBER = 4090;
     private COSMEnvironment m_env;
 
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/new-york-latest.osm.pbf", "src/test/Manhattan", 40.873161, 40.701797,  -73.926209, -74.008104  );
+        m_env = new COSMEnvironment( "src/test/resources/new-york-latest.osm.pbf", "src/test/Manhattan", 40.873161, 40.701797,  -73.963944, -74.008104  );
 
     }
 
