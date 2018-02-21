@@ -11,6 +11,7 @@
 !src/site/*.css
 !src/site/*.xml
 !src/analysis/**/*.xml
+!*.Rproj
 
 src/test/graphlocation/
 src/test/Amsterdam
