@@ -65,13 +65,13 @@ public class COSMEnvironment
     public COSMEnvironment( final String p_file, final String p_graphlocation, final Double p_north, final Double p_south, final Double p_east, final Double p_west ) throws IOException
     {
         /*GraphHopperStorage m_storage = new GraphHopperStorage( new RAMDirectory(), new EncodingManager("car"), false, new GraphExtension.NoOpExtension() );
-        OSMReader m_reader = new OSMReader(m_storage);
+        OSMReader m_reader = new OSMReader( m_storage );
         m_reader.setFile( new File( p_file ));
         m_reader.readGraph();*/
         m_hopper = new GraphHopperOSM().forServer();
         m_hopper.setDataReaderFile( p_file );
         m_hopper.setGraphHopperLocation( String.valueOf( new File( p_graphlocation ) ) );
-        m_hopper.setEncodingManager( new EncodingManager( "bike" ) );
+        m_hopper.setEncodingManager( new EncodingManager( "car" ) );
         m_hopper.importOrLoad();
 
         m_topleft = new GeoPosition( p_north, p_west );
@@ -107,7 +107,7 @@ public class COSMEnvironment
             i.get( 0 ).getLongitude(),
             i.get( 1 ).getLatitude(),
             i.get( 1 ).getLongitude() )
-            .setVehicle( "bike" )
+            .setVehicle( "car" )
             .setLocale( Locale.US )
         )
         .map( i -> m_hopper.route( i ) )
@@ -230,11 +230,11 @@ public class COSMEnvironment
         l_mapviewer.addMouseWheelListener( new ZoomMouseWheelListenerCursor( l_mapviewer ) );
         l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
 
-        writeHeats( l_heatpainter.getValues() );
+        writeHeat( l_heatpainter.getValues() );
 
     }
 
-    private void writeHeats( HashMap<GeoPosition, Integer> p_values ) throws IOException
+    private void writeHeat( HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
         FileWriter writer = new FileWriter("heatmap.json");
         HashMap<String, Integer> l_heats = new HashMap<>();
