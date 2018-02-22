@@ -240,13 +240,13 @@ public class COSMEnvironment
         HashMap<String, Integer> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p-> {
+            int l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getEdge();
             String l_name = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getName();
-            l_heats.put( l_name , l_heats.getOrDefault( l_name, p_values.get( p )) + p_values.get( p ) );
+            l_heats.put( ( l_name + " " + String.valueOf( l_id) ), l_heats.getOrDefault( l_id, p_values.get( p )) + p_values.get( p ) );
         } );
-
         JSONObject l_json = new JSONObject();
         l_heats.keySet().forEach( s -> l_json.put( s, l_heats.get( s ) ) );
-        writer.write( l_json.toString() );
+        writer.write( l_json.toJSONString() );
         writer.flush();
         writer.close();
 }
