@@ -11,6 +11,7 @@ import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.storage.GraphExtension;
 import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.storage.RAMDirectory;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Instruction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -237,12 +238,20 @@ public class COSMEnvironment
     private void writeHeat( HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
         FileWriter writer = new FileWriter("heatmap.json");
-        HashMap<String, Integer> l_heats = new HashMap<>();
+        HashMap<Integer, CStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p-> {
             int l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getEdge();
-            String l_name = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getName();
-            l_heats.put( ( l_name + " " + String.valueOf( l_id) ), l_heats.getOrDefault( l_id, p_values.get( p )) + p_values.get( p ) );
+            CStructure l_new = l_heats.get( l_id );
+            if ( l_new != null)
+            {
+                l_new = new CStructure( m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(), m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName() );
+                l_heats.put( l_id, l_new );
+            }
+            else
+            {
+                l_new.add( p_values.get( p ) );
+            }
         } );
         JSONObject l_json = new JSONObject();
         l_heats.keySet().forEach( s -> l_json.put( s, l_heats.get( s ) ) );
@@ -282,6 +291,25 @@ public class COSMEnvironment
         l_mapviewer.setTileFactory( l_tilefactory );
 
         return l_mapviewer;
+    }
+
+    private class CStructure
+    {
+        String m_name;
+        Integer m_visited;
+        Double m_distance;
+
+        CStructure( Double p_distance, String p_name )
+        {
+            m_distance = p_distance;
+            m_name = p_name;
+            m_visited = 0;
+        }
+
+        public void add( Integer p_new )
+        {
+            m_visited = m_visited + p_new;
+        }
     }
 
 }
