@@ -245,7 +245,7 @@ public class COSMEnvironment
             CStructure l_new = l_heats.get( l_id );
             if ( l_new == null)
             {
-                l_new = new CStructure( m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(), m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName(), p_values.get( p ) );
+                l_new = new CStructure( l_id, m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(), m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName(), p_values.get( p ) );
                 l_heats.put( l_id, l_new );
             }
             else
@@ -256,7 +256,7 @@ public class COSMEnvironment
         JSONObject l_json = new JSONObject();
         l_heats.keySet().forEach( s ->
             {
-                l_json.put(s, l_heats.get( s ).toMap() );
+                l_json.put( s , l_heats.get( s ).toMap() );
             } );
         writer.write( l_json.toJSONString() );
         writer.flush();
@@ -298,25 +298,28 @@ public class COSMEnvironment
 
     private class CStructure
     {
-        String m_name;
-        Integer m_visited;
-        Double m_distance;
+        private final Integer m_id;
+        private final String m_name;
+        private Integer m_visited;
+        private final Double m_distance;
 
-        CStructure( Double p_distance, String p_name, Integer p_visited )
+        CStructure(Integer p_id, Double p_distance, String p_name, Integer p_visited )
         {
+            m_id = p_id;
             m_distance = p_distance;
             m_name = p_name;
             m_visited = p_visited;
         }
 
-        public void add( Integer p_new )
+        private void add( Integer p_new )
         {
             m_visited = m_visited + p_new;
         }
 
-        public Map<String, Object> toMap()
+        private Map<String, Object> toMap()
         {
            HashMap<String, Object> l_map = new HashMap<>();
+           l_map.put("id", m_id);
            l_map.put("name", m_name);
            l_map.put("visited", m_visited);
            l_map.put("distance", m_distance);

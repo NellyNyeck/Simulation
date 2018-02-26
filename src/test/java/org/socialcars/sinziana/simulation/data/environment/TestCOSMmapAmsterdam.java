@@ -75,5 +75,4 @@ public class TestCOSMmapAmsterdam
         //l_test.route();
         l_test.heat();
     }
-
 }
