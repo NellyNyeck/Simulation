@@ -243,9 +243,9 @@ public class COSMEnvironment
         l_keys.forEach( p-> {
             int l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getEdge();
             CStructure l_new = l_heats.get( l_id );
-            if ( l_new != null)
+            if ( l_new == null)
             {
-                l_new = new CStructure( m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(), m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName() );
+                l_new = new CStructure( m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(), m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName(), p_values.get( p ) );
                 l_heats.put( l_id, l_new );
             }
             else
@@ -254,7 +254,10 @@ public class COSMEnvironment
             }
         } );
         JSONObject l_json = new JSONObject();
-        l_heats.keySet().forEach( s -> l_json.put( s, l_heats.get( s ) ) );
+        l_heats.keySet().forEach( s ->
+            {
+                l_json.put(s, l_heats.get( s ).toMap() );
+            } );
         writer.write( l_json.toJSONString() );
         writer.flush();
         writer.close();
@@ -299,16 +302,25 @@ public class COSMEnvironment
         Integer m_visited;
         Double m_distance;
 
-        CStructure( Double p_distance, String p_name )
+        CStructure( Double p_distance, String p_name, Integer p_visited )
         {
             m_distance = p_distance;
             m_name = p_name;
-            m_visited = 0;
+            m_visited = p_visited;
         }
 
         public void add( Integer p_new )
         {
             m_visited = m_visited + p_new;
+        }
+
+        public Map<String, Object> toMap()
+        {
+           HashMap<String, Object> l_map = new HashMap<>();
+           l_map.put("name", m_name);
+           l_map.put("visited", m_visited);
+           l_map.put("distance", m_distance);
+           return l_map;
         }
     }
 
