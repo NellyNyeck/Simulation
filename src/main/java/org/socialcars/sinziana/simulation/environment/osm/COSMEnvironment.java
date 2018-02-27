@@ -303,7 +303,7 @@ public class COSMEnvironment
         private Integer m_visited;
         private final Double m_distance;
 
-        CStructure(Integer p_id, Double p_distance, String p_name, Integer p_visited )
+        CStructure( Integer p_id, Double p_distance, String p_name, Integer p_visited )
         {
             m_id = p_id;
             m_distance = p_distance;
