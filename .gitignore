@@ -6,6 +6,7 @@
 !*.md
 !*.java
 !*.json
+!*.png
 
 !src/site/*.doxyfile
 !src/site/*.css
@@ -24,3 +25,4 @@ src/test/Manhattanbike
 
 target/
 .Rproj.user
+
