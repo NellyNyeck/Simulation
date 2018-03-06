@@ -24,7 +24,7 @@ public class TestCOSMmapAmsterdam
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/netherlands-latest.osm.pbf", "src/test/Amsterdam", 52.426992, 52.279555,  5.068110,  4.728866 );
+        m_env = new COSMEnvironment( "src/test/resources/netherlands-latest.osm.pbf", "src/test/Amsterdam", 52.430580, 52.279600,  5.068141,  4.728898 );
     }
 
     /**

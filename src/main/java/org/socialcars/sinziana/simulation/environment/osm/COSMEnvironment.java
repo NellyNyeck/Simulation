@@ -237,7 +237,7 @@ public class COSMEnvironment
 
     private void writeHeat( HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
-        FileWriter writer = new FileWriter("heatmapBucharest.json");
+        FileWriter writer = new FileWriter("heatmapAmsterdam.json");
         HashMap<Integer, CStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p-> {
