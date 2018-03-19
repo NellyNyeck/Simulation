@@ -6,7 +6,6 @@
 !*.md
 !*.java
 !*.json
-!*.png
 
 !src/site/*.doxyfile
 !src/site/*.css
@@ -22,6 +21,16 @@ src/test/Barcelona
 src/test/Hannover
 src/test/SiouxFalls
 src/test/Manhattanbike
+src/test/India
+src/test/Egypt
+src/test/GB
+src/test/Austria
+src/test/Brasil
+src/test/France
+src/test/South Korea
+stc/test/Berlin
+src/test/California
+src/test/DC
 
 target/
 .Rproj.user

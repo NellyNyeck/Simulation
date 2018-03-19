@@ -231,13 +231,13 @@ public class COSMEnvironment
         l_mapviewer.addMouseWheelListener( new ZoomMouseWheelListenerCursor( l_mapviewer ) );
         l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
 
-        writeHeat( l_heatpainter.getValues() );
+        //writeHeat( l_heatpainter.getValues() );
 
     }
 
     private void writeHeat( HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
-        FileWriter writer = new FileWriter("heatmapAmsterdam.json");
+        FileWriter writer = new FileWriter("heatmapAhmedabad.json");
         HashMap<Integer, CStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p-> {
