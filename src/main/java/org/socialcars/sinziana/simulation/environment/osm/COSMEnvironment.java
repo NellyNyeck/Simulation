@@ -9,6 +9,7 @@ import org.socialcars.sinziana.simulation.environment.IEdge;
 import org.socialcars.sinziana.simulation.environment.IEnvironment;
 import org.socialcars.sinziana.simulation.environment.INode;
 
+import javax.annotation.Nonnull;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,11 +26,14 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 
 /**
- * test osm graph
+ * test osm graph.
+ * With the enviornment variable OSMPATH a graph location directory
+ * can be set
  *
  * @see http://download.geofabrik.de/
  */
@@ -38,13 +42,35 @@ public class COSMEnvironment implements IEnvironment<JXMapViewer>
     /**
      * graphhopper instance
      */
-    private final CGraphHopper m_graph;
+    private final GraphHopper m_graph = new GraphHopperOSM().forServer();
 
 
-
-    public COSMEnvironment( final String p_downloadurl )
+    public COSMEnvironment( @Nonnull final String p_downloadurl )
     {
-        m_graph = new CGraphHopper( p_downloadurl );
+        this( p_downloadurl, "car" );
+    }
+
+    /**
+     * ctor
+     *
+     * @param p_downloadurl download url
+     */
+    public COSMEnvironment( @Nonnull final String p_downloadurl, @Nonnull String p_encoding ) throws IOException
+    {
+        final File l_graphlocation = storage( p_downloadurl ).toFile();
+
+        m_graph.setEncodingManager( new EncodingManager( p_encoding ) );
+        m_graph.setGraphHopperLocation( l_graphlocation.toString() );
+
+        try
+        {
+            m_graph.importOrLoad();
+        }
+        catch ( final Exception l_exception )
+        {
+            m_graph.setDataReaderFile( downloadosmpbf( p_downloadurl ).toString() );
+            m_graph.importOrLoad();
+        }
     }
 
     @Override
@@ -97,113 +123,64 @@ public class COSMEnvironment implements IEnvironment<JXMapViewer>
     }
 
     /**
-     * modified graphhopper structure
+     * downloads the OSM data
+     *
+     * @param p_url URL for downloading as string
+     * @return download file with full path
      */
-    private static final class CGraphHopper extends GraphHopper
+    private static File downloadosmpbf( final String p_url ) throws IOException
     {
+        final File l_output = File.createTempFile( "openstreetmap", ".osm.pbf" );
+        final URL l_url = new URL( p_url );
 
-        CGraphHopper( final String p_downloadurl )
+        final ReadableByteChannel l_channel = Channels.newChannel( l_url.openStream() );
+        final FileOutputStream l_stream = new FileOutputStream( l_output );
+        l_stream.getChannel().transferFrom( l_channel, 0, Long.MAX_VALUE );
+
+        return l_output;
+    }
+
+    /**
+     * creates a storage of the graph
+     *
+     * @param p_downloadurl url
+     * @return path
+     */
+    private static Path storage( final String p_downloadurl )
+    {
+        try
         {
-            final File l_graphlocation = storage( p_downloadurl ).toFile();
-            try
-            {
-                if ( !this.load( l_graphlocation.getAbsolutePath() ) )
-                    this.downloadandload( p_downloadurl, l_graphlocation );
+            final String l_graphlocation = getBytes2Hex( MessageDigest.getInstance( "MD5" ).digest( p_downloadurl.getBytes( "UTF-8" ) ) );
+            final Path l_path = Objects.nonNull( System.getProperty("OSMPATH") ) && ( System.getProperty("OSMPATH").length() > 0 )
+                    ? Paths.get( System.getProperty("user.home"), ".osmstorage", l_graphlocation )
+                    : Paths.get( System.getProperty("OSMPATH"), l_graphlocation );
 
-            }
-            catch ( final Exception l_exception )
-            {
-                this.downloadandload( p_downloadurl, l_graphlocation );
-            }
+            Files.createDirectories(l_path );
+            return l_path;
         }
-
-        /**
-         * download graph and run converting
-         *
-         * @param p_url download URL
-         * @param p_directory directory in which the graph data is stored
-         */
-        private void downloadandload( final String p_url, final File p_directory )
+        catch ( final UnsupportedEncodingException | NoSuchAlgorithmException l_exception )
         {
-            try
-            {
-                this.setDataReaderFile( downloadosmpbf(p_url).getAbsolutePath() );
-                this.setGraphHopperLocation( p_directory.toString() );
-                this.setEncodingManager( new EncodingManager( "car") );
-
-                this.initDataReader( this.importData() );
-            }
-            catch ( final IOException l_exception )
-            {
-                throw new RuntimeException( l_exception );
-            }
+            throw new RuntimeException( l_exception );
         }
-
-        /**
-         * downloads the OSM data
-         *
-         * @param p_url URL for downloading as string
-         * @return download file with full path
-         */
-        private static File downloadosmpbf( final String p_url ) throws IOException
+        catch ( final IOException l_exception )
         {
-            final File l_output = File.createTempFile( "openstreetmap", ".osm.pbf" );
-            final URL l_url = new URL( p_url );
-
-            final ReadableByteChannel l_channel = Channels.newChannel( l_url.openStream() );
-            final FileOutputStream l_stream = new FileOutputStream( l_output );
-            l_stream.getChannel().transferFrom( l_channel, 0, Long.MAX_VALUE );
-
-            return l_output;
-        }
-
-        /**
-         * creates a storage of the graph
-         *
-         * @param p_downloadurl url
-         * @return path
-         */
-        private static Path storage( final String p_downloadurl )
-        {
-            try
-            {
-                final Path l_path = Paths.get(
-                        System.getProperty("user.home"),
-                        ".osmstorage",
-
-                        getBytes2Hex(
-                                MessageDigest.getInstance( "MD5" )
-                                        .digest( p_downloadurl.getBytes( "UTF-8" ) )
-                        )
-
-                );
-
-                Files.createDirectories(l_path );
-                return l_path;
-            }
-            catch ( final UnsupportedEncodingException | NoSuchAlgorithmException l_exception )
-            {
-                throw new RuntimeException( l_exception );
-            }
-            catch ( final IOException l_exception )
-            {
-                throw new UncheckedIOException( l_exception );
-            }
-        }
-
-        /**
-         * returns a string with hexadecimal bytes
-         *
-         * @param p_bytes input bytes
-         * @return hexadecimal string
-         */
-        private static String getBytes2Hex( final byte[] p_bytes )
-        {
-            final StringBuilder l_str = new StringBuilder( 2 * p_bytes.length );
-            for ( final byte l_byte : p_bytes )
-                l_str.append( String.format( "%02x", l_byte & 0xff ) );
-
-            return l_str.toString();
+            throw new UncheckedIOException( l_exception );
         }
     }
+
+    /**
+     * returns a string with hexadecimal bytes
+     *
+     * @param p_bytes input bytes
+     * @return hexadecimal string
+     */
+    private static String getBytes2Hex( final byte[] p_bytes )
+    {
+        final StringBuilder l_str = new StringBuilder( 2 * p_bytes.length );
+        for ( final byte l_byte : p_bytes )
+            l_str.append( String.format( "%02x", l_byte & 0xff ) );
+
+        return l_str.toString();
+    }
+
 }
