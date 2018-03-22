@@ -65,10 +65,6 @@ public class COSMEnvironment
      */
     public COSMEnvironment( final String p_file, final String p_graphlocation, final Double p_north, final Double p_south, final Double p_east, final Double p_west ) throws IOException
     {
-        /*GraphHopperStorage m_storage = new GraphHopperStorage( new RAMDirectory(), new EncodingManager("car"), false, new GraphExtension.NoOpExtension() );
-        OSMReader m_reader = new OSMReader( m_storage );
-        m_reader.setFile( new File( p_file ));
-        m_reader.readGraph();*/
         m_hopper = new GraphHopperOSM().forServer();
         m_hopper.setDataReaderFile( p_file );
         m_hopper.setGraphHopperLocation( String.valueOf( new File( p_graphlocation ) ) );
