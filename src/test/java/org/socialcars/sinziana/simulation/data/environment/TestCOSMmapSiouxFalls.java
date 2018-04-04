@@ -13,11 +13,18 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class TestOSMmapSiouxFalls
+/**
+ * test class for SiouxFalls
+ */
+public class TestCOSMmapSiouxFalls
 {
     private static final int ROUTENUMBER = 10000;
     private COSMEnvironment m_env;
 
+    /**
+     * init
+     * @throws IOException file
+     */
     @Before
     public void init() throws IOException
     {
@@ -49,10 +56,12 @@ public class TestOSMmapSiouxFalls
     }
 
     /**
-     * testing the heat visualization
+     * heat
+     * @throws IOException file
      */
     @Test
-    public void heat() throws IOException {
+    public void heat() throws IOException
+    {
         Assume.assumeNotNull( m_env );
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
         IntStream.range( 0, ROUTENUMBER )
@@ -62,11 +71,13 @@ public class TestOSMmapSiouxFalls
     }
 
     /**
-     * main function
+     * main
+     * @param p_args cli
+     * @throws IOException file
      */
     public static void main( final String[] p_args ) throws IOException
     {
-        final TestOSMmapSiouxFalls l_test = new TestOSMmapSiouxFalls();
+        final TestCOSMmapSiouxFalls l_test = new TestCOSMmapSiouxFalls();
         l_test.init();
         //l_test.route();
         l_test.heat();

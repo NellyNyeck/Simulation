@@ -5,15 +5,9 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.reader.osm.OSMReader;
 import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
-import com.graphhopper.storage.GraphExtension;
-import com.graphhopper.storage.GraphHopperStorage;
-import com.graphhopper.storage.RAMDirectory;
-import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Instruction;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -250,14 +244,11 @@ public class COSMEnvironment
             }
         } );
         JSONObject l_json = new JSONObject();
-        l_heats.keySet().forEach( s ->
-            {
-                l_json.put( s , l_heats.get( s ).toMap() );
-            } );
+        l_heats.keySet().forEach( s -> l_json.put( s , l_heats.get( s ).toMap() ) );
         writer.write( l_json.toJSONString() );
         writer.flush();
         writer.close();
-}
+    }
 
     /**
      * generates a radom point
@@ -299,7 +290,7 @@ public class COSMEnvironment
         private Integer m_visited;
         private final Double m_distance;
 
-        CStructure( Integer p_id, Double p_distance, String p_name, Integer p_visited )
+        CStructure( final Integer p_id, final Double p_distance, final String p_name, final Integer p_visited )
         {
             m_id = p_id;
             m_distance = p_distance;
@@ -307,19 +298,19 @@ public class COSMEnvironment
             m_visited = p_visited;
         }
 
-        private void add( Integer p_new )
+        private void add( final Integer p_new )
         {
             m_visited = m_visited + p_new;
         }
 
         private Map<String, Object> toMap()
         {
-           HashMap<String, Object> l_map = new HashMap<>();
-           l_map.put("id", m_id);
-           l_map.put("name", m_name);
-           l_map.put("visited", m_visited);
-           l_map.put("distance", m_distance);
-           return l_map;
+            HashMap<String, Object> l_map = new HashMap<>();
+            l_map.put( "id", m_id );
+            l_map.put( "name", m_name );
+            l_map.put( "visited", m_visited );
+            l_map.put( "distance", m_distance );
+            return l_map;
         }
     }
 

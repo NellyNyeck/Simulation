@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ * test class for hannover suedstadt
+ */
+
 public class TestCOSMmapHannoverSuedstadt
 {
     private static final int ROUTENUMBER = 10000;
@@ -49,10 +53,12 @@ public class TestCOSMmapHannoverSuedstadt
     }
 
     /**
-     * testing the heat visualization
+     * testing heat
+     * @throws IOException file
      */
     @Test
-    public void heat() throws IOException {
+    public void heat() throws IOException
+    {
         Assume.assumeNotNull( m_env );
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
         IntStream.range( 0, ROUTENUMBER )
@@ -62,7 +68,9 @@ public class TestCOSMmapHannoverSuedstadt
     }
 
     /**
-     * main function
+     * main funt
+     * @param p_args cli arg
+     * @throws IOException file
      */
     public static void main( final String[] p_args ) throws IOException
     {
