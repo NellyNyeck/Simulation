@@ -57,7 +57,8 @@ public class COSMEnvironment
      * @param p_west western most point
      * @throws IOException file
      */
-    public COSMEnvironment( final String p_file, final String p_graphlocation, final Double p_north, final Double p_south, final Double p_east, final Double p_west ) throws IOException
+    public COSMEnvironment( final String p_file, final String p_graphlocation, final Double p_north,
+                            final Double p_south, final Double p_east, final Double p_west ) throws IOException
     {
         m_hopper = new GraphHopperOSM().forServer();
         m_hopper.setDataReaderFile( p_file );
@@ -157,34 +158,48 @@ public class COSMEnvironment
         l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
     }
 
-    public void routeOne( GeoPosition p_start, GeoPosition p_finish )
+    /**
+     * creates one route
+     * @param p_start start point
+     * @param p_finish finish point
+     */
+    public void routeOne( final GeoPosition p_start, final GeoPosition p_finish )
     {
-        System.out.println( m_hopper.getLocationIndex().findClosest( p_start.getLatitude(), p_start.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getName() );
+        System.out.println( m_hopper.getLocationIndex().findClosest( p_start.getLatitude(), p_start.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName() );
         System.out.println( m_hopper.getLocationIndex().findClosest( p_finish.getLatitude(), p_finish.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName() );
-        GHRequest l_req = new GHRequest(p_start.getLatitude(),p_start.getLongitude(), p_finish.getLatitude(), p_finish.getLongitude() );
-        GHResponse l_resp = m_hopper.route( l_req );
+        final GHRequest l_req = new GHRequest( p_start.getLatitude(), p_start.getLongitude(), p_finish.getLatitude(), p_finish.getLongitude() );
+        final GHResponse l_resp = m_hopper.route( l_req );
         if ( l_resp.hasErrors() ) System.out.println( "no bueno" );
-        else {
-            try {
-                FileWriter fileWriter = new FileWriter("info.json");
-                fileWriter.write( l_resp.getBest().getInstructions().createJson().toString() );
-                l_resp.getBest().getInstructions().stream().forEach( i -> {
-                    try {
-                        fileWriter.write( i.getExtraInfoJSON().toString() );
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        else
+        {
+            try
+            {
+                final FileWriter l_writer = new FileWriter( "info.json" );
+                l_writer.write( l_resp.getBest().getInstructions().createJson().toString() );
+                l_resp.getBest().getInstructions().stream().forEach( i ->
+                {
+                    try
+                    {
+                        l_writer.write( i.getExtraInfoJSON().toString() );
                     }
-                });
-                fileWriter.flush();
-            } catch (Exception e) {
-                e.printStackTrace();
+                    catch ( final IOException l_err )
+                    {
+                        l_err.printStackTrace();
+                    }
+                } );
+                l_writer.flush();
+            }
+            catch ( final Exception l_err )
+            {
+                l_err.printStackTrace();
             }
         }
     }
 
     /**
      * draws a heatmap
-     * @param p_routes the list of routes
+     * @param p_routes list of routes
+     * @throws IOException file
      */
     public void drawHeat( final List<List<GeoPosition>> p_routes ) throws IOException
     {
@@ -225,17 +240,26 @@ public class COSMEnvironment
 
     }
 
-    private void writeHeat( HashMap<GeoPosition, Integer> p_values ) throws IOException
+    /**
+     * writes the heat values to file
+     * @param p_values geoposition and heat pairs
+     * @throws IOException file
+     */
+    private void writeHeat( final HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
-        FileWriter writer = new FileWriter("heatmap.json");
-        HashMap<Integer, CStructure> l_heats = new HashMap<>();
+        final FileWriter l_writer = new FileWriter( "heatmap.json" );
+        final HashMap<Integer, CStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
-        l_keys.forEach( p-> {
-            int l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES).getClosestEdge().getEdge();
+        l_keys.forEach( p ->
+        {
+            final int l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getEdge();
             CStructure l_new = l_heats.get( l_id );
-            if ( l_new == null)
+            if ( l_new == null )
             {
-                l_new = new CStructure( l_id, m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(), m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName(), p_values.get( p ) );
+                l_new = new CStructure( l_id,
+                    m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(),
+                    m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName(),
+                    p_values.get( p ) );
                 l_heats.put( l_id, l_new );
             }
             else
@@ -243,11 +267,11 @@ public class COSMEnvironment
                 l_new.add( p_values.get( p ) );
             }
         } );
-        JSONObject l_json = new JSONObject();
-        l_heats.keySet().forEach( s -> l_json.put( s , l_heats.get( s ).toMap() ) );
-        writer.write( l_json.toJSONString() );
-        writer.flush();
-        writer.close();
+        final JSONObject l_json = new JSONObject();
+        l_heats.keySet().forEach( s -> l_json.put( s, l_heats.get( s ).toMap() ) );
+        l_writer.write( l_json.toJSONString() );
+        l_writer.flush();
+        l_writer.close();
     }
 
     /**
@@ -305,7 +329,7 @@ public class COSMEnvironment
 
         private Map<String, Object> toMap()
         {
-            HashMap<String, Object> l_map = new HashMap<>();
+            final HashMap<String, Object> l_map = new HashMap<>();
             l_map.put( "id", m_id );
             l_map.put( "name", m_name );
             l_map.put( "visited", m_visited );
