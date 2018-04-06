@@ -236,7 +236,7 @@ public class COSMEnvironment
         l_mapviewer.addMouseWheelListener( new ZoomMouseWheelListenerCursor( l_mapviewer ) );
         l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
 
-        writeHeat( l_heatpainter.getValues() );
+        //writeHeat( l_heatpainter.getValues() );
 
     }
 
