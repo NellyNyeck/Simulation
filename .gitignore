@@ -35,4 +35,6 @@ src/test/DC
 target/
 .Rproj.user
 
-!results/*.*
+!results/heatmaps/*.png
+!results/output data/*.json
+!results/stats/images/*.png
