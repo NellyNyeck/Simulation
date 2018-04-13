@@ -42,7 +42,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
 
 
     @Override
-    public void paint( Graphics2D p_graphics, final JXMapViewer p_viewer, final int p_wigth, final int p_height )
+    public void paint( Graphics2D p_graphics, final JXMapViewer p_viewer, final int p_width, final int p_height )
     {
         p_graphics = (Graphics2D) p_graphics.create();
 
@@ -53,7 +53,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
         if ( m_antialias )
             p_graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
-        p_graphics.setStroke( new BasicStroke( 3 ) );
+        p_graphics.setStroke( new BasicStroke( 1 ) );
         drawHeat( p_graphics, p_viewer );
 
         p_graphics.dispose();

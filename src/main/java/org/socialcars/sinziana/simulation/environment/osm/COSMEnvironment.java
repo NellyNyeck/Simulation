@@ -193,6 +193,7 @@ public class COSMEnvironment
             {
                 l_err.printStackTrace();
             }
+            System.out.println( l_req.getWeighting() );
         }
     }
 
@@ -247,7 +248,7 @@ public class COSMEnvironment
      */
     private void writeHeat( final HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
-        final FileWriter l_writer = new FileWriter( "heatmap.json" );
+        final FileWriter l_writer = new FileWriter( "heatmapBucharestNew.json" );
         final HashMap<Integer, CStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p ->

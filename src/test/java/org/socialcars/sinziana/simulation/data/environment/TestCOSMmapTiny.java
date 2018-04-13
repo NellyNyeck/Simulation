@@ -14,11 +14,11 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * test class for Bucharest
+ * tiny Bucharest test class
  */
-public class TestCOSMmapBucharest
+public class TestCOSMmapTiny
 {
-    private static final int ROUTENUMBER = 500000;
+    private static final int ROUTENUMBER = 300;
     private COSMEnvironment m_env;
 
     /**
@@ -28,7 +28,7 @@ public class TestCOSMmapBucharest
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/romania-latest.osm.pbf", "src/test/Bucharest", 44.541970, 44.334987,  26.224848,  25.965296 );
+        m_env = new COSMEnvironment( "src/test/resources/romania-latest.osm.pbf", "src/test/Bucharest", 44.477777, 44.457777,  26.154444,  26.134444 );
     }
 
     /**
@@ -77,8 +77,9 @@ public class TestCOSMmapBucharest
      */
     public static void main( final String[] p_args ) throws IOException
     {
-        final TestCOSMmapBucharest l_test = new TestCOSMmapBucharest();
+        final TestCOSMmapTiny l_test = new TestCOSMmapTiny();
         l_test.init();
+        //l_test.m_env.routeOne( new GeoPosition( 44.449777, 26.124519 ), new GeoPosition( 44.446977, 26.106704 ));
 
         /*GeoPosition l_start = new GeoPosition(44.425946, 26.149483 );
         GeoPosition l_finish = new GeoPosition( 44.428458, 26.146017 );
@@ -86,5 +87,7 @@ public class TestCOSMmapBucharest
         l_test.m_env.drawRoutes( List.of( l_test.m_env.route( l_start, l_finish, Stream.empty() ) ) );*/
         //l_test.route();
         l_test.heat();
+
+
     }
 }
