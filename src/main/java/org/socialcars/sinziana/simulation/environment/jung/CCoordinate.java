@@ -5,7 +5,6 @@ import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
 /**
  * coordinates class
  */
-// TODO: 06.02.18 delete this
 public class CCoordinate implements ICoordinate
 {
     private CCoordinatespojo m_coordinate;
@@ -20,20 +19,15 @@ public class CCoordinate implements ICoordinate
     }
 
     @Override
-    public String type()
+    public Number latitude()
     {
-        return m_coordinate.getType();
+        return m_coordinate.getLat();
     }
 
     @Override
-    public Number firstCoordinate()
+    public Number longitude()
     {
-        return m_coordinate.getFirstCoordinate();
+        return m_coordinate.getLon();
     }
 
-    @Override
-    public Number secondCoordinate()
-    {
-        return m_coordinate.getFirstCoordinate();
-    }
 }

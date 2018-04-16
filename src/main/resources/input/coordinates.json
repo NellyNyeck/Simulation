@@ -3,19 +3,15 @@
   "description" : "structure for location coordinates",
   "type" : "object",
   "properties" : {
-    "type" : {
-      "type" : "string"
-    },
-    "first coordinate" : {
+    "lat" : {
       "type" : "number"
     },
-    "second coordinate" : {
+    "lon" : {
       "type" : "number"
     }
   },
   "required" : [
-    "type",
-    "first coordinate",
-    "second coordinate"
+    "lat",
+    "lon"
   ]
 }

@@ -4,38 +4,7 @@
   "type" : "array",
   "items" : {
   	"type": "object",
-  	"proprieties":{
-  		"from" : {
-  			"type": "object",
-  			"proprieties" : {
-  				"lat": {
-  					"type" : "number"
-  				},
-  				"long" : {
-  					"type": "number"
-  				}
-  			}
-  		},
-  		"to" : {
-  			"type": "object",
-  			"proprieties" : {
-  				"lat": {
-  					"type" : "number"
-  				},
-  				"long" : {
-  					"type": "number"
-  				}
-  			}
-  		},
- 	 	"nb" : {
- 	 		"type" : "number"
- 	 	}
-  	},
-  	"required": [
-  		"from",
-  		"to",
-  		"nb"
-  	]
+  	"$ref": "od.json"
   },
   "uniqueItems": true
 }

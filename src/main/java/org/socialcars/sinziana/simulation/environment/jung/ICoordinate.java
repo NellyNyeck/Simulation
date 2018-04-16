@@ -6,21 +6,15 @@ package org.socialcars.sinziana.simulation.environment.jung;
 public interface ICoordinate
 {
     /**
-     * gets coordinate type
-     * @return coordinate type
-     */
-    String type();
-
-    /**
      * gets first coordinate
      * @return first coordinate
      */
-    Number firstCoordinate();
+    Number latitude();
 
     /**
      * gets second coordinate
      * @return second coordinate
      */
-    Number secondCoordinate();
+    Number longitude();
 
 }
