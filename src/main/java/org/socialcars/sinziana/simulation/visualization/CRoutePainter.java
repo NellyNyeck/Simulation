@@ -33,31 +33,31 @@ public class CRoutePainter implements Painter<JXMapViewer>
     }
 
     @Override
-    public void paint( Graphics2D p_gr, final JXMapViewer p_map, final int p_width, final int p_height )
+    public void paint( final Graphics2D p_gr, final JXMapViewer p_map, final int p_width, final int p_height )
     {
-        p_gr = (Graphics2D) p_gr.create();
+        final Graphics2D l_gr = (Graphics2D) p_gr.create();
 
         // convert from viewport to world bitmap
         final Rectangle l_rect = p_map.getViewportBounds();
-        p_gr.translate( -l_rect.x, -l_rect.y );
+        l_gr.translate( -l_rect.x, -l_rect.y );
 
         if ( m_antialias )
-            p_gr.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            l_gr.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
         // do the drawing
-        p_gr.setColor( Color.BLACK );
-        p_gr.setStroke( new BasicStroke( 2 ) );
+        l_gr.setColor( Color.BLACK );
+        l_gr.setStroke( new BasicStroke( 2 ) );
 
-        drawRoute( p_gr, p_map );
+        drawRoute( l_gr, p_map );
 
         // do the drawing again
-        p_gr.setColor( m_color );
-        p_gr.setStroke( new BasicStroke( 1 ) );
+        l_gr.setColor( m_color );
+        l_gr.setStroke( new BasicStroke( 1 ) );
 
 
-        drawRoute( p_gr, p_map );
+        drawRoute( l_gr, p_map );
 
-        p_gr.dispose();
+        l_gr.dispose();
     }
 
     /**

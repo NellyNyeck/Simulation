@@ -42,21 +42,21 @@ public class CHeatPainter  implements Painter<JXMapViewer>
 
 
     @Override
-    public void paint( Graphics2D p_graphics, final JXMapViewer p_viewer, final int p_width, final int p_height )
+    public void paint( final Graphics2D p_graphics, final JXMapViewer p_viewer, final int p_width, final int p_height )
     {
-        p_graphics = (Graphics2D) p_graphics.create();
+        final Graphics2D l_graphics = (Graphics2D) p_graphics.create();
 
         // convert from viewport to world bitmap
         final Rectangle l_rect = p_viewer.getViewportBounds();
-        p_graphics.translate( -l_rect.x, -l_rect.y );
+        l_graphics.translate( -l_rect.x, -l_rect.y );
 
         if ( m_antialias )
-            p_graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+            l_graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
-        p_graphics.setStroke( new BasicStroke( 3 ) );
-        drawHeat( p_graphics, p_viewer );
+        l_graphics.setStroke( new BasicStroke( 3 ) );
+        drawHeat( l_graphics, p_viewer );
 
-        p_graphics.dispose();
+        l_graphics.dispose();
 
     }
 
