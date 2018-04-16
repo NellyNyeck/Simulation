@@ -4,7 +4,7 @@
   "type" : "array",
   "items" : {
   	"type": "object",
-  	"$ref": "od.json"
+  	"$ref": "origdest.json"
   },
   "uniqueItems": true
 }
