@@ -19,13 +19,13 @@ import java.util.stream.Stream;
 
 public class TestCOSMmapHannoverSuedstadt
 {
-    private static final int ROUTENUMBER = 10000;
+    private static final int ROUTENUMBER = 10981;
     private COSMEnvironment m_env;
 
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/niedersachsen-latest.osm.pbf", "src/test/Hannover", 52.373740, 52.342416,  9.770950, 9.734108 );
+        m_env = new COSMEnvironment( "src/test/resources/niedersachsen-latest.osm.pbf", "src/test/Hannover", 52.373400, 52.346500,  9.77800, 9.746206 );
     }
 
     /**

@@ -53,7 +53,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
         if ( m_antialias )
             p_graphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
 
-        p_graphics.setStroke( new BasicStroke( 1 ) );
+        p_graphics.setStroke( new BasicStroke( 3 ) );
         drawHeat( p_graphics, p_viewer );
 
         p_graphics.dispose();
