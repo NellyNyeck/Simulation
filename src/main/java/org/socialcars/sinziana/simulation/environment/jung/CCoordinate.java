@@ -19,13 +19,13 @@ public class CCoordinate implements ICoordinate
     }
 
     @Override
-    public Number latitude()
+    public Double latitude()
     {
         return m_coordinate.getLat();
     }
 
     @Override
-    public Number longitude()
+    public Double longitude()
     {
         return m_coordinate.getLon();
     }

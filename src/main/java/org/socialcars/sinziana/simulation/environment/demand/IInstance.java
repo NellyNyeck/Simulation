@@ -11,6 +11,6 @@ public interface IInstance
 
     public CCoordinate to();
 
-    public Number howMany();
+    public int howMany();
 
 }

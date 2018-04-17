@@ -9,12 +9,12 @@ public interface ICoordinate
      * gets first coordinate
      * @return first coordinate
      */
-    Number latitude();
+    Double latitude();
 
     /**
      * gets second coordinate
      * @return second coordinate
      */
-    Number longitude();
+    Double longitude();
 
 }

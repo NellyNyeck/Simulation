@@ -1,6 +1,6 @@
 package org.socialcars.sinziana.simulation.environment.demand;
 
-import org.socialcars.sinziana.simulation.data.input.COdpojo;
+import org.socialcars.sinziana.simulation.data.input.CDemandpojo_;
 import org.socialcars.sinziana.simulation.environment.jung.CCoordinate;
 
 /**
@@ -13,17 +13,17 @@ public class CInstance implements IInstance
 
     private final CCoordinate m_to;
 
-    private final double m_howmany;
+    private final int m_howmany;
 
     /**
      * ctor
      * @param p_pojo the pojo instance given
      */
-    public CInstance( final COdpojo p_pojo )
+    public CInstance( final CDemandpojo_ p_pojo )
     {
         m_from = new CCoordinate( p_pojo.getFrom() );
         m_to = new CCoordinate( p_pojo.getTo() );
-        m_howmany = p_pojo.getNb();
+        m_howmany = (int) p_pojo.getNb();
     }
 
 
@@ -40,7 +40,7 @@ public class CInstance implements IInstance
     }
 
     @Override
-    public Number howMany()
+    public int howMany()
     {
         return m_howmany;
     }
