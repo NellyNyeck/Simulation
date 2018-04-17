@@ -13,7 +13,7 @@ public class CCoordinate implements ICoordinate
      * constructor
      * @param p_coord coordinate pojo given
      */
-    CCoordinate( final CCoordinatespojo p_coord )
+    public CCoordinate( final CCoordinatespojo p_coord )
     {
         m_coordinate = p_coord;
     }

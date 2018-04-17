@@ -1,11 +1,22 @@
 {
   "$schema" : "http://json-schema.org/draft-07/schema#",
   "description": "the demand structure",
-  "type" : "array",
-  "items" : {
-  	"type": "object",
-  	"$ref": "od.json"
+  "type" : "object",
+  "properties": {
+    "demand" : {
+      "type" :"array",
+      "items" : {
+        "type" : "object",
+        "$ref" : "od.json"
+      },
+      "uniqueItems" : true,
+      "minItems" : 1
+    },
+    "nothing" : {
+      "type" : "string"
+    }
   },
-  "minItems" : 1,
-  "uniqueItems": true
+  "required" : [
+    "demand"
+  ]
 }
