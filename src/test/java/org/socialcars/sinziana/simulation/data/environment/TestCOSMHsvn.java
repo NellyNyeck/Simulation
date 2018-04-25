@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.socialcars.sinziana.simulation.data.input.CDemandpojo;
-import org.socialcars.sinziana.simulation.data.input.CDemandpojo_;
 import org.socialcars.sinziana.simulation.environment.demand.CInstance;
 import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
@@ -15,7 +14,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -66,16 +65,19 @@ public class TestCOSMHsvn
     @Test
     public void heat() throws IOException
     {
+        AtomicInteger l_nb = new AtomicInteger();
         Assume.assumeNotNull( m_env );
         Assume.assumeNotNull( m_demand );
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
         m_demand.forEach( j ->
         {
+            l_nb.set(l_nb.get() + j.howMany());
             IntStream.range( 0, j.howMany() )
                 .boxed()
                 .forEach( i -> l_routes.add( m_env.route( new GeoPosition( j.from().latitude(), j.from().longitude() ), new GeoPosition( j.to().latitude(), j.to().longitude() ), Stream.empty() ) ) );
         } );
         m_env.drawHeat( l_routes );
+        System.out.println( l_nb );
     }
 
     /**

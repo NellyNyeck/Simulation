@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public class TestCOSMmapBarcelona
 {
-    private static final int ROUTENUMBER = 402250;
+    private static final int ROUTENUMBER = 5050;
     private COSMEnvironment m_env;
 
     @Before
