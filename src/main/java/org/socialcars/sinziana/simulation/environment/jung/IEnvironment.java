@@ -67,7 +67,7 @@ public interface IEnvironment<V extends JPanel>
      * @param p_element input element
      * @return an element
      */
-    IEnvironment initialize( final IElement... p_element );
+    IEnvironment<?> initialize( final IElement... p_element );
 
     /**
      * returns a panel with graph visualization

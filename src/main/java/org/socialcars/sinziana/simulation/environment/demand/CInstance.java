@@ -23,7 +23,7 @@ public class CInstance implements IInstance
     {
         m_from = new CCoordinate( p_pojo.getFrom() );
         m_to = new CCoordinate( p_pojo.getTo() );
-        m_howmany = (int) p_pojo.getNb();
+        m_howmany = p_pojo.getNb();
     }
 
 

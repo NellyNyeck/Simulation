@@ -237,7 +237,7 @@ public class COSMEnvironment
         l_mapviewer.addMouseWheelListener( new ZoomMouseWheelListenerCursor( l_mapviewer ) );
         l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
 
-        //writeHeat( l_heatpainter.getValues() );
+        writeHeat( l_heatpainter.getValues() );
 
     }
 
@@ -248,7 +248,7 @@ public class COSMEnvironment
      */
     private void writeHeat( final HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
-        final FileWriter l_writer = new FileWriter( "heatmapBarcelona2.json" );
+        final FileWriter l_writer = new FileWriter( "heatmap.json" );
         final HashMap<Integer, CStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p ->

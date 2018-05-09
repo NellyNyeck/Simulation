@@ -65,16 +65,17 @@ public class TestCOSMHsvn
     @Test
     public void heat() throws IOException
     {
-        AtomicInteger l_nb = new AtomicInteger();
+        final AtomicInteger l_nb = new AtomicInteger();
         Assume.assumeNotNull( m_env );
         Assume.assumeNotNull( m_demand );
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
         m_demand.forEach( j ->
         {
-            l_nb.set(l_nb.get() + j.howMany());
+            l_nb.set( l_nb.get() + j.howMany() );
             IntStream.range( 0, j.howMany() )
                 .boxed()
-                .forEach( i -> l_routes.add( m_env.route( new GeoPosition( j.from().latitude(), j.from().longitude() ), new GeoPosition( j.to().latitude(), j.to().longitude() ), Stream.empty() ) ) );
+                .forEach( i -> l_routes.add( m_env.route( new GeoPosition( j.from().latitude(), j.from().longitude() ),
+                    new GeoPosition( j.to().latitude(), j.to().longitude() ), Stream.empty() ) ) );
         } );
         m_env.drawHeat( l_routes );
         System.out.println( l_nb );

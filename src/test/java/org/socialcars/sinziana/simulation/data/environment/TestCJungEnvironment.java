@@ -21,6 +21,7 @@ import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 
 /**
@@ -38,7 +39,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/model_example.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -96,6 +97,27 @@ public final class TestCJungEnvironment
     }
 
     /**
+     * testing out the routing
+     */
+    @Test
+    public final void route()
+    {
+        final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
+        // create get node function
+        //create function to read destinations from file
+        System.out.println( "From Depot 1" );
+        System.out.println( l_env.route( "node0", "node6", Stream.empty() ) );
+        System.out.println( l_env.route( "node0", "node12", Stream.empty() ) );
+        System.out.println( l_env.route( "node0", "node13", Stream.empty() ) );
+        System.out.println( l_env.route( "node0", "node8", Stream.empty() ) );
+        System.out.println( "From Depot 2" );
+        System.out.println( l_env.route( "node20", "node24", Stream.empty() ) );
+        System.out.println( l_env.route( "node20", "node17", Stream.empty() ) );
+        System.out.println( l_env.route( "node20", "node12", Stream.empty() ) );
+        System.out.println( l_env.route( "node20", "node13", Stream.empty() ) );
+    }
+
+    /**
      * main
      * @param p_args cli arguments
      * @throws IOException file
@@ -104,8 +126,10 @@ public final class TestCJungEnvironment
     {
         final TestCJungEnvironment l_test = new TestCJungEnvironment();
         l_test.init();
-        l_test.graph();
-        l_test.heatmap();
+        l_test.route();
+        //l_test.graph();
+
+        //l_test.heatmap();
     }
 
 }

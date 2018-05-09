@@ -7,17 +7,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.socialcars.sinziana.simulation.data.input.CDemandpojo;
-import org.socialcars.sinziana.simulation.environment.demand.CInstance;
 import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -32,7 +29,7 @@ public class TestCOSMmapHannoverSuedstadt
 
     private static final int ROUTENUMBER = 104718;
     private COSMEnvironment m_env;
-    private Set<GeoPosition> l_fixed;
+    private Set<GeoPosition> m_fixed;
 
 
     static
@@ -47,12 +44,16 @@ public class TestCOSMmapHannoverSuedstadt
         }
     }
 
+    /**
+     * the initialisation method
+     * @throws IOException file
+     */
     @Before
     public void init() throws IOException
     {
         m_env = new COSMEnvironment( "src/test/resources/niedersachsen-latest.osm.pbf", "src/test/Hannover", 52.373400, 52.346500,  9.77800, 9.746206 );
-        l_fixed = new HashSet<>();
-        INPUT.getDemand().forEach( j -> l_fixed.add( new GeoPosition( j.getFrom().getLat(), j.getFrom().getLon() ) ) );
+        m_fixed = new HashSet<>();
+        INPUT.getDemand().forEach( j -> m_fixed.add( new GeoPosition( j.getFrom().getLat(), j.getFrom().getLon() ) ) );
     }
 
     /**

@@ -112,7 +112,7 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     }
 
     @Override
-    public IEnvironment initialize( final IElement... p_element )
+    public IEnvironment<?> initialize( final IElement... p_element )
     {
         return this;
     }
