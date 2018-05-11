@@ -268,8 +268,9 @@ public class COSMEnvironment
                 l_new.add( p_values.get( p ) );
             }
         } );
-        final JSONObject l_json = new JSONObject();
-        l_heats.keySet().forEach( s -> l_json.put( s, l_heats.get( s ).toMap() ) );
+        final HashMap<Number, Object> l_result = new HashMap<Number, Object>();
+        l_heats.keySet().forEach( s -> l_result.put( s, l_heats.get( s ).toMap() ) );
+        final JSONObject l_json =  new JSONObject( l_result );
         l_writer.write( l_json.toJSONString() );
         l_writer.flush();
         l_writer.close();
