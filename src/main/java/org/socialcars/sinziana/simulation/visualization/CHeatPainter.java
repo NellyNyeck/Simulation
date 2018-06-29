@@ -40,7 +40,6 @@ public class CHeatPainter  implements Painter<JXMapViewer>
         m_values.entrySet().forEach( p -> m_heat.put( p.getKey(), EColorMap.PLASMA.apply( p.getValue(), l_max ) ) );
     }
 
-
     @Override
     public void paint( final Graphics2D p_graphics, final JXMapViewer p_viewer, final int p_width, final int p_height )
     {

@@ -68,6 +68,7 @@ public class COSMEnvironment
 
         m_topleft = new GeoPosition( p_north, p_west );
         m_bottomright = new GeoPosition( p_south, p_east );
+
     }
 
 
@@ -238,8 +239,10 @@ public class COSMEnvironment
         l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
 
         writeHeat( l_heatpainter.getValues() );
-
+        writeOverlap( l_heatpainter.getValues() );
     }
+
+
 
     /**
      * writes the heat values to file
@@ -270,6 +273,33 @@ public class COSMEnvironment
         } );
         final HashMap<Number, Object> l_result = new HashMap<Number, Object>();
         l_heats.keySet().forEach( s -> l_result.put( s, l_heats.get( s ).toMap() ) );
+        final JSONObject l_json =  new JSONObject( l_result );
+        l_writer.write( l_json.toJSONString() );
+        l_writer.flush();
+        l_writer.close();
+    }
+
+    private void writeOverlap( final HashMap<GeoPosition, Integer> p_values ) throws IOException
+    {
+        final FileWriter l_writer = new FileWriter( "Overlap.json" );
+        final HashMap<String, Integer> l_overlap = new HashMap<>();
+        final Set<GeoPosition> l_keys = p_values.keySet();
+        l_keys.forEach( p ->
+        {
+            final String l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName();
+            Integer l_new = l_overlap.get( l_id );
+            if ( l_new == null )
+            {
+                l_new = p_values.get( p );
+                l_overlap.put( l_id, l_new );
+            }
+            else
+            {
+                l_new += p_values.get( p );
+            }
+        } );
+        final HashMap<String, Object> l_result = new HashMap<>();
+        l_overlap.keySet().forEach( s -> l_result.put( s, l_overlap.get( s ) ) );
         final JSONObject l_json =  new JSONObject( l_result );
         l_writer.write( l_json.toJSONString() );
         l_writer.flush();

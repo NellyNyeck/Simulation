@@ -16,6 +16,7 @@ import org.socialcars.sinziana.simulation.elements.IElement;
 
 import java.awt.Dimension;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -63,6 +64,15 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
         m_pathalgorithm = new DijkstraShortestPath<>( m_graph, IEdge::weight );
     }
 
+    public Collection<IEdge> edges()
+    {
+        return m_graph.getEdges();
+    }
+
+    public int size()
+    {
+        return m_graph.getVertexCount();
+    }
 
     @Override
     public List<IEdge> route( final INode p_start, final INode p_finish, final INode... p_via )
