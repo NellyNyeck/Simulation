@@ -7,9 +7,7 @@ public class CUnits implements IUnits
 {
 
     private final double m_timestep;
-
     private final double m_block;
-
     private final double m_blocktimesteps;
 
     /**
@@ -24,6 +22,7 @@ public class CUnits implements IUnits
         m_timestep = p_time.doubleValue();
         m_block = p_space.doubleValue();
         m_blocktimesteps = m_block / m_timestep;
+
     }
 
     /**
