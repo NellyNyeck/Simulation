@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
- * the solver class for determining a single shortest path
+ * the solver class for determining multiple shortest paths
  */
 public final class CPlatSPP
 {

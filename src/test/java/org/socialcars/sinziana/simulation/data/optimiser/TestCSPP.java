@@ -1,6 +1,7 @@
 package org.socialcars.sinziana.simulation.data.optimiser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gurobi.GRBException;
 import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
@@ -35,28 +36,30 @@ public class TestCSPP
     }
 
     /**
-     * initializing
+     * initialisation
      * @throws IOException file
+     * @throws GRBException gurobi
      */
     @Before
-    public void init() throws IOException
+    public void init() throws IOException, GRBException
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
-        m_opt = new CSPP();
+        m_opt = new CSPP( m_env );
     }
 
     @Test
-    public void routeJung()
+    public void routeJung() throws GRBException
     {
-        m_opt.solveJung( 0, 14, m_env );
+        m_opt.solveJung( 0, 70, m_env );
     }
 
     /**
-     * main function
-     * @param p_args cli
+     * main functions
+     * @param p_args cli args
      * @throws IOException file
+     * @throws GRBException gurobi
      */
-    public static void main( final String[] p_args ) throws IOException
+    public static void main( final String[] p_args ) throws IOException, GRBException
     {
         final TestCSPP l_test = new TestCSPP();
         l_test.init();

@@ -8,119 +8,139 @@ import gurobi.GRBModel;
 import gurobi.GRBVar;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
-import org.socialcars.sinziana.simulation.environment.jung.INode;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * the solver class for determining a single shortest path
  */
 public class CSPP
 {
-    private GRBEnv m_env;
-    private GRBModel m_model;
+    private final GRBEnv m_env;
+    private final GRBModel m_model;
+    private final GRBVar[][] m_ex;
+
 
     /**
-     * creation of the optimisation model for a Jung type environment
-     * @param p_origin the origin node
-     * @param p_destination the destination node
-     * @param p_network the graph
-     * @return the number of edges in shortest path
+     * ctor
+     * @param p_network the network
+     * @throws GRBException exception
      */
-    public double solveJung( final int p_origin, final int p_destination, final CJungEnvironment p_network )
+    public CSPP( final CJungEnvironment p_network ) throws GRBException
     {
-        try
+        //creating the environment and model
+        m_env = new GRBEnv( "sppJung.log" );
+        m_model = new GRBModel( m_env );
+        m_ex = new GRBVar[p_network.size()][p_network.size()];
+
+        //adding variables to the model
+        p_network.edges().forEach( iEdge ->
         {
-            m_env = new GRBEnv( "spp.log" );
-            m_model = new GRBModel( m_env );
-            final List<GRBVar> l_variables = new ArrayList<>();
-
-
-            final Collection<IEdge> l_edges = p_network.edges();
-            final GRBVar[][] l_ex = new GRBVar[p_network.size()][p_network.size()];
-            l_edges.forEach( iEdge ->
+            final int l_start = Integer.valueOf( iEdge.from().id() );
+            final int l_end = Integer.valueOf( iEdge.to().id() );
+            try
             {
-                final INode l_start = iEdge.from();
-                final INode l_end = iEdge.to();
-                try
-                {
-                    l_ex[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] = m_model.addVar( 0.0, 1.0, 0.0,
-                        GRB.BINARY,
-                        "x" + l_start.id()  + "_" + l_end.id() );
-                    l_variables.add( l_ex[Integer.valueOf( l_start.id() ) ][Integer.valueOf( l_end.id() )] );
-                }
-                catch ( final GRBException l_err )
-                {
-                    l_err.printStackTrace();
-                }
-            } );
-
-            // Set objective
-            final GRBLinExpr l_obj = new GRBLinExpr();
-            l_variables.forEach( c -> l_obj.addTerm( 1.0, c ) );
-            m_model.setObjective( l_obj, GRB.MINIMIZE );
-
-            //Adding constraints
-            l_variables.forEach( c ->
-            {
-                final GRBLinExpr l_expr = new GRBLinExpr();
-                l_expr.addTerm( 1.0, c );
-                try
-                {
-                    m_model.addConstr( l_expr, GRB.LESS_EQUAL, 1,
-                        "NetworkConstraint" );
-                }
-                catch ( final GRBException l_err )
-                {
-                    l_err.printStackTrace();
-                }
-            } );
-
-
-            for ( int i = 0; i < p_network.size(); i++ )
-            {
-                final GRBLinExpr l_expr = new GRBLinExpr();
-                for ( int j = 0; j < p_network.size(); j++ )
-                {
-                    if ( l_ex[i][j] != null ) l_expr.addTerm( 1.0, l_ex[i][j] );
-                    if ( l_ex[j][i] != null ) l_expr.addTerm( -1.0, l_ex[j][i] );
-                }
-                if ( i == Integer.valueOf( p_origin ) ) m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "OriginConstraint" );
-                else if ( i == Integer.valueOf( p_destination ) ) m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "DestinationConstraint" );
-                else m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "FlowConstraint" );
+                m_ex[l_start][l_end] = m_model.addVar( 0.0, 1.0, 0.0, GRB.BINARY, "x" + l_start  + "_" + l_end );
             }
-
-            m_model.optimize();
-
-            for ( int i = 0; i < p_network.size(); i++ )
+            catch ( final GRBException l_err )
             {
-                for ( int j = 0; j < p_network.size(); j++ )
-                {
-                    if ( l_ex[i][j] != null )
+                l_err.printStackTrace();
+            }
+        } );
+    }
+
+    /**
+     * the solver
+     * @param p_origin origin
+     * @param p_destination destination
+     * @param p_network network
+     * @throws GRBException exeption
+     */
+    public void solveJung( final int p_origin, final int p_destination, final CJungEnvironment p_network ) throws GRBException
+    {
+        setObjective( p_network.edges() );
+        setConstraints( p_destination, p_origin, p_network.size() );
+        m_model.optimize();
+        display( p_network.size() );
+        cleanUp();
+    }
+
+    private void setObjective( final Collection<IEdge> p_edges ) throws GRBException
+    {
+        final GRBLinExpr l_obj = new GRBLinExpr();
+        p_edges.forEach( c -> l_obj.addTerm( 1.0, m_ex[Integer.valueOf( c.from().id() )][Integer.valueOf( c.to().id() )] ) );
+        m_model.setObjective( l_obj, GRB.MINIMIZE );
+    }
+
+    private void setConstraints( final int p_destination, final int p_origin, final Integer p_networksize )
+    {
+        IntStream.range( 0, p_networksize )
+            .boxed()
+            .forEach( i ->
+            {
+                final GRBLinExpr l_expr = new GRBLinExpr();
+                IntStream.range( 0, p_networksize )
+                    .boxed()
+                    .forEach( j ->
                     {
-                        System.out.println( l_ex[i][j].get( GRB.StringAttr.VarName ) + " " + l_ex[i][j].get( GRB.DoubleAttr.X ) );
+                        if ( ( m_ex[i][j] != null ) && ( m_ex[j][i] != null ) )
+                        {
+                            l_expr.addTerm( 1.0, m_ex[i][j] );
+                            l_expr.addTerm( -1.0, m_ex[j][i] );
+
+                        }
+                    } );
+                try
+                {
+                    if ( i == p_origin )
+                    {
+                        m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "OriginConstraint"  );
                     }
+                    else if ( p_destination == i )
+                    {
+                        m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "DestinationConstraint"  );
+                    }
+                    else m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "FlowConstraint" + i );
                 }
-            }
+                catch ( final GRBException l_err )
+                {
+                    l_err.printStackTrace();
+                }
+            } );
+    }
 
-            System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) + " " + l_obj.getValue() );
-            System.out.println();
+    private void display( final int p_networksize )
+    {
+        //displaying the target
+        IntStream.range( 0, p_networksize )
+            .boxed()
+            .forEach( i ->
+            {
+                IntStream.range( 0, p_networksize )
+                    .boxed()
+                    .forEach( j ->
+                    {
+                        try
+                        {
+                            if (  ( m_ex[i][j] != null ) && ( m_ex[i][j].get( GRB.DoubleAttr.X ) == 1 ) )
+                            {
+                                System.out.println( m_ex[i][j].get( GRB.StringAttr.VarName ) + ":" + m_ex[i][j].get( GRB.DoubleAttr.X ) );
+                            }
+                        }
+                        catch ( final GRBException l_err )
+                        {
+                            l_err.printStackTrace();
+                        }
+                    } );
+            } );
+    }
 
-            final double l_result = l_obj.getValue();
-
-            m_model.dispose();
-            m_env.dispose();
-
-            return l_result;
-
-        }
-        catch ( final GRBException l_err )
-        {
-            System.out.println( "Error code: " + l_err.getErrorCode() + ". " + l_err.getMessage() );
-        }
-        return Double.parseDouble( null );
+    private void cleanUp() throws GRBException
+    {
+        //cleaning up
+        m_model.dispose();
+        m_env.dispose();
     }
 
 }
