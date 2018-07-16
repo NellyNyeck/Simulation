@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -44,6 +45,8 @@ import java.util.stream.Stream;
  */
 public class COSMEnvironment
 {
+    private static final Logger LOGGER = Logger.getLogger( COSMEnvironment.class.getName() );
+
     private GraphHopper m_hopper;
     private final GeoPosition m_topleft;
     private final GeoPosition m_bottomright;

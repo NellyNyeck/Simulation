@@ -7,6 +7,8 @@ import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
  */
 public class CCoordinate implements ICoordinate
 {
+
+
     private CCoordinatespojo m_coordinate;
 
     /**

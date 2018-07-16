@@ -5,6 +5,7 @@ package org.socialcars.sinziana.simulation.events;
  */
 public enum EEvenType
 {
+    CREATED,
     DEPART,
     ARRIVED,
     STUCK,

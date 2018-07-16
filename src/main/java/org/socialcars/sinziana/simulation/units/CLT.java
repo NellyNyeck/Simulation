@@ -1,6 +1,5 @@
 package org.socialcars.sinziana.simulation.units;
 
-
 import java.time.Duration;
 import java.time.LocalTime;
 

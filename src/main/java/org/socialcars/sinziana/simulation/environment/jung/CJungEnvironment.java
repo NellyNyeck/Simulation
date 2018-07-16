@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,6 +30,8 @@ import java.util.stream.Stream;
  */
 public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode, IEdge>>
 {
+    private static final Logger LOGGER = Logger.getLogger( CJungEnvironment.class.getName() );
+
     private final Graph<INode, IEdge> m_graph;
     private final DijkstraShortestPath<INode, IEdge> m_pathalgorithm;
     private final Map<String, INode> m_nodes;

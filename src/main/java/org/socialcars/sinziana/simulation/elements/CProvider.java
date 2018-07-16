@@ -4,6 +4,7 @@ import org.socialcars.sinziana.simulation.data.input.CProviderpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CNode;
 
 import java.util.HashSet;
+import java.util.logging.Logger;
 
 
 /**
@@ -12,11 +13,15 @@ import java.util.HashSet;
 public class CProvider implements IProvider
 {
 
+    private static final Logger LOGGER = Logger.getLogger( CProvider.class.getName() );
+
     private final CProviderpojo m_provider;
 
     private HashSet<CNode> m_depots;
 
     private HashSet<CPod> m_pods;
+
+
 
     /**
      * constructor

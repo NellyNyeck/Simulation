@@ -2,14 +2,21 @@ package org.socialcars.sinziana.simulation.elements;
 
 import org.socialcars.sinziana.simulation.data.input.CBicyclepojo;
 import org.socialcars.sinziana.simulation.environment.jung.CNode;
+import org.socialcars.sinziana.simulation.events.CEvent;
+import org.socialcars.sinziana.simulation.events.EEvenType;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * the bike class
  */
 public class CBike implements IBike
 {
+    private static final Logger LOGGER = Logger.getLogger( CBike.class.getName() );
+
     private CBicyclepojo m_bike;
 
     private CNode m_start;
@@ -18,6 +25,9 @@ public class CBike implements IBike
 
     private Number m_speed;
     private Number m_location;
+
+    private Collection<CEvent> m_events;
+
 
     /**
      * constructor
@@ -29,6 +39,14 @@ public class CBike implements IBike
         m_start = new CNode( m_bike.getStart() );
         m_finish = new CNode( m_bike.getFinish() );
         m_bike.getMiddle().stream().forEach( n -> m_middle.add( new CNode( n ) ) );
+
+        event( new CEvent( this, EEvenType.CREATED, m_start, System.currentTimeMillis(), null ) );
+    }
+
+    @Override
+    public Number position()
+    {
+        return m_location;
     }
 
     @Override
@@ -41,5 +59,18 @@ public class CBike implements IBike
     public IElement call() throws Exception
     {
         return null;
+    }
+
+    @Override
+    public void move( final Number p_newpostion )
+    {
+        m_location = p_newpostion;
+    }
+
+    @Override
+    public void event( final CEvent p_event )
+    {
+        m_events.add( p_event );
+        LOGGER.log( Level.INFO, p_event.toString() );
     }
 }

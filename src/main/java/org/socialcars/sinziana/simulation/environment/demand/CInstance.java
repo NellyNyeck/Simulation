@@ -3,11 +3,14 @@ package org.socialcars.sinziana.simulation.environment.demand;
 import org.socialcars.sinziana.simulation.data.input.CDemandpojo_;
 import org.socialcars.sinziana.simulation.environment.jung.CCoordinate;
 
+import java.util.logging.Logger;
+
 /**
  * class for one instance of demand
  */
 public class CInstance implements IInstance
 {
+    private static final Logger LOGGER = Logger.getLogger( CInstance.class.getName() );
 
     private final CCoordinate m_from;
 
@@ -25,7 +28,6 @@ public class CInstance implements IInstance
         m_to = new CCoordinate( p_pojo.getTo() );
         m_howmany = p_pojo.getNb();
     }
-
 
     @Override
     public CCoordinate from()

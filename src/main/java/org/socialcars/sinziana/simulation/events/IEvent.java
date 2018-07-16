@@ -1,15 +1,22 @@
 package org.socialcars.sinziana.simulation.events;
 
+import org.socialcars.sinziana.simulation.elements.IMovable;
+import org.socialcars.sinziana.simulation.environment.jung.CNode;
+
+import java.util.Collection;
+
 /**
  * event interface
  */
 public interface IEvent
 {
-    String what();
+    IMovable who();
 
-    Number where();
+    EEvenType what();
 
-    Number with();
+    CNode where();
+
+    Collection<IMovable> with();
 
     Number when();
 

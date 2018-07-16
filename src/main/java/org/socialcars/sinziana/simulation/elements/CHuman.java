@@ -2,22 +2,33 @@ package org.socialcars.sinziana.simulation.elements;
 
 import org.socialcars.sinziana.simulation.data.input.CHumanpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CNode;
+import org.socialcars.sinziana.simulation.events.CEvent;
+import org.socialcars.sinziana.simulation.events.EEvenType;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * the human class
  */
 public class CHuman implements IHuman
 {
+    private static final Logger LOGGER = Logger.getLogger( CHuman.class.getName() );
+
+
     private CHumanpojo m_human;
 
     private CNode m_start;
     private CNode m_finish;
-    private ArrayList<CNode> m_middle = new ArrayList<>();
+    private final ArrayList<CNode> m_middle = new ArrayList<>();
 
     private Number m_speed;
     private Number m_location;
+
+    private Collection<CEvent> m_events;
+
 
     /**
      * constructor
@@ -32,6 +43,13 @@ public class CHuman implements IHuman
         {
             m_middle.add( new CNode( m ) );
         } );
+        event( new CEvent( this, EEvenType.CREATED, m_start, System.currentTimeMillis(), null ) );
+    }
+
+    @Override
+    public Number position()
+    {
+        return m_location;
     }
 
     @Override
@@ -44,5 +62,18 @@ public class CHuman implements IHuman
     public IElement call() throws Exception
     {
         return null;
+    }
+
+    @Override
+    public void move( final Number p_newpostion )
+    {
+        m_location = p_newpostion;
+    }
+
+    @Override
+    public void event( final CEvent p_event )
+    {
+        m_events.add( p_event );
+        LOGGER.log( Level.INFO, p_event.toString() );
     }
 }
