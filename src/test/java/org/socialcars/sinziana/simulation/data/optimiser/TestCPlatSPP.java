@@ -13,9 +13,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 
-
 /**
- * test class for single shortest path optimisation
+ * test class for solver
  */
 public class TestCPlatSPP
 {

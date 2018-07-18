@@ -72,6 +72,11 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
         return m_graph.getEdges();
     }
 
+    public Collection<INode> nodes()
+    {
+        return m_graph.getVertices();
+    }
+
     public int size()
     {
         return m_graph.getVertexCount();

@@ -15,10 +15,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
- * the solver class for determining multiple shortest paths
+ * the solver class
  */
 public final class CPlatSPP
 {
+
     private final GRBEnv m_env;
     private final GRBModel m_model;
     private final GRBVar[][] m_ytarg;

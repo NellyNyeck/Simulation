@@ -107,6 +107,13 @@
             <version>2.3</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/net.sf.jmpi/jmpi-solver-gurobi -->
+        <dependency>
+            <groupId>net.sf.jmpi</groupId>
+            <artifactId>jmpi-solver-gurobi</artifactId>
+            <version>0.4</version>
+        </dependency>
+
 
     </dependencies>
 

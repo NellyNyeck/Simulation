@@ -51,6 +51,8 @@ public class COSMEnvironment
     private final GeoPosition m_topleft;
     private final GeoPosition m_bottomright;
 
+    private final Double m_granularity = 0.000009004;
+
     /**
      * ctor
      * @param p_file the osm file
@@ -342,6 +344,45 @@ public class COSMEnvironment
         return l_mapviewer;
     }
 
+    private Double calculateDistance( final GeoPosition p_one, final GeoPosition p_two )
+    {
+        final Double l_radius = 6371e3;
+        final Double l_deltalat = Math.toRadians( p_two.getLatitude() ) - Math.toRadians( p_one.getLatitude() );
+        final Double l_deltalon = Math.toRadians( p_two.getLongitude() ) - Math.toRadians( p_one.getLongitude() );
+        final Double l_alpha = Math.sin( l_deltalat / 2 ) * Math.sin( l_deltalat / 2 )
+            + Math.cos( Math.toRadians( p_one.getLatitude() ) ) * Math.cos( Math.toRadians( p_two.getLatitude() ) )
+            * Math.sin( l_deltalon / 2 ) * Math.sin( l_deltalon / 2 );
+        final Double l_gamma =  2 * Math.atan2( Math.sqrt( l_alpha ), Math.sqrt( 1 - l_alpha ) );
+        return l_radius * l_gamma;
+
+    }
+
+    /**
+     * function to check environment granularity of geopoints
+     */
+    public void pokingAround()
+    {
+        /*final GeoPosition l_bar = new GeoPosition( 41.398059, 2.159816 );
+        final GeoPosition l_restaurant = new GeoPosition( 41.397667, 2.160041 );
+        System.out.println( calculateDistance( l_bar, l_restaurant ) );*/
+
+        IntStream.range( 0, 10 )
+            .boxed()
+            .forEach( i ->
+            {
+                final GeoPosition l_rando = randomnode();
+                final GeoPosition l_next = new GeoPosition( l_rando.getLatitude() + 0.000009004, l_rando.getLongitude() );
+                //System.out.println( l_rando.getLatitude() );
+                //System.out.println( l_next.getLatitude() );
+                //System.out.println( l_rando.getLongitude() );
+                //System.out.println( l_rando.getLongitude() );
+                System.out.println( calculateDistance( l_rando, l_next ) );
+            } );
+
+
+
+    }
+
     private class CStructure
     {
         private final Integer m_id;
@@ -372,5 +413,7 @@ public class COSMEnvironment
             return l_map;
         }
     }
+
+
 
 }

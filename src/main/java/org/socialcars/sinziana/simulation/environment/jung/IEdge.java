@@ -32,4 +32,16 @@ public interface IEdge
      */
     Number weight();
 
+    /**
+     * length
+     * @return length
+     */
+    Double length();
+
+    /**
+     * orientation
+     * @return orientation
+     */
+    String orientation();
+
 }
