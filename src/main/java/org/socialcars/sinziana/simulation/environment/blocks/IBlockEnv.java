@@ -5,7 +5,7 @@ package org.socialcars.sinziana.simulation.environment.blocks;
  */
 public interface IBlockEnv
 {
-    void map( final Object p_obj );
+    void map();
 
     /**
      * gets blocksize

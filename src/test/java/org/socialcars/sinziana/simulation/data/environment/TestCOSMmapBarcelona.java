@@ -73,7 +73,8 @@ public class TestCOSMmapBarcelona
     public void pokingaround()
     {
         Assume.assumeNotNull( m_env );
-        m_env.pokingAround();
+        //m_env.pokingAround();
+        m_env.getGeopoints();
     }
 
     /**
@@ -88,5 +89,6 @@ public class TestCOSMmapBarcelona
         //l_test.route();
         //l_test.heat();
         l_test.pokingaround();
+
     }
 }

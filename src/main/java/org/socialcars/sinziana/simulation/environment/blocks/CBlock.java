@@ -1,6 +1,7 @@
 package org.socialcars.sinziana.simulation.environment.blocks;
 
 import org.socialcars.sinziana.simulation.elements.IElement;
+
 import java.util.HashMap;
 
 /**
@@ -9,6 +10,8 @@ import java.util.HashMap;
 public class CBlock implements IBlock
 {
     private final String m_id;
+    private final Double m_coord1;
+    private final Double m_coord2;
 
     private final HashMap<String, CBlock> m_up;
     private final HashMap<String, CBlock> m_down;
@@ -21,9 +24,11 @@ public class CBlock implements IBlock
      * ctor
      * @param p_id id
      */
-    public CBlock( final String p_id )
+    public CBlock( final String p_id, final Double p_coo1, final Double p_coo2 )
     {
         m_id = p_id;
+        m_coord1 = p_coo1;
+        m_coord2 = p_coo2;
         m_up = new HashMap<>();
         m_down = new HashMap<>();
         m_left = new HashMap<>();
@@ -48,6 +53,16 @@ public class CBlock implements IBlock
     public void addLeft( final CBlock p_left )
     {
         m_left.put( p_left.id(), p_left );
+    }
+
+    public Double get1()
+    {
+        return m_coord1;
+    }
+
+    public Double get2()
+    {
+        return m_coord2;
     }
 
     @Override

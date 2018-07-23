@@ -5,9 +5,11 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.routing.Path;
 import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.Instruction;
+import com.graphhopper.util.PointList;
 import org.json.simple.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -34,6 +36,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -378,9 +381,34 @@ public class COSMEnvironment
                 //System.out.println( l_rando.getLongitude() );
                 System.out.println( calculateDistance( l_rando, l_next ) );
             } );
+    }
 
-
-
+    /**
+     * gets geopositions of (hopefully) evey street
+     * @return geopoints
+     */
+    public TreeSet<GeoPosition> getGeopoints()
+    {
+        final TreeSet<GeoPosition> l_positions = new TreeSet<>();
+        IntStream.range( 0, 10000 )
+            .boxed()
+            .forEach( i ->
+            {
+                final GeoPosition l_start = randomnode();
+                final GeoPosition l_finish = randomnode();
+                final GHRequest l_req = new GHRequest( l_start.getLatitude(), l_start.getLongitude(), l_finish.getLatitude(), l_finish.getLongitude() );
+                final GHResponse l_resp = new GHResponse();
+                final List<Path> l_path = m_hopper.calcPaths( l_req, l_resp );
+                for ( final Path l_pa : l_path )
+                {
+                    final PointList l_points = l_pa.calcPoints();
+                    IntStream.range( 0, l_points.size() )
+                        .boxed()
+                        .forEach( j -> l_positions.add( new GeoPosition( l_points.getLatitude( j ), l_points.getLongitude( j ) ) ) );
+                    System.out.println( l_positions.size() );
+                }
+            } );
+        return l_positions;
     }
 
     private class CStructure

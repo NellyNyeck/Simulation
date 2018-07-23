@@ -3,7 +3,6 @@ package org.socialcars.sinziana.simulation.environment.blocks;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
-import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,29 +11,24 @@ import java.util.stream.IntStream;
 /**
  * lock environment class
  */
-public class CBlockEnv implements IBlockEnv
+public class CJungBlock implements IBlockEnv
 {
     private final Double m_blocksize;
-
     private HashMap<String, CBlock> m_intersections;
     private HashMap<String, CBlock> m_streets;
+
+    private final CJungEnvironment m_env;
 
     /**
      * ctor
      * @param p_blocksize the blcoksize
      */
-    public CBlockEnv( final Double p_blocksize )
+    public CJungBlock( final CJungEnvironment p_env, final Double p_blocksize )
     {
+        m_env = p_env;
         m_blocksize = p_blocksize;
         m_intersections = new HashMap<>();
         m_streets = new HashMap<>();
-    }
-
-    @Override
-    public void map( final Object p_obj )
-    {
-        if ( p_obj.getClass() == CJungEnvironment.class ) mapJung( (CJungEnvironment) p_obj );
-        if ( p_obj.getClass()  == COSMEnvironment.class ) mapOSM( (COSMEnvironment) p_obj );
     }
 
     @Override
@@ -43,22 +37,16 @@ public class CBlockEnv implements IBlockEnv
         return m_blocksize;
     }
 
-    public void mapOSM( final COSMEnvironment p_env )
-    {
-
-    }
-
     /**
      * maps the jung environemnt to blocks
-     * @param p_env the ung env
      */
-    public void mapJung( final CJungEnvironment p_env )
+    public void map()
     {
-        createNodes( p_env.nodes() );
-        createEdges( p_env.edges() );
+        createJungNodes( m_env.nodes() );
+        createJungEdges( m_env.edges() );
     }
 
-    private void createEdges( final Collection<IEdge> p_edges )
+    private void createJungEdges( final Collection<IEdge> p_edges )
     {
         p_edges.forEach( e ->
         {
@@ -91,7 +79,7 @@ public class CBlockEnv implements IBlockEnv
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() + 1, p_edg.from().coordinate().longitude() + 1 );
                 m_streets.put( l_new.id(), l_new );
                 if ( i == 0 )
                 {
@@ -117,7 +105,7 @@ public class CBlockEnv implements IBlockEnv
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() + 1, p_edg.from().coordinate().longitude() + 1 );
                 m_streets.put( l_new.id(), l_new );
                 if ( i == 0 )
                 {
@@ -143,7 +131,7 @@ public class CBlockEnv implements IBlockEnv
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() + 1, p_edg.from().coordinate().longitude() + 1 );
                 m_streets.put( l_new.id(), l_new );
                 if ( i == 0 )
                 {
@@ -169,7 +157,7 @@ public class CBlockEnv implements IBlockEnv
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() + 1, p_edg.from().coordinate().longitude() + 1 );
                 m_streets.put( l_new.id(), l_new );
                 if ( i == 0 )
                 {
@@ -186,14 +174,14 @@ public class CBlockEnv implements IBlockEnv
             } );
     }
 
-    private void createNodes( final Collection<INode> p_nodes )
+    private void createJungNodes( final Collection<INode> p_nodes )
     {
         p_nodes.forEach( n ->
         {
-            final CBlock l_bl1 = new CBlock( n.id() + "dr" );
-            final CBlock l_bl2 = new CBlock( n.id() + "dl" );
-            final CBlock l_bl3 = new CBlock( n.id() + "ul" );
-            final CBlock l_bl4 = new CBlock( n.id() + "ur" );
+            final CBlock l_bl1 = new CBlock( n.id() + "dr", n.coordinate().latitude(), n.coordinate().longitude() );
+            final CBlock l_bl2 = new CBlock( n.id() + "dl", n.coordinate().latitude(), n.coordinate().longitude() );
+            final CBlock l_bl3 = new CBlock( n.id() + "ul", n.coordinate().latitude(), n.coordinate().longitude() );
+            final CBlock l_bl4 = new CBlock( n.id() + "ur", n.coordinate().latitude(), n.coordinate().longitude() );
             m_intersections.put( l_bl1.id(), l_bl1 );
             m_intersections.put( l_bl2.id(), l_bl2 );
             m_intersections.put( l_bl3.id(), l_bl3 );
