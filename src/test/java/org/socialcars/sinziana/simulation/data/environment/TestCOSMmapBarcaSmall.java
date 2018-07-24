@@ -14,17 +14,17 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * test class for Barcelona
+ * testing a small bit of Barcelona
  */
-public class TestCOSMmapBarcelona
+public class TestCOSMmapBarcaSmall
 {
-    private static final int ROUTENUMBER = 5050;
+    private static final int ROUTENUMBER = 100;
     private COSMEnvironment m_env;
 
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/spain-latest.osm.pbf", "src/test/Barcelona", 41.420472, 41.374398,  2.203925, 2.144553 );
+        m_env = new COSMEnvironment( "src/test/resources/spain-latest.osm.pbf", "src/test/Barcelona", 41.412895, 41.399428,  2.184461, 2.164316 );
     }
 
     /**
@@ -66,22 +66,11 @@ public class TestCOSMmapBarcelona
         m_env.drawHeat( l_routes );
     }
 
-    /**
-     * testing poking around
-     */
-    @Test
-    public void pokingaround()
-    {
-        Assume.assumeNotNull( m_env );
-        //m_env.pokingAround();
-        m_env.check();
-    }
-
     @Test
     private void check()
     {
         Assume.assumeNotNull( m_env );
-        System.out.println( m_env.getEdges().size() );
+        System.out.println( m_env.calculateBearing( m_env.randomnode(), m_env.randomnode() ) );
     }
 
     /**
@@ -91,12 +80,11 @@ public class TestCOSMmapBarcelona
      */
     public static void main( final String[] p_args ) throws IOException
     {
-        final TestCOSMmapBarcelona l_test = new TestCOSMmapBarcelona();
+        final TestCOSMmapBarcaSmall l_test = new TestCOSMmapBarcaSmall();
         l_test.init();
         //l_test.route();
         //l_test.heat();
         //l_test.pokingaround();
         l_test.check();
-
     }
 }

@@ -36,7 +36,7 @@ public interface IEdge
      * length
      * @return length
      */
-    Double length();
+    int length();
 
     /**
      * orientation

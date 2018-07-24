@@ -113,4 +113,19 @@ public class CBlock implements IBlock
     {
         if ( m_occupiedby == p_el ) m_occupiedby = null;
     }
+
+    /**
+     * checks if the block is a neighbour
+     * @param p_block given block
+     * @return boolean
+     */
+    public boolean isNeighbour( final CBlock p_block )
+    {
+        if ( m_right.containsValue( p_block ) ) return true;
+        if ( m_left.containsValue( p_block ) ) return  true;
+        if ( m_down.containsValue( p_block ) ) return  true;
+        if ( m_up.containsValue( p_block ) ) return true;
+        return false;
+    }
+
 }

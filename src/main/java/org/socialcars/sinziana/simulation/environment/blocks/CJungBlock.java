@@ -66,7 +66,6 @@ public class CJungBlock implements IBlockEnv
                     break;
                 default:
                     break;
-
             }
         } );
     }
@@ -75,24 +74,29 @@ public class CJungBlock implements IBlockEnv
     {
         final String l_ul = "ul";
         final String l_dl = "dl";
-        IntStream.range( 0, Integer.valueOf( String.valueOf( p_edg.length() ) ) )
+        IntStream.range( 1,  p_edg.length() )
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() + 1, p_edg.from().coordinate().longitude() + 1 );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude(), p_edg.from().coordinate().longitude() - i );
                 m_streets.put( l_new.id(), l_new );
-                if ( i == 0 )
+                if ( i == 1 )
                 {
                     l_new.addUp( m_intersections.get( p_edg.from().id() + l_dl ) );
                     m_intersections.get( p_edg.from().id() + l_dl ).addDown( l_new );
                 }
-                if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
+                else if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
                 {
                     l_new.addUp( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
                     l_new.addDown( m_intersections.get( p_edg.to().id() + l_ul ) );
                     m_intersections.get( p_edg.to().id() + l_ul ).addUp( l_new );
                 }
-                else l_new.addLeft( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
+                else
+                {
+                    l_new.addUp( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
+                    m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ).addDown( l_new );
+                }
+
             } );
 
     }
@@ -101,24 +105,29 @@ public class CJungBlock implements IBlockEnv
     {
         final String l_ur = "ur";
         final String l_dr = "dr";
-        IntStream.range( 0, Integer.valueOf( String.valueOf( p_edg.length() ) ) )
+        IntStream.range( 1, p_edg.length() )
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() + 1, p_edg.from().coordinate().longitude() + 1 );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude(), p_edg.from().coordinate().longitude() + i );
                 m_streets.put( l_new.id(), l_new );
-                if ( i == 0 )
+                if ( i == 1 )
                 {
                     l_new.addDown( m_intersections.get( p_edg.from().id() + l_ur ) );
                     m_intersections.get( p_edg.from().id() + l_ur ).addUp( l_new );
                 }
-                if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
+                else if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
                 {
                     l_new.addDown( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
                     l_new.addUp( m_intersections.get( p_edg.to().id() + l_dr ) );
                     m_intersections.get( p_edg.to().id() + l_dr ).addDown( l_new );
                 }
-                else l_new.addLeft( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
+                else
+                {
+                    l_new.addDown( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
+                    m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ).addUp( l_new );
+                }
+
             } );
 
     }
@@ -127,24 +136,28 @@ public class CJungBlock implements IBlockEnv
     {
         final String l_dl = "dl";
         final String l_dr = "dr";
-        IntStream.range( 0, Integer.valueOf( String.valueOf( p_edg.length() ) ) )
+        IntStream.range( 1, p_edg.length() )
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() + 1, p_edg.from().coordinate().longitude() + 1 );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() - i, p_edg.from().coordinate().longitude() );
                 m_streets.put( l_new.id(), l_new );
-                if ( i == 0 )
+                if ( i == 1 )
                 {
                     l_new.addRight( m_intersections.get( p_edg.from().id() + l_dl ) );
                     m_intersections.get( p_edg.from().id() + l_dl ).addLeft( l_new );
                 }
-                if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
+                else if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
                 {
                     l_new.addRight( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
                     l_new.addLeft( m_intersections.get( p_edg.to().id() + l_dr ) );
                     m_intersections.get( p_edg.to().id() + l_dr ).addRight( l_new );
                 }
-                else l_new.addLeft( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
+                else
+                {
+                    l_new.addRight( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
+                    m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ).addLeft( l_new );
+                }
             } );
 
     }
@@ -153,24 +166,28 @@ public class CJungBlock implements IBlockEnv
     {
         final String l_dr = "dr";
         final String l_dl = "dl";
-        IntStream.range( 0, Integer.valueOf( String.valueOf( p_edg.length() ) ) )
+        IntStream.range( 1, p_edg.length()  )
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() + 1, p_edg.from().coordinate().longitude() + 1 );
+                final CBlock l_new = new CBlock( p_edg.id() + String.valueOf( i ), p_edg.from().coordinate().latitude() + i, p_edg.from().coordinate().longitude() );
                 m_streets.put( l_new.id(), l_new );
-                if ( i == 0 )
+                if ( i == 1 )
                 {
                     l_new.addLeft( m_intersections.get( p_edg.from().id() + l_dr ) );
                     m_intersections.get( p_edg.from().id() + l_dr ).addRight( l_new );
                 }
-                if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
+                else if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
                 {
                     l_new.addLeft( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
                     l_new.addRight( m_intersections.get( p_edg.to().id() + l_dl ) );
                     m_intersections.get( p_edg.to().id() + l_dl ).addLeft( l_new );
                 }
-                else l_new.addLeft( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
+                else
+                {
+                    l_new.addLeft( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
+                    m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ).addRight( l_new );
+                }
             } );
     }
 
@@ -200,6 +217,15 @@ public class CJungBlock implements IBlockEnv
         p_ul.addDown( p_dl );
         p_ur.addLeft( p_ul );
         p_ur.addDown( p_dr );
+    }
+
+    /**
+     * shows the sizes of the network, for testing purposes
+     */
+    public void returnsizes()
+    {
+        System.out.println( m_intersections.size() );
+        System.out.println( m_streets.size() );
     }
 
 }

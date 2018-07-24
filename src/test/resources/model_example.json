@@ -11,200 +11,200 @@
         "name" : "node0",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       {
         "name" : "node1",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 0
+          "lat": 100,
+          "lon": 0
         }
       },
       {
         "name" : "node2",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 0
+          "lat": 200,
+          "lon": 0
         }
       },
       {
         "name" : "node3",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 0
+          "lat": 300,
+          "lon": 0
         }
       },
       {
         "name" : "node4",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 0
+          "lat": 400,
+          "lon": 0
         }
       },
       {
         "name" : "node5",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 100
+          "lat": 0,
+          "lon": 100
         }
       },
       {
         "name" : "node6",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 100
+          "lat": 100,
+          "lon": 100
         }
       },
       {
         "name" : "node7",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 100
+          "lat": 200,
+          "lon": 100
         }
       },
       {
         "name" : "node8",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 100
+          "lat": 300,
+          "lon": 100
         }
       },
       {
         "name" : "node9",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 100
+          "lat": 400,
+          "lon": 100
         }
       },
       {
         "name" : "node10",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 200
+          "lat": 0,
+          "lon": 200
         }
       },
       {
         "name" : "node11",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 200
+          "lat": 100,
+          "lon": 200
         }
       },
       {
         "name" : "node12",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 200
+          "lat": 200,
+          "lon": 200
         }
       },
       {
         "name" : "node13",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 200
+          "lat": 300,
+          "lon": 200
         }
       },
       {
         "name" : "node14",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 200
+          "lat": 400,
+          "lon": 200
         }
       },
       {
         "name" : "node15",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 300
+          "lat": 0,
+          "lon": 300
         }
       },
       {
         "name" : "node16",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 300
+          "lat": 100,
+          "lon": 300
         }
       },
       {
         "name" : "node17",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 300
+          "lat": 200,
+          "lon": 300
         }
       },
       {
         "name" : "node18",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 300
+          "lat": 300,
+          "lon": 300
         }
       },
       {
         "name" : "node19",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 300
+          "lat": 400,
+          "lon": 300
         }
       },
       {
         "name" : "node20",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 400
+          "lat": 0,
+          "lon": 400
         }
       },
       {
         "name" : "node21",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 400
+          "lat": 100,
+          "lon": 400
         }
       },
       {
         "name" : "node22",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 400
+          "lat": 200,
+          "lon": 400
         }
       },
       {
         "name" : "node23",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 400
+          "lat": 300,
+          "lon": 400
         }
       },
       {
         "name" : "node24",
         "coordinates": {
           "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 400
+          "lat": 400,
+          "lon": 400
         }
       }
     ],
@@ -555,6 +555,21 @@
         }
       },
       {
+        "name": "edge14-13",
+        "from": "node14",
+        "to": "node13",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
         "name": "edge15-16",
         "from": "node15",
         "to": "node16",
@@ -646,8 +661,8 @@
       },
       {
         "name": "edge18-19",
-        "from": "node19",
-        "to": "node18",
+        "from": "node18",
+        "to": "node19",
         "weight" : 1,
         "poi distribution function" : {
           "name" : "even",
@@ -751,8 +766,8 @@
       },
       {
         "name": "edge23-22",
-        "from": "node20",
-        "to": "node21",
+        "from": "node23",
+        "to": "node22",
         "weight" : 1,
         "poi distribution function" : {
           "name" : "even",
@@ -900,9 +915,9 @@
         }
       },
       {
-        "name": "edge3-8",
-        "from": "node3",
-        "to": "node8",
+        "name": "edge8-3",
+        "from": "node8",
+        "to": "node3",
         "weight" : 1,
         "poi distribution function" : {
           "name" : "even",
@@ -1365,7 +1380,7 @@
         }
       },
       {
-        "name": "edge19-25",
+        "name": "edge19-24",
         "from": "node19",
         "to": "node24",
         "weight" : 1,

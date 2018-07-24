@@ -78,9 +78,9 @@ public class CEdge implements IEdge
     }
 
     @Override
-    public Double length()
+    public int length()
     {
-        return Math.sqrt( Math.pow( m_from.coordinate().latitude() - m_to.coordinate().latitude(), 2 )
+        return (int) Math.sqrt( Math.pow( m_from.coordinate().latitude() - m_to.coordinate().latitude(), 2 )
             + Math.pow( m_from.coordinate().longitude() - m_to.coordinate().longitude(), 2 ) );
     }
 
