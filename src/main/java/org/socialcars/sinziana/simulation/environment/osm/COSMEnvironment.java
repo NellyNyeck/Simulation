@@ -56,7 +56,7 @@ public class COSMEnvironment
 
     private final Double m_granularity = 0.000009004;
 
-    private final Double m_radius = 6371e3;
+
 
     /**
      * ctor
@@ -349,52 +349,7 @@ public class COSMEnvironment
         return l_mapviewer;
     }
 
-    /**
-     * calculates the distance between two geopoints
-     * @param p_one first geopoint
-     * @param p_two second geopoint
-     * @return distance in meters
-     */
-    public Double calculateDistance( final GeoPosition p_one, final GeoPosition p_two )
-    {
 
-        final Double l_deltalat = Math.toRadians( p_two.getLatitude() ) - Math.toRadians( p_one.getLatitude() );
-        final Double l_deltalon = Math.toRadians( p_two.getLongitude() ) - Math.toRadians( p_one.getLongitude() );
-        final Double l_alpha = Math.sin( l_deltalat / 2 ) * Math.sin( l_deltalat / 2 )
-            + Math.cos( Math.toRadians( p_one.getLatitude() ) ) * Math.cos( Math.toRadians( p_two.getLatitude() ) )
-            * Math.sin( l_deltalon / 2 ) * Math.sin( l_deltalon / 2 );
-        return m_radius * ( 2 * Math.atan2( Math.sqrt( l_alpha ), Math.sqrt( 1 - l_alpha ) ) );
-    }
-
-    /**
-     * calculates the bearing of a street
-     * @param p_one biginning of the street
-     * @param p_two end of the street
-     * @return bearing in degrees ( 0 - 360 )
-     */
-    public Double calculateBearing( final GeoPosition p_one, final GeoPosition p_two )
-    {
-        final Double l_yg = Math.sin( p_two.getLongitude() - p_one.getLatitude() ) * Math.cos( p_two.getLatitude() );
-        final Double l_xs = Math.cos( p_one.getLatitude() ) * Math.sin( p_two.getLatitude() )
-            - Math.sin( p_one.getLatitude() ) * Math.cos( p_two.getLatitude() ) * Math.cos( p_two.getLongitude() - p_one.getLongitude() );
-        return Math.toDegrees( Math.atan2( l_yg, l_xs ) );
-    }
-
-    /**
-     * calculates next Geoposition on said street at the given distance considering the streets bearing
-     * @param p_pos first position
-     * @param p_dist the distance
-     * @param p_brng the bearing
-     * @return the new geoposition
-     */
-    public GeoPosition calculateNext( final GeoPosition p_pos, final Double p_dist, final Double p_brng )
-    {
-        final Double l_lat2 = Math.asin( Math.sin( p_pos.getLatitude() ) * Math.cos( p_dist / m_radius )
-            + Math.cos( p_pos.getLatitude() ) * Math.sin( p_dist / m_radius ) * Math.cos( p_brng ) );
-        final Double l_long2 = p_pos.getLongitude() + Math.atan2( Math.sin( p_brng ) * Math.sin( p_dist / m_radius ) * Math.cos( p_pos.getLatitude() ),
-            Math.cos( p_dist / m_radius ) - Math.sin( p_pos.getLatitude() ) * Math.sin( l_lat2 ) );
-        return new GeoPosition( l_lat2, l_long2 );
-    }
 
     /**
      * function to check environment granularity of geopoints

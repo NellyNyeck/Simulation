@@ -24,7 +24,7 @@ public class TestCOMSBlockLarge
     public void init() throws IOException
     {
         m_osmenv = new COSMEnvironment( "src/test/resources/spain-latest.osm.pbf", "src/test/Barcelona", 41.420472, 41.374398,  2.203925, 2.144553 );
-        m_env = new COSMBlock( m_osmenv, 1.00, "streets.json" );
+        m_env = new COSMBlock( 1.00, "streets.json" );
     }
 
     private void testmap()
