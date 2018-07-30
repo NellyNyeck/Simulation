@@ -2,7 +2,7 @@ package org.socialcars.sinziana.simulation.environment.blocks;
 
 import org.socialcars.sinziana.simulation.elements.IElement;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * the block interface
@@ -11,13 +11,13 @@ public interface IBlock
 {
     String id();
 
-    HashMap<String, CBlock> up();
+    ArrayList<CBlock> up();
 
-    HashMap<String, CBlock> down();
+    ArrayList<CBlock> down();
 
-    HashMap<String, CBlock> right();
+    ArrayList<CBlock> right();
 
-    HashMap<String, CBlock> left();
+    ArrayList<CBlock> left();
 
     boolean occupied();
 

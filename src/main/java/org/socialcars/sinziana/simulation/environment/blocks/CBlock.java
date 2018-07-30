@@ -2,7 +2,7 @@ package org.socialcars.sinziana.simulation.environment.blocks;
 
 import org.socialcars.sinziana.simulation.elements.IElement;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * the block class
@@ -13,10 +13,10 @@ public class CBlock implements IBlock
     private final Double m_coord1;
     private final Double m_coord2;
 
-    private final HashMap<String, CBlock> m_up;
-    private final HashMap<String, CBlock> m_down;
-    private final HashMap<String, CBlock> m_left;
-    private final HashMap<String, CBlock> m_right;
+    private final ArrayList<CBlock> m_up;
+    private final ArrayList<CBlock> m_down;
+    private final ArrayList<CBlock> m_left;
+    private final ArrayList<CBlock> m_right;
 
     private IElement m_occupiedby;
 
@@ -29,30 +29,30 @@ public class CBlock implements IBlock
         m_id = p_id;
         m_coord1 = p_coo1;
         m_coord2 = p_coo2;
-        m_up = new HashMap<>();
-        m_down = new HashMap<>();
-        m_left = new HashMap<>();
-        m_right = new HashMap<>();
+        m_up = new ArrayList<>();
+        m_down = new ArrayList<>();
+        m_left = new ArrayList<>();
+        m_right = new ArrayList<>();
     }
 
     public void addUp( final CBlock p_up )
     {
-        m_up.put( p_up.id(), p_up );
+        m_up.add( p_up );
     }
 
     public void addDown( final CBlock p_down )
     {
-        m_down.put( p_down.id(), p_down );
+        m_down.add( p_down );
     }
 
     public void addRight( final CBlock p_right )
     {
-        m_right.put( p_right.id(), p_right );
+        m_right.add( p_right );
     }
 
     public void addLeft( final CBlock p_left )
     {
-        m_left.put( p_left.id(), p_left );
+        m_left.add( p_left );
     }
 
     public Double get1()
@@ -72,25 +72,25 @@ public class CBlock implements IBlock
     }
 
     @Override
-    public HashMap<String, CBlock> up()
+    public ArrayList<CBlock> up()
     {
         return m_up;
     }
 
     @Override
-    public HashMap<String, CBlock> down()
+    public ArrayList<CBlock> down()
     {
         return m_down;
     }
 
     @Override
-    public HashMap<String, CBlock> right()
+    public ArrayList<CBlock> right()
     {
         return m_right;
     }
 
     @Override
-    public HashMap<String, CBlock> left()
+    public ArrayList<CBlock> left()
     {
         return m_left;
     }
@@ -121,10 +121,10 @@ public class CBlock implements IBlock
      */
     public boolean isNeighbour( final CBlock p_block )
     {
-        if ( m_right.containsValue( p_block ) ) return true;
-        if ( m_left.containsValue( p_block ) ) return  true;
-        if ( m_down.containsValue( p_block ) ) return  true;
-        if ( m_up.containsValue( p_block ) ) return true;
+        if ( m_right.contains( p_block ) ) return true;
+        if ( m_left.contains( p_block ) ) return  true;
+        if ( m_down.contains( p_block ) ) return  true;
+        if ( m_up.contains( p_block ) ) return true;
         return false;
     }
 

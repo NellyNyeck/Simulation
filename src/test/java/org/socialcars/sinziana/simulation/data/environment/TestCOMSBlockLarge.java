@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * test class for osm block environment
  */
-public class TestCOMSBlock
+public class TestCOMSBlockLarge
 {
 
     private COSMEnvironment m_osmenv;
@@ -24,7 +24,7 @@ public class TestCOMSBlock
     public void init() throws IOException
     {
         m_osmenv = new COSMEnvironment( "src/test/resources/spain-latest.osm.pbf", "src/test/Barcelona", 41.420472, 41.374398,  2.203925, 2.144553 );
-        m_env = new COSMBlock( m_osmenv, 1.00 );
+        m_env = new COSMBlock( m_osmenv, 1.00, "streets.json" );
     }
 
     private void testmap()
@@ -41,7 +41,7 @@ public class TestCOMSBlock
      */
     public static void main( final String[] p_args ) throws IOException
     {
-        final TestCOMSBlock l_test = new TestCOMSBlock();
+        final TestCOMSBlockLarge l_test = new TestCOMSBlockLarge();
         l_test.init();
         l_test.testmap();
     }

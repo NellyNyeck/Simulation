@@ -71,16 +71,6 @@ public class TestCOSMmapBucharest
     }
 
     /**
-     * testing poking around
-     */
-    @Test
-    public void pokingaround()
-    {
-        Assume.assumeNotNull( m_env );
-        m_env.pokingAround();
-    }
-
-    /**
      * main
      * @param p_args cli
      * @throws IOException file
@@ -95,7 +85,6 @@ public class TestCOSMmapBucharest
         l_test.m_env.routeOne( l_start, l_finish );
         l_test.m_env.drawRoutes( List.of( l_test.m_env.route( l_start, l_finish, Stream.empty() ) ) );*/
         //l_test.route();
-        //l_test.heat();
-        l_test.pokingaround();
+        // l_test.heat();
     }
 }

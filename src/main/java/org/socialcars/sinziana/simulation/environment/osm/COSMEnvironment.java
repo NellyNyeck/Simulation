@@ -5,12 +5,12 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.routing.Path;
 import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Instruction;
 import com.graphhopper.util.PointList;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -55,6 +55,8 @@ public class COSMEnvironment
     private final GeoPosition m_bottomright;
 
     private final Double m_granularity = 0.000009004;
+
+    private final Double m_radius = 6371e3;
 
     /**
      * ctor
@@ -260,15 +262,15 @@ public class COSMEnvironment
     private void writeHeat( final HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
         final FileWriter l_writer = new FileWriter( "heatmap.json" );
-        final HashMap<Integer, CStructure> l_heats = new HashMap<>();
+        final HashMap<Integer, CVisitedStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p ->
         {
             final int l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getEdge();
-            CStructure l_new = l_heats.get( l_id );
+            CVisitedStructure l_new = l_heats.get( l_id );
             if ( l_new == null )
             {
-                l_new = new CStructure( l_id,
+                l_new = new CVisitedStructure( l_id,
                     m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(),
                     m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName(),
                     p_values.get( p ) );
@@ -355,14 +357,13 @@ public class COSMEnvironment
      */
     public Double calculateDistance( final GeoPosition p_one, final GeoPosition p_two )
     {
-        final Double l_radius = 6371e3;
+
         final Double l_deltalat = Math.toRadians( p_two.getLatitude() ) - Math.toRadians( p_one.getLatitude() );
         final Double l_deltalon = Math.toRadians( p_two.getLongitude() ) - Math.toRadians( p_one.getLongitude() );
         final Double l_alpha = Math.sin( l_deltalat / 2 ) * Math.sin( l_deltalat / 2 )
             + Math.cos( Math.toRadians( p_one.getLatitude() ) ) * Math.cos( Math.toRadians( p_two.getLatitude() ) )
             * Math.sin( l_deltalon / 2 ) * Math.sin( l_deltalon / 2 );
-        final Double l_gamma =  2 * Math.atan2( Math.sqrt( l_alpha ), Math.sqrt( 1 - l_alpha ) );
-        return l_radius * l_gamma;
+        return m_radius * ( 2 * Math.atan2( Math.sqrt( l_alpha ), Math.sqrt( 1 - l_alpha ) ) );
     }
 
     /**
@@ -388,23 +389,22 @@ public class COSMEnvironment
      */
     public GeoPosition calculateNext( final GeoPosition p_pos, final Double p_dist, final Double p_brng )
     {
-        final Double l_radius = 6371e3;
-        final Double l_lat2 = Math.asin( Math.sin( p_pos.getLatitude() ) * Math.cos( p_dist / l_radius )
-            + Math.cos( p_pos.getLatitude() ) * Math.sin( p_dist / l_radius ) * Math.cos( p_brng ) );
-        final Double l_long2 = p_pos.getLongitude() + Math.atan2( Math.sin( p_brng ) * Math.sin( p_dist / l_radius ) * Math.cos( p_pos.getLatitude() ),
-            Math.cos( p_dist / l_radius ) - Math.sin( p_pos.getLatitude() ) * Math.sin( l_lat2 ) );
+        final Double l_lat2 = Math.asin( Math.sin( p_pos.getLatitude() ) * Math.cos( p_dist / m_radius )
+            + Math.cos( p_pos.getLatitude() ) * Math.sin( p_dist / m_radius ) * Math.cos( p_brng ) );
+        final Double l_long2 = p_pos.getLongitude() + Math.atan2( Math.sin( p_brng ) * Math.sin( p_dist / m_radius ) * Math.cos( p_pos.getLatitude() ),
+            Math.cos( p_dist / m_radius ) - Math.sin( p_pos.getLatitude() ) * Math.sin( l_lat2 ) );
         return new GeoPosition( l_lat2, l_long2 );
     }
 
     /**
      * function to check environment granularity of geopoints
      */
-    public void pokingAround()
-    {
+    //public void pokingAround()
+    //{
         /*final GeoPosition l_bar = new GeoPosition( 41.398059, 2.159816 );
         final GeoPosition l_restaurant = new GeoPosition( 41.397667, 2.160041 );
         System.out.println( calculateDistance( l_bar, l_restaurant ) );*/
-
+/*
         IntStream.range( 0, 10 )
             .boxed()
             .forEach( i ->
@@ -417,63 +417,60 @@ public class COSMEnvironment
                 //System.out.println( l_rando.getLongitude() );
                 System.out.println( calculateDistance( l_rando, l_next ) );
             } );
-    }
+    }*/
 
     /**
      * gets geopositions of (hopefully) evey street
      * @return geopoints
+     * @throws IOException file
      */
-    public HashMap<Integer, CEdgeStructure> getEdges()
+    public HashMap<Integer, CStreetStructure> getEdges() throws IOException
     {
-        final HashMap<Integer, CEdgeStructure> l_edges = new HashMap<>();
-        IntStream.range( 0, 100000 )
+
+        final HashMap<Integer, CStreetStructure> l_edges = new HashMap<>();
+        IntStream.range( 0, 10000 )
             .boxed()
             .forEach( i ->
             {
                 final GeoPosition l_random = randomnode();
                 final EdgeIteratorState l_edg  = m_hopper.getLocationIndex().findClosest( l_random.getLatitude(), l_random.getLongitude(),
                     EdgeFilter.ALL_EDGES ).getClosestEdge();
-                final PointList l_points = l_edg.fetchWayGeometry( 3 );
-                final CEdgeStructure l_new = new CEdgeStructure( l_edg.getEdge(), l_edg.getName(),
-                    new GeoPosition( l_points.getLatitude( 0 ), l_points.getLongitude( 0 ) ),
-                    new GeoPosition( l_points.getLatitude( l_points.size() - 1 ), l_points.getLongitude( l_points.size() - 1 ) ) );
-                l_edges.put( l_edg.getEdge(), l_new );
+                if ( !l_edges.containsKey( l_edg.getEdge() ) )
+                {
+                    final PointList l_points = l_edg.fetchWayGeometry( 3 );
+                    final CStreetStructure l_new = new CStreetStructure( l_edg.getEdge(), l_edg.getName(),
+                        new GeoPosition( l_points.getLatitude( 0 ), l_points.getLongitude( 0 ) ),
+                        new GeoPosition( l_points.getLatitude( l_points.size() - 1 ), l_points.getLongitude( l_points.size() - 1 ) ) );
+                    l_edges.put( l_edg.getEdge(), l_new );
+                }
             } );
+        writeStreets( l_edges );
         return l_edges;
     }
 
     /**
-     * digging around
+     * writes the streets to file
+     * @param p_streets the streets
+     * @throws IOException file
      */
-    public void check()
+    public void writeStreets( final HashMap<Integer, CStreetStructure> p_streets ) throws IOException
     {
-        final ArrayList<GeoPosition> l_positions = new ArrayList<>();
-        final GeoPosition l_start = new GeoPosition( 41.408356, 2.156557 );
-        final GeoPosition l_finish = new GeoPosition( 41.407004, 2.157922 );
-        final GHRequest l_req = new GHRequest( l_start.getLatitude(), l_start.getLongitude(), l_finish.getLatitude(), l_finish.getLongitude() );
-        final GHResponse l_resp = new GHResponse();
-        final List<Path> l_path = m_hopper.calcPaths( l_req, l_resp );
-        for ( final Path l_pa : l_path )
-        {
-            final PointList l_points = l_pa.calcPoints();
-            IntStream.range( 0, l_points.size() )
-                .boxed()
-                .forEach( j -> l_positions.add( new GeoPosition( l_points.getLatitude( j ), l_points.getLongitude( j ) ) ) );
-        }
-        l_positions.forEach( p ->
-        {
-            System.out.println( p.getLatitude() + "  "  + p.getLongitude() );
-        } );
+        final FileWriter l_writer = new FileWriter( "streets.json" );
+        final JSONArray l_result = new JSONArray();
+        p_streets.keySet().forEach( s -> l_result.add( p_streets.get( s ).toMap() ) );
+        l_writer.write( l_result.toJSONString() );
+        l_writer.flush();
+        l_writer.close();
     }
 
-    private class CStructure
+    private class CVisitedStructure
     {
         private final Integer m_id;
         private final String m_name;
         private Integer m_visited;
         private final Double m_distance;
 
-        CStructure( final Integer p_id, final Double p_distance, final String p_name, final Integer p_visited )
+        CVisitedStructure( final Integer p_id, final Double p_distance, final String p_name, final Integer p_visited )
         {
             m_id = p_id;
             m_distance = p_distance;
@@ -496,6 +493,8 @@ public class COSMEnvironment
             return l_map;
         }
     }
+
+
 
 
 

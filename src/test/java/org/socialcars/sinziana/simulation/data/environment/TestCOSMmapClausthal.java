@@ -71,16 +71,6 @@ public class TestCOSMmapClausthal
     }
 
     /**
-     * testing poking around
-     */
-    @Test
-    public void pokingaround()
-    {
-        Assume.assumeNotNull( m_env );
-        m_env.pokingAround();
-    }
-
-    /**
      * main
      * @param p_args cli
      * @throws IOException file
@@ -91,6 +81,5 @@ public class TestCOSMmapClausthal
         l_test.init();
         //l_test.route();
         //l_test.heat();
-        l_test.pokingaround();
     }
 }

@@ -24,7 +24,7 @@ public class TestCOSMmapBarcaSmall
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/spain-latest.osm.pbf", "src/test/Barcelona", 41.412895, 41.399428,  2.184461, 2.164316 );
+        m_env = new COSMEnvironment( "src/test/resources/spain-latest.osm.pbf", "src/test/Barcelona", 41.412895, 41.409428,  2.184461, 2.174316 );
     }
 
     /**
@@ -67,10 +67,10 @@ public class TestCOSMmapBarcaSmall
     }
 
     @Test
-    private void check()
+    private void check() throws IOException
     {
         Assume.assumeNotNull( m_env );
-        System.out.println( m_env.calculateBearing( m_env.randomnode(), m_env.randomnode() ) );
+        System.out.println( m_env.getEdges().size() );
     }
 
     /**

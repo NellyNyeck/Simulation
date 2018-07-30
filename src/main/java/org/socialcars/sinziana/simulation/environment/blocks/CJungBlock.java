@@ -74,11 +74,11 @@ public class CJungBlock implements IBlockEnv
     {
         final String l_ul = "ul";
         final String l_dl = "dl";
-        IntStream.range( 1,  p_edg.length() )
+        IntStream.range( 1, (int) ( p_edg.length() / m_blocksize ) )
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude(), p_edg.from().coordinate().longitude() - i );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude(), p_edg.from().coordinate().longitude() - m_blocksize );
                 m_streets.put( l_new.id(), l_new );
                 if ( i == 1 )
                 {
@@ -105,11 +105,11 @@ public class CJungBlock implements IBlockEnv
     {
         final String l_ur = "ur";
         final String l_dr = "dr";
-        IntStream.range( 1, p_edg.length() )
+        IntStream.range( 1, (int) ( p_edg.length() / m_blocksize ) )
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude(), p_edg.from().coordinate().longitude() + i );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude(), p_edg.from().coordinate().longitude() + m_blocksize );
                 m_streets.put( l_new.id(), l_new );
                 if ( i == 1 )
                 {
@@ -136,11 +136,11 @@ public class CJungBlock implements IBlockEnv
     {
         final String l_dl = "dl";
         final String l_dr = "dr";
-        IntStream.range( 1, p_edg.length() )
+        IntStream.range( 1, (int) ( p_edg.length() / m_blocksize ) )
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() - i, p_edg.from().coordinate().longitude() );
+                final CBlock l_new = new CBlock( p_edg.id() + i, p_edg.from().coordinate().latitude() - m_blocksize, p_edg.from().coordinate().longitude() );
                 m_streets.put( l_new.id(), l_new );
                 if ( i == 1 )
                 {
@@ -166,11 +166,11 @@ public class CJungBlock implements IBlockEnv
     {
         final String l_dr = "dr";
         final String l_dl = "dl";
-        IntStream.range( 1, p_edg.length()  )
+        IntStream.range( 1, (int) ( p_edg.length() / m_blocksize ) )
             .boxed()
             .forEach( i ->
             {
-                final CBlock l_new = new CBlock( p_edg.id() + String.valueOf( i ), p_edg.from().coordinate().latitude() + i, p_edg.from().coordinate().longitude() );
+                final CBlock l_new = new CBlock( p_edg.id() + String.valueOf( i ), p_edg.from().coordinate().latitude() + m_blocksize, p_edg.from().coordinate().longitude() );
                 m_streets.put( l_new.id(), l_new );
                 if ( i == 1 )
                 {

@@ -66,19 +66,8 @@ public class TestCOSMmapBarcelona
         m_env.drawHeat( l_routes );
     }
 
-    /**
-     * testing poking around
-     */
     @Test
-    public void pokingaround()
-    {
-        Assume.assumeNotNull( m_env );
-        //m_env.pokingAround();
-        m_env.check();
-    }
-
-    @Test
-    private void check()
+    private void check() throws IOException
     {
         Assume.assumeNotNull( m_env );
         System.out.println( m_env.getEdges().size() );

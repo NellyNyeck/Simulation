@@ -1,12 +1,10 @@
 package org.socialcars.sinziana.simulation.environment.blocks;
 
 import org.jxmapviewer.viewer.GeoPosition;
-import org.socialcars.sinziana.simulation.environment.osm.CEdgeStructure;
 import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
+import org.socialcars.sinziana.simulation.environment.osm.CStreetStructure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 
@@ -19,6 +17,7 @@ public class COSMBlock implements IBlockEnv
     private final Double m_blocksize;
     private ArrayList<CBlock> m_blocks;
     private final String m_connector;
+    private final String m_filename;
 
     private final COSMEnvironment m_env;
 
@@ -27,55 +26,31 @@ public class COSMBlock implements IBlockEnv
      * @param p_env evironment
      * @param p_blocksize size of the block
      */
-    public COSMBlock( final COSMEnvironment p_env, final Double p_blocksize )
+    public COSMBlock( final COSMEnvironment p_env, final Double p_blocksize, final String p_file )
     {
         m_env = p_env;
         m_blocksize = p_blocksize;
         m_blocks = new ArrayList<>();
         m_connector = "_";
+        m_filename = p_file;
     }
 
     @Override
     public void map()
     {
-        final HashMap<Integer, CEdgeStructure> l_edges = m_env.getEdges();
-        final Set<Integer> l_keys = l_edges.keySet();
-        l_keys.forEach( k ->
-        {
-            final Double l_dist = m_env.calculateDistance( l_edges.get( k ).start(), l_edges.get( k ).end() );
-            final Double l_bearingb = m_env.calculateBearing( l_edges.get( k ).start(), l_edges.get( k ).end() );
 
-            if ( l_dist < m_blocksize )
-            {
-                final CBlock l_new = new CBlock( l_edges.get( k ).start().getLatitude() + m_connector + l_edges.get( k ).start().getLongitude(),
-                    l_edges.get( k ).start().getLatitude(), l_edges.get( k ).start().getLongitude()  );
-                m_blocks.add( l_new );
-            }
-            else if ( l_dist / m_blocksize < 2 )
-            {
-                final CBlock l_new1 = new CBlock( l_edges.get( k ).start().getLatitude() + m_connector + l_edges.get( k ).start().getLongitude(),
-                    l_edges.get( k ).start().getLatitude(), l_edges.get( k ).start().getLongitude()  );
-                final CBlock l_new2 = new CBlock( l_edges.get( k ).end().getLatitude() + m_connector + l_edges.get( k ).end().getLongitude(),
-                    l_edges.get( k ).end().getLatitude(), l_edges.get( k ).end().getLongitude()  );
-                connectwithBearing( l_bearingb, l_new1, l_new2 );
-            }
-            else if ( l_dist / m_blocksize >= 2 )
-            {
-                createLongStreet( l_dist, l_bearingb, l_edges.get( k ) );
-            }
-        } );
+
         connecttheBlocks();
     }
 
-    private void createLongStreet( final Double p_dist, final Double p_bearing, final CEdgeStructure p_struct )
+    private void createLongStreet( final Double p_dist, final Double p_bearing, final CStreetStructure p_struct )
     {
         final CBlock l_start = new CBlock( p_struct.start().getLatitude() + m_connector + p_struct.start().getLongitude(),
             p_struct.start().getLatitude(), p_struct.start().getLongitude()  );
         final CBlock l_end = new CBlock( p_struct.end().getLatitude() + m_connector + p_struct.end().getLongitude(),
             p_struct.end().getLatitude(), p_struct.end().getLongitude()  );
         final CBlock[] l_temp = {l_start};
-        final int l_nb = (int) ( p_dist / m_blocksize );
-        IntStream.range( 1, l_nb + 1 )
+        IntStream.range( 1, (int) ( p_dist / m_blocksize  + 1 ) )
             .boxed()
             .forEach( i ->
             {
@@ -84,6 +59,7 @@ public class COSMBlock implements IBlockEnv
                 connectwithBearing( p_bearing, l_temp[0], l_new );
                 l_temp[0] = l_new;
             } );
+        connectwithBearing( p_bearing, l_temp[0], l_end );
     }
 
     private void connectwithBearing( final Double p_bearing, final CBlock p_one, final CBlock p_two )
