@@ -411,9 +411,9 @@ public class COSMEnvironment
     public void writeStreets( final HashMap<Integer, CStreetStructure> p_streets ) throws IOException
     {
         final FileWriter l_writer = new FileWriter( "streets.json" );
-        final JSONArray l_result = new JSONArray();
-        p_streets.keySet().forEach( s -> l_result.add( p_streets.get( s ).toMap() ) );
-        l_writer.write( l_result.toJSONString() );
+        final ArrayList<CStreetStructure> l_result = new ArrayList<>();
+        p_streets.keySet().forEach( s -> l_result.add( p_streets.get( s ) ) );
+        l_writer.write( ( (JSONArray) l_result ).toJSONString() );
         l_writer.flush();
         l_writer.close();
     }

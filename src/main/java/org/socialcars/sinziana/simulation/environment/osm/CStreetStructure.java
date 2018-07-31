@@ -15,7 +15,14 @@ public class CStreetStructure
     private final GeoPosition m_start;
     private final GeoPosition m_end;
 
-    CStreetStructure( final Integer p_id, final String p_name, final GeoPosition p_start, final GeoPosition p_end )
+    /**
+     * ctor
+     * @param p_id id
+     * @param p_name name
+     * @param p_start start geopoint
+     * @param p_end end geopoint
+     */
+    public CStreetStructure( final Integer p_id, final String p_name, final GeoPosition p_start, final GeoPosition p_end )
     {
         m_id = p_id;
         m_name = p_name;

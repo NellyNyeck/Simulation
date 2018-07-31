@@ -1,6 +1,7 @@
 package org.socialcars.sinziana.simulation.environment.blocks;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -60,9 +61,12 @@ public class COSMBlock implements IBlockEnv
                 {
                     final CBlock l_new1 = new CBlock( s.start().getLatitude() + m_connector + s.start().getLongitude(),
                         s.start().getLatitude(), s.start().getLongitude()  );
+                    m_blocks.add( l_new1 );
                     final CBlock l_new2 = new CBlock( s.end().getLatitude() + m_connector + s.end().getLongitude(),
                         s.end().getLatitude(), s.end().getLongitude()  );
+                    m_blocks.add( l_new2 );
                     connectwithBearing( l_bearingb, l_new1, l_new2 );
+
                 }
                 else if ( l_dist / m_blocksize >= 2 )
                 {
@@ -86,8 +90,10 @@ public class COSMBlock implements IBlockEnv
     {
         final CBlock l_start = new CBlock( p_struct.start().getLatitude() + m_connector + p_struct.start().getLongitude(),
             p_struct.start().getLatitude(), p_struct.start().getLongitude()  );
+        m_blocks.add( l_start );
         final CBlock l_end = new CBlock( p_struct.end().getLatitude() + m_connector + p_struct.end().getLongitude(),
             p_struct.end().getLatitude(), p_struct.end().getLongitude()  );
+        m_blocks.add( l_end );
         final CBlock[] l_temp = {l_start};
         IntStream.range( 1, (int) ( p_dist / m_blocksize  + 1 ) )
             .boxed()
@@ -95,6 +101,7 @@ public class COSMBlock implements IBlockEnv
             {
                 final GeoPosition l_pos = calculateNext( new GeoPosition( l_temp[0].get1(), l_temp[0].get2() ), m_blocksize, p_bearing );
                 final CBlock l_new = new CBlock( l_pos.getLatitude() + "_" + l_pos.getLongitude(), l_pos.getLatitude(), l_pos.getLongitude() );
+                m_blocks.add( l_new );
                 connectwithBearing( p_bearing, l_temp[0], l_new );
                 l_temp[0] = l_new;
             } );
@@ -131,7 +138,7 @@ public class COSMBlock implements IBlockEnv
         {
             m_blocks.forEach( bl ->
             {
-                if ( ( ( calculateDistance( new GeoPosition( b.get1(), b.get2() ), new GeoPosition( bl.get1(), bl.get2() ) ) ) < m_blocksize )
+                if ( ( ( calculateDistance( new GeoPosition( b.get1(), b.get2() ), new GeoPosition( bl.get1(), bl.get2() ) ) ) < 0.000009004 )
                     && ( !b.isNeighbour( bl ) ) )
                 {
                     connectwithBearing( calculateBearing( new GeoPosition( b.get1(), b.get2() ), new GeoPosition( bl.get1(), bl.get2() ) ), b, bl );
@@ -148,10 +155,21 @@ public class COSMBlock implements IBlockEnv
         final ArrayList<CStreetStructure> l_streets = new ArrayList<>();
         l_array.forEach(  o ->
         {
-            l_streets.add( (CStreetStructure) o );
+            final JSONObject l_obj = (JSONObject) o;
+            final Long l_id = (Long) l_obj.get( "id" );
+            final Integer l_ai = l_id.intValue();
+            l_streets.add( new CStreetStructure( l_ai, (String) l_obj.get( "name" ), newGeo( l_obj.get( "start" ) ), newGeo( l_obj.get( "end" ) ) ) );
         } );
 
         return l_streets;
+    }
+
+    private GeoPosition newGeo( final Object p_array )
+    {
+        final JSONArray l_obj = (JSONArray) p_array;
+        final Double l_lat = (Double) l_obj.get( 0 );
+        final Double l_long = (Double) l_obj.get( 1 );
+        return new GeoPosition( l_lat, l_long );
     }
 
     /**
@@ -205,5 +223,25 @@ public class COSMBlock implements IBlockEnv
     public Number getBlockSize()
     {
         return m_blocksize;
+    }
+
+    /**
+     * to see the connections of a block
+     */
+    public void connection( final int p_pos )
+    {
+        final CBlock l_block = m_blocks.get( p_pos );
+        System.out.println( l_block.id() );
+        System.out.println();
+        l_block.left().forEach( b ->
+        {
+            System.out.println( b.id() );
+        } );
+        System.out.println();
+        l_block.right().forEach( b ->
+        {
+            System.out.println( b.id() );
+        } );
+
     }
 }

@@ -21,7 +21,7 @@ public class TestCOSMBlockSmall
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMBlock( 0.000009004, "streets.json" );
+        m_env = new COSMBlock( 1.00, "streets.json" );
     }
 
     /**
@@ -35,6 +35,16 @@ public class TestCOSMBlockSmall
     }
 
     /**
+     * testing the connections of a random block
+     */
+    @Test
+    public void testConnection()
+    {
+        Assume.assumeNotNull( m_env );
+        m_env.connection( 14 );
+    }
+
+    /**
      * main
      * @param p_args cli
      * @throws IOException file
@@ -44,6 +54,7 @@ public class TestCOSMBlockSmall
         final TestCOSMBlockSmall l_test = new TestCOSMBlockSmall();
         l_test.init();
         l_test.testMap();
+        l_test.testConnection();
     }
 
 }
