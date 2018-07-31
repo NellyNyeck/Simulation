@@ -21,7 +21,7 @@ public class TestCOSMBlockSmall
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMBlock( 1.00, "streets.json" );
+        m_env = new COSMBlock( 1.00, "BarcaSmallStreets.json" );
     }
 
     /**
