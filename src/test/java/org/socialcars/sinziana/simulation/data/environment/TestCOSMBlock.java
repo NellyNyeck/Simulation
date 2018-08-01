@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * test class for osm block environment
  */
-public class TestCOSMBlockSmall
+public class TestCOSMBlock
 {
     private COSMBlock m_env;
 
@@ -21,7 +21,7 @@ public class TestCOSMBlockSmall
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMBlock( 1.00, "BarcaSmallStreets.json" );
+        m_env = new COSMBlock( 1.00, "BarcaFullStreets.json" );
     }
 
     /**
@@ -51,7 +51,7 @@ public class TestCOSMBlockSmall
      */
     public static void main( final String[] p_args ) throws IOException
     {
-        final TestCOSMBlockSmall l_test = new TestCOSMBlockSmall();
+        final TestCOSMBlock l_test = new TestCOSMBlock();
         l_test.init();
         l_test.testMap();
         l_test.testConnection();
