@@ -1,6 +1,7 @@
 package org.socialcars.sinziana.simulation.environment.blocks;
 
 import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -163,6 +164,7 @@ public class COSMBlock implements IBlockEnv
 
         return l_streets;
     }
+
 
     private GeoPosition newGeo( final Object p_array )
     {
