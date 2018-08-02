@@ -10,7 +10,6 @@ import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Instruction;
 import com.graphhopper.util.PointList;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -411,9 +410,10 @@ public class COSMEnvironment
     public void writeStreets( final HashMap<Integer, CStreetStructure> p_streets ) throws IOException
     {
         final FileWriter l_writer = new FileWriter( "streets.json" );
-        final JSONArray l_result = new JSONArray();
-        p_streets.keySet().forEach( s -> l_result.add( p_streets.get( s ).toMap() ) );
-        l_writer.write( l_result.toJSONString() );
+        final HashMap<Number, Object> l_result = new HashMap<Number, Object>();
+        p_streets.keySet().forEach( s -> l_result.put( s, p_streets.get( s ).toMap() ) );
+        final JSONObject l_json = new JSONObject( l_result );
+        l_writer.write( l_json.toJSONString() );
         l_writer.flush();
         l_writer.close();
     }

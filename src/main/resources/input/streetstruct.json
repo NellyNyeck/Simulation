@@ -23,7 +23,7 @@
             "maxItems" : 2
         },
         "id" : {
-            "type" : "number"
+            "type" : "integer"
         }
     },
     "required" : [

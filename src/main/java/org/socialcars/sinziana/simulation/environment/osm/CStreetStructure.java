@@ -1,6 +1,7 @@
 package org.socialcars.sinziana.simulation.environment.osm;
 
 import org.jxmapviewer.viewer.GeoPosition;
+import org.socialcars.sinziana.simulation.data.input.CStreetstructpojo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +16,25 @@ public class CStreetStructure
     private final GeoPosition m_start;
     private final GeoPosition m_end;
 
+
+    /**
+     * ctor
+     * @param p_pojo street structure plain java object
+     */
+    public CStreetStructure( final CStreetstructpojo p_pojo )
+    {
+        m_id = p_pojo.getId();
+        m_name = p_pojo.getName();
+        m_start = new GeoPosition( p_pojo.getStart().get( 0 ).doubleValue(), p_pojo.getStart().get( 1 ).doubleValue() );
+        m_end = new GeoPosition( p_pojo.getEnd().get( 0 ).doubleValue(), p_pojo.getEnd().get( 1 ).doubleValue()  );
+    }
+
     /**
      * ctor
      * @param p_id id
      * @param p_name name
-     * @param p_start start geopoint
-     * @param p_end end geopoint
+     * @param p_start start
+     * @param p_end end
      */
     public CStreetStructure( final Integer p_id, final String p_name, final GeoPosition p_start, final GeoPosition p_end )
     {

@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "An Address following the convention of http://microformats.org/wiki/hcard",
+  "type": "object",
+  "proprieties": {
+    "streets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "streetstruct.json"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "done": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "streets",
+    "done"
+  ]
+}

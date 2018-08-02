@@ -1,14 +1,10 @@
 package org.socialcars.sinziana.simulation.environment.blocks;
 
 import org.json.simple.JSONArray;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.socialcars.sinziana.simulation.environment.osm.CStreetStructure;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
@@ -150,19 +146,22 @@ public class COSMBlock implements IBlockEnv
 
     private ArrayList<CStreetStructure> readFile() throws IOException, ParseException
     {
+        /*CStreetspojo  l_streetsinput = new ObjectMapper().readValue( new File( m_filename ), CStreetspojo.class );
         final JSONParser l_parser = new JSONParser();
-        final JSONArray l_array = (JSONArray) l_parser.parse(
-            new FileReader( m_filename ) );
+        final Set<CStreetStructure> l_array = l_streetsinput.getAdditionalProperties();
+
         final ArrayList<CStreetStructure> l_streets = new ArrayList<>();
         l_array.forEach(  o ->
         {
             final JSONObject l_obj = (JSONObject) o;
             final Long l_id = (Long) l_obj.get( "id" );
             final Integer l_ai = l_id.intValue();
-            l_streets.add( new CStreetStructure( l_ai, (String) l_obj.get( "name" ), newGeo( l_obj.get( "start" ) ), newGeo( l_obj.get( "end" ) ) ) );
+            l_streets.add( new CStreetStructure(  ) );
         } );
 
-        return l_streets;
+        return l_streets;*/
+
+        return null;
     }
 
 
