@@ -7,7 +7,6 @@ import org.socialcars.sinziana.simulation.environment.osm.CStreetStructure;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.stream.IntStream;
 
 
 /**
@@ -40,7 +39,7 @@ public class COSMBlock implements IBlockEnv
     public void map()
     {
         final ArrayList<CStreetStructure> l_streets;
-        try
+        /*try
         {
             l_streets = readFile();
             l_streets.forEach( s ->
@@ -79,13 +78,13 @@ public class COSMBlock implements IBlockEnv
         catch ( final ParseException l_err )
         {
             l_err.printStackTrace();
-        }
+        }*/
 
     }
 
     private void createLongStreet( final Double p_dist, final Double p_bearing, final CStreetStructure p_struct )
     {
-        final CBlock l_start = new CBlock( p_struct.start().getLatitude() + m_connector + p_struct.start().getLongitude(),
+       /* final CBlock l_start = new CBlock( p_struct.start().getLatitude() + m_connector + p_struct.start().getLongitude(),
             p_struct.start().getLatitude(), p_struct.start().getLongitude()  );
         m_blocks.add( l_start );
         final CBlock l_end = new CBlock( p_struct.end().getLatitude() + m_connector + p_struct.end().getLongitude(),
@@ -102,7 +101,7 @@ public class COSMBlock implements IBlockEnv
                 connectwithBearing( p_bearing, l_temp[0], l_new );
                 l_temp[0] = l_new;
             } );
-        connectwithBearing( p_bearing, l_temp[0], l_end );
+        connectwithBearing( p_bearing, l_temp[0], l_end ); */
     }
 
     private void connectwithBearing( final Double p_bearing, final CBlock p_one, final CBlock p_two )

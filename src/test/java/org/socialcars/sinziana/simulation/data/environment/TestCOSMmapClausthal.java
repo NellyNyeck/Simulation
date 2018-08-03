@@ -79,7 +79,7 @@ public class TestCOSMmapClausthal
     {
         final TestCOSMmapClausthal l_test = new TestCOSMmapClausthal();
         l_test.init();
-        //l_test.route();
-        //l_test.heat();
+        l_test.route();
+        l_test.heat();
     }
 }

@@ -10,7 +10,6 @@
 			{
 				"name" : "node0",
 				"coordinates": {
-					"type" : "synthetic",
 					"lat": 0,
 					"lon": 0
 				}
@@ -18,7 +17,6 @@
 			{
 				"name" : "node1",
 				"coordinates": {
-					"type" : "synthetic",
 					"lat": 100,
 					"lon": 0
 				}
@@ -26,7 +24,6 @@
 			{
 				"name" : "node2",
 				"coordinates": {
-					"type" : "synthetic",
 					"lat": 200,
 					"lon": 0
 				}
@@ -34,7 +31,6 @@
 			{
 				"name" : "node3",
 				"coordinates": {
-					"type" : "synthetic",
 					"lat": 0,
 					"lon": 75
 				}
@@ -42,7 +38,6 @@
 			{
 				"name" : "node4",
 				"coordinates": {
-					"type" : "synthetic",
 					"lat": 100,
 					"lon": 75
 				}
@@ -50,7 +45,6 @@
 			{
 				"name" : "node5",
 				"coordinates": {
-					"type" : "synthetic",
 					"lat": 200,
 					"lon": 75
 				}
@@ -58,7 +52,6 @@
 			{
 				"name" : "node6",
 				"coordinates": {
-					"type" : "synthetic",
 					"lat": 100,
 					"lon": 150
 				}
@@ -66,7 +59,6 @@
 			{
 				"name" : "node7",
 				"coordinates": {
-					"type" : "synthetic",
 					"lat": 200,
 					"lon": 150
 				}

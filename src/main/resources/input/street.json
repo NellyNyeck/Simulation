@@ -1,0 +1,27 @@
+{
+    "$schema" : "http://json-schema.org/draft-07/schema#",
+    "description" : "the street structure",
+    "type" : "object",
+    "properties" :{
+        "name" : {
+            "type" : "string"
+        },
+        "start" : {
+            "type" : "object",
+            "$ref" : "coordinates.json"
+        },
+        "end" : {
+          "type" : "object",
+          "$ref" : "coordinates.json"
+        },
+        "id" : {
+            "type" : "integer"
+        }
+    },
+    "required" : [
+        "name",
+        "start",
+        "end",
+        "id"
+    ]
+}

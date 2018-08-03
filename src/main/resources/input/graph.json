@@ -1,6 +1,6 @@
 {
   "$schema" : "http://json-schema.org/draft-07/schema#",
-  "description" : "An Address following the convention of http://microformats.org/wiki/hcard",
+  "description" : "The structure of a graph",
   "type" : "object",
   "properties" :{
     "nodes" : {
