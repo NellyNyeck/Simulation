@@ -66,13 +66,6 @@ public class TestCOSMmapBarcelona
         m_env.drawHeat( l_routes );
     }
 
-    @Test
-    private void check() throws IOException
-    {
-        Assume.assumeNotNull( m_env );
-        System.out.println( m_env.getEdges().size() );
-    }
-
     /**
      * main
      * @param p_args cli
@@ -84,7 +77,5 @@ public class TestCOSMmapBarcelona
         l_test.init();
         l_test.route();
         l_test.heat();
-        l_test.check();
-
     }
 }

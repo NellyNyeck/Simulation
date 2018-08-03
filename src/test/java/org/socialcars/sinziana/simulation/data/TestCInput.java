@@ -299,7 +299,6 @@ public final class TestCInput
         l_nodes.forEach( j ->
         {
             Assert.assertTrue( j.getName().contains( "node" ) );
-            //Assert.assertTrue( j.getCoordinates().getType().contentEquals( "synthetic" ) );
             //Assert.assertTrue( j.getCoordinates().getFirstCoordinate() % 5 == 0 );
             final CCoordinatespojo l_coo = j.getCoordinates();
             Assert.assertTrue( l_coo.equals( l_coo ) );
