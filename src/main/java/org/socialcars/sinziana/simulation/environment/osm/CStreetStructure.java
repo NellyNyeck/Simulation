@@ -13,7 +13,8 @@ public class CStreetStructure
 {
     private final Integer m_id;
     private final String m_name;
-
+    private final GeoPosition m_start;
+    private final GeoPosition m_end;
 
     /**
      * ctor
@@ -23,6 +24,8 @@ public class CStreetStructure
     {
         m_id = p_pojo.getId();
         m_name = p_pojo.getName();
+        m_start = new GeoPosition( p_pojo.getStart().getLat(), p_pojo.getStart().getLon() );
+        m_end = new GeoPosition( p_pojo.getEnd().getLat(), p_pojo.getEnd().getLon() );
     }
 
     /**
@@ -36,6 +39,8 @@ public class CStreetStructure
     {
         m_id = p_id;
         m_name = p_name;
+        m_start = p_start;
+        m_end = p_end;
     }
 
     /**
@@ -47,17 +52,25 @@ public class CStreetStructure
         final HashMap<String, Object> l_map = new HashMap<>();
         l_map.put( "id", m_id );
         l_map.put( "name", m_name );
+        HashMap<String, Double> l_coord = new HashMap<String, Double>();
+        l_coord.put( "lat", m_start.getLatitude() );
+        l_coord.put( "lon", m_start.getLongitude() );
+        l_map.put( "start", l_coord );
+        l_coord = new HashMap<>();
+        l_coord.put( "lat", m_end.getLatitude() );
+        l_coord.put( "lon", m_end.getLongitude() );
+        l_map.put( "end", l_coord );
         return l_map;
     }
 
-    /*public GeoPosition start()
+    public GeoPosition start()
     {
-        return new GeoPosition( m_startlat, m_startlong );
+        return m_start;
     }
 
     public GeoPosition end()
     {
-        return new GeoPosition( m_endlat, m_endlong );
-    }**/
+        return m_end;
+    }
 
 }

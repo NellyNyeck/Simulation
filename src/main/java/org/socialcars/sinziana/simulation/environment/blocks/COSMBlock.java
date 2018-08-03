@@ -1,12 +1,16 @@
 package org.socialcars.sinziana.simulation.environment.blocks;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.ParseException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jxmapviewer.viewer.GeoPosition;
+import org.socialcars.sinziana.simulation.data.input.CStreetpojo;
+import org.socialcars.sinziana.simulation.data.input.CStreetsetpojo;
 import org.socialcars.sinziana.simulation.environment.osm.CStreetStructure;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.IntStream;
 
 
 /**
@@ -39,7 +43,7 @@ public class COSMBlock implements IBlockEnv
     public void map()
     {
         final ArrayList<CStreetStructure> l_streets;
-        /*try
+        try
         {
             l_streets = readFile();
             l_streets.forEach( s ->
@@ -75,16 +79,12 @@ public class COSMBlock implements IBlockEnv
         {
             l_err.printStackTrace();
         }
-        catch ( final ParseException l_err )
-        {
-            l_err.printStackTrace();
-        }*/
 
     }
 
     private void createLongStreet( final Double p_dist, final Double p_bearing, final CStreetStructure p_struct )
     {
-       /* final CBlock l_start = new CBlock( p_struct.start().getLatitude() + m_connector + p_struct.start().getLongitude(),
+        final CBlock l_start = new CBlock( p_struct.start().getLatitude() + m_connector + p_struct.start().getLongitude(),
             p_struct.start().getLatitude(), p_struct.start().getLongitude()  );
         m_blocks.add( l_start );
         final CBlock l_end = new CBlock( p_struct.end().getLatitude() + m_connector + p_struct.end().getLongitude(),
@@ -101,7 +101,7 @@ public class COSMBlock implements IBlockEnv
                 connectwithBearing( p_bearing, l_temp[0], l_new );
                 l_temp[0] = l_new;
             } );
-        connectwithBearing( p_bearing, l_temp[0], l_end ); */
+        connectwithBearing( p_bearing, l_temp[0], l_end );
     }
 
     private void connectwithBearing( final Double p_bearing, final CBlock p_one, final CBlock p_two )
@@ -143,33 +143,17 @@ public class COSMBlock implements IBlockEnv
         } );
     }
 
-    private ArrayList<CStreetStructure> readFile() throws IOException, ParseException
+    private ArrayList<CStreetStructure> readFile() throws IOException
     {
-        /*CStreetspojo  l_streetsinput = new ObjectMapper().readValue( new File( m_filename ), CStreetspojo.class );
-        final JSONParser l_parser = new JSONParser();
-        final Set<CStreetStructure> l_array = l_streetsinput.getAdditionalProperties();
-
+        final CStreetsetpojo  l_streetsinput = new ObjectMapper().readValue( new File( m_filename ), CStreetsetpojo.class );
+        final Set<CStreetpojo> l_array = l_streetsinput.getStreets();
         final ArrayList<CStreetStructure> l_streets = new ArrayList<>();
         l_array.forEach(  o ->
         {
-            final JSONObject l_obj = (JSONObject) o;
-            final Long l_id = (Long) l_obj.get( "id" );
-            final Integer l_ai = l_id.intValue();
-            l_streets.add( new CStreetStructure(  ) );
+            l_streets.add( new CStreetStructure( o ) );
         } );
 
-        return l_streets;*/
-
-        return null;
-    }
-
-
-    private GeoPosition newGeo( final Object p_array )
-    {
-        final JSONArray l_obj = (JSONArray) p_array;
-        final Double l_lat = (Double) l_obj.get( 0 );
-        final Double l_long = (Double) l_obj.get( 1 );
-        return new GeoPosition( l_lat, l_long );
+        return l_streets;
     }
 
     /**
