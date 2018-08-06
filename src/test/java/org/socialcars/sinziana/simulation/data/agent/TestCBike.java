@@ -24,7 +24,7 @@ public class TestCBike
     @Before
     public void init() throws IOException
     {
-        final CInputpojo l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/example_input.json" ), CInputpojo.class );
+        final CInputpojo l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
         final List<CBicyclepojo> l_bikes = l_configuration.getBikes();
         m_bike = new CBike( l_bikes.get( 0 ) );
     }

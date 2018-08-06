@@ -376,9 +376,8 @@
       "location":{
         "name" : "node0",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
 			"depots" : [
@@ -394,17 +393,15 @@
 					"start": {
 						"name" : "node0",
 						"coordinates": {
-							"type" : "synthetic",
-							"first coordinate": 0,
-							"second coordinate": 0
+							"lat": 0,
+							"lon": 0
 						}
 					},
 					"finish" : {
 						"name" : "node0",
 						"coordinates": {
-							"type" : "synthetic",
-							"first coordinate": 0,
-							"second coordinate": 0
+							"lat": 0,
+							"lon": 0
 						}
 					},
 					"max-speed": 1,
@@ -437,17 +434,15 @@
       "start": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "max-speed": 0,
@@ -463,17 +458,15 @@
       "start": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "max-speed": 0,
@@ -489,17 +482,15 @@
       "start": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
           }
        },
       "max-speed": 0,
@@ -515,9 +506,8 @@
       "location":{
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       }
     }

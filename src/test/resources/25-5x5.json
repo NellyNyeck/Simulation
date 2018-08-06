@@ -1,6 +1,6 @@
 {
   "configuration": {
-    "number of waiting clients": 6,
+    "number of waiting clients": 1,
     "time unit": "second",
     "speed unit": "m/s",
     "length unit": "meter"
@@ -17,7 +17,7 @@
       {
         "name" : "node1",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 100,
           "lon": 0
         }
@@ -32,7 +32,7 @@
       {
         "name" : "node3",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 300,
           "lon": 0
         }
@@ -40,7 +40,7 @@
       {
         "name" : "node4",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 400,
           "lon": 0
         }
@@ -48,7 +48,7 @@
       {
         "name" : "node5",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 0,
           "lon": 100
         }
@@ -56,7 +56,7 @@
       {
         "name" : "node6",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 100,
           "lon": 100
         }
@@ -64,7 +64,7 @@
       {
         "name" : "node7",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 200,
           "lon": 100
         }
@@ -72,7 +72,7 @@
       {
         "name" : "node8",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 300,
           "lon": 100
         }
@@ -80,7 +80,7 @@
       {
         "name" : "node9",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 400,
           "lon": 100
         }
@@ -88,7 +88,7 @@
       {
         "name" : "node10",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 0,
           "lon": 200
         }
@@ -96,7 +96,7 @@
       {
         "name" : "node11",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 100,
           "lon": 200
         }
@@ -104,7 +104,7 @@
       {
         "name" : "node12",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 200,
           "lon": 200
         }
@@ -112,7 +112,7 @@
       {
         "name" : "node13",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 300,
           "lon": 200
         }
@@ -120,7 +120,7 @@
       {
         "name" : "node14",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 400,
           "lon": 200
         }
@@ -128,7 +128,7 @@
       {
         "name" : "node15",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 0,
           "lon": 300
         }
@@ -136,7 +136,7 @@
       {
         "name" : "node16",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 100,
           "lon": 300
         }
@@ -144,7 +144,7 @@
       {
         "name" : "node17",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 200,
           "lon": 300
         }
@@ -152,7 +152,7 @@
       {
         "name" : "node18",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 300,
           "lon": 300
         }
@@ -160,7 +160,7 @@
       {
         "name" : "node19",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 400,
           "lon": 300
         }
@@ -168,7 +168,7 @@
       {
         "name" : "node20",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 0,
           "lon": 400
         }
@@ -176,7 +176,7 @@
       {
         "name" : "node21",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 100,
           "lon": 400
         }
@@ -184,7 +184,7 @@
       {
         "name" : "node22",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 200,
           "lon": 400
         }
@@ -192,7 +192,7 @@
       {
         "name" : "node23",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 300,
           "lon": 400
         }
@@ -200,7 +200,7 @@
       {
         "name" : "node24",
         "coordinates": {
-          "type" : "synthetic",
+
           "lat": 400,
           "lon": 400
         }
@@ -1418,9 +1418,9 @@
       "location":{
         "name" : "node0",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+
+          "lat": 0,
+          "lon": 0
         }
       },
       "depots" : [
@@ -1436,17 +1436,17 @@
           "start": {
             "name" : "node0",
             "coordinates": {
-              "type" : "synthetic",
-              "first coordinate": 0,
-              "second coordinate": 0
+
+              "lat": 0,
+              "lon": 0
             }
           },
           "finish" : {
             "name" : "node0",
             "coordinates": {
-              "type" : "synthetic",
-              "first coordinate": 0,
-              "second coordinate": 0
+
+              "lat": 0,
+              "lon": 0
             }
           },
           "max-speed": 1,
@@ -1478,9 +1478,9 @@
       "location":{
         "name" : "node20",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 400
+
+          "lat": 0,
+          "lon": 400
         }
       },
       "depots" : [
@@ -1496,17 +1496,17 @@
           "start": {
             "name" : "node20",
             "coordinates": {
-              "type" : "synthetic",
-              "first coordinate": 0,
-              "second coordinate": 400
+
+              "lat": 0,
+              "lon": 400
             }
           },
           "finish" : {
             "name" : "node20",
             "coordinates": {
-              "type" : "synthetic",
-              "first coordinate": 0,
-              "second coordinate": 40
+
+              "lat": 0,
+              "lon": 40
             }
           },
           "max-speed": 1,
@@ -1539,17 +1539,15 @@
       "start": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "max-speed": 0,
@@ -1565,17 +1563,15 @@
       "start": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "max-speed": 0,
@@ -1591,17 +1587,15 @@
       "start": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "max-speed": 0,
@@ -1617,9 +1611,8 @@
       "location":{
         "name": "node0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       }
     }

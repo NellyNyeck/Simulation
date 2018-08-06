@@ -10,801 +10,701 @@
       {
         "name" : "0",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       {
         "name" : "1",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 0
+          "lat": 100,
+          "lon": 0
         }
       },
       {
         "name" : "2",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 0
+          "lat": 200,
+          "lon": 0
         }
       },
       {
         "name" : "3",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 0
+          "lat": 300,
+          "lon": 0
         }
       },
       {
         "name" : "4",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 0
+          "lat": 400,
+          "lon": 0
         }
       },
       {
         "name" : "5",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 0
+          "lat": 500,
+          "lon": 0
         }
       },
       {
         "name" : "6",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 0
+          "lat": 600,
+          "lon": 0
         }
       },
       {
         "name" : "7",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 0
+          "lat": 700,
+          "lon": 0
         }
       },
       {
         "name" : "8",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 0
+          "lat": 800,
+          "lon": 0
         }
       },
       {
         "name" : "9",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 0
+          "lat": 900,
+          "lon": 0
         }
       },
       {
         "name" : "10",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 100
+          "lat": 0,
+          "lon": 100
         }
       },
       {
         "name" : "11",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 100
+          "lat": 100,
+          "lon": 100
         }
       },
       {
         "name" : "12",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 100
+          "lat": 200,
+          "lon": 100
         }
       },
       {
         "name" : "13",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 100
+          "lat": 300,
+          "lon": 100
         }
       },
       {
         "name" : "14",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 100
+          "lat": 400,
+          "lon": 100
         }
       },
       {
         "name" : "15",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 100
+          "lat": 500,
+          "lon": 100
         }
       },
       {
         "name" : "16",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 100
+          "lat": 600,
+          "lon": 100
         }
       },
       {
         "name" : "17",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 100
+          "lat": 700,
+          "lon": 100
         }
       },
       {
         "name" : "18",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 100
+          "lat": 800,
+          "lon": 100
         }
       },
       {
         "name" : "19",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 100
+          "lat": 900,
+          "lon": 100
         }
       },
       {
         "name" : "20",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 200
+          "lat": 0,
+          "lon": 200
         }
       },
       {
         "name" : "21",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 200
+          "lat": 100,
+          "lon": 200
         }
       },
       {
         "name" : "22",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 200
+          "lat": 200,
+          "lon": 200
         }
       },
       {
         "name" : "23",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 200
+          "lat": 300,
+          "lon": 200
         }
       },
       {
         "name" : "24",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 200
+          "lat": 400,
+          "lon": 200
         }
       },
       {
         "name" : "25",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 200
+          "lat": 500,
+          "lon": 200
         }
       },
       {
         "name" : "26",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 200
+          "lat": 600,
+          "lon": 200
         }
       },
       {
         "name" : "27",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 200
+          "lat": 700,
+          "lon": 200
         }
       },
       {
         "name" : "28",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 200
+          "lat": 800,
+          "lon": 200
         }
       },
       {
         "name" : "29",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 200
+          "lat": 900,
+          "lon": 200
         }
       },
       {
         "name" : "30",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 300
+          "lat": 0,
+          "lon": 300
         }
       },
       {
         "name" : "31",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 300
+          "lat": 100,
+          "lon": 300
         }
       },
       {
         "name" : "32",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 300
+          "lat": 200,
+          "lon": 300
         }
       },
       {
         "name" : "33",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 300
+          "lat": 300,
+          "lon": 300
         }
       },
       {
         "name" : "34",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 300
+          "lat": 400,
+          "lon": 300
         }
       },
       {
         "name" : "35",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 300
+          "lat": 500,
+          "lon": 300
         }
       },
       {
         "name" : "36",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 300
+          "lat": 600,
+          "lon": 300
         }
       },
       {
         "name" : "37",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 300
+          "lat": 700,
+          "lon": 300
         }
       },
       {
         "name" : "38",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 300
+          "lat": 800,
+          "lon": 300
         }
       },
       {
         "name" : "39",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 300
+          "lat": 900,
+          "lon": 300
         }
       },
       {
         "name" : "40",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 400
+          "lat": 0,
+          "lon": 400
         }
       },
       {
         "name" : "41",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 400
+          "lat": 100,
+          "lon": 400
         }
       },
       {
         "name" : "42",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 400
+          "lat": 200,
+          "lon": 400
         }
       },
       {
         "name" : "43",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 400
+          "lat": 300,
+          "lon": 400
         }
       },
       {
         "name" : "44",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 400
+          "lat": 400,
+          "lon": 400
         }
       },
       {
         "name" : "45",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 400
+          "lat": 500,
+          "lon": 400
         }
       },
       {
         "name" : "46",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 400
+          "lat": 600,
+          "lon": 400
         }
       },
       {
         "name" : "47",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 400
+          "lat": 700,
+          "lon": 400
         }
       },
       {
         "name" : "48",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 400
+          "lat": 800,
+          "lon": 400
         }
       },
       {
         "name" : "49",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 400
+          "lat": 900,
+          "lon": 400
         }
       },
       {
         "name" : "50",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 500
+          "lat": 0,
+          "lon": 500
         }
       },
       {
         "name" : "51",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 500
+          "lat": 100,
+          "lon": 500
         }
       },
       {
         "name" : "52",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 500
+          "lat": 200,
+          "lon": 500
         }
       },
       {
         "name" : "53",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 500
+          "lat": 300,
+          "lon": 500
         }
       },
       {
         "name" : "54",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 500
+          "lat": 400,
+          "lon": 500
         }
       },
       {
         "name" : "55",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 500
+          "lat": 500,
+          "lon": 500
         }
       },
       {
         "name" : "56",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 500
+          "lat": 600,
+          "lon": 500
         }
       },
       {
         "name" : "57",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 500
+          "lat": 700,
+          "lon": 500
         }
       },
       {
         "name" : "58",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 500
+          "lat": 800,
+          "lon": 500
         }
       },
       {
         "name" : "59",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 500
+          "lat": 900,
+          "lon": 500
         }
       },
       {
         "name" : "60",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 600
+          "lat": 0,
+          "lon": 600
         }
       },
       {
         "name" : "61",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 600
+          "lat": 100,
+          "lon": 600
         }
       },
       {
         "name" : "62",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 600
+          "lat": 200,
+          "lon": 600
         }
       },
       {
         "name" : "63",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 600
+          "lat": 300,
+          "lon": 600
         }
       },
       {
         "name" : "64",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 600
+          "lat": 400,
+          "lon": 600
         }
       },
       {
         "name" : "65",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 600
+          "lat": 500,
+          "lon": 600
         }
       },
       {
         "name" : "66",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 600
+          "lat": 600,
+          "lon": 600
         }
       },
       {
         "name" : "67",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 600
+          "lat": 700,
+          "lon": 600
         }
       },
       {
         "name" : "68",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 600
+          "lat": 800,
+          "lon": 600
         }
       },
       {
         "name" : "69",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 600
+          "lat": 900,
+          "lon": 600
         }
       },
       {
         "name" : "70",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 700
+          "lat": 0,
+          "lon": 700
         }
       },
       {
         "name" : "71",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 700
+          "lat": 100,
+          "lon": 700
         }
       },
       {
         "name" : "72",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 700
+          "lat": 200,
+          "lon": 700
         }
       },
       {
         "name" : "73",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 700
+          "lat": 300,
+          "lon": 700
         }
       },
       {
         "name" : "74",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 700
+          "lat": 400,
+          "lon": 700
         }
       },
       {
         "name" : "75",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 700
+          "lat": 500,
+          "lon": 700
         }
       },
       {
         "name" : "76",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 700
+          "lat": 600,
+          "lon": 700
         }
       },
       {
         "name" : "77",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 700
+          "lat": 700,
+          "lon": 700
         }
       },
       {
         "name" : "78",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 700
+          "lat": 800,
+          "lon": 700
         }
       },
       {
         "name" : "79",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 700
+          "lat": 900,
+          "lon": 700
         }
       },
       {
         "name" : "80",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 800
+          "lat": 0,
+          "lon": 800
         }
       },
       {
         "name" : "81",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 800
+          "lat": 100,
+          "lon": 800
         }
       },
       {
         "name" : "82",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 800
+          "lat": 200,
+          "lon": 800
         }
       },
       {
         "name" : "83",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 800
+          "lat": 300,
+          "lon": 800
         }
       },
       {
         "name" : "84",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 800
+          "lat": 400,
+          "lon": 800
         }
       },
       {
         "name" : "85",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 800
+          "lat": 500,
+          "lon": 800
         }
       },
       {
         "name" : "86",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 800
+          "lat": 600,
+          "lon": 800
         }
       },
       {
         "name" : "87",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 800
+          "lat": 700,
+          "lon": 800
         }
       },
       {
         "name" : "88",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 800
+          "lat": 800,
+          "lon": 800
         }
       },
       {
         "name" : "89",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 800
+          "lat": 900,
+          "lon": 800
         }
       },
       {
         "name" : "90",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 900
+          "lat": 0,
+          "lon": 900
         }
       },
       {
         "name" : "91",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 100,
-          "second coordinate": 900
+          "lat": 100,
+          "lon": 900
         }
       },
       {
         "name" : "92",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 200,
-          "second coordinate": 900
+          "lat": 200,
+          "lon": 900
         }
       },
       {
         "name" : "93",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 300,
-          "second coordinate": 900
+          "lat": 300,
+          "lon": 900
         }
       },
       {
         "name" : "94",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 400,
-          "second coordinate": 900
+          "lat": 400,
+          "lon": 900
         }
       },
       {
         "name" : "95",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 500,
-          "second coordinate": 900
+          "lat": 500,
+          "lon": 900
         }
       },
       {
         "name" : "96",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 600,
-          "second coordinate": 900
+          "lat": 600,
+          "lon": 900
         }
       },
       {
         "name" : "97",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 700,
-          "second coordinate": 900
+          "lat": 700,
+          "lon": 900
         }
       },
       {
         "name" : "98",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 800,
-          "second coordinate": 900
+          "lat": 800,
+          "lon": 900
         }
       },
       {
         "name" : "99",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 900,
-          "second coordinate": 900
+          "lat": 900,
+          "lon": 900
         }
       }
     ],
@@ -6220,9 +6120,8 @@
       "location":{
         "name" : "0",
         "coordinates": {
-          "type" : "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "depots" : [
@@ -6238,17 +6137,15 @@
           "start": {
             "name" : "0",
             "coordinates": {
-              "type" : "synthetic",
-              "first coordinate": 0,
-              "second coordinate": 0
+              "lat": 0,
+              "lon": 0
             }
           },
           "finish" : {
             "name" : "0",
             "coordinates": {
-              "type" : "synthetic",
-              "first coordinate": 0,
-              "second coordinate": 0
+              "lat": 0,
+              "lon": 0
             }
           },
           "max-speed": 1,
@@ -6281,17 +6178,15 @@
       "start": {
         "name": "0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "max-speed": 0,
@@ -6307,17 +6202,15 @@
       "start": {
         "name": "0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "max-speed": 0,
@@ -6333,17 +6226,15 @@
       "start": {
         "name": "0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "finish": {
         "name": "0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       },
       "max-speed": 0,
@@ -6359,9 +6250,8 @@
       "location":{
         "name": "0",
         "coordinates": {
-          "type": "synthetic",
-          "first coordinate": 0,
-          "second coordinate": 0
+          "lat": 0,
+          "lon": 0
         }
       }
     }
