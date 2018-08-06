@@ -66,8 +66,13 @@ public class TestCOSMmapBarcaSmall
         m_env.drawHeat( l_routes );
     }
 
+
+    /**
+     * checks if the environment was propperly created
+     * @throws IOException file
+     */
     @Test
-    private void check() throws IOException
+    public void check() throws IOException
     {
         Assume.assumeNotNull( m_env );
         System.out.println( m_env.getEdges().size() );
