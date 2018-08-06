@@ -8,6 +8,7 @@ import java.util.concurrent.Callable;
  */
 public interface IElement extends Callable<IElement>
 {
+
     /**
      * checks if the agent is terminated
      *

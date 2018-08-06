@@ -77,4 +77,22 @@ public class CEdge implements IEdge
         return MessageFormat.format( "{0}({1})", m_name, m_weight.get() );
     }
 
+    @Override
+    public int length()
+    {
+        return (int) Math.sqrt( Math.pow( m_from.coordinate().latitude() - m_to.coordinate().latitude(), 2 )
+            + Math.pow( m_from.coordinate().longitude() - m_to.coordinate().longitude(), 2 ) );
+    }
+
+    @Override
+    public String orientation()
+    {
+        if ( m_from.coordinate().latitude() > m_to.coordinate().latitude() ) return "left";
+        else if ( m_from.coordinate().latitude() < m_to.coordinate().latitude() ) return "right";
+        else
+        {
+            if ( m_from.coordinate().longitude() < m_to.coordinate().longitude() ) return "up";
+            else return "down";
+        }
+    }
 }

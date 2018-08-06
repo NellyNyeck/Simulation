@@ -7,7 +7,9 @@ import com.graphhopper.GraphHopper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Instruction;
+import com.graphhopper.util.PointList;
 import org.json.simple.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
@@ -35,6 +37,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -44,9 +47,15 @@ import java.util.stream.Stream;
  */
 public class COSMEnvironment
 {
+    private static final Logger LOGGER = Logger.getLogger( COSMEnvironment.class.getName() );
+
     private GraphHopper m_hopper;
     private final GeoPosition m_topleft;
     private final GeoPosition m_bottomright;
+
+    private final Double m_granularity = 0.000009004;
+
+
 
     /**
      * ctor
@@ -68,6 +77,7 @@ public class COSMEnvironment
 
         m_topleft = new GeoPosition( p_north, p_west );
         m_bottomright = new GeoPosition( p_south, p_east );
+
     }
 
 
@@ -238,8 +248,10 @@ public class COSMEnvironment
         l_mapviewer.addKeyListener( new PanKeyListener( l_mapviewer ) );
 
         writeHeat( l_heatpainter.getValues() );
-
+        writeOverlap( l_heatpainter.getValues() );
     }
+
+
 
     /**
      * writes the heat values to file
@@ -249,15 +261,15 @@ public class COSMEnvironment
     private void writeHeat( final HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
         final FileWriter l_writer = new FileWriter( "heatmap.json" );
-        final HashMap<Integer, CStructure> l_heats = new HashMap<>();
+        final HashMap<Integer, CVisitedStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p ->
         {
             final int l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getEdge();
-            CStructure l_new = l_heats.get( l_id );
+            CVisitedStructure l_new = l_heats.get( l_id );
             if ( l_new == null )
             {
-                l_new = new CStructure( l_id,
+                l_new = new CVisitedStructure( l_id,
                     m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getDistance(),
                     m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName(),
                     p_values.get( p ) );
@@ -270,6 +282,33 @@ public class COSMEnvironment
         } );
         final HashMap<Number, Object> l_result = new HashMap<Number, Object>();
         l_heats.keySet().forEach( s -> l_result.put( s, l_heats.get( s ).toMap() ) );
+        final JSONObject l_json =  new JSONObject( l_result );
+        l_writer.write( l_json.toJSONString() );
+        l_writer.flush();
+        l_writer.close();
+    }
+
+    private void writeOverlap( final HashMap<GeoPosition, Integer> p_values ) throws IOException
+    {
+        final FileWriter l_writer = new FileWriter( "Overlap.json" );
+        final HashMap<String, Integer> l_overlap = new HashMap<>();
+        final Set<GeoPosition> l_keys = p_values.keySet();
+        l_keys.forEach( p ->
+        {
+            final String l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName();
+            Integer l_new = l_overlap.get( l_id );
+            if ( l_new == null )
+            {
+                l_new = p_values.get( p );
+                l_overlap.put( l_id, l_new );
+            }
+            else
+            {
+                l_new += p_values.get( p );
+            }
+        } );
+        final HashMap<String, Object> l_result = new HashMap<>();
+        l_overlap.keySet().forEach( s -> l_result.put( s, l_overlap.get( s ) ) );
         final JSONObject l_json =  new JSONObject( l_result );
         l_writer.write( l_json.toJSONString() );
         l_writer.flush();
@@ -309,14 +348,86 @@ public class COSMEnvironment
         return l_mapviewer;
     }
 
-    private class CStructure
+
+
+    /**
+     * function to check environment granularity of geopoints
+     */
+    //public void pokingAround()
+    //{
+        /*final GeoPosition l_bar = new GeoPosition( 41.398059, 2.159816 );
+        final GeoPosition l_restaurant = new GeoPosition( 41.397667, 2.160041 );
+        System.out.println( calculateDistance( l_bar, l_restaurant ) );*/
+/*
+        IntStream.range( 0, 10 )
+            .boxed()
+            .forEach( i ->
+            {
+                final GeoPosition l_rando = randomnode();
+                final GeoPosition l_next = new GeoPosition( l_rando.getLatitude() + 0.000009004, l_rando.getLongitude() );
+                //System.out.println( l_rando.getLatitude() );
+                //System.out.println( l_next.getLatitude() );
+                //System.out.println( l_rando.getLongitude() );
+                //System.out.println( l_rando.getLongitude() );
+                System.out.println( calculateDistance( l_rando, l_next ) );
+            } );
+    }*/
+
+    /**
+     * gets geopositions of (hopefully) evey street
+     * @return geopoints
+     * @throws IOException file
+     */
+    public HashMap<Integer, CStreetStructure> getEdges() throws IOException
+    {
+
+        final HashMap<Integer, CStreetStructure> l_edges = new HashMap<>();
+        IntStream.range( 0, 10000 )
+            .boxed()
+            .forEach( i ->
+            {
+                final GeoPosition l_random = randomnode();
+                final EdgeIteratorState l_edg  = m_hopper.getLocationIndex().findClosest( l_random.getLatitude(), l_random.getLongitude(),
+                    EdgeFilter.ALL_EDGES ).getClosestEdge();
+                if ( !l_edges.containsKey( l_edg.getEdge() ) )
+                {
+                    final PointList l_points = l_edg.fetchWayGeometry( 3 );
+                    final CStreetStructure l_new = new CStreetStructure( l_edg.getEdge(), l_edg.getName(),
+                        new GeoPosition( l_points.getLatitude( 0 ), l_points.getLongitude( 0 ) ),
+                        new GeoPosition( l_points.getLatitude( l_points.size() - 1 ), l_points.getLongitude( l_points.size() - 1 ) ) );
+                    l_edges.put( l_edg.getEdge(), l_new );
+                }
+            } );
+        writeStreets( l_edges );
+        return l_edges;
+    }
+
+    /**
+     * writes the streets to file
+     * @param p_streets the streets
+     * @throws IOException file
+     */
+    public void writeStreets( final HashMap<Integer, CStreetStructure> p_streets ) throws IOException
+    {
+        final FileWriter l_writer = new FileWriter( "streets.json" );
+        final HashMap<String, Object> l_streets = new HashMap<>();
+        final ArrayList<Map<String, Object>> l_result = new ArrayList<>();
+        p_streets.keySet().forEach( s -> l_result.add( p_streets.get( s ).toMap() ) );
+        l_streets.put( "streets", l_result );
+        final JSONObject l_json = new JSONObject( l_streets );
+        l_writer.write( l_json.toJSONString() );
+        l_writer.flush();
+        l_writer.close();
+    }
+
+    private class CVisitedStructure
     {
         private final Integer m_id;
         private final String m_name;
         private Integer m_visited;
         private final Double m_distance;
 
-        CStructure( final Integer p_id, final Double p_distance, final String p_name, final Integer p_visited )
+        CVisitedStructure( final Integer p_id, final Double p_distance, final String p_name, final Integer p_visited )
         {
             m_id = p_id;
             m_distance = p_distance;
@@ -339,5 +450,9 @@ public class COSMEnvironment
             return l_map;
         }
     }
+
+
+
+
 
 }

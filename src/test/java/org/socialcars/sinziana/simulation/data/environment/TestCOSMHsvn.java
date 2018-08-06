@@ -5,7 +5,7 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.jxmapviewer.viewer.GeoPosition;
-import org.socialcars.sinziana.simulation.data.input.CDemandpojo;
+import org.socialcars.sinziana.simulation.data.input.CDemandspojo;
 import org.socialcars.sinziana.simulation.environment.demand.CInstance;
 import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
@@ -23,7 +23,7 @@ import java.util.stream.Stream;
  */
 public class TestCOSMHsvn
 {
-    private static final CDemandpojo INPUT;
+    private static final CDemandspojo INPUT;
 
     private ArrayList<CInstance> m_demand;
     private COSMEnvironment m_env;
@@ -34,7 +34,7 @@ public class TestCOSMHsvn
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/HSVN.json" ), CDemandpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/HSVN.json" ), CDemandspojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -82,6 +82,22 @@ public class TestCOSMHsvn
     }
 
     /**
+     * testing multiple routes through routing with middle points
+     * @throws IOException file
+     */
+    public void routeMultiple() throws IOException
+    {
+        Assume.assumeNotNull( m_env );
+        final List<List<GeoPosition>> l_routes = new ArrayList<>();
+        final ArrayList<GeoPosition> l_destinations = new ArrayList<GeoPosition>();
+        IntStream.range( 0, 100 )
+            .boxed()
+            .forEach( i -> l_destinations.add( m_env.randomnode() ) );
+        l_routes.add( m_env.route( m_env.randomnode(), m_env.randomnode(), l_destinations.stream() ) );
+        m_env.drawHeat( l_routes );
+    }
+
+    /**
      * main funt
      * @param p_args cli arg
      * @throws IOException file
@@ -90,6 +106,6 @@ public class TestCOSMHsvn
     {
         final TestCOSMHsvn l_test = new TestCOSMHsvn();
         l_test.init();
-        l_test.heat();
+        l_test.routeMultiple();
     }
 }

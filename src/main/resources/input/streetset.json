@@ -1,0 +1,22 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description": "the street collection",
+  "type" : "object",
+  "properties": {
+    "streets" : {
+      "type" :"array",
+      "items" : {
+        "type" : "object",
+        "$ref" : "street.json"
+      },
+      "uniqueItems" : true,
+      "minItems" : 1
+    },
+    "nothing" : {
+      "type" : "string"
+    }
+  },
+  "required" : [
+    "streets"
+  ]
+}
