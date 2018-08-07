@@ -44,7 +44,7 @@ public final class TestCInput
     @Before
     public final void init() throws IOException
     {
-        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
+        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/smallest.json" ), CInputpojo.class );
     }
 
     /**
