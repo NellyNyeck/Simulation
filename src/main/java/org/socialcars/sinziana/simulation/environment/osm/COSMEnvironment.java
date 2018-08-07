@@ -27,9 +27,12 @@ import org.socialcars.sinziana.simulation.visualization.CRoutePainter;
 
 import javax.swing.JFrame;
 import javax.swing.event.MouseInputListener;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -172,8 +175,9 @@ public class COSMEnvironment
      * creates one route
      * @param p_start start point
      * @param p_finish finish point
+     * @throws IOException file
      */
-    public void routeOne( final GeoPosition p_start, final GeoPosition p_finish )
+    public void routeOne( final GeoPosition p_start, final GeoPosition p_finish ) throws IOException
     {
         System.out.println( m_hopper.getLocationIndex().findClosest( p_start.getLatitude(), p_start.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName() );
         System.out.println( m_hopper.getLocationIndex().findClosest( p_finish.getLatitude(), p_finish.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName() );
@@ -182,26 +186,36 @@ public class COSMEnvironment
         if ( l_resp.hasErrors() ) System.out.println( "no bueno" );
         else
         {
+            final File l_filedir = new File( "info.json" );
+
+            final Writer l_out = new BufferedWriter( new OutputStreamWriter(
+                new FileOutputStream( l_filedir ), "UTF8" ) );
             try
             {
-                final FileWriter l_writer = new FileWriter( "info.json" );
-                l_writer.write( l_resp.getBest().getInstructions().createJson().toString() );
+
+                l_out.write( l_resp.getBest().getInstructions().createJson().toString() );
                 l_resp.getBest().getInstructions().stream().forEach( i ->
                 {
                     try
                     {
-                        l_writer.write( i.getExtraInfoJSON().toString() );
+                        l_out.write( i.getExtraInfoJSON().toString() );
                     }
                     catch ( final IOException l_err )
                     {
                         l_err.printStackTrace();
                     }
                 } );
-                l_writer.flush();
+                l_out.flush();
+
             }
             catch ( final Exception l_err )
             {
                 l_err.printStackTrace();
+
+            }
+            finally
+            {
+                l_out.close();
             }
             System.out.println( l_req.getWeighting() );
         }
@@ -260,7 +274,11 @@ public class COSMEnvironment
      */
     private void writeHeat( final HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
-        final FileWriter l_writer = new FileWriter( "heatmap.json" );
+        final File l_filedir = new File( "heatmap.json" );
+
+        final Writer l_out = new BufferedWriter( new OutputStreamWriter(
+            new FileOutputStream( l_filedir ), "UTF8" ) );
+
         final HashMap<Integer, CVisitedStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
         l_keys.forEach( p ->
@@ -283,36 +301,45 @@ public class COSMEnvironment
         final HashMap<Number, Object> l_result = new HashMap<Number, Object>();
         l_heats.keySet().forEach( s -> l_result.put( s, l_heats.get( s ).toMap() ) );
         final JSONObject l_json =  new JSONObject( l_result );
-        l_writer.write( l_json.toJSONString() );
-        l_writer.flush();
-        l_writer.close();
+        l_out.write( l_json.toJSONString() );
+        l_out.flush();
+        l_out.close();
     }
 
     private void writeOverlap( final HashMap<GeoPosition, Integer> p_values ) throws IOException
     {
-        final FileWriter l_writer = new FileWriter( "Overlap.json" );
-        final HashMap<String, Integer> l_overlap = new HashMap<>();
-        final Set<GeoPosition> l_keys = p_values.keySet();
-        l_keys.forEach( p ->
+        final File l_filedir = new File( "overlap.json" );
+
+        final Writer l_out = new BufferedWriter( new OutputStreamWriter(
+            new FileOutputStream( l_filedir ), "UTF8" ) );
+        try
         {
-            final String l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName();
-            Integer l_new = l_overlap.get( l_id );
-            if ( l_new == null )
+            final HashMap<String, Integer> l_overlap = new HashMap<>();
+            final Set<GeoPosition> l_keys = p_values.keySet();
+            l_keys.forEach( p ->
             {
-                l_new = p_values.get( p );
-                l_overlap.put( l_id, l_new );
-            }
-            else
-            {
-                l_new += p_values.get( p );
-            }
-        } );
-        final HashMap<String, Object> l_result = new HashMap<>();
-        l_overlap.keySet().forEach( s -> l_result.put( s, l_overlap.get( s ) ) );
-        final JSONObject l_json =  new JSONObject( l_result );
-        l_writer.write( l_json.toJSONString() );
-        l_writer.flush();
-        l_writer.close();
+                final String l_id = m_hopper.getLocationIndex().findClosest( p.getLatitude(), p.getLongitude(), EdgeFilter.ALL_EDGES ).getClosestEdge().getName();
+                Integer l_new = l_overlap.get( l_id );
+                if ( l_new == null )
+                {
+                    l_new = p_values.get( p );
+                    l_overlap.put( l_id, l_new );
+                }
+                else
+                {
+                    l_new += p_values.get( p );
+                }
+            } );
+            final HashMap<String, Object> l_result = new HashMap<>();
+            l_overlap.keySet().forEach( s -> l_result.put( s, l_overlap.get( s ) ) );
+            final JSONObject l_json =  new JSONObject( l_result );
+            l_out.write( l_json.toJSONString() );
+        }
+        finally
+        {
+            l_out.flush();
+            l_out.close();
+        }
     }
 
     /**
@@ -409,18 +436,27 @@ public class COSMEnvironment
      */
     public void writeStreets( final HashMap<Integer, CStreetStructure> p_streets ) throws IOException
     {
-        final FileWriter l_writer = new FileWriter( "streets.json" );
-        final HashMap<String, Object> l_streets = new HashMap<>();
-        final ArrayList<Map<String, Object>> l_result = new ArrayList<>();
-        p_streets.keySet().forEach( s -> l_result.add( p_streets.get( s ).toMap() ) );
-        l_streets.put( "streets", l_result );
-        final JSONObject l_json = new JSONObject( l_streets );
-        l_writer.write( l_json.toJSONString() );
-        l_writer.flush();
-        l_writer.close();
+        final File l_filedir = new File( "streets.json" );
+
+        final Writer l_out = new BufferedWriter( new OutputStreamWriter(
+            new FileOutputStream( l_filedir ), "UTF8" ) );
+        try
+        {
+            final HashMap<String, Object> l_streets = new HashMap<>();
+            final ArrayList<Map<String, Object>> l_result = new ArrayList<>();
+            p_streets.keySet().forEach( s -> l_result.add( p_streets.get( s ).toMap() ) );
+            l_streets.put( "streets", l_result );
+            final JSONObject l_json = new JSONObject( l_streets );
+            l_out.write( l_json.toJSONString() );
+        }
+        finally
+        {
+            l_out.flush();
+            l_out.close();
+        }
     }
 
-    private class CVisitedStructure
+    private static class CVisitedStructure
     {
         private final Integer m_id;
         private final String m_name;

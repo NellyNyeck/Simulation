@@ -85,7 +85,7 @@ public class CJungBlock implements IBlockEnv
                     l_new.addUp( m_intersections.get( p_edg.from().id() + l_dl ) );
                     m_intersections.get( p_edg.from().id() + l_dl ).addDown( l_new );
                 }
-                else if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
+                else if ( i ==  p_edg.length() - 1 )
                 {
                     l_new.addUp( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
                     l_new.addDown( m_intersections.get( p_edg.to().id() + l_ul ) );
@@ -116,7 +116,7 @@ public class CJungBlock implements IBlockEnv
                     l_new.addDown( m_intersections.get( p_edg.from().id() + l_ur ) );
                     m_intersections.get( p_edg.from().id() + l_ur ).addUp( l_new );
                 }
-                else if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
+                else if ( i ==   p_edg.length() - 1 )
                 {
                     l_new.addDown( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
                     l_new.addUp( m_intersections.get( p_edg.to().id() + l_dr ) );
@@ -147,7 +147,7 @@ public class CJungBlock implements IBlockEnv
                     l_new.addRight( m_intersections.get( p_edg.from().id() + l_dl ) );
                     m_intersections.get( p_edg.from().id() + l_dl ).addLeft( l_new );
                 }
-                else if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
+                else if ( i ==   p_edg.length() - 1 )
                 {
                     l_new.addRight( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
                     l_new.addLeft( m_intersections.get( p_edg.to().id() + l_dr ) );
@@ -177,7 +177,7 @@ public class CJungBlock implements IBlockEnv
                     l_new.addLeft( m_intersections.get( p_edg.from().id() + l_dr ) );
                     m_intersections.get( p_edg.from().id() + l_dr ).addRight( l_new );
                 }
-                else if ( i ==  Integer.valueOf( String.valueOf( p_edg.length() ) ) - 1 )
+                else if ( i ==  p_edg.length() - 1 )
                 {
                     l_new.addLeft( m_streets.get( p_edg.id() + String.valueOf( i - 1 ) ) );
                     l_new.addRight( m_intersections.get( p_edg.to().id() + l_dl ) );
