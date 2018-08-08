@@ -24,8 +24,8 @@ public class CPod implements IPod
     private CNode m_finish;
     private ArrayList<CNode> m_middle = new ArrayList<>();
 
-    private Number m_speed;
-    private Number m_acceleration;
+    private Double m_speed;
+    private Double m_acceleration;
     private String m_location;
 
     private Collection<CEvent> m_events;
@@ -38,7 +38,7 @@ public class CPod implements IPod
     public CPod( final CPodpojo p_pod )
     {
         m_pod = p_pod;
-        m_speed = 0;
+        m_speed = 0.00;
         m_location = null;
         m_start = new CNode( m_pod.getStart() );
         m_finish = new CNode( m_pod.getFinish() );
@@ -57,13 +57,13 @@ public class CPod implements IPod
     }
 
     @Override
-    public Number speed()
+    public Double speed()
     {
         return m_speed;
     }
 
     @Override
-    public Number acceleration()
+    public Double acceleration()
     {
         return m_acceleration;
     }

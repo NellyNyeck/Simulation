@@ -24,8 +24,8 @@ public class CHuman implements IHuman
     private CNode m_finish;
     private final ArrayList<CNode> m_middle = new ArrayList<>();
 
-    private Number m_speed;
-    private Number m_acceleration;
+    private Double m_speed;
+    private Double m_acceleration;
     private String m_location;
 
     private Collection<CEvent> m_events;
@@ -54,13 +54,13 @@ public class CHuman implements IHuman
     }
 
     @Override
-    public Number speed()
+    public Double speed()
     {
         return m_speed;
     }
 
     @Override
-    public Number acceleration()
+    public Double acceleration()
     {
         return m_acceleration;
     }

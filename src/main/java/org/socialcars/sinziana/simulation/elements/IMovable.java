@@ -9,9 +9,9 @@ public interface IMovable extends IElement
 {
     String position();
 
-    Number speed();
+    Double speed();
 
-    Number acceleration();
+    Double acceleration();
 
     String destination();
 
