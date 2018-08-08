@@ -69,6 +69,90 @@
           "lat": 17.3205081,
           "lon": -10
         }
+      },
+      {
+        "name" : "node9",
+        "coordinates": {
+          "lat": 28.9777748,
+          "lon": 7.7645713
+        }
+      },
+      {
+        "name" : "node10",
+        "coordinates": {
+          "lat": 21.2132034,
+          "lon": 21.2132034
+        }
+      },
+      {
+        "name" : "node11",
+        "coordinates": {
+          "lat": 7.7645713,
+          "lon": 28.9777748
+        }
+      },
+      {
+        "name" : "node12",
+        "coordinates": {
+          "lat": -7.7645713,
+          "lon": 28.9777748
+        }
+      },
+      {
+        "name" : "node13",
+        "coordinates": {
+          "lat": -21.2132034,
+          "lon": 21.2132034
+        }
+      },
+      {
+        "name" : "node14",
+        "coordinates": {
+          "lat": -28.9777748,
+          "lon": -7.7645713
+        }
+      },
+      {
+        "name" : "node15",
+        "coordinates": {
+          "lat": -28.9777748,
+          "lon": -7.7645713
+        }
+      },
+      {
+        "name" : "node16",
+        "coordinates": {
+          "lat": -21.2132034,
+          "lon": -21.2132034
+        }
+      },
+      {
+        "name" : "node17",
+        "coordinates": {
+          "lat": -7.7645713,
+          "lon": -28.9777748
+        }
+      },
+      {
+        "name" : "node18",
+        "coordinates": {
+          "lat": 7.7645713,
+          "lon": -28.9777748
+        }
+      },
+      {
+        "name" : "node19",
+        "coordinates": {
+          "lat": 21.2132034,
+          "lon": -21.2132034
+        }
+      },
+      {
+        "name" : "node20",
+        "coordinates": {
+          "lat": 28.9777748,
+          "lon": -7.7645713
+        }
       }
     ],
     "edges": [
@@ -511,6 +595,726 @@
         "name": "edge3-8",
         "from": "node3",
         "to": "node8",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge3-9",
+        "from": "node3",
+        "to": "node9",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge9-3",
+        "from": "node9",
+        "to": "node3",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge9-10",
+        "from": "node9",
+        "to": "node10",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge10-9",
+        "from": "node10",
+        "to": "node9",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge3-10",
+        "from": "node3",
+        "to": "node10",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge10-3",
+        "from": "node10",
+        "to": "node3",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge10-11",
+        "from": "node10",
+        "to": "node11",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge11-10",
+        "from": "node11",
+        "to": "node10",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge4-11",
+        "from": "node4",
+        "to": "node11",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge11-4",
+        "from": "node11",
+        "to": "node4",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge12-11",
+        "from": "node12",
+        "to": "node11",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge11-12",
+        "from": "node11",
+        "to": "node12",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge4-12",
+        "from": "node4",
+        "to": "node12",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge12-4",
+        "from": "node12",
+        "to": "node4",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge12-13",
+        "from": "node12",
+        "to": "node13",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge13-12",
+        "from": "node13",
+        "to": "node12",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge5-13",
+        "from": "node5",
+        "to": "node13",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge13-5",
+        "from": "node13",
+        "to": "node5",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge13-14",
+        "from": "node13",
+        "to": "node14",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge14-13",
+        "from": "node14",
+        "to": "node13",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge5-14",
+        "from": "node5",
+        "to": "node14",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge14-5",
+        "from": "node14",
+        "to": "node5",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge14-15",
+        "from": "node14",
+        "to": "node15",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge15-14",
+        "from": "node15",
+        "to": "node14",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge6-15",
+        "from": "node6",
+        "to": "node15",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge15-6",
+        "from": "node15",
+        "to": "node6",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge15-16",
+        "from": "node15",
+        "to": "node16",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge16-15",
+        "from": "node16",
+        "to": "node15",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge6-16",
+        "from": "node6",
+        "to": "node16",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge16-6",
+        "from": "node16",
+        "to": "node6",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge16-17",
+        "from": "node16",
+        "to": "node17",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge17-16",
+        "from": "node17",
+        "to": "node16",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge7-17",
+        "from": "node7",
+        "to": "node17",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge17-7",
+        "from": "node17",
+        "to": "node7",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge17-18",
+        "from": "node17",
+        "to": "node18",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge18-17",
+        "from": "node18",
+        "to": "node17",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge7-18",
+        "from": "node7",
+        "to": "node18",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge18-7",
+        "from": "node18",
+        "to": "node7",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge19-18",
+        "from": "node19",
+        "to": "node18",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge18-19",
+        "from": "node18",
+        "to": "node19",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge8-19",
+        "from": "node8",
+        "to": "node19",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge19-8",
+        "from": "node19",
+        "to": "node8",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge19-20",
+        "from": "node19",
+        "to": "node20",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge20-19",
+        "from": "node20",
+        "to": "node19",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge8-20",
+        "from": "node8",
+        "to": "node20",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge20-8",
+        "from": "node20",
+        "to": "node8",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge20-9",
+        "from": "node20",
+        "to": "node9",
+        "weight" : 1,
+        "poi distribution function" : {
+          "name" : "even",
+          "parameters" : [
+            {
+              "name" : "dist",
+              "value" : 10
+            }
+          ]
+        }
+      },
+      {
+        "name": "edge9-20",
+        "from": "node9",
+        "to": "node20",
         "weight" : 1,
         "poi distribution function" : {
           "name" : "even",
