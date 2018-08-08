@@ -295,7 +295,7 @@ public final class TestCInput
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getNodes() );
         final Set<CStartpojo> l_nodes = l_graph.getNodes();
-        Assert.assertTrue( l_nodes.size() == 8 );
+        Assert.assertTrue( l_nodes.size() == 9 );
         l_nodes.forEach( j ->
         {
             Assert.assertTrue( j.getName().contains( "node" ) );
@@ -323,7 +323,7 @@ public final class TestCInput
         Assert.assertNotNull( m_configuration.getGraph() );
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getEdges() );
-        Assert.assertTrue( l_graph.getEdges().size() == 20 );
+        Assert.assertTrue( l_graph.getEdges().size() == 30 );
         final Set<CEdgepojo> l_edges = l_graph.getEdges();
         l_edges.forEach( e ->
         {
