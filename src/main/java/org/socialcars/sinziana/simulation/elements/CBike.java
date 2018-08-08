@@ -24,7 +24,8 @@ public class CBike implements IBike
     private ArrayList<CNode> m_middle = new ArrayList<>();
 
     private Number m_speed;
-    private Number m_location;
+    private Number m_acceleration;
+    private String m_location;
 
     private Collection<CEvent> m_events;
 
@@ -44,9 +45,27 @@ public class CBike implements IBike
     }
 
     @Override
-    public Number position()
+    public String position()
     {
         return m_location;
+    }
+
+    @Override
+    public Number speed()
+    {
+        return m_speed;
+    }
+
+    @Override
+    public Number acceleration()
+    {
+        return m_acceleration;
+    }
+
+    @Override
+    public String destination()
+    {
+        return m_finish.id();
     }
 
     @Override
@@ -62,7 +81,7 @@ public class CBike implements IBike
     }
 
     @Override
-    public void move( final Number p_newpostion )
+    public void move( final String p_newpostion )
     {
         m_location = p_newpostion;
     }

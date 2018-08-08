@@ -24,15 +24,6 @@ public class TestCOSMBlock
         m_env = new COSMBlock( 1.00, "streets.json" );
     }
 
-    /**
-     * testin mapping
-     */
-    @Test
-    public void testMap()
-    {
-        Assume.assumeNotNull( m_env );
-        m_env.map();
-    }
 
     /**
      * testing the connections of a random block
@@ -53,7 +44,6 @@ public class TestCOSMBlock
     {
         final TestCOSMBlock l_test = new TestCOSMBlock();
         l_test.init();
-        l_test.testMap();
         l_test.testConnection();
     }
 

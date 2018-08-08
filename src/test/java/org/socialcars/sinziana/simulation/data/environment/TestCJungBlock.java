@@ -46,17 +46,6 @@ public class TestCJungBlock
     }
 
     /**
-     * maps the jung environment to the block environment
-     */
-    @Test
-    public void testMap()
-    {
-        Assume.assumeNotNull( m_jungenv );
-        Assume.assumeNotNull( m_env );
-        m_env.map();
-    }
-
-    /**
      * tests the sizes of the blocks environment
      */
     @Test
@@ -76,7 +65,6 @@ public class TestCJungBlock
     {
         final TestCJungBlock l_test = new TestCJungBlock();
         l_test.init();
-        l_test.testMap();
         l_test.testSize();
     }
 }

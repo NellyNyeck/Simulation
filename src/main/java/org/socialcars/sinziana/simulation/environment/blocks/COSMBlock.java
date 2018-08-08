@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.socialcars.sinziana.simulation.data.input.CStreetpojo;
 import org.socialcars.sinziana.simulation.data.input.CStreetsetpojo;
+import org.socialcars.sinziana.simulation.elements.IMovable;
 import org.socialcars.sinziana.simulation.environment.osm.CStreetStructure;
 
 import java.io.File;
@@ -37,10 +38,13 @@ public class COSMBlock implements IBlockEnv
         m_blocks = new ArrayList<>();
         m_connector = "_";
         m_filename = p_file;
+        map();
     }
 
-    @Override
-    public void map()
+    /**
+     * maps the streets to an environment
+     */
+    private void map()
     {
         final ArrayList<CStreetStructure> l_streets;
         try
@@ -207,6 +211,11 @@ public class COSMBlock implements IBlockEnv
     public Number getBlockSize()
     {
         return m_blocksize;
+    }
+
+    @Override
+    public void move( final IMovable p_agent )
+    {
     }
 
     /**

@@ -7,9 +7,15 @@ import org.socialcars.sinziana.simulation.events.CEvent;
  */
 public interface IMovable extends IElement
 {
-    Number position();
+    String position();
 
-    void move( final Number p_newpostion );
+    Number speed();
+
+    Number acceleration();
+
+    String destination();
+
+    void move( final String p_newpostion );
 
     void event( final CEvent p_event );
 }

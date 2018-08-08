@@ -1,5 +1,8 @@
 package org.socialcars.sinziana.simulation.environment.blocks;
 
+import edu.uci.ics.jung.graph.DirectedGraph;
+import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
+import org.socialcars.sinziana.simulation.elements.IMovable;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
@@ -13,11 +16,15 @@ import java.util.stream.IntStream;
  */
 public class CJungBlock implements IBlockEnv
 {
+    private static final String CONNECTOR = "-";
+
     private final Double m_blocksize;
     private HashMap<String, CBlock> m_intersections;
     private HashMap<String, CBlock> m_streets;
 
-    private final CJungEnvironment m_env;
+    private final DirectedGraph<IBlock, String> m_graph;
+
+
 
     /**
      * ctor
@@ -25,10 +32,11 @@ public class CJungBlock implements IBlockEnv
      */
     public CJungBlock( final CJungEnvironment p_env, final Double p_blocksize )
     {
-        m_env = p_env;
         m_blocksize = p_blocksize;
         m_intersections = new HashMap<>();
         m_streets = new HashMap<>();
+        m_graph = new DirectedSparseMultigraph<>();
+        map( p_env );
     }
 
     @Override
@@ -37,13 +45,20 @@ public class CJungBlock implements IBlockEnv
         return m_blocksize;
     }
 
+    @Override
+    public void move( final IMovable p_agent )
+    {
+
+    }
+
     /**
      * maps the jung environemnt to blocks
      */
-    public void map()
+    private void map( final CJungEnvironment p_env )
     {
-        createJungNodes( m_env.nodes() );
-        createJungEdges( m_env.edges() );
+        createJungNodes( p_env.nodes() );
+        // TODO: 08.08.18 do edges
+        //createJungEdges( p_env.edges() );
     }
 
     private void createJungEdges( final Collection<IEdge> p_edges )
@@ -196,27 +211,31 @@ public class CJungBlock implements IBlockEnv
         p_nodes.forEach( n ->
         {
             final CBlock l_bl1 = new CBlock( n.id() + "dr", n.coordinate().latitude(), n.coordinate().longitude() );
-            final CBlock l_bl2 = new CBlock( n.id() + "dl", n.coordinate().latitude(), n.coordinate().longitude() );
-            final CBlock l_bl3 = new CBlock( n.id() + "ul", n.coordinate().latitude(), n.coordinate().longitude() );
-            final CBlock l_bl4 = new CBlock( n.id() + "ur", n.coordinate().latitude(), n.coordinate().longitude() );
             m_intersections.put( l_bl1.id(), l_bl1 );
+            m_graph.addVertex( l_bl1 );
+            final CBlock l_bl2 = new CBlock( n.id() + "dl", n.coordinate().latitude(), n.coordinate().longitude() );
             m_intersections.put( l_bl2.id(), l_bl2 );
+            m_graph.addVertex( l_bl2 );
+            final CBlock l_bl3 = new CBlock( n.id() + "ul", n.coordinate().latitude(), n.coordinate().longitude() );
             m_intersections.put( l_bl3.id(), l_bl3 );
+            m_graph.addVertex( l_bl3 );
+            final CBlock l_bl4 = new CBlock( n.id() + "ur", n.coordinate().latitude(), n.coordinate().longitude() );
             m_intersections.put( l_bl4.id(), l_bl4 );
+            m_graph.addVertex( l_bl4 );
             addNodeConnections( l_bl1, l_bl2, l_bl3, l_bl4 );
         } );
     }
 
     private void addNodeConnections( final CBlock p_dr, final CBlock p_dl, final CBlock p_ul, final CBlock p_ur )
     {
-        p_dr.addUp( p_ur );
-        p_dr.addLeft( p_dl );
-        p_dl.addUp( p_ul );
-        p_dl.addRight( p_dr );
-        p_ul.addRight( p_ur );
-        p_ul.addDown( p_dl );
-        p_ur.addLeft( p_ul );
-        p_ur.addDown( p_dr );
+        m_graph.addEdge( p_dr.id() + CONNECTOR + p_dl.id(), p_dr, p_dl );
+        m_graph.addEdge( p_dr.id() + CONNECTOR + p_ur.id(), p_dr, p_ur );
+        m_graph.addEdge( p_dl.id() + CONNECTOR + p_dr.id(), p_dl, p_dr );
+        m_graph.addEdge( p_dl.id() + CONNECTOR + p_ul.id(), p_dl, p_ul );
+        m_graph.addEdge( p_ur.id() + CONNECTOR + p_dr.id(), p_ur, p_dr );
+        m_graph.addEdge( p_ur.id() + CONNECTOR + p_ul.id(), p_ur, p_ul );
+        m_graph.addEdge( p_ul.id() + CONNECTOR + p_dl.id(), p_ul, p_dl );
+        m_graph.addEdge( p_ul.id() + CONNECTOR + p_ur.id(), p_ul, p_ur );
     }
 
     /**
