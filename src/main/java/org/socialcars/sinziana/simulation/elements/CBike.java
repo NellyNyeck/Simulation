@@ -69,6 +69,12 @@ public class CBike implements IBike
     }
 
     @Override
+    public void accelshift( final Double p_accel )
+    {
+        m_acceleration = p_accel;
+    }
+
+    @Override
     public boolean terminate()
     {
         return false;

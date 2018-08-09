@@ -15,6 +15,8 @@ public interface IMovable extends IElement
 
     String destination();
 
+    void accelshift( final Double p_accel );
+
     void move( final String p_newpostion );
 
     void event( final CEvent p_event );

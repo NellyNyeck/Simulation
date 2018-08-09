@@ -55,10 +55,15 @@ public class CJungBlock implements IBlockEnv
         final CBlock l_pos = m_blocks.get( p_agent.position() );
         final CBlock l_end = m_blocks.get( p_agent.destination() );
         final List<String> l_route = m_pathalgorithm.getPath( l_pos, l_end ).stream().collect( Collectors.toList() );
-        final Double l_speed = p_agent.speed();
-        final CBlock l_next = m_blocks.get( l_route.get( l_speed.intValue() ) );
-        if ( !l_next.occupied() ) p_agent.move( l_next.id() );
-        // TODO: 08.08.18 else
+        Double l_speed = p_agent.speed();
+        final Double l_accel = p_agent.acceleration();
+        while ( m_blocks.get( l_route.get( l_speed.intValue() ) ).occupied() )
+        {
+            l_speed -= 1;
+            p_agent.accelshift( l_accel - 0.1 );
+        }
+        p_agent.move( l_route.get( l_speed.intValue() ) );
+        m_blocks.get( l_route.get( l_speed.intValue() ) ).occupy( p_agent );
     }
 
     /**
