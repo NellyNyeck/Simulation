@@ -216,6 +216,230 @@
           "lat": 39.2314112,
           "lon": -7.8036129
         }
+      },
+      {
+        "name" : "node30",
+        "coordinates": {
+          "lat": 49.7592363,
+          "lon": 4.9008570
+        }
+      },
+      {
+        "name" : "node31",
+        "coordinates": {
+          "lat": 47.8470168,
+          "lon": 14.5142339
+        }
+      },
+      {
+        "name" : "node32",
+        "coordinates": {
+          "lat": 44.0960632,
+          "lon": 23.5698368
+        }
+      },
+      {
+        "name" : "node33",
+        "coordinates": {
+          "lat": 38.6505227,
+          "lon": 31.7196642
+        }
+      },
+      {
+        "name" : "node34",
+        "coordinates": {
+          "lat": 31.7196642,
+          "lon": 38.6505227
+        }
+      },
+      {
+        "name" : "node35",
+        "coordinates": {
+          "lat": 23.5698368,
+          "lon": 44.0960632
+        }
+      },
+      {
+        "name" : "node36",
+        "coordinates": {
+          "lat": 14.5142339,
+          "lon": 47.8470168
+        }
+      },
+      {
+        "name" : "node37",
+        "coordinates": {
+          "lat": 4.9008570,
+          "lon": 49.7592363
+        }
+      },
+      {
+        "name" : "node38",
+        "coordinates": {
+          "lat": -4.9008570,
+          "lon": 49.7592363
+        }
+      },
+      {
+        "name" : "node39",
+        "coordinates": {
+          "lat": -14.5142339,
+          "lon": 47.8470168
+        }
+      },
+      {
+        "name" : "node40",
+        "coordinates": {
+          "lat": -23.5698368,
+          "lon": 44.0960632
+        }
+      },
+      {
+        "name" : "node41",
+        "coordinates": {
+          "lat": -31.7196642,
+          "lon": 38.6505227
+        }
+      },
+      {
+        "name" : "node42",
+        "coordinates": {
+          "lat": -38.6505227,
+          "lon": 31.7196642
+        }
+      },
+      {
+        "name" : "node43",
+        "coordinates": {
+          "lat": -44.0960632,
+          "lon": 23.5698368
+        }
+      },
+      {
+        "name" : "node44",
+        "coordinates": {
+          "lat": -47.8470168,
+          "lon": 14.5142339
+        }
+      },
+      {
+        "name" : "node45",
+        "coordinates": {
+          "lat": -49.7592363,
+          "lon": 4.9008570
+        }
+      },
+      {
+        "name" : "node46",
+        "coordinates": {
+          "lat": -49.7592363,
+          "lon": -4.9008570
+        }
+      },
+      {
+        "name" : "node47",
+        "coordinates": {
+          "lat": -47.8470168,
+          "lon": -14.5142339
+        }
+      },
+      {
+        "name" : "node48",
+        "coordinates": {
+          "lat": -44.0960632,
+          "lon": -23.5698368
+        }
+      },
+      {
+        "name" : "node49",
+        "coordinates": {
+          "lat": -38.6505227,
+          "lon": -31.7196642
+        }
+      },
+      {
+        "name" : "node50",
+        "coordinates": {
+          "lat": -31.7196642,
+          "lon": -38.6505227
+        }
+      },
+      {
+        "name" : "node51",
+        "coordinates": {
+          "lat": -23.5698368,
+          "lon": -44.0960632
+        }
+      },
+      {
+        "name" : "node52",
+        "coordinates": {
+          "lat": -14.5142339,
+          "lon": -47.8470168
+        }
+      },
+      {
+        "name" : "node53",
+        "coordinates": {
+          "lat": -4.9008570,
+          "lon": -49.7592363
+        }
+      },
+      {
+        "name" : "node54",
+        "coordinates": {
+          "lat": 4.9008570,
+          "lon": -49.7592363
+        }
+      },
+      {
+        "name" : "node55",
+        "coordinates": {
+          "lat": 14.5142339,
+          "lon": -47.8470168
+        }
+      },
+      {
+        "name" : "node56",
+        "coordinates": {
+          "lat": 23.5698368,
+          "lon": -44.0960632
+        }
+      },
+      {
+        "name" : "node57",
+        "coordinates": {
+          "lat": 31.7196642,
+          "lon": -38.6505227
+        }
+      },
+      {
+        "name" : "node58",
+        "coordinates": {
+          "lat": 38.6505227,
+          "lon": -31.7196642
+        }
+      },
+      {
+        "name" : "node59",
+        "coordinates": {
+          "lat": 44.0960632,
+          "lon": -23.5698368
+        }
+      },
+      {
+        "name" : "node60",
+        "coordinates": {
+          "lat": 47.8470168,
+          "lon": -14.5142339
+        }
+      },
+      {
+        "name" : "node61",
+        "coordinates": {
+          "lat": 49.7592363,
+          "lon": -4.9008570
+        }
       }
     ],
     "edges": [
