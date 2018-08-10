@@ -52,7 +52,7 @@ public class CRoutePainter implements Painter<JXMapViewer>
 
         // do the drawing again
         l_gr.setColor( m_color );
-        l_gr.setStroke( new BasicStroke( 1 ) );
+        l_gr.setStroke( new BasicStroke( 2 ) );
 
 
         drawRoute( l_gr, p_map );

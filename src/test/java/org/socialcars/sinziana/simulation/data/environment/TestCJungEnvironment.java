@@ -102,10 +102,26 @@ public final class TestCJungEnvironment
     @Test
     public final void route()
     {
+        final JFrame l_frame = new JFrame();
+        l_frame.setSize( new Dimension( 900, 900 ) );
+        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
+        final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
+        l_frame.getContentPane().add( l_view );
+        l_frame.setVisible( true );
+
+        final Map<IEdge, Integer> l_countingmap = new HashMap<>();
+        IntStream.range( 0, 1 )
+            .boxed()
+            .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
+            .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
+
+        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
+        l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
         // create get node function
         //create function to read destinations from file
-        System.out.println( "From Depot 1" );
+        /*System.out.println( "From Depot 1" );
         System.out.println( l_env.route( "node0", "node6", Stream.empty() ) );
         System.out.println( l_env.route( "node0", "node12", Stream.empty() ) );
         System.out.println( l_env.route( "node0", "node13", Stream.empty() ) );
@@ -114,7 +130,7 @@ public final class TestCJungEnvironment
         System.out.println( l_env.route( "node20", "node24", Stream.empty() ) );
         System.out.println( l_env.route( "node20", "node17", Stream.empty() ) );
         System.out.println( l_env.route( "node20", "node12", Stream.empty() ) );
-        System.out.println( l_env.route( "node20", "node13", Stream.empty() ) );
+        System.out.println( l_env.route( "node20", "node13", Stream.empty() ) );*/
     }
 
     /**

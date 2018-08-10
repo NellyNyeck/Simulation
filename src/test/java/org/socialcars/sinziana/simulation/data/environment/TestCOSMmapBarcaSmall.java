@@ -59,10 +59,11 @@ public class TestCOSMmapBarcaSmall
     public void heat() throws IOException
     {
         Assume.assumeNotNull( m_env );
+        final GeoPosition l_start = m_env.randomnode();
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
-        IntStream.range( 0, ROUTENUMBER )
+        IntStream.range( 0, 10 )
             .boxed()
-            .forEach( i -> l_routes.add( m_env.route( m_env.randomnode(), m_env.randomnode(), Stream.empty() ) ) );
+            .forEach( i -> l_routes.add( m_env.route( l_start, m_env.randomnode(), Stream.empty() ) ) );
         m_env.drawHeat( l_routes );
     }
 
@@ -87,8 +88,8 @@ public class TestCOSMmapBarcaSmall
     {
         final TestCOSMmapBarcaSmall l_test = new TestCOSMmapBarcaSmall();
         l_test.init();
-        l_test.route();
+        //l_test.route();
         l_test.heat();
-        l_test.check();
+        //l_test.check();
     }
 }
