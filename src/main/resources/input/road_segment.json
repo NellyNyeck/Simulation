@@ -1,0 +1,26 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description": "a road_segment(street) object structure",
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "coordinates" : {
+      "type" : "object",
+      "$ref" : "coordinates.json"
+    },
+    "up" : {
+      "type": "number"
+    },
+    "down" : {
+      "type": "number"
+    }
+  },
+  "required" : [
+    "name",
+    "coordinates",
+    "up",
+    "down"
+  ]
+}
