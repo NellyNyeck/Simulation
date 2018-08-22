@@ -1,0 +1,149 @@
+{
+  "road_segments" :
+          [
+            {
+              "name" : "Hildesheimer Str",
+              "coordinates": {
+                "lat": 52.3545989,
+                "lon": 9.754762
+              },
+              "up" : 11451,
+              "down" : 0
+            },
+            {
+              "name" : "An der Tiefenriede 33",
+              "coordinates": {
+                "lat": 52.355996,
+                "lon": 9.757713
+              },
+              "up" : 2139,
+              "down" : 939
+            },
+            {
+              "name" : "Geibelstraße",
+              "coordinates": {
+                "lat": 52.359724,
+                "lon": 9.752867
+              },
+              "up" : 1741,
+              "down" : 522
+            },
+            {
+              "name" : "Meterstraße",
+              "coordinates": {
+                "lat": 52.361284,
+                "lon": 9.746618
+              },
+              "up" : 984,
+              "down" : 331
+            },
+            {
+              "name" : "L384",
+              "coordinates": {
+                "lat": 52.368324,
+                "lon": 9.738310
+              },
+              "up" : 13991,
+              "down" : 5262
+            },
+            {
+              "name" : "Georgstraße",
+              "coordinates": {
+                "lat": 52.374819,
+                "lon": 9.737047
+              },
+              "up" : 0,
+              "down" : 1766
+            },
+            {
+              "name" : "An der Tiefenriede 30",
+              "coordinates": {
+                "lat": 52.356436,
+                "lon": 9.757745
+              },
+              "up" : 6801,
+              "down" : 3488
+            },
+            {
+              "name" : "Berliner Allee",
+              "coordinates": {
+                "lat": 52.376155,
+                "lon": 9.750361
+              },
+              "up" : 0,
+              "down" : 14386
+            },
+            {
+              "name" : "Marienstraße",
+              "coordinates": {
+                "lat": 52.369798,
+                "lon": 9.752455
+              },
+              "up" : 10078,
+              "down" : 8178
+            },
+            {
+              "name" : "Lutherstraße",
+              "coordinates": {
+                "lat": 52.367054,
+                "lon": 9.753235
+              },
+              "up" : 738,
+              "down" : 0
+            },
+            {
+              "name" : "Krausenstraße",
+              "coordinates": {
+                "lat": 52.363280,
+                "lon": 9.753653
+              },
+              "up" : 1315,
+              "down" : 1942
+            },
+            {
+              "name" : "Lindemannallee",
+              "coordinates": {
+                "lat": 52.361059,
+                "lon": 9.772652
+              },
+              "up" : 73,
+              "down" : 7853
+            },
+            {
+              "name" : "Mainzer Str.",
+              "coordinates": {
+                "lat": 52.354438,
+                "lon": 9.770032
+              },
+              "up" : 5075,
+              "down" : 0
+            },
+            {
+              "name" : "Altenbekener Damm",
+              "coordinates": {
+                "lat": 52.356527,
+                "lon": 9.763315
+              },
+              "up" : 1843,
+              "down" : 350
+            },
+            {
+              "name" : "Stüvestraße",
+              "coordinates": {
+                "lat": 52.360154,
+                "lon": 9.756720
+              },
+              "up" : 1527,
+              "down" : 209
+            },
+            {
+              "name" : "An der Tiefenriede 30",
+              "coordinates": {
+                "lat": 52.356436,
+                "lon": 9.757745
+              },
+              "up" : 1599,
+              "down" : 137
+            }
+          ]
+}
