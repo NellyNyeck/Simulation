@@ -2,148 +2,148 @@
   "road_segments" :
           [
             {
-              "name" : "Hildesheimer Str",
+              "name" : "Hildesheimer",
               "coordinates": {
-                "lat": 52.3545989,
-                "lon": 9.754762
+                "lat": 52.356502,
+                "lon": 9.753258
               },
-              "up" : 11451,
+              "up" : 10826,
+              "down" : 625
+            },
+            {
+              "name" : "Altenbekener Damm",
+              "coordinates": {
+                "lat": 52.356156,
+                "lon": 9.757659
+              },
+              "up" : 3078,
               "down" : 0
             },
             {
-              "name" : "An der Tiefenriede 33",
+              "name" : "Geibel",
               "coordinates": {
-                "lat": 52.355996,
-                "lon": 9.757713
+                "lat": 52.359928,
+                "lon": 9.752854
               },
-              "up" : 2139,
-              "down" : 939
+              "up" : 1801,
+              "down" : 462
             },
             {
-              "name" : "Geibelstraße",
+              "name" : "Buergermeister Fink",
               "coordinates": {
-                "lat": 52.359724,
-                "lon": 9.752867
-              },
-              "up" : 1741,
-              "down" : 522
-            },
-            {
-              "name" : "Meterstraße",
-              "coordinates": {
-                "lat": 52.361284,
-                "lon": 9.746618
+                "lat": 52.361265,
+                "lon": 9.746544
               },
               "up" : 984,
               "down" : 331
             },
             {
-              "name" : "L384",
+              "name" : "Friedrichswall",
               "coordinates": {
-                "lat": 52.368324,
-                "lon": 9.738310
+                "lat": 52.368327,
+                "lon": 9.738295
               },
               "up" : 13991,
-              "down" : 5262
+              "down" : 5162
             },
             {
-              "name" : "Georgstraße",
+              "name" : "Georg",
               "coordinates": {
-                "lat": 52.374819,
-                "lon": 9.737047
+                "lat": 52.374820,
+                "lon": 9.737050
               },
               "up" : 0,
               "down" : 1766
             },
             {
-              "name" : "An der Tiefenriede 30",
+              "name" : "Schiffgraben",
               "coordinates": {
-                "lat": 52.356436,
-                "lon": 9.757745
+                "lat": 52.373490,
+                "lon": 9.746765
               },
-              "up" : 6801,
-              "down" : 3488
+              "up" : 0,
+              "down" : 10289
             },
             {
-              "name" : "Berliner Allee",
+              "name" : "Berlinerallee",
               "coordinates": {
-                "lat": 52.376155,
-                "lon": 9.750361
+                "lat": 52.376261,
+                "lon": 9.750082
               },
               "up" : 0,
               "down" : 14386
             },
             {
-              "name" : "Marienstraße",
+              "name" : "Marien",
               "coordinates": {
-                "lat": 52.369798,
-                "lon": 9.752455
+                "lat": 52.369794,
+                "lon": 9.752446
               },
               "up" : 10078,
               "down" : 8178
             },
             {
-              "name" : "Lutherstraße",
+              "name" : "Luther",
               "coordinates": {
-                "lat": 52.367054,
-                "lon": 9.753235
+                "lat": 52.367058,
+                "lon": 9.753230
               },
-              "up" : 738,
-              "down" : 0
+              "up" : 700,
+              "down" : 38
             },
             {
-              "name" : "Krausenstraße",
+              "name" : "Krausen",
               "coordinates": {
                 "lat": 52.363280,
-                "lon": 9.753653
+                "lon": 9.753648
               },
-              "up" : 1315,
+              "up" : 1415,
               "down" : 1942
             },
             {
-              "name" : "Lindemannallee",
+              "name" : "Lindenmannallee",
               "coordinates": {
-                "lat": 52.361059,
-                "lon": 9.772652
+                "lat": 52.360577,
+                "lon": 9.772117
               },
-              "up" : 73,
-              "down" : 7853
+              "up" : 1,
+              "down" : 7925
             },
             {
-              "name" : "Mainzer Str.",
+              "name" : "Mainzer",
               "coordinates": {
-                "lat": 52.354438,
+                "lat": 52.354446,
                 "lon": 9.770032
               },
               "up" : 5075,
               "down" : 0
             },
             {
-              "name" : "Altenbekener Damm",
+              "name" : "Stressemannallee",
               "coordinates": {
-                "lat": 52.356527,
-                "lon": 9.763315
+                "lat": 52.356529,
+                "lon": 9.763314
               },
-              "up" : 1843,
-              "down" : 350
+              "up" : 2037,
+              "down" : 156
             },
             {
-              "name" : "Stüvestraße",
+              "name" : "Stueves",
               "coordinates": {
-                "lat": 52.360154,
-                "lon": 9.756720
+                "lat": 52.360166,
+                "lon": 9.756697
               },
               "up" : 1527,
               "down" : 209
             },
             {
-              "name" : "An der Tiefenriede 30",
+              "name" : "An der Tiefeneriede",
               "coordinates": {
-                "lat": 52.356436,
-                "lon": 9.757745
+                "lat": 52.356440,
+                "lon": 9.757746
               },
-              "up" : 1599,
-              "down" : 137
+              "up" : 1584,
+              "down" : 68
             }
           ]
 }
