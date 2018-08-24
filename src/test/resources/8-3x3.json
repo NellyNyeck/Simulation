@@ -8,56 +8,56 @@
 	"graph": {
 		"nodes": [
 			{
-				"name" : "node0",
+				"name" : "0",
 				"coordinates": {
 					"lat": 0,
 					"lon": 0
 				}
 			},
 			{
-				"name" : "node1",
+				"name" : "1",
 				"coordinates": {
 					"lat": 100,
 					"lon": 0
 				}
 			},
 			{
-				"name" : "node2",
+				"name" : "2",
 				"coordinates": {
 					"lat": 200,
 					"lon": 0
 				}
 			},
 			{
-				"name" : "node3",
+				"name" : "3",
 				"coordinates": {
 					"lat": 0,
 					"lon": 75
 				}
 			},
 			{
-				"name" : "node4",
+				"name" : "4",
 				"coordinates": {
 					"lat": 100,
 					"lon": 75
 				}
 			},
 			{
-				"name" : "node5",
+				"name" : "5",
 				"coordinates": {
 					"lat": 200,
 					"lon": 75
 				}
 			},
 			{
-				"name" : "node6",
+				"name" : "6",
 				"coordinates": {
 					"lat": 100,
 					"lon": 150
 				}
 			},
 			{
-				"name" : "node7",
+				"name" : "7",
 				"coordinates": {
 					"lat": 200,
 					"lon": 150
@@ -67,8 +67,8 @@
 		"edges": [
 			{
 				"name": "edge0-1",
-				"from": "node0",
-				"to": "node1",
+				"from": "0",
+				"to": "1",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -82,8 +82,8 @@
 			},
 			{
 				"name": "edge1-0",
-				"from": "node1",
-				"to": "node0",
+				"from": "1",
+				"to": "0",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -97,8 +97,8 @@
 			},
 			{
 				"name": "edge1-2",
-				"from": "node1",
-				"to": "node2",
+				"from": "1",
+				"to": "2",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -112,8 +112,8 @@
 			},
 			{
 				"name": "edge2-1",
-				"from": "node2",
-				"to": "node1",
+				"from": "2",
+				"to": "1",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -127,8 +127,8 @@
 			},
 			{
 				"name": "edge3-4",
-				"from": "node3",
-				"to": "node4",
+				"from": "3",
+				"to": "4",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -142,8 +142,8 @@
 			},
 			{
 				"name": "edge4-3",
-				"from": "node4",
-				"to": "node3",
+				"from": "4",
+				"to": "3",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -157,8 +157,8 @@
 			},
 			{
 				"name": "edge4-5",
-				"from": "node4",
-				"to": "node5",
+				"from": "4",
+				"to": "5",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -172,8 +172,8 @@
 			},
 			{
 				"name": "edge5-4",
-				"from": "node5",
-				"to": "node4",
+				"from": "5",
+				"to": "4",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -187,8 +187,8 @@
 			},
 			{
 				"name": "edge6-7",
-				"from": "node6",
-				"to": "node7",
+				"from": "6",
+				"to": "7",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -202,8 +202,8 @@
 			},
 			{
 				"name": "edge7-6",
-				"from": "node7",
-				"to": "node6",
+				"from": "7",
+				"to": "6",
 				"weight" : 1,
 				"poi distribution function" : {
 					"name" : "even",
@@ -217,8 +217,8 @@
 			},
 			{
 				"name": "edge0-3",
-				"from": "node0",
-				"to": "node3",
+				"from": "0",
+				"to": "3",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -232,8 +232,8 @@
 			},
 			{
 				"name": "edge3-0",
-				"from": "node3",
-				"to": "node0",
+				"from": "3",
+				"to": "0",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -247,8 +247,8 @@
 			},
 			{
 				"name": "edge1-4",
-				"from": "node1",
-				"to": "node4",
+				"from": "1",
+				"to": "4",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -262,8 +262,8 @@
 			},
 			{
 				"name": "edge4-1",
-				"from": "node4",
-				"to": "node1",
+				"from": "4",
+				"to": "1",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -277,8 +277,8 @@
 			},
 			{
 				"name": "edge2-5",
-				"from": "node2",
-				"to": "node5",
+				"from": "2",
+				"to": "5",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -292,8 +292,8 @@
 			},
 			{
 				"name": "edge5-2",
-				"from": "node5",
-				"to": "node2",
+				"from": "5",
+				"to": "2",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -307,8 +307,8 @@
 			},
 			{
 				"name": "edge4-6",
-				"from": "node4",
-				"to": "node6",
+				"from": "4",
+				"to": "6",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -322,8 +322,8 @@
 			},
 			{
 				"name": "edge6-4",
-				"from": "node6",
-				"to": "node4",
+				"from": "6",
+				"to": "4",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -337,8 +337,8 @@
 			},
 			{
 				"name": "edge5-7",
-				"from": "node5",
-				"to": "node7",
+				"from": "5",
+				"to": "7",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -352,8 +352,8 @@
 			},
 			{
 				"name": "edge7-5",
-				"from": "node7",
-				"to": "node5",
+				"from": "7",
+				"to": "5",
 				"weight" : 0.75,
 				"poi distribution function" : {
 					"name" : "even",
@@ -374,7 +374,7 @@
 			"agent-type" : "provider",
 			"colour": "yellow",
       "location":{
-        "name" : "node0",
+        "name" : "0",
         "coordinates": {
           "lat": 0,
           "lon": 0
@@ -391,14 +391,14 @@
           "capacity": 1,
           "provider": "DHL",
 					"start": {
-						"name" : "node0",
+						"name" : "0",
 						"coordinates": {
 							"lat": 0,
 							"lon": 0
 						}
 					},
 					"finish" : {
-						"name" : "node0",
+						"name" : "0",
 						"coordinates": {
 							"lat": 0,
 							"lon": 0
@@ -432,14 +432,14 @@
       "filename": "",
       "agent-type": "bike",
       "start": {
-        "name": "node0",
+        "name": "0",
         "coordinates": {
           "lat": 0,
           "lon": 0
         }
       },
       "finish": {
-        "name": "node0",
+        "name": "0",
         "coordinates": {
           "lat": 0,
           "lon": 0
@@ -456,14 +456,14 @@
       "filename": "",
       "agent-type": "vehicle",
       "start": {
-        "name": "node0",
+        "name": "0",
         "coordinates": {
           "lat": 0,
           "lon": 0
         }
       },
       "finish": {
-        "name": "node0",
+        "name": "0",
         "coordinates": {
           "lat": 0,
           "lon": 0
@@ -480,14 +480,14 @@
       "filename": "",
       "agent-type": "human",
       "start": {
-        "name": "node0",
+        "name": "0",
         "coordinates": {
           "lat": 0,
           "lon": 0
         }
       },
       "finish": {
-        "name": "node0",
+        "name": "0",
         "coordinates": {
           "lat": 0,
           "lon": 0
@@ -504,7 +504,7 @@
       "filename":"",
       "agent-type":"client",
       "location":{
-        "name": "node0",
+        "name": "0",
         "coordinates": {
           "lat": 0,
           "lon": 0
