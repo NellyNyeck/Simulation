@@ -66,7 +66,7 @@ public final class TestCJungEnvironment
     {
         final JFrame l_frame = new JFrame();
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        l_frame.setSize( new Dimension( 900, 900 ) );
+        l_frame.setSize( new Dimension( 1000, 1000 ) );
         l_frame.getContentPane().add( new CJungEnvironment( INPUT.getGraph() ).panel( l_frame.getSize() ) );
         l_frame.setVisible( true );
     }
@@ -78,7 +78,7 @@ public final class TestCJungEnvironment
     public final void heatmap()
     {
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 900, 900 ) );
+        l_frame.setSize( new Dimension( 1000, 1000 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
@@ -103,7 +103,7 @@ public final class TestCJungEnvironment
     public final void route()
     {
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 900, 900 ) );
+        l_frame.setSize( new Dimension( 1000, 1000 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
