@@ -12,7 +12,10 @@
       "$ref" : "coordinates.json"
     },
     "nb" : {
-    	"type" : "integer"
+    	"type" : "array",
+        "items": {
+          "type": "number"
+        }
     }
   },
   "required" : [
