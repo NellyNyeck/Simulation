@@ -90,11 +90,22 @@ public class TestCOSMHsvn
         Assume.assumeNotNull( m_env );
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
         final ArrayList<GeoPosition> l_destinations = new ArrayList<GeoPosition>();
-        IntStream.range( 0, 100 )
+        IntStream.range( 0, 10000 )
             .boxed()
             .forEach( i -> l_destinations.add( m_env.randomnode() ) );
         l_routes.add( m_env.route( m_env.randomnode(), m_env.randomnode(), l_destinations.stream() ) );
         m_env.drawHeat( l_routes );
+    }
+
+    /**
+     * checks if the environment was propperly created
+     * @throws IOException file
+     */
+    @Test
+    public void check() throws IOException
+    {
+        Assume.assumeNotNull( m_env );
+        System.out.println( m_env.getEdges().size() );
     }
 
     /**
@@ -106,6 +117,8 @@ public class TestCOSMHsvn
     {
         final TestCOSMHsvn l_test = new TestCOSMHsvn();
         l_test.init();
-        l_test.routeMultiple();
+        //l_test.routeMultiple();
+        //l_test.heat();
+        //l_test.check();
     }
 }

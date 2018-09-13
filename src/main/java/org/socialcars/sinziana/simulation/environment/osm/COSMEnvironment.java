@@ -76,13 +76,20 @@ public class COSMEnvironment
         m_hopper.setDataReaderFile( p_file );
         m_hopper.setGraphHopperLocation( String.valueOf( new File( p_graphlocation ) ) );
         m_hopper.setEncodingManager( new EncodingManager( "car" ) );
+        //m_hopper.setCHEnabled( false );
         m_hopper.importOrLoad();
 
         m_topleft = new GeoPosition( p_north, p_west );
         m_bottomright = new GeoPosition( p_south, p_east );
 
+        addWeights();
     }
 
+    public void addWeights()
+    {
+
+
+    }
 
     public void route( final GeoPosition p_start, final GeoPosition p_finish, final GeoPosition... p_via )
     {

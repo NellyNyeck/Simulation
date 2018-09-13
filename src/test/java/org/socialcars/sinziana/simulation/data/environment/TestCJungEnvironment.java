@@ -21,8 +21,6 @@ import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 
 /**
  * test class for environment
@@ -39,7 +37,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/biggest.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {

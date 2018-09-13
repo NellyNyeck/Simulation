@@ -1,0 +1,32 @@
+{
+  "$schema" : "http://json-schema.org/draft-07/schema#",
+  "description": "car distribution structure on each road",
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string"
+    },
+    "coordinates" : {
+      "type" : "object",
+      "$ref" : "coordinates.json"
+    },
+    "up" : {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "down" : {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    }
+  },
+  "required" : [
+    "name",
+    "coordinates",
+    "up",
+    "down"
+  ]
+}
