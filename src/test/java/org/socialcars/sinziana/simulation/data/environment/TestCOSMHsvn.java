@@ -28,8 +28,6 @@ public class TestCOSMHsvn
     private ArrayList<CInstance> m_demand;
     private COSMEnvironment m_env;
 
-
-
     static
     {
         try

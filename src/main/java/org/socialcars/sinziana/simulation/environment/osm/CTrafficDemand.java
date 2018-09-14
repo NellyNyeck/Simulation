@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class CTrafficDemand implements Weighting
 {
     private final HashMap<Integer, Float> m_map;
-    private final Float m_speed;
+    private final Integer m_speed;
     private final FlagEncoder m_flagencoder;
 
 
@@ -23,7 +23,7 @@ public class CTrafficDemand implements Weighting
      * @param p_encoder encoder
      * @param p_speed average speed
      */
-    public CTrafficDemand( final String p_filename, final FlagEncoder p_encoder, final Float p_speed )
+    public CTrafficDemand( final String p_filename, final FlagEncoder p_encoder, final Integer p_speed )
     {
         m_flagencoder = p_encoder;
         m_speed = p_speed;

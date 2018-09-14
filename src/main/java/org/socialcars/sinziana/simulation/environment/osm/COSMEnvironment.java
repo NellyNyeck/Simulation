@@ -73,6 +73,7 @@ public class COSMEnvironment
                             final Double p_south, final Double p_east, final Double p_west ) throws IOException
     {
         m_hopper = new GraphHopperOSM().forServer();
+        //m_hopper = new CMyGraphHopper( "demandfile.json", 20 );
         m_hopper.setDataReaderFile( p_file );
         m_hopper.setGraphHopperLocation( String.valueOf( new File( p_graphlocation ) ) );
         m_hopper.setEncodingManager( new EncodingManager( "car" ) );
@@ -81,13 +82,6 @@ public class COSMEnvironment
 
         m_topleft = new GeoPosition( p_north, p_west );
         m_bottomright = new GeoPosition( p_south, p_east );
-
-        addWeights();
-    }
-
-    public void addWeights()
-    {
-
 
     }
 
