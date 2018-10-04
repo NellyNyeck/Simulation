@@ -2,6 +2,7 @@ package org.socialcars.sinziana.simulation.environment.osm;
 
 import com.graphhopper.routing.util.FlagEncoder;
 import com.graphhopper.routing.util.HintsMap;
+import com.graphhopper.routing.weighting.AbstractWeighting;
 import com.graphhopper.routing.weighting.Weighting;
 import com.graphhopper.util.EdgeIteratorState;
 
@@ -28,7 +29,13 @@ public class CTrafficDemand implements Weighting
         m_flagencoder = p_encoder;
         m_speed = p_speed;
         m_map = new HashMap<>();
+        fillmap();
 
+    }
+
+    private void fillmap()
+    {
+        //foreach entry in file, add to map
     }
 
 
@@ -41,7 +48,9 @@ public class CTrafficDemand implements Weighting
     @Override
     public double calcWeight( final EdgeIteratorState p_edge, final boolean p_reverse, final int p_nextprevedgeid )
     {
-        return m_map.get( p_edge.getEdge() );
+        if( m_map.get( p_edge.getEdge() ) != null )
+            return m_map.get( p_edge.getEdge() );
+        else return 0;
     }
 
     @Override

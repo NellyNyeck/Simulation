@@ -4,9 +4,18 @@ import com.codepoetics.protonpack.StreamUtils;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
+import com.graphhopper.reader.DataReader;
 import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.routing.util.CarFlagEncoder;
 import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.routing.util.FlagEncoder;
+import com.graphhopper.storage.GraphBuilder;
+import com.graphhopper.storage.GraphHopperStorage;
+import com.graphhopper.storage.GraphStorage;
+import com.graphhopper.storage.RAMDirectory;
+import com.graphhopper.storage.index.LocationIndex;
+import com.graphhopper.storage.index.LocationIndexTree;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Instruction;
 import com.graphhopper.util.PointList;
@@ -72,13 +81,29 @@ public class COSMEnvironment
     public COSMEnvironment( final String p_file, final String p_graphlocation, final Double p_north,
                             final Double p_south, final Double p_east, final Double p_west ) throws IOException
     {
-        m_hopper = new GraphHopperOSM().forServer();
-        //m_hopper = new CMyGraphHopper( "demandfile.json", 20 );
+        //m_hopper = new GraphHopperOSM().forServer();
+        m_hopper = new CMyGraphHopper( "demandfile.json", 20 ).forServer();
+
+        /*FlagEncoder encoder = new CarFlagEncoder();
+        EncodingManager em = new EncodingManager(encoder);
+        m_hopper.setCHEnabled( false );
+        GraphBuilder gb = new GraphBuilder(em).setLocation(p_graphlocation).setStore(true);
+        GraphStorage graph = gb.create();
+        graph.flush();
+        m_hopper.load( p_graphlocation );*/
+
         m_hopper.setDataReaderFile( p_file );
         m_hopper.setGraphHopperLocation( String.valueOf( new File( p_graphlocation ) ) );
         m_hopper.setEncodingManager( new EncodingManager( "car" ) );
-        //m_hopper.setCHEnabled( false );
-        m_hopper.importOrLoad();
+        m_hopper.setCHEnabled( false );
+        m_hopper.load( p_graphlocation );
+
+        /*m_hopper.setDataReaderFile(p_file);
+        m_hopper.setGraphHopperLocation(p_graphlocation);
+        CarFlagEncoder encoder = new CarFlagEncoder();
+        m_hopper.setEncodingManager(new EncodingManager(encoder));
+        m_hopper.getCHFactoryDecorator().setEnabled(false);
+        m_hopper.importOrLoad();*/
 
         m_topleft = new GeoPosition( p_north, p_west );
         m_bottomright = new GeoPosition( p_south, p_east );
