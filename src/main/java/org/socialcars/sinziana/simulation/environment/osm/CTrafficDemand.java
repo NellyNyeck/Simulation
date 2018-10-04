@@ -1,19 +1,23 @@
 package org.socialcars.sinziana.simulation.environment.osm;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.graphhopper.routing.util.FlagEncoder;
 import com.graphhopper.routing.util.HintsMap;
 import com.graphhopper.routing.weighting.Weighting;
 import com.graphhopper.util.EdgeIteratorState;
+import org.socialcars.sinziana.simulation.data.input.CDensitiespojo;
+import org.socialcars.sinziana.simulation.environment.demand.CDensity;
 
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * class depincting the traffic demand example as weights on the edges
  */
 public class CTrafficDemand implements Weighting
 {
-    private final HashMap<Integer, Float> m_map;
-    private final Integer m_speed;
+    private final CDensity m_map;
+    private final Double m_speed;
     private final FlagEncoder m_flagencoder;
 
 
@@ -22,19 +26,15 @@ public class CTrafficDemand implements Weighting
      * @param p_filename the file with the weights
      * @param p_encoder encoder
      * @param p_speed average speed
+     * @throws IOException file
      */
-    public CTrafficDemand( final String p_filename, final FlagEncoder p_encoder, final Integer p_speed )
+    public CTrafficDemand( final String p_filename, final FlagEncoder p_encoder, final Double p_speed ) throws IOException
     {
         m_flagencoder = p_encoder;
         m_speed = p_speed;
-        m_map = new HashMap<>();
-        fillmap();
-
-    }
-
-    private void fillmap()
-    {
-        //foreach entry in file, add to map
+        final CDensitiespojo l_input;
+        l_input = new ObjectMapper().readValue( new File( "src/test/resources/Density20.json" ), CDensitiespojo.class );
+        m_map = new CDensity( p_speed, l_input.getDensity() );
     }
 
 
@@ -47,15 +47,21 @@ public class CTrafficDemand implements Weighting
     @Override
     public double calcWeight( final EdgeIteratorState p_edge, final boolean p_reverse, final int p_nextprevedgeid )
     {
-        if ( m_map.get( p_edge.getEdge() ) != null )
-            return m_map.get( p_edge.getEdge() );
-        else return 0;
+        if ( m_map.getDensity( p_edge.getEdge() ) != null )
+        {
+            return m_map.getDensity( p_edge.getEdge() );
+        }
+        else return Integer.MAX_VALUE;
     }
 
     @Override
     public long calcMillis( final EdgeIteratorState p_edge, final boolean p_reverse, final int p_nextprevedgeid )
     {
-        return (long) ( ( p_edge.getDistance() / m_speed ) / m_map.get( p_edge.getEdge() ) );
+        if ( m_map.getDensity( p_edge.getEdge() ) != null )
+        {
+            return (long) ( ( p_edge.getDistance() / m_speed ) / m_map.getDensity( p_edge.getEdge() ) );
+        }
+        return 100;
     }
 
     @Override

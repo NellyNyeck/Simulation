@@ -72,7 +72,7 @@ public class COSMEnvironment
                             final Double p_south, final Double p_east, final Double p_west ) throws IOException
     {
         //m_hopper = new GraphHopperOSM().forServer();
-        m_hopper = new CMyGraphHopper( "demandfile.json", 20 ).forServer();
+        m_hopper = new CMyGraphHopper( "demandfile.json", 20.0 ).forServer();
 
         /*FlagEncoder encoder = new CarFlagEncoder();
         EncodingManager em = new EncodingManager(encoder);
