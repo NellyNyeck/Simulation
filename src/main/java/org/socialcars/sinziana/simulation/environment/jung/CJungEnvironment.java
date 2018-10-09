@@ -17,12 +17,15 @@ import org.socialcars.sinziana.simulation.elements.IElement;
 import java.awt.Dimension;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -36,35 +39,56 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     private final DijkstraShortestPath<INode, IEdge> m_pathalgorithm;
     private final Map<String, INode> m_nodes;
     private final INode[] m_nodelist;
+    private final HashMap<String, HashMap<String, INode>> m_zones;
+
 
     /**
      * construnctor
      * @param p_gr the graph pojo given
      */
-    public CJungEnvironment( final CGraphpojo p_gr )
-    {
+    public CJungEnvironment( final CGraphpojo p_gr ) {
         final DirectedGraph<INode, IEdge> l_graph = new DirectedSparseMultigraph<>();
 
         m_nodes = p_gr.getNodes()
             .stream()
-            .map( CNode::new )
-            .peek( l_graph::addVertex )
-            .collect( Collectors.toMap( CNode::id, i -> i ) );
+            .map(CNode::new)
+            .peek(l_graph::addVertex)
+            .collect(Collectors.toMap(CNode::id, i -> i));
 
         p_gr.getEdges()
-            .forEach( e -> l_graph.addEdge(
+            .forEach(e -> l_graph.addEdge(
                 new CEdge(
                     e,
-                    m_nodes.get( e.getFrom() ),
-                    m_nodes.get( e.getTo() )
+                    m_nodes.get(e.getFrom()),
+                    m_nodes.get(e.getTo())
                 ),
-                m_nodes.get( e.getFrom() ),
-                m_nodes.get( e.getTo() ) )
+                m_nodes.get(e.getFrom()),
+                m_nodes.get(e.getTo()))
             );
 
-        m_nodelist = m_nodes.values().toArray( new INode[0] );
-        m_graph = Graphs.unmodifiableGraph( l_graph );
-        m_pathalgorithm = new DijkstraShortestPath<>( m_graph, IEdge::weight );
+        m_nodelist = m_nodes.values().toArray(new INode[0]);
+        m_graph = Graphs.unmodifiableGraph(l_graph);
+        m_pathalgorithm = new DijkstraShortestPath<>(m_graph, IEdge::weight);
+
+        m_zones = new HashMap<>();
+        if (p_gr.getZones() != 0) {
+            AtomicInteger l_count = new AtomicInteger();
+            l_count.set( 1 );
+            int l_npz = m_nodes.size() / p_gr.getZones();
+            IntStream.range(1, p_gr.getZones() + 1 ).boxed().forEach(i -> {
+                HashMap<String, INode> m_mappy = new HashMap<>();
+                IntStream.range(l_count.get(), l_count.get() + l_npz).boxed().forEach(j -> {
+                    m_mappy.put(j.toString(), m_nodes.get(j.toString()));
+                });
+                l_count.addAndGet(l_npz);
+                m_zones.put( String.valueOf( i ), m_mappy );
+            } );
+            if ( l_count.intValue() < m_nodes.size() )
+            {
+                HashMap<String, INode> l_local = m_zones.get( String.valueOf( p_gr.getZones() ) );
+                IntStream.range( l_count.intValue(), m_nodes.size() ).boxed().forEach( i -> l_local.put( i.toString(), m_nodes.get( i.toString() ) ) );
+            }
+        }
     }
 
     public Collection<IEdge> edges()
@@ -127,6 +151,12 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     public INode randomnode()
     {
         return m_nodelist[ ThreadLocalRandom.current().nextInt( m_nodelist.length ) ];
+    }
+
+    @Override
+    public HashMap<String, HashMap<String, INode>> getZones()
+    {
+        return m_zones;
     }
 
     @Override

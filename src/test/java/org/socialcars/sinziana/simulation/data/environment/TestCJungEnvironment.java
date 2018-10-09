@@ -2,6 +2,7 @@ package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
@@ -27,7 +28,7 @@ import java.util.stream.IntStream;
  */
 public final class TestCJungEnvironment
 {
-    private static final int ROUTENUMBER = 1000;
+    private static final int ROUTENUMBER = 10;
 
     private static final CInputpojo INPUT;
 
@@ -37,7 +38,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/biggest.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -129,6 +130,22 @@ public final class TestCJungEnvironment
         System.out.println( l_env.route( "node20", "node17", Stream.empty() ) );
         System.out.println( l_env.route( "node20", "node12", Stream.empty() ) );
         System.out.println( l_env.route( "node20", "node13", Stream.empty() ) );*/
+    }
+
+    @Test
+    public void testZones()
+    {
+        HashMap<String, HashMap<String, INode>> l_zones = m_env.getZones();
+        Assert.assertTrue( l_zones.size() == 3 );
+        IntStream.range( 1, l_zones.size()+1 ).forEach( i ->
+        {
+            HashMap<String, INode> l_test = l_zones.get( String.valueOf( i ) );
+            l_test.keySet().forEach( k ->
+            {
+                System.out.println( "node" + l_test.get( k ) );
+            } );
+        } );
+
     }
 
     /**

@@ -4,6 +4,7 @@ import org.socialcars.sinziana.simulation.elements.IElement;
 
 import javax.swing.JPanel;
 import java.awt.Dimension;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -59,6 +60,12 @@ public interface IEnvironment<V extends JPanel>
      * @return node
      */
     INode randomnode();
+
+    /**
+     * returns the zones
+     * @return zones
+     */
+    HashMap<String, HashMap<String, INode>> getZones();
 
 
      //@todo methode geändert, bitte nachvollziehen, warum das so wesentlich sinnvoller ist

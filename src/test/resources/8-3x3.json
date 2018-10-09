@@ -6,6 +6,7 @@
 		"length unit": "meter"
 	},
 	"graph": {
+    "zones" : 3,
 		"nodes": [
 			{
 				"name" : "0",
@@ -69,7 +70,7 @@
 				"name": "edge0-1",
 				"from": "0",
 				"to": "1",
-				"weight" : 1,
+				"weight" : 0,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -84,7 +85,7 @@
 				"name": "edge1-0",
 				"from": "1",
 				"to": "0",
-				"weight" : 1,
+				"weight" : 10,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -99,7 +100,7 @@
 				"name": "edge1-2",
 				"from": "1",
 				"to": "2",
-				"weight" : 1,
+				"weight" : 2,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -114,7 +115,7 @@
 				"name": "edge2-1",
 				"from": "2",
 				"to": "1",
-				"weight" : 1,
+				"weight" : 20,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -129,7 +130,7 @@
 				"name": "edge3-4",
 				"from": "3",
 				"to": "4",
-				"weight" : 1,
+				"weight" : 3,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -144,7 +145,7 @@
 				"name": "edge4-3",
 				"from": "4",
 				"to": "3",
-				"weight" : 1,
+				"weight" : 30,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -159,7 +160,7 @@
 				"name": "edge4-5",
 				"from": "4",
 				"to": "5",
-				"weight" : 1,
+				"weight" : 4,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -174,7 +175,7 @@
 				"name": "edge5-4",
 				"from": "5",
 				"to": "4",
-				"weight" : 1,
+				"weight" : 40,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -189,7 +190,7 @@
 				"name": "edge6-7",
 				"from": "6",
 				"to": "7",
-				"weight" : 1,
+				"weight" : 5,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -204,7 +205,7 @@
 				"name": "edge7-6",
 				"from": "7",
 				"to": "6",
-				"weight" : 1,
+				"weight" : 50,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -234,7 +235,7 @@
 				"name": "edge3-0",
 				"from": "3",
 				"to": "0",
-				"weight" : 0.75,
+				"weight" : 75,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -264,7 +265,7 @@
 				"name": "edge4-1",
 				"from": "4",
 				"to": "1",
-				"weight" : 0.75,
+				"weight" : 75,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -294,7 +295,7 @@
 				"name": "edge5-2",
 				"from": "5",
 				"to": "2",
-				"weight" : 0.75,
+				"weight" : 75,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -324,7 +325,7 @@
 				"name": "edge6-4",
 				"from": "6",
 				"to": "4",
-				"weight" : 0.75,
+				"weight" : 75,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [
@@ -354,7 +355,7 @@
 				"name": "edge7-5",
 				"from": "7",
 				"to": "5",
-				"weight" : 0.75,
+				"weight" : 75,
 				"poi distribution function" : {
 					"name" : "even",
 					"parameters" : [

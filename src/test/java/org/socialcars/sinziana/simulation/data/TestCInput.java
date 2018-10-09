@@ -284,6 +284,17 @@ public final class TestCInput
         Assert.assertTrue( l_graph.getAdditionalProperties().size() == 1 );
     }
 
+    @Test
+    public void testzones()
+    {
+        Assume.assumeNotNull( m_configuration );
+        Assert.assertNotNull( m_configuration.getGraph() );
+        final CGraphpojo l_graph = m_configuration.getGraph();
+        Assert.assertTrue( l_graph.equals( l_graph ) );
+        Assert.assertTrue( !l_graph.toString().isEmpty() );
+        Assert.assertTrue( l_graph.getZones() == 3 );
+    }
+
     /**
      * testing the nodes in the graph
      */

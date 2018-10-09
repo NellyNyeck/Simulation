@@ -47,7 +47,7 @@ public class TestCOSMHsvn
     @Before
     public void init() throws IOException
     {
-        m_env = new COSMEnvironment( "src/test/resources/niedersachsen-latest.osm.pbf", "src/test/HannoverDemand", 52.373400, 52.346500,  9.77800, 9.746206 );
+        m_env = new COSMEnvironment( "src/test/resources/niedersachsen-latest.osm.pbf", "src/test/Hannover", 52.373400, 52.346500,  9.77800, 9.746206 );
         m_demand = new ArrayList<>();
         INPUT.getDemand().forEach( j ->
         {
