@@ -33,8 +33,8 @@ public class CTrafficDemand implements Weighting
         m_flagencoder = p_encoder;
         m_speed = p_speed;
         final CDensitiespojo l_input;
-        l_input = new ObjectMapper().readValue( new File( "src/test/resources/Density20.json" ), CDensitiespojo.class );
-        m_map = new CDensity( p_speed, l_input.getDensity() );
+        l_input = new ObjectMapper().readValue( new File( p_filename ), CDensitiespojo.class );
+        m_map = new CDensity( l_input.getDensity() );
     }
 
 
@@ -47,9 +47,9 @@ public class CTrafficDemand implements Weighting
     @Override
     public double calcWeight( final EdgeIteratorState p_edge, final boolean p_reverse, final int p_nextprevedgeid )
     {
-        if ( m_map.getDensity( p_edge.getEdge() ) != null )
+        if ( m_map.getDensity( String.valueOf( p_edge.getEdge() ) ) != null )
         {
-            return m_map.getDensity( p_edge.getEdge() );
+            return m_map.getDensity( String.valueOf( p_edge.getEdge() ) );
         }
         else return Integer.MAX_VALUE;
     }
@@ -57,9 +57,9 @@ public class CTrafficDemand implements Weighting
     @Override
     public long calcMillis( final EdgeIteratorState p_edge, final boolean p_reverse, final int p_nextprevedgeid )
     {
-        if ( m_map.getDensity( p_edge.getEdge() ) != null )
+        if ( m_map.getDensity( String.valueOf( p_edge.getEdge() ) ) != null )
         {
-            return (long) ( ( p_edge.getDistance() / m_speed ) / m_map.getDensity( p_edge.getEdge() ) );
+            return (long) ( ( p_edge.getDistance() / m_speed ) / m_map.getDensity( String.valueOf( p_edge.getEdge() ) ) );
         }
         return 100;
     }

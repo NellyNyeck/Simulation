@@ -1,6 +1,6 @@
-package org.socialcars.sinziana.simulation.environment.demand;
+package org.socialcars.sinziana.simulation.environment.demand.osm;
 
-import org.socialcars.sinziana.simulation.data.input.CDemandpojo;
+import org.socialcars.sinziana.simulation.data.input.CDemandosmpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CCoordinate;
 
 import java.util.logging.Logger;
@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 /**
  * class for one instance of demand
  */
-public class CInstance implements IInstance
+public class CInstanceOSM implements IInstanceOSM
 {
-    private static final Logger LOGGER = Logger.getLogger( CInstance.class.getName() );
+    private static final Logger LOGGER = Logger.getLogger( CInstanceOSM.class.getName() );
 
     private final CCoordinate m_from;
 
@@ -22,7 +22,7 @@ public class CInstance implements IInstance
      * ctor
      * @param p_pojo the pojo instance given
      */
-    public CInstance( final CDemandpojo p_pojo )
+    public CInstanceOSM( final CDemandosmpojo p_pojo )
     {
         m_from = new CCoordinate( p_pojo.getFrom() );
         m_to = new CCoordinate( p_pojo.getTo() );

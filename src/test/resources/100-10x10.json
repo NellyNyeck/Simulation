@@ -6,9 +6,10 @@
     "length unit": "meter"
   },
   "graph": {
+    "zones": 10,
     "nodes": [
       {
-        "name" : "0",
+        "name" : "100",
         "coordinates": {
           "lat": 0,
           "lon": 0
@@ -710,8 +711,8 @@
     ],
     "edges": [
       {
-        "name": "edge0-1",
-        "from": "0",
+        "name": "edge100-1",
+        "from": "100",
         "to": "1",
         "weight" : 1,
         "poi distribution function" : {
@@ -725,9 +726,9 @@
         }
       },
       {
-        "name": "edge1-0",
+        "name": "edge1-100",
         "from": "1",
-        "to": "0",
+        "to": "100",
         "weight" : 1,
         "poi distribution function" : {
           "name" : "even",
@@ -3410,8 +3411,8 @@
         }
       },
       {
-        "name": "edge0-10",
-        "from": "0",
+        "name": "edge100-10",
+        "from": "100",
         "to": "10",
         "weight" : 1,
         "poi distribution function" : {
@@ -3425,9 +3426,9 @@
         }
       },
       {
-        "name": "edge10-0",
+        "name": "edge10-100",
         "from": "10",
-        "to": "0",
+        "to": "100",
         "weight" : 1,
         "poi distribution function" : {
           "name" : "even",

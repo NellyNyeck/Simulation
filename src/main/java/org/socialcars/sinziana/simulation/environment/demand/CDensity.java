@@ -11,26 +11,23 @@ import java.util.Set;
 public class CDensity implements IDensity
 {
 
-    private final Double m_speed;
-    private final HashMap<Integer, Double> m_densities;
+    private final HashMap<String, Double> m_densities;
 
     /**
      * ctor
-     * @param p_speed speed
      * @param p_densities densities set
      */
-    public CDensity( final Double p_speed, final Set<CDensitypojo> p_densities )
+    public CDensity(  final Set<CDensitypojo> p_densities )
     {
-        m_speed = p_speed;
         m_densities = new HashMap<>();
         p_densities.forEach( d ->
         {
-            m_densities.put( d.getId(), d.getDensity() );
+            m_densities.put( String.valueOf( d.getId() ), d.getDensity() );
         } );
     }
 
     @Override
-    public Double getDensity( final int p_edge )
+    public Double getDensity( final String p_edge )
     {
         return m_densities.get( p_edge );
     }

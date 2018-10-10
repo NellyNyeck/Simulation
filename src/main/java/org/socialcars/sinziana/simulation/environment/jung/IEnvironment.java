@@ -65,7 +65,14 @@ public interface IEnvironment<V extends JPanel>
      * returns the zones
      * @return zones
      */
-    HashMap<String, HashMap<String, INode>> getZones();
+    HashMap<String, List<INode>> getZones();
+
+    /**
+     * gets a random node by zone
+     * @param p_zone the zone
+     * @return the node
+     */
+    INode randomnodebyzone( final String p_zone );
 
 
      //@todo methode geändert, bitte nachvollziehen, warum das so wesentlich sinnvoller ist

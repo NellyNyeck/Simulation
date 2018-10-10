@@ -5,5 +5,5 @@ package org.socialcars.sinziana.simulation.environment.demand;
  */
 public interface IDensity
 {
-    Double getDensity( final int p_edge );
+    Double getDensity( final String p_edge );
 }

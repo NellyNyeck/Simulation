@@ -37,7 +37,7 @@ public final class TestCDensity
     @Before
     public void init() throws IOException
     {
-        m_densities = new CDensity( 20.0, INPUT.getDensity() );
+        m_densities = new CDensity( INPUT.getDensity() );
     }
 
     @Test

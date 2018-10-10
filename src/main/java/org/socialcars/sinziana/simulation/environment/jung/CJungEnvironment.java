@@ -15,6 +15,7 @@ import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -39,54 +40,58 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     private final DijkstraShortestPath<INode, IEdge> m_pathalgorithm;
     private final Map<String, INode> m_nodes;
     private final INode[] m_nodelist;
-    private final HashMap<String, HashMap<String, INode>> m_zones;
+    private final HashMap<String, List<INode>> m_zones;
 
 
     /**
      * construnctor
      * @param p_gr the graph pojo given
      */
-    public CJungEnvironment( final CGraphpojo p_gr ) {
+    public CJungEnvironment( final CGraphpojo p_gr )
+    {
         final DirectedGraph<INode, IEdge> l_graph = new DirectedSparseMultigraph<>();
 
         m_nodes = p_gr.getNodes()
             .stream()
-            .map(CNode::new)
-            .peek(l_graph::addVertex)
-            .collect(Collectors.toMap(CNode::id, i -> i));
+            .map( CNode::new )
+            .peek( l_graph::addVertex )
+            .collect( Collectors.toMap( CNode::id, i -> i ) );
 
         p_gr.getEdges()
-            .forEach(e -> l_graph.addEdge(
+            .forEach( e -> l_graph.addEdge(
                 new CEdge(
                     e,
-                    m_nodes.get(e.getFrom()),
-                    m_nodes.get(e.getTo())
+                    m_nodes.get( e.getFrom() ),
+                    m_nodes.get( e.getTo() )
                 ),
-                m_nodes.get(e.getFrom()),
-                m_nodes.get(e.getTo()))
+                m_nodes.get( e.getFrom() ),
+                m_nodes.get( e.getTo() ) )
             );
 
-        m_nodelist = m_nodes.values().toArray(new INode[0]);
-        m_graph = Graphs.unmodifiableGraph(l_graph);
-        m_pathalgorithm = new DijkstraShortestPath<>(m_graph, IEdge::weight);
+        m_nodelist = m_nodes.values().toArray( new INode[0] );
+        m_graph = Graphs.unmodifiableGraph( l_graph );
+        m_pathalgorithm = new DijkstraShortestPath<>( m_graph, IEdge::weight );
 
         m_zones = new HashMap<>();
-        if (p_gr.getZones() != 0) {
-            AtomicInteger l_count = new AtomicInteger();
+        if ( p_gr.getZones() != 0 )
+        {
+            final AtomicInteger l_count = new AtomicInteger();
             l_count.set( 1 );
-            int l_npz = m_nodes.size() / p_gr.getZones();
-            IntStream.range(1, p_gr.getZones() + 1 ).boxed().forEach(i -> {
-                HashMap<String, INode> m_mappy = new HashMap<>();
-                IntStream.range(l_count.get(), l_count.get() + l_npz).boxed().forEach(j -> {
-                    m_mappy.put(j.toString(), m_nodes.get(j.toString()));
-                });
-                l_count.addAndGet(l_npz);
-                m_zones.put( String.valueOf( i ), m_mappy );
+            final int l_npz = m_nodes.size() / p_gr.getZones();
+            IntStream.range( 1, p_gr.getZones() + 1 ).boxed().forEach( i ->
+            {
+                final ArrayList<INode> l_mappy = new ArrayList<>();
+                IntStream.range( l_count.get(), l_count.get() + l_npz ).boxed().forEach( j ->
+                {
+                    l_mappy.add( m_nodes.get( j.toString() ) );
+                } );
+                l_count.addAndGet( l_npz );
+                m_zones.put( String.valueOf( i ), l_mappy );
             } );
             if ( l_count.intValue() < m_nodes.size() )
             {
-                HashMap<String, INode> l_local = m_zones.get( String.valueOf( p_gr.getZones() ) );
-                IntStream.range( l_count.intValue(), m_nodes.size() ).boxed().forEach( i -> l_local.put( i.toString(), m_nodes.get( i.toString() ) ) );
+                final List<INode> l_local = m_zones.get( String.valueOf( p_gr.getZones() ) );
+                IntStream.range( l_count.intValue(), m_nodes.size() ).boxed().forEach( i -> l_local.add( m_nodes.get( i.toString() ) ) );
             }
         }
     }
@@ -154,9 +159,15 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     }
 
     @Override
-    public HashMap<String, HashMap<String, INode>> getZones()
+    public HashMap<String, List<INode>> getZones()
     {
         return m_zones;
+    }
+
+    @Override
+    public INode randomnodebyzone( final String p_zone )
+    {
+        return m_zones.get( p_zone ).get( ThreadLocalRandom.current().nextInt( m_zones.get( p_zone ).size() ) );
     }
 
     @Override
@@ -183,6 +194,31 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     public String toString()
     {
         return m_graph.toString();
+    }
+
+    private static class CVisitedStructure
+    {
+        private final String m_id;
+        private Integer m_visited;
+
+        CVisitedStructure( final String p_id, final Integer p_visited )
+        {
+            m_id = p_id;
+            m_visited = p_visited;
+        }
+
+        private void add( final Integer p_new )
+        {
+            m_visited = m_visited + p_new;
+        }
+
+        private Map<String, Object> toMap()
+        {
+            final HashMap<String, Object> l_map = new HashMap<>();
+            l_map.put( "id", m_id );
+            l_map.put( "visited", m_visited );
+            return l_map;
+        }
     }
 
 }

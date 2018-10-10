@@ -7,7 +7,7 @@
       "type" :"array",
       "items" : {
         "type" : "object",
-        "$ref" : "demand.json"
+        "$ref" : "demandjung.json"
       },
       "uniqueItems" : true,
       "minItems" : 1

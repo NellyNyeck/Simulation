@@ -284,6 +284,9 @@ public final class TestCInput
         Assert.assertTrue( l_graph.getAdditionalProperties().size() == 1 );
     }
 
+    /**
+     * testing the zones
+     */
     @Test
     public void testzones()
     {

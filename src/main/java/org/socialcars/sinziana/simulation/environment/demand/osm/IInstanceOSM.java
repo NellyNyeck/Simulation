@@ -1,11 +1,11 @@
-package org.socialcars.sinziana.simulation.environment.demand;
+package org.socialcars.sinziana.simulation.environment.demand.osm;
 
 import org.socialcars.sinziana.simulation.environment.jung.CCoordinate;
 
 /**
  * interface for demand class
  */
-public interface IInstance
+public interface IInstanceOSM
 {
     public CCoordinate from();
 

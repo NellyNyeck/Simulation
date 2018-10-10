@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -38,7 +39,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/100-10x10.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -102,7 +103,7 @@ public final class TestCJungEnvironment
     public final void route()
     {
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 1000, 1000 ) );
+        l_frame.setSize( new Dimension( 2000, 2000 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
@@ -132,20 +133,25 @@ public final class TestCJungEnvironment
         System.out.println( l_env.route( "node20", "node13", Stream.empty() ) );*/
     }
 
+    /**
+     * testing the zones
+     */
     @Test
     public void testZones()
     {
-        HashMap<String, HashMap<String, INode>> l_zones = m_env.getZones();
-        Assert.assertTrue( l_zones.size() == 3 );
-        IntStream.range( 1, l_zones.size()+1 ).forEach( i ->
+        final HashMap<String, List<INode>> l_zones = m_env.getZones();
+        Assert.assertTrue( l_zones.size() == 10 );
+        IntStream.range( 1, l_zones.size() + 1 ).forEach( i ->
         {
-            HashMap<String, INode> l_test = l_zones.get( String.valueOf( i ) );
-            l_test.keySet().forEach( k ->
+            final List<INode> l_test = l_zones.get( String.valueOf( i ) );
+            l_test.forEach( k ->
             {
-                System.out.println( "node" + l_test.get( k ) );
+                System.out.println( "node " + k.id() );
             } );
         } );
+        System.out.println();
 
+        System.out.println( m_env.randomnodebyzone( String.valueOf( 3 ) ).id() );
     }
 
     /**

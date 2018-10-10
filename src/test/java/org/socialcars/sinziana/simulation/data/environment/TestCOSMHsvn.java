@@ -5,8 +5,8 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.jxmapviewer.viewer.GeoPosition;
-import org.socialcars.sinziana.simulation.data.input.CDemandspojo;
-import org.socialcars.sinziana.simulation.environment.demand.CInstance;
+import org.socialcars.sinziana.simulation.data.input.CDemandsosmpojo;
+import org.socialcars.sinziana.simulation.environment.demand.osm.CInstanceOSM;
 import org.socialcars.sinziana.simulation.environment.osm.COSMEnvironment;
 
 import java.io.File;
@@ -23,16 +23,16 @@ import java.util.stream.Stream;
  */
 public class TestCOSMHsvn
 {
-    private static final CDemandspojo INPUT;
+    private static final CDemandsosmpojo INPUT;
 
-    private ArrayList<CInstance> m_demand;
+    private ArrayList<CInstanceOSM> m_demand;
     private COSMEnvironment m_env;
 
     static
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/HSVN.json" ), CDemandspojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/HSVN.json" ), CDemandsosmpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -51,7 +51,7 @@ public class TestCOSMHsvn
         m_demand = new ArrayList<>();
         INPUT.getDemand().forEach( j ->
         {
-            final CInstance l_new = new CInstance( j );
+            final CInstanceOSM l_new = new CInstanceOSM( j );
             m_demand.add( l_new );
         } );
     }
