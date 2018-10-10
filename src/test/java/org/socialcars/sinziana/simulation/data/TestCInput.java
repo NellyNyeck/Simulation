@@ -44,7 +44,7 @@ public final class TestCInput
     @Before
     public final void init() throws IOException
     {
-        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/spiderweb.json" ), CInputpojo.class );
+        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten.json" ), CInputpojo.class );
     }
 
     /**
@@ -295,10 +295,10 @@ public final class TestCInput
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getNodes() );
         final Set<CStartpojo> l_nodes = l_graph.getNodes();
-        Assert.assertTrue( l_nodes.size() == 96 );
+        Assert.assertTrue( l_nodes.size() == 361 );
         l_nodes.forEach( j ->
         {
-            Assert.assertTrue( j.getName().contains( "node" ) );
+            Assert.assertTrue( j.getName().contains( "" ) );
             final CCoordinatespojo l_coo = j.getCoordinates();
             Assert.assertTrue( l_coo.equals( l_coo ) );
             Assert.assertTrue( l_coo.getAdditionalProperties().size() == 0 );
@@ -323,7 +323,7 @@ public final class TestCInput
         Assert.assertNotNull( m_configuration.getGraph() );
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getEdges() );
-        Assert.assertTrue( l_graph.getEdges().size() == 352 );
+        Assert.assertTrue( l_graph.getEdges().size() == 766 );
         final Set<CEdgepojo> l_edges = l_graph.getEdges();
         l_edges.forEach( e ->
         {
@@ -335,9 +335,10 @@ public final class TestCInput
             e.setProvider( "bla" );
             Assert.assertTrue( e.getProvider().contentEquals( "bla" ) );
             Assert.assertTrue( e.getName().contains( "edge" ) );
-            Assert.assertTrue( e.getFrom().contains( "node" ) );
-            Assert.assertTrue( e.getTo().contains( "node" ) );
-            Assert.assertTrue( ( e.getWeight() == 1.0 ) || ( e.getWeight() == 0.75 ) );
+            Assert.assertTrue( e.getFrom().contains( "" ) );
+            Assert.assertTrue( e.getTo().contains( "" ) );
+            //Assert.assertTrue( ( e.getWeight() == 1.0 ) || ( e.getWeight() == 0.75 ) );
+            Assert.assertTrue( ( e.getWeight() == 1.0 ) || ( e.getWeight() == 0 ) );
             Assert.assertNotNull( e.getFunction() );
             final CFunctionpojo l_funct = e.getFunction();
             Assert.assertTrue( l_funct.getName().equals( "even" )  );
