@@ -253,7 +253,7 @@ public class COSMBlock implements IBlockEnv
     /**
      * to see the connections of a block
      */
-    public void connection( final int p_pos )
+    public void connection( final String p_pos )
     {
         final CBlock l_block = m_blocks.get( p_pos );
         System.out.println( l_block.id() );

@@ -90,6 +90,6 @@ public class TestCOSMmapBarcaSmall
         l_test.init();
         //l_test.route();
         l_test.heat();
-        //l_test.check();
+        l_test.check();
     }
 }

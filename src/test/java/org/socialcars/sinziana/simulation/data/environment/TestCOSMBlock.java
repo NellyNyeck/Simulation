@@ -32,7 +32,7 @@ public class TestCOSMBlock
     public void testConnection()
     {
         Assume.assumeNotNull( m_env );
-        m_env.connection( 14 );
+        m_env.connection( "41.412916587581854_2.18094964729882" );
     }
 
     /**
