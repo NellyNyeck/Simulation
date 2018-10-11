@@ -77,7 +77,7 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
         {
             final AtomicInteger l_count = new AtomicInteger();
             l_count.set( 1 );
-            final int l_npz = m_nodes.size() / p_gr.getZones();
+            final int l_npz =  m_nodes.size() / p_gr.getZones();
             IntStream.range( 1, p_gr.getZones() + 1 ).boxed().forEach( i ->
             {
                 final ArrayList<INode> l_mappy = new ArrayList<>();
@@ -91,7 +91,7 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
             if ( l_count.intValue() < m_nodes.size() )
             {
                 final List<INode> l_local = m_zones.get( String.valueOf( p_gr.getZones() ) );
-                IntStream.range( l_count.intValue(), m_nodes.size() ).boxed().forEach( i -> l_local.add( m_nodes.get( i.toString() ) ) );
+                IntStream.range( l_count.intValue(), m_nodes.size() + 1 ).boxed().forEach( i -> l_local.add( m_nodes.get( i.toString() ) ) );
             }
         }
     }

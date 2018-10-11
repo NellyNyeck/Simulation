@@ -10,7 +10,7 @@
       "type" : "string"
     },
     "nb" : {
-      "type" : "integer"
+      "type" : "number"
     }
   },
   "required" : [

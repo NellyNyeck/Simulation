@@ -47,8 +47,8 @@ public class TestCJungDemands
     {
         try
         {
-            INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/100-10x10.json" ), CInputpojo.class );
-            INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/jungdemandtest.json" ), CDemandsjungpojo.class );
+            INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten.json" ), CInputpojo.class );
+            INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_demand.json" ), CDemandsjungpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -91,7 +91,7 @@ public class TestCJungDemands
         final HashMap<IEdge, Integer> l_countingmap = new HashMap<>();
         m_demand.forEach( i ->
         {
-            IntStream.range( 0, i.howMany() ).boxed()
+            IntStream.range( 0, Math.round( i.howMany() ) ).boxed()
                 .flatMap( j -> l_env.route( l_env.randomnodebyzone( i.from() ), l_env.randomnodebyzone( i.to() ) ).stream() )
                 .forEach( j -> l_countingmap.put( j, l_countingmap.getOrDefault( j, 0 ) + 1 ) );
         } );
@@ -124,7 +124,7 @@ public class TestCJungDemands
     public void testZones()
     {
         final HashMap<String, List<INode>> l_zones = m_env.getZones();
-        Assert.assertTrue( l_zones.size() == 10 );
+        Assert.assertTrue( l_zones.size() == 26 );
         IntStream.range( 1, l_zones.size() + 1 ).forEach( i ->
         {
             final List<INode> l_test = l_zones.get( String.valueOf( i ) );

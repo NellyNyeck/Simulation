@@ -14,7 +14,7 @@ public class CInstanceJung implements IInstanceJung
 
     private final String m_from;
     private final String m_to;
-    private final Integer m_howmany;
+    private final Float m_howmany;
 
     /**
      * ctor
@@ -24,7 +24,7 @@ public class CInstanceJung implements IInstanceJung
     {
         m_from = p_pojo.getFrom();
         m_to = p_pojo.getTo();
-        m_howmany = p_pojo.getNb();
+        m_howmany = (float) p_pojo.getNb();
     }
 
     @Override
@@ -40,7 +40,7 @@ public class CInstanceJung implements IInstanceJung
     }
 
     @Override
-    public int howMany()
+    public Float howMany()
     {
         return m_howmany;
     }

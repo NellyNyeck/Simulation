@@ -9,6 +9,6 @@ public interface IInstanceJung
 
     public String to();
 
-    public int howMany();
+    public Float howMany();
 
 }
