@@ -6381,7 +6381,7 @@
         "name": "edge101-147",
         "from": "101",
         "to": "147",
-        "weight" : 0,
+        "weight" : 2203,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6396,7 +6396,7 @@
         "name": "edge102-85",
         "from": "102",
         "to": "85",
-        "weight" : 0,
+        "weight" : 10,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6411,7 +6411,7 @@
         "name": "edge102-96",
         "from": "102",
         "to": "96",
-        "weight" : 0,
+        "weight" : 1083,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6426,7 +6426,7 @@
         "name": "edge103-124",
         "from": "103",
         "to": "124",
-        "weight" : 0,
+        "weight" : 9,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6441,7 +6441,7 @@
         "name": "edge103-137",
         "from": "103",
         "to": "137",
-        "weight" : 0,
+        "weight" : 99,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6456,7 +6456,7 @@
         "name": "edge104-93",
         "from": "104",
         "to": "93",
-        "weight" : 0,
+        "weight" : 8,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6471,7 +6471,7 @@
         "name": "edge105-89",
         "from": "105",
         "to": "89",
-        "weight" : 0,
+        "weight" : 34,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6486,7 +6486,7 @@
         "name": "edge106-98",
         "from": "106",
         "to": "98",
-        "weight" : 0,
+        "weight" : 114,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6501,7 +6501,7 @@
         "name": "edge106-107",
         "from": "106",
         "to": "107",
-        "weight" : 0,
+        "weight" :67,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6516,7 +6516,7 @@
         "name": "edge107-84",
         "from": "107",
         "to": "84",
-        "weight" : 0,
+        "weight" :43,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6531,7 +6531,7 @@
         "name": "edge107-90",
         "from": "107",
         "to": "90",
-        "weight" : 0,
+        "weight" : 46,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6546,7 +6546,7 @@
         "name": "edge108-32",
         "from": "108",
         "to": "32",
-        "weight" : 0,
+        "weight" : 1132,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6561,7 +6561,7 @@
         "name": "edge108-109",
         "from": "108",
         "to": "109",
-        "weight" : 0,
+        "weight" : 1006,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6576,7 +6576,7 @@
         "name": "edge109-108",
         "from": "109",
         "to": "108",
-        "weight" : 0,
+        "weight" :73,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6591,7 +6591,7 @@
         "name": "edge109-111",
         "from": "109",
         "to": "111",
-        "weight" : 0,
+        "weight" : 747,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6606,7 +6606,7 @@
         "name": "edge109-134",
         "from": "109",
         "to": "134",
-        "weight" : 0,
+        "weight" : 565,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6621,7 +6621,7 @@
         "name": "edge110-187",
         "from": "110",
         "to": "187",
-        "weight" : 0,
+        "weight" : 1079,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6636,7 +6636,7 @@
         "name": "edge111-112",
         "from": "111",
         "to": "112",
-        "weight" : 0,
+        "weight" : 1709,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6651,7 +6651,7 @@
         "name": "edge111-131",
         "from": "111",
         "to": "131",
-        "weight" : 0,
+        "weight" : 683,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6666,7 +6666,7 @@
         "name": "edge112-115",
         "from": "112",
         "to": "115",
-        "weight" : 0,
+        "weight" : 1716,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6681,7 +6681,7 @@
         "name": "edge113-109",
         "from": "113",
         "to": "109",
-        "weight" : 0,
+        "weight" : 26,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6696,7 +6696,7 @@
         "name": "edge114-111",
         "from": "114",
         "to": "111",
-        "weight" : 0,
+        "weight" : 949,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6711,7 +6711,7 @@
         "name": "edge115-75",
         "from": "115",
         "to": "75",
-        "weight" : 0,
+        "weight" : 1548,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6726,7 +6726,7 @@
         "name": "edge115-110",
         "from": "115",
         "to": "110",
-        "weight" : 0,
+        "weight" : 1091,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6741,7 +6741,7 @@
         "name": "edge115-111",
         "from": "115",
         "to": "111",
-        "weight" : 0,
+        "weight" : 693,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6756,7 +6756,7 @@
         "name": "edge116-117",
         "from": "116",
         "to": "117",
-        "weight" : 0,
+        "weight" : 1585,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6771,7 +6771,7 @@
         "name": "edge117-8",
         "from": "117",
         "to": "8",
-        "weight" : 0,
+        "weight" : 212,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6786,7 +6786,7 @@
         "name": "edge117-99",
         "from": "117",
         "to": "99",
-        "weight" : 0,
+        "weight" : 745,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6816,7 +6816,7 @@
         "name": "edge118-108",
         "from": "118",
         "to": "108",
-        "weight" : 0,
+        "weight" : 1290,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6831,7 +6831,7 @@
         "name": "edge119-116",
         "from": "119",
         "to": "116",
-        "weight" : 0,
+        "weight" : 1475,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6846,7 +6846,7 @@
         "name": "edge119-123",
         "from": "119",
         "to": "123",
-        "weight" : 0,
+        "weight" : 335,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6861,7 +6861,7 @@
         "name": "edge120-116",
         "from": "120",
         "to": "116",
-        "weight" : 0,
+        "weight" : 108,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
@@ -6876,7 +6876,7 @@
         "name": "edge120-119",
         "from": "120",
         "to": "119",
-        "weight" : 0,
+        "weight" : 309,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [
