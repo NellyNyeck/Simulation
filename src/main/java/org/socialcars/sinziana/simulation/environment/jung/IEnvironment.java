@@ -74,7 +74,6 @@ public interface IEnvironment<V extends JPanel>
      */
     INode randomnodebyzone( final String p_zone );
 
-
      //@todo methode geändert, bitte nachvollziehen, warum das so wesentlich sinnvoller ist
     /**
      * initialize element

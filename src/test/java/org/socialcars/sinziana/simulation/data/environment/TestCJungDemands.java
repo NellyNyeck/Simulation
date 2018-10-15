@@ -29,6 +29,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 
@@ -39,6 +40,7 @@ public class TestCJungDemands
 {
     private static final CDemandsjungpojo INPUTD;
     private static final CInputpojo INPUTG;
+    private static final CInputpojo INPUTGD;
 
     private ArrayList<CInstanceJung> m_demand;
     private CJungEnvironment m_env;
@@ -49,6 +51,7 @@ public class TestCJungDemands
         {
             INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten.json" ), CInputpojo.class );
             INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_demand.json" ), CDemandsjungpojo.class );
+            INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -139,6 +142,33 @@ public class TestCJungDemands
     }
 
     /**
+     * testing routing with traffic densities implemented as edge weights
+     */
+    @Test
+    public void testDensity()
+    {
+        m_env = new CJungEnvironment( INPUTGD.getGraph() );
+
+        final JFrame l_frame = new JFrame();
+        l_frame.setSize( new Dimension( 2000, 2000 ) );
+        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+
+        final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUTGD.getGraph() );
+        final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
+        l_frame.getContentPane().add( l_view );
+        l_frame.setVisible( true );
+
+        final Map<IEdge, Integer> l_countingmap = new HashMap<>();
+        IntStream.range( 0, 1 )
+            .boxed()
+            .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
+            .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
+
+        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
+        l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
+    }
+
+    /**
      * main
      * @param p_args cli arguments
      * @throws IOException file
@@ -147,7 +177,8 @@ public class TestCJungDemands
     {
         final TestCJungDemands l_test = new TestCJungDemands();
         l_test.init();
-        l_test.heatmap();
+        //l_test.heatmap();
+        l_test.testDensity();
     }
 
 
