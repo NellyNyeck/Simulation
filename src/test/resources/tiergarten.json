@@ -6,7 +6,7 @@
     "length unit": "meter"
   },
   "graph": {
-    "zones": 26,
+    "zones":26,
     "nodes": [
       {
         "name" : "1",
@@ -865,7 +865,7 @@
       {
         "name" : "123",
         "coordinates": {
-          "lat": 0.42191200002,
+          "lat": 0.4219120000,
           "lon": 1.6335900000
         }
       },
@@ -6664,8 +6664,8 @@
       },
       {
         "name": "edge112-115",
-        "from": "269",
-        "to": "1",
+        "from": "112",
+        "to": "115",
         "weight" : 0,
         "poi distribution function" : {
           "name" : "even",

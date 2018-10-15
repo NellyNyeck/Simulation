@@ -4,7 +4,6 @@ import com.codepoetics.protonpack.StreamUtils;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
-import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.EdgeIteratorState;
@@ -72,10 +71,10 @@ public class COSMEnvironment
     public COSMEnvironment( final String p_file, final String p_graphlocation, final Double p_north,
                             final Double p_south, final Double p_east, final Double p_west ) throws IOException
     {
-        m_hopper = new GraphHopperOSM().forServer();
+        //m_hopper = new GraphHopperOSM().forServer();
 
-        //m_hopper = new CMyGraphHopper( "demandfile.json", 20.0 ).forServer();
-        //m_hopper.setCHEnabled( false );
+        m_hopper = new CMyGraphHopper( "src/test/resources/Density20.json", 20.0 ).forServer();
+        m_hopper.setCHEnabled( false );
 
         /*FlagEncoder encoder = new CarFlagEncoder();
         EncodingManager em = new EncodingManager(encoder);
