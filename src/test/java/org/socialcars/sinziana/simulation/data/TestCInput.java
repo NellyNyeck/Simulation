@@ -44,7 +44,7 @@ public final class TestCInput
     @Before
     public final void init() throws IOException
     {
-        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/berlin-prenzlauerberg-center.json" ), CInputpojo.class );
+        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/berlin-mitte-center.json" ), CInputpojo.class );
     }
 
     /**
@@ -295,7 +295,7 @@ public final class TestCInput
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getNodes() );
         final Set<CStartpojo> l_nodes = l_graph.getNodes();
-        Assert.assertTrue( l_nodes.size() == 352 );
+        Assert.assertTrue( l_nodes.size() == 398 );
         l_nodes.forEach( j ->
         {
             Assert.assertTrue( j.getName().contains( "" ) );
@@ -323,7 +323,7 @@ public final class TestCInput
         Assert.assertNotNull( m_configuration.getGraph() );
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getEdges() );
-        Assert.assertTrue( l_graph.getEdges().size() == 749 );
+        Assert.assertTrue( l_graph.getEdges().size() == 871 );
         final Set<CEdgepojo> l_edges = l_graph.getEdges();
         l_edges.forEach( e ->
         {
