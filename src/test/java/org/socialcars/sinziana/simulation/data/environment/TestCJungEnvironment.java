@@ -39,7 +39,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/prenzlauerberg-center.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -140,7 +140,7 @@ public final class TestCJungEnvironment
     public void testZones()
     {
         final HashMap<String, List<INode>> l_zones = m_env.getZones();
-        Assert.assertTrue( l_zones.size() == 26 );
+        Assert.assertTrue( l_zones.size() == 36 );
         IntStream.range( 1, l_zones.size() + 1 ).forEach( i ->
         {
             final List<INode> l_test = l_zones.get( String.valueOf( i ) );

@@ -58,14 +58,17 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
             .collect( Collectors.toMap( CNode::id, i -> i ) );
 
         p_gr.getEdges()
-            .forEach( e -> l_graph.addEdge(
-                new CEdge(
-                    e,
+            .forEach( e ->
+            {
+                l_graph.addEdge(
+                    new CEdge(
+                        e,
+                        m_nodes.get( e.getFrom() ),
+                        m_nodes.get( e.getTo() )
+                    ),
                     m_nodes.get( e.getFrom() ),
-                    m_nodes.get( e.getTo() )
-                ),
-                m_nodes.get( e.getFrom() ),
-                m_nodes.get( e.getTo() ) )
+                    m_nodes.get( e.getTo() ) );
+            }
             );
 
         m_nodelist = m_nodes.values().toArray( new INode[0] );

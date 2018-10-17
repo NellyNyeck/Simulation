@@ -107,7 +107,7 @@ public class TestCJungDemands
 
     private void writeHeat( final HashMap<IEdge, Integer> p_values ) throws IOException
     {
-        final File l_filedir = new File( "heatmapjung.json" );
+        final File l_filedir = new File( "tiergarten_heatmap.json" );
 
         final Writer l_out = new BufferedWriter( new OutputStreamWriter(
             new FileOutputStream( l_filedir ), "UTF8" ) );
@@ -118,6 +118,7 @@ public class TestCJungDemands
         l_out.write( l_json.toJSONString() );
         l_out.flush();
         l_out.close();
+        System.out.println( "done" );
     }
 
     /**
@@ -177,8 +178,8 @@ public class TestCJungDemands
     {
         final TestCJungDemands l_test = new TestCJungDemands();
         l_test.init();
-        //l_test.heatmap();
-        l_test.testDensity();
+        l_test.heatmap();
+        //l_test.testDensity();
     }
 
 
