@@ -13,18 +13,20 @@ import java.util.ArrayList;
 
 public class CSPP
 {
-    private GRBEnv m_env;
-    private GRBModel m_model;
-    private ArrayList<GRBVar> m_variables;
-    private GRBVar[][] m_xs;
+    private final GRBEnv m_env;
+    private final GRBModel m_model;
+    private final ArrayList<GRBVar> m_variables;
+    private final GRBVar[][] m_xs;
+    private Integer m_length;
 
 
-    public CSPP( final int p_origin, final int p_destination, final CJungEnvironment p_network ) throws GRBException
+    public CSPP( final CJungEnvironment p_network ) throws GRBException
     {
         m_env = new GRBEnv( "spp.log" );
         m_model = new GRBModel( m_env );
         m_variables = new ArrayList<>();
         m_xs = new GRBVar[p_network.size() + 1][p_network.size() + 1];
+        m_length = 0;
 
         final GRBLinExpr l_obj = new GRBLinExpr();
         p_network.edges().forEach( iEdge ->
@@ -45,13 +47,15 @@ public class CSPP
             }
         } );
         m_model.setObjective( l_obj, GRB.MINIMIZE );
+    }
 
+    public void solve( final int p_origin, final int p_destination, final CJungEnvironment p_network ) throws GRBException
+    {
         addConstraints( p_network, p_origin, p_destination );
         m_model.optimize();
         display( p_network );
-        System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) + " " + l_obj.getValue() );
+        System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
         System.out.println();
-
         m_model.dispose();
         m_env.dispose();
     }
@@ -95,9 +99,15 @@ public class CSPP
                 if ( m_xs[i][j] != null && m_xs[i][j].get( GRB.DoubleAttr.X ) == 1 )
                 {
                     System.out.println( m_xs[i][j].get( GRB.StringAttr.VarName ) + " " + m_xs[i][j].get( GRB.DoubleAttr.X ) );
+                    m_length++;
                 }
             }
         }
+    }
+
+    public Integer length()
+    {
+        return m_length;
     }
 
 }

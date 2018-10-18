@@ -6,24 +6,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
-import org.socialcars.sinziana.simulation.optimiser.CSPP;
+import org.socialcars.sinziana.simulation.optimiser.CPlatoonSPP;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
 
-public class TestCSPP
+public class TestCPlatoonSPP
 {
     private static final CInputpojo INPUT;
 
     private CJungEnvironment m_env;
-    private CSPP m_opt;
+    private CPlatoonSPP m_opt;
+    private ArrayList<Integer> m_destinations;
 
     static
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/model-opt.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -34,29 +36,46 @@ public class TestCSPP
     /**
      * initializing
      * @throws IOException file
+     * @throws GRBException exception
      */
     @Before
     public void init() throws IOException, GRBException
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
-        m_opt = new CSPP( m_env );
+        m_destinations = new ArrayList();
+        m_destinations.add( 99 );
+        m_destinations.add( 80 );
+        m_destinations.add( 77 );
+        m_destinations.add( 61 );
+        m_destinations.add( 58 );
+        m_destinations.add( 42 );
+        m_destinations.add( 37 );
+        m_destinations.add( 26 );
+        m_destinations.add( 14 );
+        m_destinations.add( 3 );
+        m_opt = new CPlatoonSPP( m_env, m_destinations );
     }
 
+    /**
+     * testing the jung solver
+     * @throws  GRBException exception
+     */
     @Test
-    public void solve() throws GRBException
+    public void routeJung() throws GRBException
     {
-        m_opt.solve( 1, 196, m_env );
+        m_opt.solve( 1, m_destinations, m_env );
     }
 
     /**
      * main function
      * @param p_args cli
      * @throws IOException file
+     * @throws GRBException gurobi
      */
     public static void main( final String[] p_args ) throws IOException, GRBException
     {
-        final TestCSPP l_test = new TestCSPP();
+        final TestCPlatoonSPP l_test = new TestCPlatoonSPP();
         l_test.init();
-        l_test.solve();
+        l_test.routeJung();
     }
 }
