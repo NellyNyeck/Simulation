@@ -142,7 +142,7 @@ public class CPlatoonSPP
         } );
 
         //length constraint
-        p_destinations.forEach( d ->
+        /*p_destinations.forEach( d ->
         {
             try
             {
@@ -166,7 +166,7 @@ public class CPlatoonSPP
             {
                 l_err.printStackTrace();
             }
-        } );
+        } );*/
 
         //cost constraint
     }
