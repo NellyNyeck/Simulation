@@ -142,26 +142,25 @@ public class CPlatoonSPP
         } );
 
         //length constraint
-        IntStream.range( 0, p_destinations.size() ).boxed().forEach( k ->
+        p_destinations.forEach( d ->
         {
             try
             {
                 final CSPP l_indiv = new CSPP( p_network );
-                l_indiv.solve( p_origin, p_destinations.get( k ), p_network );
+                l_indiv.solve( p_origin, d, p_network );
                 Double l_ml = Double.valueOf( l_indiv.length() );
                 l_ml = l_ml + l_ml * 0.25;
 
-                final GRBVar[][] l_temp = m_xs.get( p_destinations.get( k ) );
                 final GRBLinExpr l_dist = new GRBLinExpr();
                 IntStream.range( 0, p_networksize ).boxed().forEach( i ->
                 {
                     IntStream.range( 0, p_networksize ).boxed().forEach( j ->
                     {
-                        if ( l_temp[i][j] != null )
-                            l_dist.addTerm( 1.0, l_temp[i][j] );
+                        if ( m_xs.get( d )[i][j] != null )
+                            l_dist.addTerm( 1.0, m_xs.get(d)[i][j] );
                     } );
                 } );
-                m_model.addConstr( l_dist, GRB.LESS_EQUAL, l_ml, "maxdist" + String.valueOf( k ) );
+                m_model.addConstr( l_dist, GRB.LESS_EQUAL, l_ml, "maxdist" + String.valueOf( d ) );
             }
             catch ( final GRBException l_err )
             {
