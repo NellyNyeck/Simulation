@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
-import org.socialcars.sinziana.simulation.optimiser.CPlatoonSPP;
+import org.socialcars.sinziana.simulation.optimiser.CPSPP;
 
 
 import java.io.File;
@@ -19,14 +19,14 @@ public class TestCPlatoonSPP
     private static final CInputpojo INPUT;
 
     private CJungEnvironment m_env;
-    private CPlatoonSPP m_opt;
+    private CPSPP m_opt;
     private ArrayList<Integer> m_destinations;
 
     static
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/model-opt.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -44,7 +44,7 @@ public class TestCPlatoonSPP
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
         m_destinations = new ArrayList();
-        m_destinations.add( 99 );
+        /*m_destinations.add( 99 );
         m_destinations.add( 80 );
         m_destinations.add( 77 );
         m_destinations.add( 61 );
@@ -53,9 +53,9 @@ public class TestCPlatoonSPP
         m_destinations.add( 37 );
         m_destinations.add( 26 );
         m_destinations.add( 14 );
-        m_destinations.add( 3 );
-        //m_destinations.add(329);
-        m_opt = new CPlatoonSPP( m_env, m_destinations );
+        m_destinations.add( 3 );*/;
+        m_destinations.add(169);
+        m_opt = new CPSPP( m_env, m_destinations );
     }
 
     /**
@@ -65,7 +65,7 @@ public class TestCPlatoonSPP
     @Test
     public void routeJung() throws GRBException
     {
-        m_opt.solve( 1, m_destinations, m_env );
+        m_opt.solve(  m_env, 1, m_destinations );
     }
 
     /**

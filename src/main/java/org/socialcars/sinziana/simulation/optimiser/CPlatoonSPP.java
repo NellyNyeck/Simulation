@@ -62,7 +62,7 @@ public class CPlatoonSPP
         } );
     }
 
-    public void solve( final int p_origin, final ArrayList<Integer> p_destinations, final CJungEnvironment p_network ) throws GRBException
+    public void solve( final CJungEnvironment p_network, final int p_origin, final ArrayList<Integer> p_destinations ) throws GRBException
     {
         setObjective( p_network.edges() );
         addConstraints( p_network, p_destinations, p_origin, p_network.size() );
@@ -81,6 +81,7 @@ public class CPlatoonSPP
     private void addConstraints( final CJungEnvironment p_network, final ArrayList<Integer> p_destinations, final int p_origin, final Integer p_networksize )
     {
         Integer edges = p_network.edges().size();
+
         //the network constraint x<=y
         p_network.edges().forEach( c ->
         {
@@ -104,8 +105,9 @@ public class CPlatoonSPP
         } );
 
         //the flow constraint
-        m_xs.keySet().forEach( x ->
+        p_destinations.forEach( d ->
         {
+            GRBVar[][] l_temp = m_xs.get(d);
             IntStream.range( 1, p_networksize + 1 )
                 .boxed()
                 .forEach( i ->
@@ -115,24 +117,20 @@ public class CPlatoonSPP
                         .boxed()
                         .forEach( j ->
                         {
-                            if ( ( m_ytarg[i][j] != null ) && ( m_ytarg[j][i] != null ) )
-                            {
-                                l_expr.addTerm( 1.0, m_xs.get(x)[i][j] );
-                                l_expr.addTerm( -1.0, m_xs.get(x)[j][i] );
-
-                            }
+                            if ( m_ytarg[i][j] != null ) l_expr.addTerm( 1.0, l_temp[i][j] );
+                            if (m_ytarg[j][i] != null ) l_expr.addTerm( 1.0, l_temp[j][i] );
                         } );
                     try
                     {
-                        if ( i == Integer.valueOf( p_origin ) )
+                        if (i.equals(Integer.valueOf(p_origin)))
                         {
-                            m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "OriginConstraint" + String.valueOf( x ) );
+                            m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "OriginConstraint" + String.valueOf( d ) );
                         }
-                        else if ( i == x )
+                        else if (i.equals(d))
                         {
-                            m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "DestinationConstraint" + String.valueOf( x ) );
+                            m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "DestinationConstraint" + String.valueOf( d ) );
                         }
-                        else m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "FlowConstraint" + String.valueOf( x ) );
+                        else m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "FlowConstraint" + String.valueOf( d ) );
                     }
                     catch ( final GRBException l_err )
                     {

@@ -15,7 +15,6 @@ public class CSPP
 {
     private final GRBEnv m_env;
     private final GRBModel m_model;
-    private final ArrayList<GRBVar> m_variables;
     private final GRBVar[][] m_xs;
     private Integer m_length;
 
@@ -24,7 +23,6 @@ public class CSPP
     {
         m_env = new GRBEnv( "spp.log" );
         m_model = new GRBModel( m_env );
-        m_variables = new ArrayList<>();
         m_xs = new GRBVar[p_network.size() + 1][p_network.size() + 1];
         m_length = 0;
 
@@ -39,7 +37,6 @@ public class CSPP
                     GRB.BINARY,
                     "x" + l_start.id()  + "_" + l_end.id() );
                 l_obj.addTerm((Double) iEdge.weight(), m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] );
-                m_variables.add( m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] );
             }
             catch (GRBException e)
             {
@@ -62,21 +59,6 @@ public class CSPP
 
     private void addConstraints( final CJungEnvironment p_network, final Integer p_origin, final Integer p_destination ) throws GRBException
     {
-        /*m_variables.forEach( c ->
-        {
-            final GRBLinExpr l_expr = new GRBLinExpr();
-            l_expr.addTerm( 1.0, c );
-            try
-            {
-                m_model.addConstr( l_expr, GRB.LESS_EQUAL, 1,
-                    "NetworkConstraint" );
-            }
-            catch ( final GRBException l_err )
-            {
-                l_err.printStackTrace();
-            }
-        } );*/
-
         for ( int i = 0; i < p_network.size(); i++ )
         {
             final GRBLinExpr l_expr = new GRBLinExpr();
