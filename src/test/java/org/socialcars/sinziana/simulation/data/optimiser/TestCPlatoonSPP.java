@@ -51,10 +51,9 @@ public class TestCPlatoonSPP
         m_destinations.add( 58 );
         m_destinations.add( 42 );
         m_destinations.add( 37 );
-        m_destinations.add( 26 );
+        m_destinations.add( 26 );*/
         m_destinations.add( 14 );
-        m_destinations.add( 3 );*/;
-        m_destinations.add(169);
+        //m_destinations.add( 3 );
         m_opt = new CPSPP( m_env, m_destinations );
     }
 

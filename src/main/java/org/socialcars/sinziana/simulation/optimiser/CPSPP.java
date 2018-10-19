@@ -38,13 +38,12 @@ public class CPSPP
         {
             final Integer l_start = Integer.valueOf( e.from().id() );
             final Integer l_end = Integer.valueOf( e.to().id() );
-
             try
             {
                 m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, 0.0,
                     GRB.BINARY,
                     "y" + l_start  + "_" + l_end );
-                l_obj.addTerm( (Double) e.weight(), m_ys[l_start][l_end] );
+                l_obj.addTerm( (Double)e.weight(), m_ys[l_start][l_end] );
 
                 for (Integer d : p_destinations)
                 {
@@ -122,21 +121,22 @@ public class CPSPP
         } );
 
         //length constraint
-        /*p_destinations.forEach( d ->
+        p_destinations.forEach( d ->
         {
             try
             {
+                GRBVar[][] l_temp = m_xs.get( d );
                 final CSPP l_indiv = new CSPP( p_env );
                 l_indiv.solve( p_origin, d, p_env );
                 Double l_ml = Double.valueOf( l_indiv.length() );
                 l_ml = l_ml + l_ml * 0.25;
 
                 final GRBLinExpr l_dist = new GRBLinExpr();
-                IntStream.range( 0, p_env.size() ).boxed().forEach( i ->
+                IntStream.range( 0, p_env.size() + 1 ).boxed().forEach( i ->
                 {
-                    IntStream.range( 0, p_env.size() ).boxed().forEach( j ->
+                    IntStream.range( 0, p_env.size() + 1 ).boxed().forEach( j ->
                     {
-                        if ( m_xs.get( d )[i][j] != null )
+                        if ( l_temp[i][j] != null )
                             l_dist.addTerm( 1.0, m_xs.get(d)[i][j] );
                     } );
                 } );
@@ -146,7 +146,7 @@ public class CPSPP
             {
                 l_err.printStackTrace();
             }
-        } );*/
+        } );
     }
 
     private void display( final CJungEnvironment p_env ) throws GRBException
