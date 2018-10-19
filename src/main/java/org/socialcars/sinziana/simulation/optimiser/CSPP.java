@@ -62,7 +62,7 @@ public class CSPP
 
     private void addConstraints( final CJungEnvironment p_network, final Integer p_origin, final Integer p_destination ) throws GRBException
     {
-        m_variables.forEach( c ->
+        /*m_variables.forEach( c ->
         {
             final GRBLinExpr l_expr = new GRBLinExpr();
             l_expr.addTerm( 1.0, c );
@@ -75,7 +75,8 @@ public class CSPP
             {
                 l_err.printStackTrace();
             }
-        } );
+        } );*/
+
         for ( int i = 0; i < p_network.size(); i++ )
         {
             final GRBLinExpr l_expr = new GRBLinExpr();

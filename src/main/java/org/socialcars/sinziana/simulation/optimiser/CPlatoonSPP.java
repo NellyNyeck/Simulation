@@ -171,7 +171,7 @@ public class CPlatoonSPP
         //cost constraint
     }
 
-    private void display( final int p_networksize )
+    private void display( final int p_networksize ) throws GRBException
     {
         //displaying the target
         IntStream.range( 1, p_networksize + 1 )
@@ -197,7 +197,7 @@ public class CPlatoonSPP
             } );
 
         //displaying each variable
-        m_xs.keySet().forEach( r ->
+        /*m_xs.keySet().forEach( r ->
         {
             System.out.println();
             IntStream.range( 0, p_networksize )
@@ -221,7 +221,9 @@ public class CPlatoonSPP
                             }
                         } );
                 } );
-        } );
+        } );*/
+
+        System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
     }
 
     private void cleanUp() throws GRBException
