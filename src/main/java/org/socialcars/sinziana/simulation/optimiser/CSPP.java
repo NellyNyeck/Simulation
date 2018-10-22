@@ -36,7 +36,7 @@ public class CSPP
                 m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] = m_model.addVar( 0.0, 1.0, 0.0,
                     GRB.BINARY,
                     "x" + l_start.id()  + "_" + l_end.id() );
-                l_obj.addTerm((Double) iEdge.weight(), m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] );
+                l_obj.addTerm( (Double) iEdge.weight(), m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] );
             }
             catch (GRBException e)
             {

@@ -36,24 +36,23 @@ public class TestCPlatoonSPP
 
     /**
      * initializing
-     * @throws IOException file
      * @throws GRBException exception
      */
     @Before
-    public void init() throws IOException, GRBException
+    public void init() throws GRBException
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
-        m_destinations = new ArrayList();
-        /*m_destinations.add( 99 );
-        m_destinations.add( 80 );
-        m_destinations.add( 77 );
-        m_destinations.add( 61 );
-        m_destinations.add( 58 );
-        m_destinations.add( 42 );
-        m_destinations.add( 37 );
-        m_destinations.add( 26 );*/
-        m_destinations.add( 14 );
-        //m_destinations.add( 3 );
+        m_destinations = new ArrayList<>();
+        //m_destinations.add( 99 );
+        //m_destinations.add( 80 );
+        //m_destinations.add( 77 );
+        //m_destinations.add( 61 );
+        //m_destinations.add( 58 );
+        //m_destinations.add( 42 );
+        //m_destinations.add( 37 );
+        //m_destinations.add( 26 );
+        m_destinations.add( 164 );
+        m_destinations.add( 169 );
         m_opt = new CPSPP( m_env, m_destinations );
     }
 
@@ -70,10 +69,9 @@ public class TestCPlatoonSPP
     /**
      * main function
      * @param p_args cli
-     * @throws IOException file
      * @throws GRBException gurobi
      */
-    public static void main( final String[] p_args ) throws IOException, GRBException
+    public static void main( final String[] p_args ) throws GRBException
     {
         final TestCPlatoonSPP l_test = new TestCPlatoonSPP();
         l_test.init();
