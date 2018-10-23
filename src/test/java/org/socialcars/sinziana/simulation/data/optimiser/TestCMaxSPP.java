@@ -6,8 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
-import org.socialcars.sinziana.simulation.optimiser.CPSPP;
-
+import org.socialcars.sinziana.simulation.optimiser.CMaxPSPP;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +14,12 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
-public class TestCPlatoonSPP
+public class TestCMaxSPP
 {
     private static final CInputpojo INPUT;
 
     private CJungEnvironment m_env;
-    private CPSPP m_opt;
+    private CMaxPSPP m_opt;
     private ArrayList<Integer> m_destinations;
 
     static
@@ -52,9 +51,10 @@ public class TestCPlatoonSPP
         //m_destinations.add( 42 );
         //m_destinations.add( 37 );
         //m_destinations.add( 26 );
-        m_destinations.add( 164 );
+        //m_destinations.add( 164 );
         m_destinations.add( 169 );
-        m_opt = new CPSPP( m_env, 1, m_destinations );
+        //m_destinations.add( 164 );
+        m_opt = new CMaxPSPP( m_env, 1, m_destinations );
     }
 
     /**
@@ -87,7 +87,7 @@ public class TestCPlatoonSPP
      */
     public static void main( final String[] p_args ) throws GRBException
     {
-        final TestCPlatoonSPP l_test = new TestCPlatoonSPP();
+        final TestCMaxSPP l_test = new TestCMaxSPP();
         l_test.init();
         l_test.routeJung();
     }

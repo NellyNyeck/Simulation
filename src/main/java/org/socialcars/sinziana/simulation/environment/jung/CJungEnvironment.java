@@ -60,6 +60,7 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
         p_gr.getEdges()
             .forEach( e ->
             {
+                //System.out.println( e.getName() );
                 l_graph.addEdge(
                     new CEdge(
                         e,

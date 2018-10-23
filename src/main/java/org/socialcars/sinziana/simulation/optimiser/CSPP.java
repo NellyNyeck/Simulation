@@ -11,13 +11,13 @@ import org.socialcars.sinziana.simulation.environment.jung.INode;
 
 import java.util.ArrayList;
 
-public class CSPP
+public class CSPP implements ISPP
 {
     private final GRBEnv m_env;
     private final GRBModel m_model;
     private final GRBVar[][] m_xs;
     private Integer m_length;
-
+    private double m_cost;
 
     public CSPP( final CJungEnvironment p_network ) throws GRBException
     {
@@ -25,6 +25,7 @@ public class CSPP
         m_model = new GRBModel( m_env );
         m_xs = new GRBVar[p_network.size() + 1][p_network.size() + 1];
         m_length = 0;
+        m_cost = 0;
 
         final GRBLinExpr l_obj = new GRBLinExpr();
         p_network.edges().forEach( iEdge ->
@@ -36,7 +37,7 @@ public class CSPP
                 m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] = m_model.addVar( 0.0, 1.0, 0.0,
                     GRB.BINARY,
                     "x" + l_start.id()  + "_" + l_end.id() );
-                l_obj.addTerm( (Double) iEdge.weight(), m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] );
+                l_obj.addTerm( iEdge.weight().doubleValue(), m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] );
             }
             catch (GRBException e)
             {
@@ -46,12 +47,13 @@ public class CSPP
         m_model.setObjective( l_obj, GRB.MINIMIZE );
     }
 
-    public void solve( final int p_origin, final int p_destination, final CJungEnvironment p_network ) throws GRBException
+    public void solve( final Integer p_origin, final Integer p_destination, final CJungEnvironment p_network ) throws GRBException
     {
         addConstraints( p_network, p_origin, p_destination );
         m_model.optimize();
         display( p_network );
         System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
+        m_cost = m_model.get( GRB.DoubleAttr.ObjVal );
         System.out.println();
         m_model.dispose();
         m_env.dispose();
@@ -73,7 +75,7 @@ public class CSPP
         }
     }
 
-    public void display( final CJungEnvironment p_network ) throws GRBException
+    public void display(final CJungEnvironment p_network ) throws GRBException
     {
         for ( int i = 0; i < p_network.size(); i++ )
         {
@@ -91,6 +93,12 @@ public class CSPP
     public Integer length()
     {
         return m_length;
+    }
+
+    @Override
+    public Double cost()
+    {
+        return m_cost;
     }
 
 }
