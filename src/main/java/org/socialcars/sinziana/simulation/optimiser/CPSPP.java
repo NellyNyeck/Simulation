@@ -11,6 +11,7 @@ import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.stream.IntStream;
 
 
@@ -34,10 +35,6 @@ public class CPSPP implements IPSPP
         m_source = p_source;
         m_destinations = p_destinations;
         m_graph = p_env;
-
-        /*final ArrayList<Double> l_weights = new ArrayList<>();
-        p_env.edges().forEach( e  -> l_weights.add( (Double) e.weight() ) );
-        final Double l_maxw = l_weights.stream().mapToDouble( v -> v ).max().orElseThrow( NoSuchElementException::new );*/
 
         final GRBLinExpr l_obj = new GRBLinExpr();
         p_env.edges().forEach( e ->
@@ -152,7 +149,7 @@ public class CPSPP implements IPSPP
         } );
 
         //y<y
-        IntStream.range( 0, m_graph.size() + 1).boxed().forEach( j ->
+        /*IntStream.range( 0, m_graph.size() + 1).boxed().forEach( j ->
         {
             IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
             {
@@ -165,7 +162,7 @@ public class CPSPP implements IPSPP
                            final GRBLinExpr l_expr1 = new GRBLinExpr();
                            l_expr1.addTerm( 1.0, m_ys[k][j] );
                            l_expr1.addTerm( -1.0, m_ys[i][j] );
-                           m_model.addConstr( l_expr1, GRB.LESS_EQUAL, 0, "y<=y" );
+                           m_model.addConstr( l_expr1, GRB.LESS_EQUAL, 0, "y<y" );
                            final GRBLinExpr l_expr2 = new GRBLinExpr();
                            l_expr2.addTerm( -1.0, m_ys[k][j] );
                            l_expr2.addTerm( 1.0, m_ys[i][j] );
@@ -178,88 +175,73 @@ public class CPSPP implements IPSPP
                    }
                } );
             } ) ;
-        } );
+        } );*/
 
     }
 
     public void display() throws GRBException
     {
-        /*m_graph.edges().forEach( e ->
-        {
-            try
-            {
-                final Integer l_start = Integer.valueOf( e.from().id() );
-                final Integer l_end = Integer.valueOf( e.to().id() );
-                for (Integer d : m_destinations)
-                {
-                    if ( ( m_xs.get(d)[l_start][l_end].get(GRB.DoubleAttr.X) == 1) ) System.out.println( m_ys[l_start][l_end].get( GRB.StringAttr.VarName ) + " " + m_ys[l_start][l_end].get( GRB.DoubleAttr.X ) );
-                }
-            }
-            catch ( final GRBException l_e1 )
-            {
-                l_e1.printStackTrace();
-            }
-        } );*/
 
+        final HashSet<GRBVar> l_ys = new HashSet<>();
 
         m_graph.edges().forEach( e ->
         {
-            try
-            {
-                final Integer l_start = Integer.valueOf( e.from().id() );
-                final Integer l_end = Integer.valueOf( e.to().id() );
-                if( ( m_ys[l_start][l_end] != null ) && ( m_ys[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
-                {
-                    System.out.println( m_ys[l_start][l_end].get( GRB.StringAttr.VarName ) + " " + m_ys[l_start][l_end].get( GRB.DoubleAttr.X ) );
-                }
-            }
-            catch ( final GRBException l_e1 )
-            {
-                l_e1.printStackTrace();
-            }
-        } );
-
-        m_graph.edges().forEach( e ->
-        {
-            try
-            {
-                final Integer l_start = Integer.valueOf( e.from().id() );
-                final Integer l_end = Integer.valueOf( e.to().id() );
-                if( ( m_ys[l_start][l_end] != null ) && ( m_ys[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
-                {
-                    m_xs.keySet().forEach( k -> {
-                        try
-                        {
-                            System.out.print( m_xs.get( k )[l_start][l_end].get( GRB.StringAttr.VarName ) + " " + m_xs.get( k )[l_start][l_end].get( GRB.DoubleAttr.X ) + " ");
-                        }
-                        catch (GRBException e1)
-                        {
-                            e1.printStackTrace();
-                        }
-                    } );
-                    System.out.println();
-                }
-            }
-            catch ( final GRBException l_e1 )
-            {
-                l_e1.printStackTrace();
-            }
-        } );
-
-        /*IntStream.range( 0, p_env.size() + 1 ).boxed().forEach( i ->
-        {
-            IntStream.range( 0, p_env.size() + 1 ).boxed().forEach( j ->
+            final Integer l_start = Integer.valueOf( e.from().id() );
+            final Integer l_end = Integer.valueOf( e.to().id() );
+            m_destinations.forEach( d ->
             {
                 try
                 {
-                    if ( ( m_ys[i][j] != null ) && ( m_ys[i][j].get( GRB.DoubleAttr.X ) == 1 ) ) System.out.println( m_ys[i][j].get( GRB.StringAttr.VarName ) + " " + m_ys[i][j].get( GRB.DoubleAttr.X ) );
+                    if ( (m_ys[l_start][l_end] != null) && ( m_xs.get(d)[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) ) l_ys.add(m_ys[l_start][l_end]);
                 }
-                catch (final GRBException l_e1)
+                catch (GRBException e1)
                 {
-                    l_e1.printStackTrace();
+                    e1.printStackTrace();
                 }
-            });
-        });*/
+            } );
+        } );
+
+
+
+        m_graph.edges().forEach( e ->
+        {
+            try
+            {
+                final Integer l_start = Integer.valueOf( e.from().id() );
+                final Integer l_end = Integer.valueOf( e.to().id() );
+
+                for (Integer k : m_xs.keySet())
+                {
+                    if ( (m_xs.get(k)[l_start][l_end] != null ) && ( m_xs.get(k)[l_start][l_end].get(GRB.DoubleAttr.X) == 1 ) )
+                    {
+                        System.out.print(m_xs.get(k)[l_start][l_end].get(GRB.StringAttr.VarName) + " " + m_xs.get(k)[l_start][l_end].get( GRB.DoubleAttr.X ) );
+                        System.out.println();
+                    }
+                }
+            }
+            catch ( final GRBException l_e1 )
+            {
+                l_e1.printStackTrace();
+            }
+        } );
+
+        System.out.println();
+
+        l_ys.forEach( v ->
+        {
+            try
+            {
+                System.out.println( v.get( GRB.StringAttr.VarName ) + " " + v.get( GRB.DoubleAttr.X ) );
+            }
+            catch (GRBException e)
+            {
+                e.printStackTrace();
+            }
+        });
+
+        System.out.print("Destinations are: ");
+        m_destinations.forEach( d -> System.out.print( d + " " ) );
+        System.out.println();
 
         System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
     }

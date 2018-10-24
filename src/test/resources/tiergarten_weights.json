@@ -9186,6 +9186,7 @@
         "name": "edge199-228",
         "from": "199",
         "to": "228",
+        "weight": 265,
         "poi distribution function" : {
           "name" : "even",
           "parameters" : [

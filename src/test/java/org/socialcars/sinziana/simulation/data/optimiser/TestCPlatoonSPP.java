@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 public class TestCPlatoonSPP
@@ -44,16 +45,7 @@ public class TestCPlatoonSPP
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
         m_destinations = new ArrayList<>();
-        // m_destinations.add( 99 );
-        //m_destinations.add( 80 );
-        //m_destinations.add( 77 );
-        //m_destinations.add( 61 );
-        //m_destinations.add( 58 );
-        //m_destinations.add( 42 );
-        //m_destinations.add( 37 );
-        //m_destinations.add( 26 );
-        m_destinations.add( 164 );
-        m_destinations.add( 169 );
+        IntStream.range(0, 10).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, 362 ) ) );
         m_opt = new CPSPP( m_env, 1, m_destinations );
     }
 
@@ -65,19 +57,6 @@ public class TestCPlatoonSPP
     public void routeJung() throws GRBException
     {
         m_opt.solve();
-    }
-
-    @Test
-    public void adjmat()
-    {
-        IntStream.range( 0, m_env.size() + 1 ).boxed().forEach(i ->
-        {
-            IntStream.range( 0, m_env.size() + 1 ).boxed().forEach( j ->
-            {
-
-            } );
-        } );
-
     }
 
     /**
