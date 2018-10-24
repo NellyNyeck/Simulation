@@ -151,21 +151,25 @@ public class CPSPP implements IPSPP
             } );
         } );
 
-        //y<=y
-        /*IntStream.range( 0, m_graph.size() + 1).boxed().forEach( j ->
+        //y<y
+        IntStream.range( 0, m_graph.size() + 1).boxed().forEach( j ->
         {
             IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
             {
                IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( k ->
                {
-                   if( ( m_ys[j][k] != null ) && ( m_ys[i][j] != null ) )
+                   if( ( m_ys[k][j] != null ) && ( m_ys[i][j] != null ) )
                    {
                        try
                        {
-                           final GRBLinExpr l_expr = new GRBLinExpr();
-                           l_expr.addTerm( 1.0, m_ys[j][k] );
-                           l_expr.addTerm( -1.0, m_ys[i][j] );
-                           m_model.addConstr( l_expr, GRB.LESS_EQUAL, 0, "y<=y" );
+                           final GRBLinExpr l_expr1 = new GRBLinExpr();
+                           l_expr1.addTerm( 1.0, m_ys[k][j] );
+                           l_expr1.addTerm( -1.0, m_ys[i][j] );
+                           m_model.addConstr( l_expr1, GRB.LESS_EQUAL, 0, "y<=y" );
+                           final GRBLinExpr l_expr2 = new GRBLinExpr();
+                           l_expr2.addTerm( -1.0, m_ys[k][j] );
+                           l_expr2.addTerm( 1.0, m_ys[i][j] );
+                           m_model.addConstr( l_expr2, GRB.LESS_EQUAL, 0, "y<=y" );
                        }
                        catch (GRBException e)
                        {
@@ -174,7 +178,7 @@ public class CPSPP implements IPSPP
                    }
                } );
             } ) ;
-        } );*/
+        } );
 
     }
 
