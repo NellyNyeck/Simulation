@@ -45,7 +45,7 @@ public class TestCSPP
     @Test
     public void solve() throws GRBException
     {
-        m_opt.solve( 1, 273, m_env );
+        m_opt.solve( 1, 52, m_env );
     }
 
     /**

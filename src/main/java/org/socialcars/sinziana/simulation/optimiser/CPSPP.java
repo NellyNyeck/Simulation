@@ -8,6 +8,7 @@ import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
 import gurobi.GRBVar;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
+import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,8 +69,7 @@ public class CPSPP implements IPSPP
     {
         addConstraints();
         m_model.optimize();
-        display();
-        cleanUp();
+        //cleanUp();
     }
 
     private void addConstraints()
@@ -246,7 +246,31 @@ public class CPSPP implements IPSPP
         System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
     }
 
-    private void cleanUp() throws GRBException
+    public HashMap<IEdge, Integer> returnResults()
+    {
+        final HashMap<IEdge, Integer> l_results = new HashMap<>();
+        m_graph.edges().forEach( e ->
+        {
+            final Integer l_start = Integer.valueOf(e.from().id());
+            final Integer l_end = Integer.valueOf(e.to().id());
+
+            m_destinations.forEach( d ->
+            {
+                try
+                {
+                    final GRBVar[][] l_temp = m_xs.get(d);
+                    if( ( l_temp[l_start][l_end] != null ) && ( l_temp[l_start][l_end].get( GRB.DoubleAttr.X) == 1 ) ) l_results.put( e, l_results.getOrDefault( e, 0 ) + 1 );
+                }
+                catch (GRBException e1)
+                {
+                    e1.printStackTrace();
+                }
+            });
+        } );
+        return l_results;
+    }
+
+    public void cleanUp() throws GRBException
     {
         m_model.dispose();
         m_env.dispose();
