@@ -25,9 +25,12 @@ public class CPSPP implements IPSPP
     private final Integer m_source;
     private final ArrayList<Integer> m_destinations;
     private final CJungEnvironment m_graph;
+    private final HashMap<IEdge, Integer> m_results;
 
     public CPSPP( final CJungEnvironment p_env, final Integer p_source, final ArrayList<Integer> p_destinations ) throws GRBException
     {
+
+        //@TODO : 25.10.18 redo structure in a way so that is accesible after cleanup
         m_env = new GRBEnv( "pspp.log" );
         m_model = new GRBModel( m_env );
         m_ys = new GRBVar[ p_env.size() + 1][p_env.size() + 1];
@@ -36,6 +39,7 @@ public class CPSPP implements IPSPP
         m_source = p_source;
         m_destinations = p_destinations;
         m_graph = p_env;
+        m_results = new HashMap<>();
 
         final GRBLinExpr l_obj = new GRBLinExpr();
         p_env.edges().forEach( e ->
@@ -69,7 +73,26 @@ public class CPSPP implements IPSPP
     {
         addConstraints();
         m_model.optimize();
-        //cleanUp();
+        m_graph.edges().forEach( e ->
+        {
+            final Integer l_start = Integer.valueOf(e.from().id());
+            final Integer l_end = Integer.valueOf(e.to().id());
+
+            m_destinations.forEach( d ->
+            {
+                try
+                {
+                    final GRBVar[][] l_temp = m_xs.get(d);
+                    if( ( l_temp[l_start][l_end] != null ) && ( l_temp[l_start][l_end].get( GRB.DoubleAttr.X) == 1 ) ) m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
+                }
+                catch (GRBException e1)
+                {
+                    e1.printStackTrace();
+                }
+            });
+        } );
+        display();
+        cleanUp();
     }
 
     private void addConstraints()
@@ -248,26 +271,7 @@ public class CPSPP implements IPSPP
 
     public HashMap<IEdge, Integer> returnResults()
     {
-        final HashMap<IEdge, Integer> l_results = new HashMap<>();
-        m_graph.edges().forEach( e ->
-        {
-            final Integer l_start = Integer.valueOf(e.from().id());
-            final Integer l_end = Integer.valueOf(e.to().id());
-
-            m_destinations.forEach( d ->
-            {
-                try
-                {
-                    final GRBVar[][] l_temp = m_xs.get(d);
-                    if( ( l_temp[l_start][l_end] != null ) && ( l_temp[l_start][l_end].get( GRB.DoubleAttr.X) == 1 ) ) l_results.put( e, l_results.getOrDefault( e, 0 ) + 1 );
-                }
-                catch (GRBException e1)
-                {
-                    e1.printStackTrace();
-                }
-            });
-        } );
-        return l_results;
+        return m_results;
     }
 
     public void cleanUp() throws GRBException

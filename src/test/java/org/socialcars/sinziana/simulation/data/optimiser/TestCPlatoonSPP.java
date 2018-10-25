@@ -45,7 +45,17 @@ public class TestCPlatoonSPP
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
         m_destinations = new ArrayList<>();
-        IntStream.range(0, 10).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, 362 ) ) );
+        //IntStream.range(0, 10).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, 362 ) ) );
+        m_destinations.add(32);
+        m_destinations.add(52);
+        m_destinations.add(9);
+        m_destinations.add(78);
+        m_destinations.add(287);
+        m_destinations.add(269);
+        m_destinations.add(340);
+        m_destinations.add(191);
+        m_destinations.add(167);
+        m_destinations.add(337);
         m_opt = new CPSPP( m_env, 1, m_destinations );
     }
 

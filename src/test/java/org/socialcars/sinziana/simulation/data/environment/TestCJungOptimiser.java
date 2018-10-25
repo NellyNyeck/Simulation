@@ -29,13 +29,14 @@ public class TestCJungOptimiser
 {
     private static final CInputpojo INPUT;
     private CJungEnvironment m_env;
-    private CPSPP m_optimiser;
+    private CPSPP m_opt;
+    private ArrayList<Integer> m_destinations;
 
     static
     {
         try
         {
-            INPUT = new ObjectMapper().readValue(new File("src/test/resources/tiergarten.json"), CInputpojo.class);
+            INPUT = new ObjectMapper().readValue(new File("src/test/resources/tiergarten_weights.json"), CInputpojo.class);
         } catch (final IOException l_exception) {
             throw new UncheckedIOException(l_exception);
         }
@@ -49,20 +50,19 @@ public class TestCJungOptimiser
     public void init() throws GRBException
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
-        final ArrayList<Integer> l_destinations = new ArrayList<>();
-        IntStream.range(0, 10).boxed().forEach( i -> l_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
-        /*l_destinations.add(32);
-        l_destinations.add(52);
-        l_destinations.add(9);
-        l_destinations.add(78);
-        l_destinations.add(287);
-        l_destinations.add(269);
-        l_destinations.add(340);
-        l_destinations.add(191);
-        l_destinations.add(167);
-        l_destinations.add(337);*/
-
-        m_optimiser = new CPSPP(m_env, 1, l_destinations);
+        m_destinations = new ArrayList<>();
+        //IntStream.range(0, 10).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, 362 ) ) );
+        m_destinations.add(32);
+        m_destinations.add(52);
+        m_destinations.add(9);
+        m_destinations.add(78);
+        m_destinations.add(287);
+        m_destinations.add(269);
+        m_destinations.add(340);
+        m_destinations.add(191);
+        m_destinations.add(167);
+        m_destinations.add(337);
+        m_opt = new CPSPP( m_env, 1, m_destinations );
     }
 
     /**
@@ -72,7 +72,7 @@ public class TestCJungOptimiser
     public final void heatmap() throws GRBException
     {
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 1000, 1000 ) );
+        l_frame.setSize( new Dimension( 1750, 1750 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
@@ -80,8 +80,8 @@ public class TestCJungOptimiser
         l_frame.getContentPane().add( l_view );
         l_frame.setVisible( true );
 
-        m_optimiser.solve();
-        final Map<IEdge, Integer> l_countingmap = m_optimiser.returnResults();
+        m_opt.solve();
+        final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
 
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
@@ -103,8 +103,6 @@ public class TestCJungOptimiser
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
         l_test.heatmap();
-        //l_test.m_optimiser.display();
-        l_test.m_optimiser.cleanUp();
     }
 
 }
