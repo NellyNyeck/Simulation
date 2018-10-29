@@ -1,13 +1,21 @@
 package org.socialcars.sinziana.simulation.optimiser;
 
 import gurobi.GRBException;
-import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 
-import java.util.ArrayList;
-
+/**
+ * interface for shortest path problems
+ */
 public interface IPSPP
 {
+    /**
+     * solving the problem
+     * @throws GRBException gurobi
+     */
     void solve() throws GRBException;
 
+    /**
+     * displaying the results
+     * @throws GRBException gurobi
+     */
     void display() throws GRBException;
 }

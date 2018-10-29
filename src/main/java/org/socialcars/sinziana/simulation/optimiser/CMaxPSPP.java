@@ -3,8 +3,6 @@ package org.socialcars.sinziana.simulation.optimiser;
 import gurobi.GRB;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
-import gurobi.GRBExpr;
-import gurobi.GRBGenConstr;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
 import gurobi.GRBVar;
@@ -14,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 
+/**
+ * platooning modeled as maximization problem
+ */
 public class CMaxPSPP implements IPSPP
 {
     private final GRBEnv m_env;
@@ -25,6 +26,13 @@ public class CMaxPSPP implements IPSPP
     private final CJungEnvironment m_graph;
 
 
+    /**
+     * ctor
+     * @param p_env jung graph
+     * @param p_source source node
+     * @param p_destinations destination nodes
+     * @throws GRBException gurobi
+     */
     public CMaxPSPP( final CJungEnvironment p_env, final Integer p_source, final ArrayList<Integer> p_destinations ) throws GRBException
     {
         m_env = new GRBEnv( "maxpspp.log" );
@@ -43,21 +51,21 @@ public class CMaxPSPP implements IPSPP
             final Integer l_end = Integer.valueOf( e.to().id() );
             try
             {
-                m_ys[l_start][l_end] = m_model.addVar(0.0, 1.0, 0.0,
+                m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, 0.0,
                     GRB.BINARY,
-                    "y" + l_start + "-" + l_end);
+                    "y" + l_start + "-" + l_end );
                 l_obj.addTerm( 1.0, m_ys[l_start][l_end] );
-                for (Integer d : p_destinations)
+                for ( final Integer l_de : p_destinations )
                 {
-                    GRBVar[][] l_temp = m_xs.get( d );
+                    final GRBVar[][] l_temp = m_xs.get( l_de );
                     l_temp[l_start][l_end] = m_model.addVar( 0.0, 1.0, 0.0,
                         GRB.BINARY,
-                        "x" + "_" + d + ":" + l_start + "-" + l_end );
+                        "x" + "_" + l_de + ":" + l_start + "-" + l_end );
                 }
             }
-            catch (GRBException e1)
+            catch ( final GRBException l_err )
             {
-                e1.printStackTrace();
+                l_err.printStackTrace();
             }
         } );
         m_model.setObjective( l_obj, GRB.MAXIMIZE );
@@ -78,19 +86,19 @@ public class CMaxPSPP implements IPSPP
         //flow constraint
         m_destinations.forEach( d ->
         {
-            GRBVar[][] l_temp = m_xs.get( d );
-            IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach(i ->
+            final GRBVar[][] l_temp = m_xs.get( d );
+            IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
             {
                 final GRBLinExpr l_expr = new GRBLinExpr();
                 IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( j ->
                 {
-                    if( l_temp[i][j] != null ) l_expr.addTerm( 1.0, l_temp[i][j] );
+                    if ( l_temp[i][j] != null ) l_expr.addTerm( 1.0, l_temp[i][j] );
                     if ( l_temp[j][i] != null ) l_expr.addTerm( -1.0, l_temp[j][i] );
                 } );
                 try
                 {
-                    if  ( i.equals(m_source) ) m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "Origin" + String.valueOf( d ) );
-                    else if (i.equals(d)) m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "Destination" + String.valueOf( d )  );
+                    if ( i.equals( m_source ) ) m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "Origin" + String.valueOf( d ) );
+                    else if ( i.equals( d ) ) m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "Destination" + String.valueOf( d )  );
                     else m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "Flow" + String.valueOf( d ) );
                 }
                 catch ( final GRBException l_err )
@@ -106,16 +114,16 @@ public class CMaxPSPP implements IPSPP
             final Integer l_start = Integer.valueOf( e.from().id() );
             final Integer l_end = Integer.valueOf( e.to().id() );
             final GRBVar[] l_array = new GRBVar[ m_destinations.size() ];
-            IntStream.range(0, m_destinations.size()).boxed().forEach( i ->
+            IntStream.range( 0, m_destinations.size() ).boxed().forEach( i ->
             {
-                GRBVar[][] l_temp = m_xs.get( m_destinations.get(i) );
+                final GRBVar[][] l_temp = m_xs.get( m_destinations.get( i ) );
                 l_array[i] = l_temp[l_start][l_end];
             } );
             try
             {
-                m_model.addGenConstrAnd( m_ys[l_start][l_end], l_array, "edge"+String.valueOf( l_start ) + "-" + String.valueOf( l_end ) );
+                m_model.addGenConstrAnd( m_ys[l_start][l_end], l_array, "edge" + String.valueOf( l_start ) + "-" + String.valueOf( l_end ) );
             }
-            catch ( final GRBException l_e1)
+            catch ( final GRBException l_e1 )
             {
                 l_e1.printStackTrace();
             }
@@ -126,10 +134,10 @@ public class CMaxPSPP implements IPSPP
         {
             try
             {
-                GRBVar[][] l_temp = m_xs.get( d );
-                final CSPP l_indiv = new CSPP( m_graph );
-                l_indiv.solve( m_source, d, m_graph );
-                double l_mc = l_indiv.cost();
+                final GRBVar[][] l_temp = m_xs.get( d );
+                final CSPP l_indiv = new CSPP( m_graph, m_source, d );
+                l_indiv.solve();
+                final double l_mc = l_indiv.cost();
                 //l_mc = l_mc + l_mc * 0.5;
 
                 final GRBLinExpr l_costs = new GRBLinExpr();
@@ -146,21 +154,21 @@ public class CMaxPSPP implements IPSPP
     @Override
     public void display() throws GRBException
     {
-
-         IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
+        IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
         {
             IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( j ->
             {
                 try
                 {
-                    if ( ( m_ys[i][j] != null ) && ( m_ys[i][j].get( GRB.DoubleAttr.X ) == 1 ) ) System.out.println( m_ys[i][j].get( GRB.StringAttr.VarName ) + " " + m_ys[i][j].get( GRB.DoubleAttr.X ) );
+                    if ( ( m_ys[i][j] != null ) && ( m_ys[i][j].get( GRB.DoubleAttr.X ) == 1 ) )
+                        System.out.println( m_ys[i][j].get( GRB.StringAttr.VarName ) + " " + m_ys[i][j].get( GRB.DoubleAttr.X ) );
                 }
-                catch (final GRBException l_e1)
+                catch ( final GRBException l_e1 )
                 {
                     l_e1.printStackTrace();
                 }
-            });
-        });
+            } );
+        } );
 
         /*p_env.edges().forEach( e ->
         {
@@ -185,16 +193,19 @@ public class CMaxPSPP implements IPSPP
             {
                 final Integer l_start = Integer.valueOf( e.from().id() );
                 final Integer l_end = Integer.valueOf( e.to().id() );
-                if( ( m_ys[l_start][l_end] != null ) && ( m_ys[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
+                if ( ( m_ys[l_start][l_end] != null ) && ( m_ys[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
                 {
-                    m_xs.keySet().forEach( k -> {
+                    m_xs.keySet().forEach( k ->
+                    {
                         try
                         {
-                            System.out.print( m_xs.get( k )[l_start][l_end].get( GRB.StringAttr.VarName ) + " " + m_xs.get( k )[l_start][l_end].get( GRB.DoubleAttr.X ) + " ");
+                            System.out.print( m_xs.get( k )[l_start][l_end].get( GRB.StringAttr.VarName )
+                                + " "
+                                + m_xs.get( k )[l_start][l_end].get( GRB.DoubleAttr.X ) + " " );
                         }
-                        catch (GRBException e1)
+                        catch ( final GRBException l_err )
                         {
-                            e1.printStackTrace();
+                            l_err.printStackTrace();
                         }
                     } );
                     System.out.println();

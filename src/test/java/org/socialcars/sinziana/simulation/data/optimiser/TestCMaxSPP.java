@@ -12,8 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
-import java.util.stream.IntStream;
 
+/**
+ * test class for the maximisation problem
+ */
 public class TestCMaxSPP
 {
     private static final CInputpojo INPUT;
@@ -65,19 +67,6 @@ public class TestCMaxSPP
     public void routeJung() throws GRBException
     {
         m_opt.solve();
-    }
-
-    @Test
-    public void adjmat()
-    {
-        IntStream.range( 0, m_env.size() + 1 ).boxed().forEach(i ->
-        {
-            IntStream.range( 0, m_env.size() + 1 ).boxed().forEach( j ->
-            {
-
-            } );
-        } );
-
     }
 
     /**

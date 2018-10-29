@@ -1,6 +1,5 @@
 package org.socialcars.sinziana.simulation.optimiser;
 
-import com.vividsolutions.jts.io.InStream;
 import gurobi.GRB;
 import gurobi.GRBEnv;
 import gurobi.GRBException;
@@ -13,9 +12,13 @@ import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 
+/**
+ * class for the platooning optimisation problem
+ */
 public class CPSPP implements IPSPP
 {
     private final GRBEnv m_env;
@@ -25,12 +28,19 @@ public class CPSPP implements IPSPP
     private final Integer m_source;
     private final ArrayList<Integer> m_destinations;
     private final CJungEnvironment m_graph;
+
+    private final HashMap<Integer, ArrayList<IEdge>> m_indivres;
     private final HashMap<IEdge, Integer> m_results;
 
+    /**
+     * ctor
+     * @param p_env jung graph
+     * @param p_source source
+     * @param p_destinations destinations
+     * @throws GRBException gurobi
+     */
     public CPSPP( final CJungEnvironment p_env, final Integer p_source, final ArrayList<Integer> p_destinations ) throws GRBException
     {
-
-        //@TODO : 25.10.18 redo structure in a way so that is accesible after cleanup
         m_env = new GRBEnv( "pspp.log" );
         m_model = new GRBModel( m_env );
         m_ys = new GRBVar[ p_env.size() + 1][p_env.size() + 1];
@@ -40,6 +50,8 @@ public class CPSPP implements IPSPP
         m_destinations = p_destinations;
         m_graph = p_env;
         m_results = new HashMap<>();
+        m_indivres = new HashMap<>();
+        p_destinations.forEach( d -> m_indivres.put( d, new ArrayList<>() ) );
 
         final GRBLinExpr l_obj = new GRBLinExpr();
         p_env.edges().forEach( e ->
@@ -52,13 +64,14 @@ public class CPSPP implements IPSPP
                     GRB.BINARY,
                     "y" + l_start  + "-" + l_end );
                 l_obj.addTerm( e.weight().doubleValue(), m_ys[l_start][l_end] );
+                //l_obj.addTerm( e.weight().doubleValue() + ThreadLocalRandom.current().nextDouble( 0, 1 ) - 0.5, m_ys[l_start][l_end] );
 
-                for (Integer d : p_destinations)
+                for ( final Integer l_ds : p_destinations )
                 {
-                    GRBVar[][] l_temp = m_xs.get( d );
+                    final GRBVar[][] l_temp = m_xs.get( l_ds );
                     l_temp[l_start][l_end] = m_model.addVar( 0.0, 1.0, 0.0,
                         GRB.BINARY,
-                        "x" + "_" + d + ":" + l_start + "-" + l_end );
+                        "x" + "_" + l_ds + ":" + l_start + "-" + l_end );
                 }
             }
             catch ( final GRBException l_e1 )
@@ -69,28 +82,15 @@ public class CPSPP implements IPSPP
         m_model.setObjective( l_obj, GRB.MINIMIZE );
     }
 
+    /**
+     * function to solve the optimisation problem
+     * @throws GRBException gurobi
+     */
     public void solve() throws GRBException
     {
         addConstraints();
         m_model.optimize();
-        m_graph.edges().forEach( e ->
-        {
-            final Integer l_start = Integer.valueOf(e.from().id());
-            final Integer l_end = Integer.valueOf(e.to().id());
-
-            m_destinations.forEach( d ->
-            {
-                try
-                {
-                    final GRBVar[][] l_temp = m_xs.get(d);
-                    if( ( l_temp[l_start][l_end] != null ) && ( l_temp[l_start][l_end].get( GRB.DoubleAttr.X) == 1 ) ) m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
-                }
-                catch (GRBException e1)
-                {
-                    e1.printStackTrace();
-                }
-            });
-        } );
+        saveResults();
         display();
         cleanUp();
     }
@@ -100,19 +100,19 @@ public class CPSPP implements IPSPP
         //flow constraint
         m_destinations.forEach( d ->
         {
-            GRBVar[][] l_temp = m_xs.get( d );
+            final GRBVar[][] l_temp = m_xs.get( d );
             IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
             {
                 final GRBLinExpr l_expr = new GRBLinExpr();
                 IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( j ->
                 {
-                    if( l_temp[i][j] != null ) l_expr.addTerm( 1.0, l_temp[i][j] );
+                    if ( l_temp[i][j] != null ) l_expr.addTerm( 1.0, l_temp[i][j] );
                     if ( l_temp[j][i] != null ) l_expr.addTerm( -1.0, l_temp[j][i] );
                 } );
                 try
                 {
-                    if  ( i.equals(m_source) ) m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "Origin" + String.valueOf( d ) );
-                    else if (i.equals(d)) m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "Destination" + String.valueOf( d )  );
+                    if  ( i.equals( m_source ) ) m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "Origin" + String.valueOf( d ) );
+                    else if ( i.equals( d ) ) m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "Destination" + String.valueOf( d ) );
                     else m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "Flow" + String.valueOf( d ) );
                 }
                 catch ( final GRBException l_err )
@@ -127,9 +127,9 @@ public class CPSPP implements IPSPP
         {
             try
             {
-                GRBVar[][] l_temp = m_xs.get( d );
-                final CSPP l_indiv = new CSPP( m_graph );
-                l_indiv.solve( m_source, d, m_graph );
+                final GRBVar[][] l_temp = m_xs.get( d );
+                final CSPP l_indiv = new CSPP( m_graph, m_source, d );
+                l_indiv.solve();
                 double l_ml = Double.valueOf( l_indiv.length() );
                 l_ml = l_ml + l_ml * 0.25;
 
@@ -139,7 +139,7 @@ public class CPSPP implements IPSPP
                     {
                         if ( l_temp[i][j] != null )
                             l_dist.addTerm( 1.0, l_temp[i][j] );
-                    } ));
+                    } ) );
                 m_model.addConstr( l_dist, GRB.LESS_EQUAL, l_ml, "maxdist" + String.valueOf( d ) );
             }
             catch ( final GRBException l_err )
@@ -157,8 +157,8 @@ public class CPSPP implements IPSPP
             m_destinations.forEach( d ->
             {
                 final GRBLinExpr l_expr = new GRBLinExpr();
-                GRBVar[][] l_temp = m_xs.get( d );
-                l_expr.addTerm( 1.0, l_temp[l_start][l_end]);
+                final GRBVar[][] l_temp = m_xs.get( d );
+                l_expr.addTerm( 1.0, l_temp[l_start][l_end] );
                 l_expr.addTerm( -1.0, m_ys[l_start][l_end] );
                 try
                 {
@@ -202,8 +202,43 @@ public class CPSPP implements IPSPP
 
     }
 
+    private void saveResults()
+    {
+        m_graph.edges().forEach( e ->
+        {
+            final Integer l_start = Integer.valueOf( e.from().id() );
+            final Integer l_end = Integer.valueOf( e.to().id() );
+
+            m_destinations.forEach( d ->
+            {
+                try
+                {
+                    final GRBVar[][] l_temp = m_xs.get( d );
+                    final ArrayList<IEdge> l_res = m_indivres.get( d );
+                    if ( ( l_temp[l_start][l_end] != null ) && ( l_temp[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
+                    {
+                        m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
+                        l_res.add( e );
+                    }
+                }
+                catch ( final GRBException l_err )
+                {
+                    l_err.printStackTrace();
+                }
+            } );
+        } );
+
+
+    }
+
+    /**
+     * displays the result of the optimisation problem
+     * @throws GRBException gurobi
+     */
     public void display() throws GRBException
     {
+
+        // TODO: 29.10.18  re-do display function after talking to Professon Westphal
 
         final HashSet<GRBVar> l_ys = new HashSet<>();
 
@@ -215,11 +250,11 @@ public class CPSPP implements IPSPP
             {
                 try
                 {
-                    if ( (m_ys[l_start][l_end] != null) && ( m_xs.get(d)[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) ) l_ys.add(m_ys[l_start][l_end]);
+                    if ( ( m_ys[l_start][l_end] != null ) && ( m_ys[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) ) l_ys.add( m_ys[l_start][l_end] );
                 }
-                catch (GRBException e1)
+                catch ( final GRBException l_err )
                 {
-                    e1.printStackTrace();
+                    l_err.printStackTrace();
                 }
             } );
         } );
@@ -233,18 +268,18 @@ public class CPSPP implements IPSPP
                 final Integer l_start = Integer.valueOf( e.from().id() );
                 final Integer l_end = Integer.valueOf( e.to().id() );
 
-                for (Integer k : m_xs.keySet())
+                for ( final Integer l_ks : m_xs.keySet() )
                 {
-                    if ( (m_xs.get(k)[l_start][l_end] != null ) && ( m_xs.get(k)[l_start][l_end].get(GRB.DoubleAttr.X) == 1 ) )
+                    if ( ( m_xs.get( l_ks )[l_start][l_end] != null ) && ( m_xs.get( l_ks )[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
                     {
-                        System.out.print(m_xs.get(k)[l_start][l_end].get(GRB.StringAttr.VarName) + " " + m_xs.get(k)[l_start][l_end].get( GRB.DoubleAttr.X ) );
+                        System.out.print( m_xs.get( l_ks )[l_start][l_end].get( GRB.StringAttr.VarName ) + " " + m_xs.get( l_ks )[l_start][l_end].get( GRB.DoubleAttr.X ) );
                         System.out.println();
                     }
                 }
             }
-            catch ( final GRBException l_e1 )
+            catch ( final GRBException l_err )
             {
-                l_e1.printStackTrace();
+                l_err.printStackTrace();
             }
         } );
 
@@ -256,15 +291,15 @@ public class CPSPP implements IPSPP
             {
                 System.out.println( v.get( GRB.StringAttr.VarName ) + " " + v.get( GRB.DoubleAttr.X ) );
             }
-            catch (GRBException e)
+            catch ( final GRBException l_err )
             {
-                e.printStackTrace();
+                l_err.printStackTrace();
             }
-        });
+        } );
 
-        System.out.print("Destinations are: ");
+        /*System.out.print("Destinations are: ");
         m_destinations.forEach( d -> System.out.print( d + " " ) );
-        System.out.println();
+        System.out.println();*/
 
         System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
     }
@@ -274,7 +309,7 @@ public class CPSPP implements IPSPP
         return m_results;
     }
 
-    public void cleanUp() throws GRBException
+    private void cleanUp() throws GRBException
     {
         m_model.dispose();
         m_env.dispose();

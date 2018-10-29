@@ -12,6 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
+
+/**
+ * test class for the single optimiser, shortest path problem
+ */
 public class TestCSPP
 {
     private static final CInputpojo INPUT;
@@ -33,27 +37,27 @@ public class TestCSPP
 
     /**
      * initializing
-     * @throws IOException file
+     * @throws GRBException gurobi
      */
     @Before
-    public void init() throws IOException, GRBException
+    public void init() throws GRBException
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
-        m_opt = new CSPP( m_env );
+        m_opt = new CSPP( m_env, 1, 52 );
     }
 
     @Test
     public void solve() throws GRBException
     {
-        m_opt.solve( 1, 52, m_env );
+        m_opt.solve();
     }
 
     /**
      * main function
      * @param p_args cli
-     * @throws IOException file
+     * @throws GRBException gurobi
      */
-    public static void main( final String[] p_args ) throws IOException, GRBException
+    public static void main( final String[] p_args ) throws GRBException
     {
         final TestCSPP l_test = new TestCSPP();
         l_test.init();
