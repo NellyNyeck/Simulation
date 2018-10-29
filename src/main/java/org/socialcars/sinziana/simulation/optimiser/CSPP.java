@@ -7,9 +7,11 @@ import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
 import gurobi.GRBVar;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
+import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
 
 import java.util.ArrayList;
+
 
 public class CSPP implements ISPP
 {
@@ -18,6 +20,7 @@ public class CSPP implements ISPP
     private final GRBVar[][] m_xs;
     private Integer m_length;
     private double m_cost;
+    private ArrayList<IEdge> m_results;
     private CJungEnvironment m_graph;
     private Integer m_origin;
     private Integer m_destination;
@@ -37,32 +40,38 @@ public class CSPP implements ISPP
         m_graph = p_network;
         m_origin = p_origin;
         m_destination = p_destination;
+        m_results = new ArrayList<>();
 
-        final GRBLinExpr l_obj = new GRBLinExpr();
         p_network.edges().forEach( iEdge ->
         {
             final INode l_start = iEdge.from();
             final INode l_end = iEdge.to();
             try
             {
-                m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] = m_model.addVar( 0.0, 1.0, 0.0,
+                if ( iEdge.weight().doubleValue() == 0.0 )
+                    m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] = m_model.addVar( 0.0, 1.0, iEdge.weight().doubleValue() + 0.000001,
                     GRB.BINARY,
-                    "x" + l_start.id()  + "_" + l_end.id() );
-                l_obj.addTerm( iEdge.weight().doubleValue(), m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] );
+                    "y" + l_start  + "-" + l_end );
+                else m_xs[Integer.valueOf( l_start.id() )][Integer.valueOf( l_end.id() )] = m_model.addVar( 0.0, 1.0, iEdge.weight().doubleValue(),
+                    GRB.BINARY,
+                    "y" + l_start  + "-" + l_end );
             }
             catch ( final GRBException l_err )
             {
                 l_err.printStackTrace();
             }
         } );
-        m_model.setObjective( l_obj, GRB.MINIMIZE );
     }
 
+    /**
+     * solve function
+     * @throws GRBException gurobi
+     */
     public void solve() throws GRBException
     {
         addConstraints( m_graph, m_origin, m_destination );
         m_model.optimize();
-        display();
+        saveResults();
         System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
         m_cost = m_model.get( GRB.DoubleAttr.ObjVal );
         System.out.println();
@@ -86,23 +95,35 @@ public class CSPP implements ISPP
         }
     }
 
+    private void saveResults() throws GRBException
+    {
+        m_graph.edges().forEach( e ->
+        {
+            try
+            {
+                if ( ( m_xs[Integer.valueOf( e.from().id() )][Integer.valueOf( e.to().id() )] != null )
+                    && ( m_xs[Integer.valueOf( e.from().id() )][Integer.valueOf( e.to().id() )].get( GRB.DoubleAttr.X ) == 1 ) )
+                {
+                    m_results.add( e );
+                    m_length++;
+                }
+            }
+            catch ( final GRBException l_err )
+            {
+                l_err.printStackTrace();
+            }
+        } );
+
+
+    }
+
     /**
      * displays the result
      * @throws GRBException gurobi
      */
     public void display() throws GRBException
     {
-        for ( int i = 0; i < m_graph.size(); i++ )
-        {
-            for ( int j = 0; j < m_graph.size(); j++ )
-            {
-                if ( m_xs[i][j] != null && m_xs[i][j].get( GRB.DoubleAttr.X ) == 1 )
-                {
-                    System.out.println( m_xs[i][j].get( GRB.StringAttr.VarName ) + " " + m_xs[i][j].get( GRB.DoubleAttr.X ) );
-                    m_length++;
-                }
-            }
-        }
+        m_results.forEach( e -> System.out.println( e.id() ) );
     }
 
     public Integer length()

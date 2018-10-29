@@ -43,13 +43,18 @@ public class TestCSPP
     public void init() throws GRBException
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
-        m_opt = new CSPP( m_env, 1, 52 );
+        m_opt = new CSPP( m_env, 1, 164 );
     }
 
+    /**
+     * testing the solve option
+     * @throws GRBException gurobi
+     */
     @Test
     public void solve() throws GRBException
     {
         m_opt.solve();
+        m_opt.display();
     }
 
     /**

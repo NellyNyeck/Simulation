@@ -11,8 +11,6 @@ import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 
@@ -53,18 +51,18 @@ public class CPSPP implements IPSPP
         m_indivres = new HashMap<>();
         p_destinations.forEach( d -> m_indivres.put( d, new ArrayList<>() ) );
 
-        final GRBLinExpr l_obj = new GRBLinExpr();
         p_env.edges().forEach( e ->
         {
             final Integer l_start = Integer.valueOf( e.from().id() );
             final Integer l_end = Integer.valueOf( e.to().id() );
             try
             {
-                m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, 0.0,
+                if ( e.weight().doubleValue() == 0.0 ) m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, e.weight().doubleValue() + 0.000001,
                     GRB.BINARY,
                     "y" + l_start  + "-" + l_end );
-                l_obj.addTerm( e.weight().doubleValue(), m_ys[l_start][l_end] );
-                //l_obj.addTerm( e.weight().doubleValue() + ThreadLocalRandom.current().nextDouble( 0, 1 ) - 0.5, m_ys[l_start][l_end] );
+                else m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, e.weight().doubleValue(),
+                    GRB.BINARY,
+                    "y" + l_start  + "-" + l_end );
 
                 for ( final Integer l_ds : p_destinations )
                 {
@@ -79,7 +77,6 @@ public class CPSPP implements IPSPP
                 l_e1.printStackTrace();
             }
         } );
-        m_model.setObjective( l_obj, GRB.MINIMIZE );
     }
 
     /**
@@ -91,7 +88,7 @@ public class CPSPP implements IPSPP
         addConstraints();
         m_model.optimize();
         saveResults();
-        display();
+        System.out.println( "Objective function solution: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
         cleanUp();
     }
 
@@ -171,35 +168,6 @@ public class CPSPP implements IPSPP
             } );
         } );
 
-        //y<y
-        /*IntStream.range( 0, m_graph.size() + 1).boxed().forEach( j ->
-        {
-            IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
-            {
-               IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( k ->
-               {
-                   if( ( m_ys[k][j] != null ) && ( m_ys[i][j] != null ) )
-                   {
-                       try
-                       {
-                           final GRBLinExpr l_expr1 = new GRBLinExpr();
-                           l_expr1.addTerm( 1.0, m_ys[k][j] );
-                           l_expr1.addTerm( -1.0, m_ys[i][j] );
-                           m_model.addConstr( l_expr1, GRB.LESS_EQUAL, 0, "y<y" );
-                           final GRBLinExpr l_expr2 = new GRBLinExpr();
-                           l_expr2.addTerm( -1.0, m_ys[k][j] );
-                           l_expr2.addTerm( 1.0, m_ys[i][j] );
-                           m_model.addConstr( l_expr2, GRB.LESS_EQUAL, 0, "y<=y" );
-                       }
-                       catch (GRBException e)
-                       {
-                           e.printStackTrace();
-                       }
-                   }
-               } );
-            } ) ;
-        } );*/
-
     }
 
     private void saveResults()
@@ -237,71 +205,16 @@ public class CPSPP implements IPSPP
      */
     public void display() throws GRBException
     {
-
-        // TODO: 29.10.18  re-do display function after talking to Professon Westphal
-
-        final HashSet<GRBVar> l_ys = new HashSet<>();
-
-        m_graph.edges().forEach( e ->
+        m_indivres.keySet().forEach( d ->
         {
-            final Integer l_start = Integer.valueOf( e.from().id() );
-            final Integer l_end = Integer.valueOf( e.to().id() );
-            m_destinations.forEach( d ->
-            {
-                try
-                {
-                    if ( ( m_ys[l_start][l_end] != null ) && ( m_ys[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) ) l_ys.add( m_ys[l_start][l_end] );
-                }
-                catch ( final GRBException l_err )
-                {
-                    l_err.printStackTrace();
-                }
-            } );
+            m_indivres.get( d ).forEach( x -> System.out.println( "x" + d + ":" + x.id() ) );
         } );
 
+        m_results.keySet().forEach( y -> System.out.println( "y:" + y.id() ) );
 
-
-        m_graph.edges().forEach( e ->
-        {
-            try
-            {
-                final Integer l_start = Integer.valueOf( e.from().id() );
-                final Integer l_end = Integer.valueOf( e.to().id() );
-
-                for ( final Integer l_ks : m_xs.keySet() )
-                {
-                    if ( ( m_xs.get( l_ks )[l_start][l_end] != null ) && ( m_xs.get( l_ks )[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
-                    {
-                        System.out.print( m_xs.get( l_ks )[l_start][l_end].get( GRB.StringAttr.VarName ) + " " + m_xs.get( l_ks )[l_start][l_end].get( GRB.DoubleAttr.X ) );
-                        System.out.println();
-                    }
-                }
-            }
-            catch ( final GRBException l_err )
-            {
-                l_err.printStackTrace();
-            }
-        } );
-
-        System.out.println();
-
-        l_ys.forEach( v ->
-        {
-            try
-            {
-                System.out.println( v.get( GRB.StringAttr.VarName ) + " " + v.get( GRB.DoubleAttr.X ) );
-            }
-            catch ( final GRBException l_err )
-            {
-                l_err.printStackTrace();
-            }
-        } );
-
-        /*System.out.print("Destinations are: ");
+        System.out.print( "Destinations are: " );
         m_destinations.forEach( d -> System.out.print( d + " " ) );
-        System.out.println();*/
-
-        System.out.println( "Obj: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
+        System.out.println();
     }
 
     public HashMap<IEdge, Integer> returnResults()
