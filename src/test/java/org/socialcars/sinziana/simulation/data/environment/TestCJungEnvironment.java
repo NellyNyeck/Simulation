@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+
+
 /**
  * test class for environment
  */
@@ -39,7 +41,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/prenzlauerberg-center_weights.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -140,7 +142,7 @@ public final class TestCJungEnvironment
     public void testZones()
     {
         final HashMap<String, List<INode>> l_zones = m_env.getZones();
-        Assert.assertTrue( l_zones.size() == 38 );
+        Assert.assertTrue( l_zones.size() == 26 );
         IntStream.range( 1, l_zones.size() + 1 ).forEach( i ->
         {
             final List<INode> l_test = l_zones.get( String.valueOf( i ) );
@@ -167,6 +169,9 @@ public final class TestCJungEnvironment
         l_test.graph();
         l_test.heatmap();
         l_test.testZones();
+        final HashMap<INode, Integer> l_res = l_test.m_env.nodesPop();
+        l_res.keySet().forEach( k -> System.out.println( k.id() + ": " + l_res.get( k ) ) );
+
     }
 
 }

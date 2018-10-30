@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -28,6 +29,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+
+
+
 
 /**
  * the environment class
@@ -172,6 +177,23 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     public INode randomnodebyzone( final String p_zone )
     {
         return m_zones.get( p_zone ).get( ThreadLocalRandom.current().nextInt( m_zones.get( p_zone ).size() ) );
+    }
+
+    /**
+     * returns sorted list of the most visited nodes
+     * @return nodes and visited map
+     */
+    public HashMap<INode, Integer> nodesPop()
+    {
+        final HashMap<INode, Integer> l_nodpop = new HashMap<>();
+        edges().forEach( e ->
+        {
+            l_nodpop.put( e.from(), l_nodpop.getOrDefault( e.from(), 0 ) + e.weight().intValue() );
+        } );
+        final HashMap<INode, Integer> l_nopo = l_nodpop.entrySet().stream().sorted( Map.Entry.comparingByValue() )
+            .collect( Collectors.toMap( e -> e.getKey(), e -> e.getValue(), ( e1, e2 ) -> e2,
+                LinkedHashMap::new ) );
+        return l_nopo;
     }
 
     @Override
