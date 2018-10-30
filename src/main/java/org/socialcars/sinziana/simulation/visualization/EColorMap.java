@@ -1316,7 +1316,7 @@ public enum EColorMap implements BiFunction<Number, Number, Color>
         ).toArray(  Color[]::new  )
     ),
 
-    VELOCITYGREEN(
+    VELOCITgYGREEN(
         Stream.of(
             new Color( 0.09053276f, 0.13733861f, 0.07325761f ),
             new Color( 0.09149314f, 0.14105046f, 0.07638733f ),

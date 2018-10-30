@@ -2,6 +2,8 @@ package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,6 +73,7 @@ public final class TestCJungEnvironment
         l_frame.setSize( new Dimension( 1000, 1000 ) );
         l_frame.getContentPane().add( new CJungEnvironment( INPUT.getGraph() ).panel( l_frame.getSize() ) );
         l_frame.setVisible( true );
+
     }
 
     /**
@@ -87,6 +90,10 @@ public final class TestCJungEnvironment
         final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
         l_frame.getContentPane().add( l_view );
         l_frame.setVisible( true );
+
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
 
         final Map<IEdge, Integer> l_countingmap = new HashMap<>();
         IntStream.range( 0, ROUTENUMBER )
@@ -113,6 +120,10 @@ public final class TestCJungEnvironment
         l_frame.getContentPane().add( l_view );
         l_frame.setVisible( true );
 
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
+
         final Map<IEdge, Integer> l_countingmap = new HashMap<>();
         IntStream.range( 0, 1 )
             .boxed()
@@ -121,18 +132,6 @@ public final class TestCJungEnvironment
 
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
-        // create get node function
-        //create function to read destinations from file
-        /*System.out.println( "From Depot 1" );
-        System.out.println( l_env.route( "node0", "node6", Stream.empty() ) );
-        System.out.println( l_env.route( "node0", "node12", Stream.empty() ) );
-        System.out.println( l_env.route( "node0", "node13", Stream.empty() ) );
-        System.out.println( l_env.route( "node0", "node8", Stream.empty() ) );
-        System.out.println( "From Depot 2" );
-        System.out.println( l_env.route( "node20", "node24", Stream.empty() ) );
-        System.out.println( l_env.route( "node20", "node17", Stream.empty() ) );
-        System.out.println( l_env.route( "node20", "node12", Stream.empty() ) );
-        System.out.println( l_env.route( "node20", "node13", Stream.empty() ) );*/
     }
 
     /**
@@ -143,16 +142,6 @@ public final class TestCJungEnvironment
     {
         final HashMap<String, List<INode>> l_zones = m_env.getZones();
         Assert.assertTrue( l_zones.size() == 26 );
-        IntStream.range( 1, l_zones.size() + 1 ).forEach( i ->
-        {
-            final List<INode> l_test = l_zones.get( String.valueOf( i ) );
-            l_test.forEach( k ->
-            {
-                System.out.println( "node " + k.id() );
-            } );
-        } );
-        System.out.println();
-
         System.out.println( m_env.randomnodebyzone( String.valueOf( 3 ) ).id() );
     }
 
@@ -165,11 +154,9 @@ public final class TestCJungEnvironment
     {
         final TestCJungEnvironment l_test = new TestCJungEnvironment();
         l_test.init();
-        //l_test.route();
-        //l_test.graph();
-        //l_test.heatmap();
-        //l_test.testZones();
-        final HashMap<INode, Integer> l_res = l_test.m_env.nodesPop();
-        l_res.keySet().forEach( k -> System.out.println( k.id() + ": " + l_res.get( k ) ) );
+        l_test.route();
+        l_test.graph();
+        l_test.heatmap();
+        l_test.testZones();
     }
 }

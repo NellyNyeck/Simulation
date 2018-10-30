@@ -23,7 +23,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 
 /**
@@ -57,49 +61,70 @@ public class TestCJungOptimiser
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
         m_destinations = new ArrayList<>();
-        //IntStream.range(0, 10).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, 362 ) ) );
-        m_destinations.add( 32 );
-        m_destinations.add( 52 );
-        m_destinations.add( 9 );
-        m_destinations.add( 78 );
-        m_destinations.add( 287 );
-        m_destinations.add( 269 );
-        m_destinations.add( 340 );
-        m_destinations.add( 191 );
-        m_destinations.add( 167 );
-        m_destinations.add( 337 );
-        m_opt = new CPSPP( m_env, 1, m_destinations );
+    }
+
+    /**
+     * testing with popular origin and destinations
+     * @throws GRBException gurobi
+     */
+    @Test
+    public void testPopular() throws GRBException
+    {
+        final LinkedHashMap<INode, Integer> l_nodes = m_env.nodesPop();
+        final INode l_origin = l_nodes.keySet().iterator().next();
+        final List<Map.Entry<INode, Integer>> l_entries = new ArrayList<>( l_nodes.entrySet() );
+        IntStream.range( l_entries.size() - 10, l_entries.size() ).boxed().forEach( i -> m_destinations.add( Integer.valueOf( l_entries.get( i ).getKey().id() ) ) );
+
+        m_opt = new CPSPP( m_env, Integer.valueOf( l_origin.id() ), m_destinations );
+        m_opt.solve();
+        m_opt.display();
+        final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
+        heatmap( l_countingmap );
+    }
+
+
+    /**
+     * testing the optimiser with random origins and destinations
+     * @param p_nbofvehicles how many destinations
+     * @throws GRBException gurobi
+     */
+    @Test
+    public void randomNodes( final Integer p_nbofvehicles ) throws GRBException
+    {
+        IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
+        m_opt = new CPSPP( m_env, Integer.valueOf( m_env.randomnode().id() ), m_destinations );
+        m_opt.solve();
+        m_opt.display();
+        final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
+        heatmap( l_countingmap );
     }
 
     /**
      * heatmap
-     * @throws GRBException gurobi
      */
     @Test
-    public final void heatmap() throws GRBException
+    private void heatmap( final Map<IEdge, Integer> p_countingmap )
     {
+        //creates frame
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 1700, 1700 ) );
+        l_frame.setSize( new Dimension( 3000, 3000 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
+        //adds graph to frame
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
         final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
         l_frame.getContentPane().add( l_view );
         l_frame.setVisible( true );
 
-        m_opt.solve();
-        final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
-
-        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
+        //paints vertices and edges
+        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( p_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
+
+        //adds interactive mouse
         final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
         l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
         l_view.setGraphMouse( l_gm );
 
-        l_countingmap.keySet().forEach( e ->
-        {
-            System.out.println( e.id() + ": " + l_countingmap.get( e ).toString() );
-        } );
     }
 
 
@@ -112,7 +137,8 @@ public class TestCJungOptimiser
     {
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
-        l_test.heatmap();
+        l_test.randomNodes( 10 );
+        l_test.testPopular();
     }
 
 }

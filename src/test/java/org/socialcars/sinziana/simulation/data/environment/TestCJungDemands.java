@@ -2,6 +2,8 @@ package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +31,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 
@@ -40,7 +41,7 @@ public class TestCJungDemands
 {
     private static final CDemandsjungpojo INPUTD;
     private static final CInputpojo INPUTG;
-    private static final CInputpojo INPUTGD;
+    //private static final CInputpojo INPUTGD;
 
     private ArrayList<CInstanceJung> m_demand;
     private CJungEnvironment m_env;
@@ -51,7 +52,7 @@ public class TestCJungDemands
         {
             INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten.json" ), CInputpojo.class );
             INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_demand.json" ), CDemandsjungpojo.class );
-            INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            //INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -99,6 +100,10 @@ public class TestCJungDemands
                 .forEach( j -> l_countingmap.put( j, l_countingmap.getOrDefault( j, 0 ) + 1 ) );
         } );
 
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
+
         writeHeat( l_countingmap );
 
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
@@ -107,7 +112,7 @@ public class TestCJungDemands
 
     private void writeHeat( final HashMap<IEdge, Integer> p_values ) throws IOException
     {
-        final File l_filedir = new File( "tiergarten_heatmap.json" );
+        final File l_filedir = new File( "nellys_heatmap.json" );
 
         final Writer l_out = new BufferedWriter( new OutputStreamWriter(
             new FileOutputStream( l_filedir ), "UTF8" ) );
@@ -128,24 +133,18 @@ public class TestCJungDemands
     public void testZones()
     {
         final HashMap<String, List<INode>> l_zones = m_env.getZones();
-        Assert.assertTrue( l_zones.size() == 26 );
+        Assert.assertEquals( 26, l_zones.size() );
         IntStream.range( 1, l_zones.size() + 1 ).forEach( i ->
         {
             final List<INode> l_test = l_zones.get( String.valueOf( i ) );
-            l_test.forEach( k ->
-            {
-                System.out.println( "node " + k.id() );
-            } );
+            l_test.forEach( k -> System.out.println( "node " + k.id() ) );
         } );
         System.out.println();
 
         System.out.println( m_env.randomnodebyzone( String.valueOf( 5 ) ).id() );
     }
 
-    /**
-     * testing routing with traffic densities implemented as edge weights
-     */
-    @Test
+    /*@Test
     public void testDensity()
     {
         m_env = new CJungEnvironment( INPUTGD.getGraph() );
@@ -165,9 +164,13 @@ public class TestCJungDemands
             .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
             .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
 
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
+
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
-    }
+    }*/
 
     /**
      * main
