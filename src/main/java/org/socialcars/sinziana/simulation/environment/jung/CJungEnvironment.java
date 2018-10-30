@@ -180,17 +180,18 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     }
 
     /**
-     * returns sorted list of the most visited nodes
+     * returns sorted map of nodes based on incoming - outgoing edges
      * @return nodes and visited map
      */
-    public HashMap<INode, Integer> nodesPop()
+    public LinkedHashMap<INode, Integer> nodesPop()
     {
         final HashMap<INode, Integer> l_nodpop = new HashMap<>();
         edges().forEach( e ->
         {
-            l_nodpop.put( e.from(), l_nodpop.getOrDefault( e.from(), 0 ) + e.weight().intValue() );
+            l_nodpop.put( e.to(), l_nodpop.getOrDefault( e.to(), 0 ) + e.weight().intValue() );
+            l_nodpop.put( e.from(), l_nodpop.getOrDefault( e.from(), 0 ) - e.weight().intValue() );
         } );
-        final HashMap<INode, Integer> l_nopo = l_nodpop.entrySet().stream().sorted( Map.Entry.comparingByValue() )
+        final LinkedHashMap<INode, Integer> l_nopo = l_nodpop.entrySet().stream().sorted( Map.Entry.comparingByValue() )
             .collect( Collectors.toMap( e -> e.getKey(), e -> e.getValue(), ( e1, e2 ) -> e2,
                 LinkedHashMap::new ) );
         return l_nopo;

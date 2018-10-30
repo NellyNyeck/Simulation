@@ -212,6 +212,8 @@ public class CPSPP implements IPSPP
 
         m_results.keySet().forEach( y -> System.out.println( "y:" + y.id() ) );
 
+        System.out.println( "Origin is: " + m_source );
+        System.out.println();
         System.out.print( "Destinations are: " );
         m_destinations.forEach( d -> System.out.print( d + " " ) );
         System.out.println();

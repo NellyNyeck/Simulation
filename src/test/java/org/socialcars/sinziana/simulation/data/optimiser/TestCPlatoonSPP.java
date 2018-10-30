@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
+import org.socialcars.sinziana.simulation.environment.jung.INode;
 import org.socialcars.sinziana.simulation.optimiser.CPSPP;
 
 
@@ -13,6 +14,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
@@ -48,9 +54,13 @@ public class TestCPlatoonSPP
     public void init() throws GRBException
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
+        final LinkedHashMap<INode, Integer> l_nodes = m_env.nodesPop();
+        final INode l_origin = l_nodes.keySet().iterator().next();
         m_destinations = new ArrayList<>();
-        IntStream.range( 0, 10 ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, 362 ) ) );
-        m_opt = new CPSPP( m_env, 1, m_destinations );
+        final List<Map.Entry<INode, Integer>> entries = new ArrayList<Map.Entry<INode, Integer>>( l_nodes.entrySet() );
+        IntStream.range( entries.size() - 10, entries.size() ).boxed().forEach( i -> m_destinations.add( Integer.valueOf( entries.get( i ).getKey().id() ) ) );
+        //IntStream.range( 0, 10 ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, 362 ) ) );
+        m_opt = new CPSPP( m_env, Integer.valueOf( l_origin.id() ), m_destinations );
     }
 
     /**

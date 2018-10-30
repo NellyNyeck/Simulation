@@ -165,13 +165,11 @@ public final class TestCJungEnvironment
     {
         final TestCJungEnvironment l_test = new TestCJungEnvironment();
         l_test.init();
-        l_test.route();
-        l_test.graph();
-        l_test.heatmap();
-        l_test.testZones();
+        //l_test.route();
+        //l_test.graph();
+        //l_test.heatmap();
+        //l_test.testZones();
         final HashMap<INode, Integer> l_res = l_test.m_env.nodesPop();
         l_res.keySet().forEach( k -> System.out.println( k.id() + ": " + l_res.get( k ) ) );
-
     }
-
 }
