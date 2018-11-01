@@ -137,7 +137,7 @@ public class TestCJungOptimiser
     {
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
-        l_test.randomNodes( 10 );
+        //l_test.randomNodes( 10 );
         l_test.testPopular();
     }
 
