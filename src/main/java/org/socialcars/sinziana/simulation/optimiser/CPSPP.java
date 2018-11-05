@@ -167,7 +167,6 @@ public class CPSPP implements IPSPP
                 }
             } );
         } );
-
     }
 
     private void saveResults()
