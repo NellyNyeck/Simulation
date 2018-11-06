@@ -68,12 +68,12 @@ public class TestCJungOptimiser
      * @throws GRBException gurobi
      */
     @Test
-    public void testPopular() throws GRBException
+    public void testPopular( final Integer p_nbofvehicles ) throws GRBException
     {
         final LinkedHashMap<INode, Integer> l_nodes = m_env.nodesPop();
         final INode l_origin = l_nodes.keySet().iterator().next();
         final List<Map.Entry<INode, Integer>> l_entries = new ArrayList<>( l_nodes.entrySet() );
-        IntStream.range( l_entries.size() - 10, l_entries.size() ).boxed().forEach( i -> m_destinations.add( Integer.valueOf( l_entries.get( i ).getKey().id() ) ) );
+        IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() ).boxed().forEach( i -> m_destinations.add( Integer.valueOf( l_entries.get( i ).getKey().id() ) ) );
 
         m_opt = new CPSPP( m_env, Integer.valueOf( l_origin.id() ), m_destinations );
         m_opt.solve();
@@ -107,7 +107,7 @@ public class TestCJungOptimiser
     {
         //creates frame
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 3000, 3000 ) );
+        l_frame.setSize( new Dimension( 5000, 5000 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         //adds graph to frame
@@ -138,7 +138,7 @@ public class TestCJungOptimiser
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
         //l_test.randomNodes( 10 );
-        l_test.testPopular();
+        l_test.testPopular( 4 );
     }
 
 }
