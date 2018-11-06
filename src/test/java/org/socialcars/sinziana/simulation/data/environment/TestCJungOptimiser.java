@@ -91,8 +91,18 @@ public class TestCJungOptimiser
     @Test
     public void randomNodes( final Integer p_nbofvehicles ) throws GRBException
     {
-        IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
-        m_opt = new CPSPP( m_env, Integer.valueOf( m_env.randomnode().id() ), m_destinations );
+        //IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
+        m_destinations.add( 210 );
+        m_destinations.add( 29 );
+        m_destinations.add( 215 );
+        //m_destinations.add( 326 );
+        //m_destinations.add( 16 );
+        //m_destinations.add( 5 );
+        //m_destinations.add( 158 );
+        //m_destinations.add( 192 );
+        //m_destinations.add( 250 );
+        //m_destinations.add( 347 );
+        m_opt = new CPSPP( m_env, 353, m_destinations );
         m_opt.solve();
         m_opt.display();
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
@@ -138,7 +148,7 @@ public class TestCJungOptimiser
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
         //l_test.randomNodes( 10 );
-        l_test.testPopular( 10 );
+        //l_test.testPopular( 2 );
     }
 
 }
