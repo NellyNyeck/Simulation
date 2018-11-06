@@ -107,7 +107,7 @@ public class TestCJungOptimiser
     {
         //creates frame
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 5000, 5000 ) );
+        l_frame.setSize( new Dimension( 1200, 1200 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         //adds graph to frame
@@ -138,7 +138,7 @@ public class TestCJungOptimiser
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
         //l_test.randomNodes( 10 );
-        l_test.testPopular( 4 );
+        l_test.testPopular( 10 );
     }
 
 }

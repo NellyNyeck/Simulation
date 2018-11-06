@@ -23,7 +23,7 @@ public class CHeatFunction implements Function<IEdge, Paint>
     public CHeatFunction( final Map<IEdge, Integer> p_countingmap )
     {
         final Integer l_max = p_countingmap.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
-        m_coding = p_countingmap.entrySet().stream().collect( Collectors.toMap( Map.Entry::getKey, i -> EColorMap.INFERNO.apply( i.getValue(), l_max ) ) );
+        m_coding = p_countingmap.entrySet().stream().collect( Collectors.toMap( Map.Entry::getKey, i -> EColorMap.VIDRIS.apply( i.getValue(), l_max ) ) );
     }
 
     @Nullable
