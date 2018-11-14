@@ -44,7 +44,7 @@ public class TestCJungOptimiser
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5HlH.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
