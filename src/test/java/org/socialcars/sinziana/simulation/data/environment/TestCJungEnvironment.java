@@ -2,6 +2,9 @@ package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
@@ -19,9 +22,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
 
 
 /**
@@ -29,7 +33,7 @@ import java.util.stream.Stream;
  */
 public final class TestCJungEnvironment
 {
-    private static final int ROUTENUMBER = 1000;
+    private static final int ROUTENUMBER = 10;
 
     private static final CInputpojo INPUT;
 
@@ -39,7 +43,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/berlin-mitte-center_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -66,9 +70,10 @@ public final class TestCJungEnvironment
     {
         final JFrame l_frame = new JFrame();
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        l_frame.setSize( new Dimension( 900, 900 ) );
+        l_frame.setSize( new Dimension( 1000, 1000 ) );
         l_frame.getContentPane().add( new CJungEnvironment( INPUT.getGraph() ).panel( l_frame.getSize() ) );
         l_frame.setVisible( true );
+
     }
 
     /**
@@ -78,7 +83,7 @@ public final class TestCJungEnvironment
     public final void heatmap()
     {
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 900, 900 ) );
+        l_frame.setSize( new Dimension( 1000, 1000 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
@@ -86,11 +91,15 @@ public final class TestCJungEnvironment
         l_frame.getContentPane().add( l_view );
         l_frame.setVisible( true );
 
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
+
         final Map<IEdge, Integer> l_countingmap = new HashMap<>();
         IntStream.range( 0, ROUTENUMBER )
-                 .boxed()
-                 .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
-                 .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
+                .boxed()
+                .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
+                .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
 
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
@@ -102,20 +111,39 @@ public final class TestCJungEnvironment
     @Test
     public final void route()
     {
+        final JFrame l_frame = new JFrame();
+        l_frame.setSize( new Dimension( 2000, 2000 ) );
+        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
-        // create get node function
-        //create function to read destinations from file
-        System.out.println( "From Depot 1" );
-        System.out.println( l_env.route( "node0", "node6", Stream.empty() ) );
-        System.out.println( l_env.route( "node0", "node12", Stream.empty() ) );
-        System.out.println( l_env.route( "node0", "node13", Stream.empty() ) );
-        System.out.println( l_env.route( "node0", "node8", Stream.empty() ) );
-        System.out.println( "From Depot 2" );
-        System.out.println( l_env.route( "node20", "node24", Stream.empty() ) );
-        System.out.println( l_env.route( "node20", "node17", Stream.empty() ) );
-        System.out.println( l_env.route( "node20", "node12", Stream.empty() ) );
-        System.out.println( l_env.route( "node20", "node13", Stream.empty() ) );
+        final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
+        l_frame.getContentPane().add( l_view );
+        l_frame.setVisible( true );
+
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
+
+        final Map<IEdge, Integer> l_countingmap = new HashMap<>();
+        IntStream.range( 0, 1 )
+                .boxed()
+                .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
+                .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
+
+        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
+        l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
     }
+
+    /**
+     * testing the zones
+     */
+    @Test
+ /*   public void testZones()
+    {
+        final HashMap<String, List<INode>> l_zones = m_env.getZones();
+        Assert.assertTrue( l_zones.size() == 26 );
+        System.out.println( m_env.randomnodebyzone( String.valueOf( 3 ) ).id() );
+    }*/
 
     /**
      * main
@@ -129,6 +157,6 @@ public final class TestCJungEnvironment
         l_test.route();
         l_test.graph();
         l_test.heatmap();
+       // l_test.testZones();
     }
-
 }
