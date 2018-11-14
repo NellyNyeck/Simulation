@@ -27,7 +27,7 @@ public class TestCSPP
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_isolated.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -43,7 +43,7 @@ public class TestCSPP
     public void init() throws GRBException
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
-        m_opt = new CSPP( m_env, 1, 164 );
+        m_opt = new CSPP( m_env, 353, 27 );
     }
 
     /**

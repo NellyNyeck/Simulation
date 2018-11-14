@@ -44,7 +44,7 @@ public final class TestCInput
     @Before
     public final void init() throws IOException
     {
-        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_isolated.json" ), CInputpojo.class );
     }
 
     /**
@@ -295,7 +295,7 @@ public final class TestCInput
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertTrue( l_graph.equals( l_graph ) );
         Assert.assertTrue( !l_graph.toString().isEmpty() );
-        Assert.assertTrue( l_graph.getZones() == 38 );
+        Assert.assertTrue( l_graph.getZones() == 26 );
     }
 
     /**
@@ -337,7 +337,7 @@ public final class TestCInput
         Assert.assertNotNull( m_configuration.getGraph() );
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getEdges() );
-        Assert.assertTrue( l_graph.getEdges().size() == 766 );
+        Assert.assertTrue( l_graph.getEdges().size() == 79 );
         final Set<CEdgepojo> l_edges = l_graph.getEdges();
         l_edges.forEach( e ->
         {

@@ -13431,28 +13431,13 @@
         "name": "edge343-339",
         "from": "343",
         "to": "339",
-        "weight" : 1,
-        "poi distribution function" : {
-          "name" : "even",
-          "parameters" : [
+        "weight": 1,
+        "poi distribution function": {
+          "name": "even",
+          "parameters": [
             {
-              "name" : "dist",
-              "value" : 10
-            }
-          ]
-        }
-      },
-      {
-        "name": "edge344-271",
-        "from": "344",
-        "to": "271",
-        "weight" : 23,
-        "poi distribution function" : {
-          "name" : "even",
-          "parameters" : [
-            {
-              "name" : "dist",
-              "value" : 10
+              "name": "dist",
+              "value": 10
             }
           ]
         }

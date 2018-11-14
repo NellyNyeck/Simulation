@@ -61,7 +61,7 @@ public class TestCOSMmapBarcaSmall
         Assume.assumeNotNull( m_env );
         final GeoPosition l_start = m_env.randomnode();
         final List<List<GeoPosition>> l_routes = new ArrayList<>();
-        IntStream.range( 0, 10 )
+        IntStream.range( 0, 1000 )
             .boxed()
             .forEach( i -> l_routes.add( m_env.route( l_start, m_env.randomnode(), Stream.empty() ) ) );
         m_env.drawHeat( l_routes );

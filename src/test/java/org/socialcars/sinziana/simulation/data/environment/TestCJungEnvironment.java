@@ -33,7 +33,7 @@ import java.util.stream.IntStream;
  */
 public final class TestCJungEnvironment
 {
-    private static final int ROUTENUMBER = 10;
+    private static final int ROUTENUMBER = 1000;
 
     private static final CInputpojo INPUT;
 
@@ -43,7 +43,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -154,9 +154,9 @@ public final class TestCJungEnvironment
     {
         final TestCJungEnvironment l_test = new TestCJungEnvironment();
         l_test.init();
-        l_test.route();
-        l_test.graph();
+        //l_test.route();
+        //l_test.graph();
         l_test.heatmap();
-        l_test.testZones();
+        //l_test.testZones();
     }
 }

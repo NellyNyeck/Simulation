@@ -120,7 +120,7 @@ public class CPSPP implements IPSPP
         } );
 
         //length constraint
-        m_destinations.forEach( d ->
+        /*m_destinations.forEach( d ->
         {
             try
             {
@@ -143,7 +143,7 @@ public class CPSPP implements IPSPP
             {
                 l_err.printStackTrace();
             }
-        } );
+        } );*/
 
         //x<=y
         m_graph.edges().forEach( e ->

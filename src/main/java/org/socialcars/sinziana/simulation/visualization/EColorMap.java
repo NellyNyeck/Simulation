@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  */
 public enum EColorMap implements BiFunction<Number, Number, Color>
 {
-    VIDRIS(
+    /*VIDRIS(
         Stream.of(
             new Color( 0.267004f, 0.004874f, 0.329415f ),
             new Color( 0.268510f, 0.009605f, 0.335427f ),
@@ -531,7 +531,7 @@ public enum EColorMap implements BiFunction<Number, Number, Color>
             new Color( 0.987387f, 0.984288f, 0.742002f ),
             new Color( 0.987053f, 0.991438f, 0.749504f )
         ).toArray(  Color[]::new  )
-    ),
+    ),*/
 
     INFERNO(
         Stream.of(
@@ -1314,9 +1314,9 @@ public enum EColorMap implements BiFunction<Number, Number, Color>
             new Color( 0.941896f, 0.968590f, 0.140956f ),
             new Color( 0.940015f, 0.975158f, 0.131326f )
         ).toArray(  Color[]::new  )
-    ),
+    );
 
-    VELOCITgYGREEN(
+    /*VELOCITgYGREEN(
         Stream.of(
             new Color( 0.09053276f, 0.13733861f, 0.07325761f ),
             new Color( 0.09149314f, 0.14105046f, 0.07638733f ),
@@ -4185,7 +4185,7 @@ public enum EColorMap implements BiFunction<Number, Number, Color>
             new Color( 0.99380347f, 0.92480678f, 0.68564709f ),
             new Color( 0.99429361f, 0.9303278f, 0.6910969f )
         ).toArray( Color[]::new )
-    );
+    );*/
 
     /**
      * map colors
