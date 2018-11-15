@@ -44,7 +44,7 @@ public class TestCJungOptimiser
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5HlH.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5LtoH.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -90,17 +90,12 @@ public class TestCJungOptimiser
     @Test
     public void randomNodes( final Integer p_nbofvehicles ) throws GRBException
     {
-        IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
-        /*m_destinations.add( 47 );
-        m_destinations.add( 222 );
-        m_destinations.add( 77 );
-        m_destinations.add( 78 );
-        m_destinations.add( 254 );
-        m_destinations.add( 26 );
-        m_destinations.add( 187 );
-        m_destinations.add( 51 );
-        m_destinations.add( 27 );
-        m_destinations.add( 352 );*/
+        //IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
+        m_destinations.add( 10 );
+        m_destinations.add( 6 );
+        m_destinations.add( 3 );
+        m_destinations.add( 6 );
+        m_destinations.add( 18 );
         m_opt = new CPSPP( m_env, 0, m_destinations );
         m_opt.solve();
         m_opt.display();
@@ -144,11 +139,10 @@ public class TestCJungOptimiser
      */
     public static void main( final String[] p_args ) throws GRBException
     {
-        System.out.println( System.currentTimeMillis() );
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
-        l_test.randomNodes( 20 );
-        System.out.println( System.currentTimeMillis() );
+        l_test.randomNodes( 5 );
+        l_test.m_opt.getCosts();
         //l_test.testPopular( 10 );
     }
 

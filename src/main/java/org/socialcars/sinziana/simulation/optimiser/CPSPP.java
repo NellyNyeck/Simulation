@@ -10,7 +10,11 @@ import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 
@@ -27,8 +31,9 @@ public class CPSPP implements IPSPP
     private final ArrayList<Integer> m_destinations;
     private final CJungEnvironment m_graph;
 
-    private final HashMap<Integer, ArrayList<IEdge>> m_indivres;
+    private final HashMap<Integer, HashSet<IEdge>> m_indivres;
     private final HashMap<IEdge, Integer> m_results;
+    private final HashMap<Integer, Double> m_origcosts;
 
     /**
      * ctor
@@ -49,7 +54,8 @@ public class CPSPP implements IPSPP
         m_graph = p_env;
         m_results = new HashMap<>();
         m_indivres = new HashMap<>();
-        p_destinations.forEach( d -> m_indivres.put( d, new ArrayList<>() ) );
+        p_destinations.forEach( d -> m_indivres.put( d, new HashSet<>() ) );
+        m_origcosts = new HashMap<>();
 
         p_env.edges().forEach( e ->
         {
@@ -120,7 +126,7 @@ public class CPSPP implements IPSPP
         } );
 
         //length constraint
-        /*m_destinations.forEach( d ->
+        m_destinations.forEach( d ->
         {
             try
             {
@@ -128,6 +134,7 @@ public class CPSPP implements IPSPP
                 final CSPP l_indiv = new CSPP( m_graph, m_source, d );
                 l_indiv.solve();
                 double l_ml = Double.valueOf( l_indiv.length() );
+                m_origcosts.put( d, l_indiv.cost() );
                 l_ml = l_ml + l_ml * 0.25;
 
                 final GRBLinExpr l_dist = new GRBLinExpr();
@@ -143,7 +150,7 @@ public class CPSPP implements IPSPP
             {
                 l_err.printStackTrace();
             }
-        } );*/
+        } );
 
         //x<=y
         m_graph.edges().forEach( e ->
@@ -181,7 +188,7 @@ public class CPSPP implements IPSPP
                 try
                 {
                     final GRBVar[][] l_temp = m_xs.get( d );
-                    final ArrayList<IEdge> l_res = m_indivres.get( d );
+                    final HashSet<IEdge> l_res = m_indivres.get( d );
                     if ( ( l_temp[l_start][l_end] != null ) && ( l_temp[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
                     {
                         m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
@@ -195,6 +202,35 @@ public class CPSPP implements IPSPP
             } );
         } );
 
+
+    }
+
+    public void getCosts()
+    {
+        final HashMap<IEdge, Integer> l_np = new HashMap<>();
+        final HashMap<Integer, Double> l_costs = new HashMap<>();
+
+        m_destinations.forEach( d ->
+        {
+            m_indivres.get( d ).forEach( e -> l_np.put( e, l_np.getOrDefault( e, 0 ) + 1 ) );
+        } );
+
+        m_indivres.keySet().forEach( k ->
+        {
+            final Set<IEdge> l_edges = m_indivres.get( k );
+            AtomicReference<Double> l_cost = new AtomicReference<>(0.00);
+            l_edges.forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_np.get(e)) );
+            l_costs.put( k, l_cost.get().doubleValue() );
+        } );
+
+        System.out.println( "The number of platooning vehicles per edge are: " );
+        l_np.keySet().forEach( k -> System.out.println( k.id() + ": " + l_np.get( k ) ) );
+
+        System.out.println( "The costs are as follows:" );
+        m_origcosts.keySet().forEach( k ->
+        {
+            System.out.println( "Destination " + k.toString() + " original cost:" + m_origcosts.get( k ).doubleValue() + " platoon cost:" + l_costs.get( k ) );
+        } );
 
     }
 
