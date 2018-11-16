@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class TestCJungOptimiser
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5LtoH.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -78,6 +79,7 @@ public class TestCJungOptimiser
         m_opt = new CPSPP( m_env, Integer.valueOf( l_origin.id() ), m_destinations );
         m_opt.solve();
         m_opt.display();
+        m_opt.getCosts();
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
         heatmap( l_countingmap );
     }
@@ -90,12 +92,7 @@ public class TestCJungOptimiser
     @Test
     public void randomNodes( final Integer p_nbofvehicles ) throws GRBException
     {
-        //IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
-        m_destinations.add( 10 );
-        m_destinations.add( 6 );
-        m_destinations.add( 3 );
-        m_destinations.add( 6 );
-        m_destinations.add( 18 );
+        IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
         m_opt = new CPSPP( m_env, 0, m_destinations );
         m_opt.solve();
         m_opt.display();
@@ -111,7 +108,7 @@ public class TestCJungOptimiser
     {
         //creates frame
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 800, 800 ) );
+        l_frame.setSize( new Dimension( 1200, 1200 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         //adds graph to frame
@@ -131,6 +128,32 @@ public class TestCJungOptimiser
 
     }
 
+    private void paintWeights()
+    {
+        //creates frame
+        final JFrame l_frame = new JFrame();
+        l_frame.setSize( new Dimension( 800, 800 ) );
+        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+
+        //adds graph to frame
+        final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
+        final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
+        l_frame.getContentPane().add( l_view );
+        l_frame.setVisible( true );
+
+        //paints vertices and edges
+        final Map<IEdge, Integer> l_countingmap = new HashMap<>();
+        m_env.edges().forEach( e -> l_countingmap.put( e, e.weight().intValue() ) );
+        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
+        l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
+
+
+        //adds interactive mouse
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
+    }
+
 
     /**
      * main
@@ -141,9 +164,9 @@ public class TestCJungOptimiser
     {
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
-        l_test.randomNodes( 5 );
-        l_test.m_opt.getCosts();
-        //l_test.testPopular( 10 );
+        //l_test.paintWeights();
+        //l_test.randomNodes( 3 );
+        l_test.testPopular( 3 );
     }
 
 }
