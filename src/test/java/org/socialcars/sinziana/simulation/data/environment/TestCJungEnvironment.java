@@ -21,7 +21,9 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -43,7 +45,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -105,6 +107,38 @@ public final class TestCJungEnvironment
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
     }
 
+    public final void popularHeatmap( final Integer p_nbofvehicles )
+    {
+        final JFrame l_frame = new JFrame();
+        l_frame.setSize( new Dimension( 1000, 1000 ) );
+        l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+
+        final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
+        final VisualizationViewer<INode, IEdge> l_view = l_env.panel( l_frame.getSize() );
+        l_frame.getContentPane().add( l_view );
+        l_frame.setVisible( true );
+
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
+
+        ArrayList<INode> m_destinations = new ArrayList<>();
+        final LinkedHashMap<INode, Integer> l_nodes = m_env.nodesPop();
+        final INode l_origin = l_nodes.keySet().iterator().next();
+        final List<Map.Entry<INode, Integer>> l_entries = new ArrayList<>( l_nodes.entrySet() );
+        IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() ).boxed().forEach( i -> m_destinations.add( l_entries.get( i ).getKey() ) );
+
+
+        final Map<IEdge, Integer> l_countingmap = new HashMap<>();
+        IntStream.range( 0, p_nbofvehicles )
+            .boxed()
+            .flatMap( i -> l_env.route( l_origin, m_destinations.get( i ) ).stream() )
+            .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
+
+        l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
+        l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
+    }
+
     /**
      * testing out the routing
      */
@@ -156,7 +190,8 @@ public final class TestCJungEnvironment
         l_test.init();
         //l_test.route();
         //l_test.graph();
-        l_test.heatmap();
+        //l_test.heatmap();
+        l_test.popularHeatmap( 3 );
         //l_test.testZones();
     }
 }
