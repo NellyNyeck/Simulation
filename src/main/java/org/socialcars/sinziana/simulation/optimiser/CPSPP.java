@@ -30,6 +30,7 @@ public class CPSPP implements IPSPP
     private final Integer m_source;
     private final ArrayList<Integer> m_destinations;
     private final CJungEnvironment m_graph;
+    private Double m_opt;
 
     private final HashMap<Integer, HashSet<IEdge>> m_indivres;
     private final HashMap<IEdge, Integer> m_results;
@@ -57,18 +58,31 @@ public class CPSPP implements IPSPP
         p_destinations.forEach( d -> m_indivres.put( d, new HashSet<>() ) );
         m_origcosts = new HashMap<>();
 
+
+
+        final GRBLinExpr l_obj = new GRBLinExpr();
         p_env.edges().forEach( e ->
         {
             final Integer l_start = Integer.valueOf( e.from().id() );
             final Integer l_end = Integer.valueOf( e.to().id() );
             try
             {
-                if ( e.weight().doubleValue() == 0.0 ) m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, e.weight().doubleValue() + 0.000001,
-                    GRB.BINARY,
-                    "y" + l_start  + "-" + l_end );
-                else m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, e.weight().doubleValue(),
-                    GRB.BINARY,
-                    "y" + l_start  + "-" + l_end );
+                if ( e.weight().doubleValue() == 0.0 )
+                {
+                    m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, 0.00,
+                        GRB.BINARY,
+                        "y" + l_start  + "-" + l_end );
+                    l_obj.addTerm( e.weight().doubleValue() + 0.00001, m_ys[l_start][l_end] );
+                }
+
+                else
+                {
+                    m_ys[l_start][l_end] = m_model.addVar( 0.0, 1.0, e.weight().doubleValue(),
+                        GRB.BINARY,
+                        "y" + l_start  + "-" + l_end );
+                    l_obj.addTerm( e.weight().doubleValue(), m_ys[l_start][l_end] );
+                }
+
 
                 for ( final Integer l_ds : p_destinations )
                 {
@@ -82,7 +96,10 @@ public class CPSPP implements IPSPP
             {
                 l_e1.printStackTrace();
             }
+
         } );
+        m_model.setObjective( l_obj );
+        m_opt = null;
     }
 
     /**
@@ -95,6 +112,7 @@ public class CPSPP implements IPSPP
         m_model.optimize();
         saveResults();
         System.out.println( "Objective function solution: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
+        m_opt = m_model.get( GRB.DoubleAttr.ObjVal );
         cleanUp();
     }
 
@@ -151,6 +169,29 @@ public class CPSPP implements IPSPP
                 l_err.printStackTrace();
             }
         } );
+
+        //cost constraint
+        /*m_destinations.forEach( d ->
+        {
+            try
+            {
+                final GRBVar[][] l_temp = m_xs.get( d );
+                final Double l_cost  = m_origcosts.get( d );
+                final GRBLinExpr l_costs = new GRBLinExpr();
+                m_graph.edges().forEach( e ->
+                {
+                    final Integer l_start = Integer.valueOf( e.from().id() );
+                    final Integer l_end = Integer.valueOf( e.to().id() );
+                        if ( l_temp[l_start][l_end] != null )
+                            l_costs.addTerm( e.weight().doubleValue(), l_temp[l_start][l_end] );
+                } );
+                m_model.addConstr( l_costs, GRB.LESS_EQUAL, l_cost, "maxcost" + String.valueOf( d ) );
+            }
+            catch ( final GRBException l_err )
+            {
+                l_err.printStackTrace();
+            }
+        } );*/
 
         //x<=y
         m_graph.edges().forEach( e ->
@@ -252,6 +293,7 @@ public class CPSPP implements IPSPP
         System.out.print( "Destinations are: " );
         m_destinations.forEach( d -> System.out.print( d + " " ) );
         System.out.println();
+        System.out.println( "system optimum is: " + m_opt );
     }
 
     public HashMap<IEdge, Integer> returnResults()

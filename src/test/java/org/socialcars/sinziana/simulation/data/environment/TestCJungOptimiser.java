@@ -166,7 +166,7 @@ public class TestCJungOptimiser
         l_test.init();
         //l_test.paintWeights();
         //l_test.randomNodes( 3 );
-        l_test.testPopular( 3 );
+        l_test.testPopular( 8 );
     }
 
 }

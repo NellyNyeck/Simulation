@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 
@@ -129,14 +131,47 @@ public final class TestCJungEnvironment
         IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() ).boxed().forEach( i -> m_destinations.add( l_entries.get( i ).getKey() ) );
 
 
+
         final Map<IEdge, Integer> l_countingmap = new HashMap<>();
         IntStream.range( 0, p_nbofvehicles )
             .boxed()
             .flatMap( i -> l_env.route( l_origin, m_destinations.get( i ) ).stream() )
             .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
 
+        final HashMap<INode, Double> l_singlecosts = new HashMap<>();
+        m_destinations.forEach( d ->
+        {
+            AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
+            l_env.route( l_origin, d ).stream().forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() ) );
+            l_singlecosts.put( d, l_cost.get() );
+        } );
+
+        final HashMap<INode, Double> l_platooncosts = new HashMap<>();
+        m_destinations.forEach( d ->
+        {
+            AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
+            l_env.route( l_origin, d ).stream().forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_countingmap.get( e ) ) );
+            l_platooncosts.put( d, l_cost.get() );
+        } );
+
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
+
+
+        System.out.println( "The number of platooning vehicles per edge are: " );
+        l_countingmap.keySet().forEach( k -> System.out.println( k.id() + ": " + l_countingmap.get( k ) ) );
+
+        System.out.println( "The costs are as follows:" );
+        l_singlecosts.keySet().forEach( k ->
+        {
+            System.out.println( "Destination " + k.id() + " original cost:" + l_singlecosts.get( k ).doubleValue() + " platoon cost:" + l_platooncosts.get( k ) );
+        } );
+
+        System.out.println( "Total costs are: " );
+
+        AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
+        l_countingmap.keySet().forEach( k -> l_cost.getAndUpdate( v -> v + k.weight().doubleValue() ) );
+        System.out.print( l_cost );
     }
 
     /**
@@ -191,7 +226,7 @@ public final class TestCJungEnvironment
         //l_test.route();
         //l_test.graph();
         //l_test.heatmap();
-        l_test.popularHeatmap( 3 );
+        l_test.popularHeatmap( 8 );
         //l_test.testZones();
     }
 }
