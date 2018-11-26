@@ -45,7 +45,7 @@ public class TestCJungOptimiser
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5HtoL.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -73,14 +73,32 @@ public class TestCJungOptimiser
     {
         final LinkedHashMap<INode, Integer> l_nodes = m_env.nodesPop();
         final INode l_origin = l_nodes.keySet().iterator().next();
+
+        //final INode l_origin2 = m_env.randomnode();
         final List<Map.Entry<INode, Integer>> l_entries = new ArrayList<>( l_nodes.entrySet() );
-        IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() ).boxed().forEach( i -> m_destinations.add( Integer.valueOf( l_entries.get( i ).getKey().id() ) ) );
+        IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() )
+            .boxed()
+            .forEach( i -> m_destinations.add( Integer.valueOf( l_entries.get( i ).getKey().id() ) ) );
 
         m_opt = new CPSPP( m_env, Integer.valueOf( l_origin.id() ), m_destinations );
         m_opt.solve();
+
+        System.out.println();
+
         m_opt.display();
-        m_opt.getCosts();
+        System.out.println();
+
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
+        /*m_opt = new CPSPP( m_env, Integer.valueOf( l_origin2.id() ), m_destinations );
+        m_opt.solve();
+        m_opt.display();*/
+        m_opt.getCosts();
+        System.out.println();
+        /*final Map<IEdge, Integer> l_countingmap2 = m_opt.returnResults();
+        l_countingmap2.keySet().forEach( k ->
+        {
+            l_countingmap.put( k, l_countingmap.getOrDefault( k, 0 ) + l_countingmap2.get( k ) );
+        } );*/
         heatmap( l_countingmap );
     }
 
@@ -166,7 +184,9 @@ public class TestCJungOptimiser
         l_test.init();
         //l_test.paintWeights();
         //l_test.randomNodes( 3 );
-        l_test.testPopular( 8 );
+        //System.out.println( System.currentTimeMillis() );
+        l_test.testPopular( 4 );
+        //System.out.println( System.currentTimeMillis() );
     }
 
 }

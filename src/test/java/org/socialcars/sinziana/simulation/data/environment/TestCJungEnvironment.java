@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
@@ -47,7 +46,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5HtoL.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -109,10 +108,14 @@ public final class TestCJungEnvironment
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
     }
 
+    /**
+     * creates a heatmap of the most popular p_nbofvehicles destination
+     * @param p_nbofvehicles number of destinations
+     */
     public final void popularHeatmap( final Integer p_nbofvehicles )
     {
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 1000, 1000 ) );
+        l_frame.setSize( new Dimension( 1200, 1200 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         final IEnvironment<VisualizationViewer<INode, IEdge>> l_env = new CJungEnvironment( INPUT.getGraph() );
@@ -124,32 +127,40 @@ public final class TestCJungEnvironment
         l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
         l_view.setGraphMouse( l_gm );
 
-        ArrayList<INode> m_destinations = new ArrayList<>();
+        final ArrayList<INode> l_destinations = new ArrayList<>();
         final LinkedHashMap<INode, Integer> l_nodes = m_env.nodesPop();
         final INode l_origin = l_nodes.keySet().iterator().next();
         final List<Map.Entry<INode, Integer>> l_entries = new ArrayList<>( l_nodes.entrySet() );
-        IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() ).boxed().forEach( i -> m_destinations.add( l_entries.get( i ).getKey() ) );
+        IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() ).boxed().forEach( i -> l_destinations.add( l_entries.get( i ).getKey() ) );
 
 
 
         final Map<IEdge, Integer> l_countingmap = new HashMap<>();
         IntStream.range( 0, p_nbofvehicles )
             .boxed()
-            .flatMap( i -> l_env.route( l_origin, m_destinations.get( i ) ).stream() )
+            .flatMap( i -> l_env.route( l_origin, l_destinations.get( i ) ).stream() )
             .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
 
+        System.out.println( "Origin is: " + l_origin.id() );
+        System.out.println();
+
         final HashMap<INode, Double> l_singlecosts = new HashMap<>();
-        m_destinations.forEach( d ->
+        l_destinations.forEach( d ->
         {
-            AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
-            l_env.route( l_origin, d ).stream().forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() ) );
+            final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
+            l_env.route( l_origin, d ).stream().forEach( e ->
+            {
+                System.out.println( "Destination " + d.id() + ": "  + e.id() );
+                l_cost.getAndUpdate( v -> v + e.weight().doubleValue() );
+            } );
             l_singlecosts.put( d, l_cost.get() );
+            System.out.println();
         } );
 
         final HashMap<INode, Double> l_platooncosts = new HashMap<>();
-        m_destinations.forEach( d ->
+        l_destinations.forEach( d ->
         {
-            AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
+            final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
             l_env.route( l_origin, d ).stream().forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_countingmap.get( e ) ) );
             l_platooncosts.put( d, l_cost.get() );
         } );
@@ -160,16 +171,18 @@ public final class TestCJungEnvironment
 
         System.out.println( "The number of platooning vehicles per edge are: " );
         l_countingmap.keySet().forEach( k -> System.out.println( k.id() + ": " + l_countingmap.get( k ) ) );
+        System.out.println();
 
         System.out.println( "The costs are as follows:" );
         l_singlecosts.keySet().forEach( k ->
         {
             System.out.println( "Destination " + k.id() + " original cost:" + l_singlecosts.get( k ).doubleValue() + " platoon cost:" + l_platooncosts.get( k ) );
         } );
+        System.out.println();
 
         System.out.println( "Total costs are: " );
 
-        AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
+        final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
         l_countingmap.keySet().forEach( k -> l_cost.getAndUpdate( v -> v + k.weight().doubleValue() ) );
         System.out.print( l_cost );
     }
@@ -221,12 +234,15 @@ public final class TestCJungEnvironment
      */
     public static void main( final String[] p_args ) throws IOException
     {
+
         final TestCJungEnvironment l_test = new TestCJungEnvironment();
         l_test.init();
         //l_test.route();
         //l_test.graph();
         //l_test.heatmap();
-        l_test.popularHeatmap( 8 );
+        //System.out.println( System.currentTimeMillis() );
+        l_test.popularHeatmap( 4 );
+        //System.out.println( System.currentTimeMillis() );
         //l_test.testZones();
     }
 }

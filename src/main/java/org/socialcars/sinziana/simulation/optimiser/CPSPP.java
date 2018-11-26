@@ -10,7 +10,6 @@ import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -246,6 +245,9 @@ public class CPSPP implements IPSPP
 
     }
 
+    /**
+     * calculates the costs of the route
+     */
     public void getCosts()
     {
         final HashMap<IEdge, Integer> l_np = new HashMap<>();
@@ -259,19 +261,23 @@ public class CPSPP implements IPSPP
         m_indivres.keySet().forEach( k ->
         {
             final Set<IEdge> l_edges = m_indivres.get( k );
-            AtomicReference<Double> l_cost = new AtomicReference<>(0.00);
-            l_edges.forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_np.get(e)) );
+            final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
+            l_edges.forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_np.get( e ) ) );
             l_costs.put( k, l_cost.get().doubleValue() );
         } );
 
         System.out.println( "The number of platooning vehicles per edge are: " );
         l_np.keySet().forEach( k -> System.out.println( k.id() + ": " + l_np.get( k ) ) );
+        System.out.println();
 
         System.out.println( "The costs are as follows:" );
         m_origcosts.keySet().forEach( k ->
         {
             System.out.println( "Destination " + k.toString() + " original cost:" + m_origcosts.get( k ).doubleValue() + " platoon cost:" + l_costs.get( k ) );
         } );
+        System.out.println();
+
+        System.out.println( "System optimum is: " + m_opt );
 
     }
 
@@ -281,19 +287,20 @@ public class CPSPP implements IPSPP
      */
     public void display() throws GRBException
     {
+        System.out.println( "Origin is: " + m_source.toString() );
+        System.out.println( "Destinations are: " );
+        m_destinations.forEach( d -> System.out.print( d.toString() + " " ) );
+        System.out.println();
+        System.out.println();
+
         m_indivres.keySet().forEach( d ->
         {
             m_indivres.get( d ).forEach( x -> System.out.println( "x" + d + ":" + x.id() ) );
         } );
+        System.out.println();
+
 
         m_results.keySet().forEach( y -> System.out.println( "y:" + y.id() ) );
-
-        System.out.println( "Origin is: " + m_source );
-        System.out.println();
-        System.out.print( "Destinations are: " );
-        m_destinations.forEach( d -> System.out.print( d + " " ) );
-        System.out.println();
-        System.out.println( "system optimum is: " + m_opt );
     }
 
     public HashMap<IEdge, Integer> returnResults()

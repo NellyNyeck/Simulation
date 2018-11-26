@@ -1842,7 +1842,7 @@ public enum EColorMap implements BiFunction<Number, Number, Color>
     TEMPERATURE(
         Stream.of(
             new Color( 0.01555601f, 0.13824425f, 0.20181089f ),
-            new Color( 0.01620184f, 0.14105074f, 0.20897651f),
+            new Color( 0.01620184f, 0.14105074f, 0.20897651f ),
             new Color( 0.01685649f, 0.14382701f, 0.21623868f ),
             new Color( 0.0175264f, 0.14657173f, 0.2235997f ),
             new Color( 0.01821872f, 0.14928346f, 0.23106187f ),
@@ -1852,7 +1852,7 @@ public enum EColorMap implements BiFunction<Number, Number, Color>
             new Color( 0.02136721f, 0.15976645f, 0.26199915f ),
             new Color( 0.02230341f, 0.16228755f, 0.27001321f ),
             new Color( 0.0233252f, 0.16476505f, 0.27814139f ),
-            new Color( 0.02444728f, 0.16719678f, 0.28638573f),
+            new Color( 0.02444728f, 0.16719678f, 0.28638573f ),
             new Color( 0.02568582f, 0.16958042f, 0.29474817f ),
             new Color( 0.02705867f, 0.1719135f, 0.30323056f ),
             new Color( 0.02858553f, 0.17419338f, 0.31183463f ),
