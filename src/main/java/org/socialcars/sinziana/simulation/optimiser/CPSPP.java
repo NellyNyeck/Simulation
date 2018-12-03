@@ -266,6 +266,8 @@ public class CPSPP implements IPSPP
             l_costs.put( k, l_cost.get().doubleValue() );
         } );
 
+        System.out.println();
+
         System.out.println( "The number of platooning vehicles per edge are: " );
         l_np.keySet().forEach( k -> System.out.println( k.id() + ": " + l_np.get( k ) ) );
         System.out.println();

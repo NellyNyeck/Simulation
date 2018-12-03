@@ -46,7 +46,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5HtoL.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -241,7 +241,7 @@ public final class TestCJungEnvironment
         //l_test.graph();
         //l_test.heatmap();
         //System.out.println( System.currentTimeMillis() );
-        l_test.popularHeatmap( 4 );
+        l_test.popularHeatmap( 10 );
         //System.out.println( System.currentTimeMillis() );
         //l_test.testZones();
     }

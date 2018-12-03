@@ -72,33 +72,31 @@ public class TestCJungOptimiser
     public void testPopular( final Integer p_nbofvehicles ) throws GRBException
     {
         final LinkedHashMap<INode, Integer> l_nodes = m_env.nodesPop();
-        final INode l_origin = l_nodes.keySet().iterator().next();
-
-        //final INode l_origin2 = m_env.randomnode();
         final List<Map.Entry<INode, Integer>> l_entries = new ArrayList<>( l_nodes.entrySet() );
         IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() )
             .boxed()
             .forEach( i -> m_destinations.add( Integer.valueOf( l_entries.get( i ).getKey().id() ) ) );
-
-        m_opt = new CPSPP( m_env, Integer.valueOf( l_origin.id() ), m_destinations );
+        //final INode l_origin = l_nodes.keySet().iterator().next();
+        m_opt = new CPSPP( m_env, 0, m_destinations );
         m_opt.solve();
 
         System.out.println();
 
         m_opt.display();
-        System.out.println();
+
+        m_opt.getCosts();
 
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
-        /*m_opt = new CPSPP( m_env, Integer.valueOf( l_origin2.id() ), m_destinations );
+        m_opt = new CPSPP( m_env, Integer.valueOf( 2 ), m_destinations );
         m_opt.solve();
-        m_opt.display();*/
+        m_opt.display();
         m_opt.getCosts();
         System.out.println();
-        /*final Map<IEdge, Integer> l_countingmap2 = m_opt.returnResults();
+        final Map<IEdge, Integer> l_countingmap2 = m_opt.returnResults();
         l_countingmap2.keySet().forEach( k ->
         {
             l_countingmap.put( k, l_countingmap.getOrDefault( k, 0 ) + l_countingmap2.get( k ) );
-        } );*/
+        } );
         heatmap( l_countingmap );
     }
 
@@ -115,6 +113,7 @@ public class TestCJungOptimiser
         m_opt.solve();
         m_opt.display();
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
+        m_opt.getCosts();
         heatmap( l_countingmap );
     }
 
@@ -183,9 +182,9 @@ public class TestCJungOptimiser
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
         //l_test.paintWeights();
-        //l_test.randomNodes( 3 );
+        //l_test.randomNodes( 5 );
         //System.out.println( System.currentTimeMillis() );
-        l_test.testPopular( 4 );
+        l_test.testPopular( 5 );
         //System.out.println( System.currentTimeMillis() );
     }
 
