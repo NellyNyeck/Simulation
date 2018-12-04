@@ -40,10 +40,7 @@ public class CHuman implements IHuman
         m_human = p_human;
         m_start = new CNode( p_human.getStart() );
         m_finish = new CNode( p_human.getFinish() );
-        m_human.getMiddle().stream().forEach( m ->
-        {
-            m_middle.add( new CNode( m ) );
-        } );
+        m_human.getMiddle().forEach( m -> m_middle.add( new CNode( m ) ) );
         event( new CEvent( this, EEvenType.CREATED, m_start, System.currentTimeMillis(), null ) );
     }
 
@@ -84,7 +81,7 @@ public class CHuman implements IHuman
     }
 
     @Override
-    public IElement call() throws Exception
+    public IElement call()
     {
         return null;
     }

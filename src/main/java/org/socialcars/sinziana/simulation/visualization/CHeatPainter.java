@@ -33,8 +33,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
     {
         m_routes = p_tracks;
         m_values = new HashMap<>();
-        p_tracks.stream()
-            .forEach( l -> l.stream().forEach( i -> m_values.put( i, m_values.getOrDefault( i, 0 ) + 1 ) ) );
+        p_tracks.forEach( l -> l.forEach( i -> m_values.put( i, m_values.getOrDefault( i, 0 ) + 1 ) ) );
         m_heat = new HashMap<>();
         final Integer l_max = m_values.entrySet().stream().max( Map.Entry.comparingByValue() ).get().getValue();
         m_values.entrySet().forEach( p -> m_heat.put( p.getKey(), EColorMap.PLASMA.apply( p.getValue(), l_max ) ) );
@@ -61,7 +60,7 @@ public class CHeatPainter  implements Painter<JXMapViewer>
 
     private void drawHeat( final Graphics2D p_graphics, final JXMapViewer p_map )
     {
-        m_routes.stream().forEach( i ->
+        m_routes.forEach( i ->
         {
             int l_lastx = 0;
             int l_lasty = 0;

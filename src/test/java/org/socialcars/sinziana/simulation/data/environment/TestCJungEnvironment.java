@@ -56,10 +56,9 @@ public final class TestCJungEnvironment
 
     /**
      * initializing
-     * @throws IOException file
      */
     @Before
-    public void init() throws IOException
+    public void init()
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
 
@@ -148,7 +147,7 @@ public final class TestCJungEnvironment
         l_destinations.forEach( d ->
         {
             final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
-            l_env.route( l_origin, d ).stream().forEach( e ->
+            l_env.route( l_origin, d ).forEach( e ->
             {
                 System.out.println( "Destination " + d.id() + ": "  + e.id() );
                 l_cost.getAndUpdate( v -> v + e.weight().doubleValue() );
@@ -161,7 +160,7 @@ public final class TestCJungEnvironment
         l_destinations.forEach( d ->
         {
             final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
-            l_env.route( l_origin, d ).stream().forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_countingmap.get( e ) ) );
+            l_env.route( l_origin, d ).forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_countingmap.get( e ) ) );
             l_platooncosts.put( d, l_cost.get() );
         } );
 
@@ -175,9 +174,7 @@ public final class TestCJungEnvironment
 
         System.out.println( "The costs are as follows:" );
         l_singlecosts.keySet().forEach( k ->
-        {
-            System.out.println( "Destination " + k.id() + " original cost:" + l_singlecosts.get( k ).doubleValue() + " platoon cost:" + l_platooncosts.get( k ) );
-        } );
+            System.out.println( "Destination " + k.id() + " original cost:" + l_singlecosts.get( k ) + " platoon cost:" + l_platooncosts.get( k ) ) );
         System.out.println();
 
         System.out.println( "Total costs are: " );
@@ -223,26 +220,23 @@ public final class TestCJungEnvironment
     public void testZones()
     {
         final HashMap<String, List<INode>> l_zones = m_env.getZones();
-        Assert.assertTrue( l_zones.size() == 26 );
+        Assert.assertEquals( 26, l_zones.size() );
         System.out.println( m_env.randomnodebyzone( String.valueOf( 3 ) ).id() );
     }
 
     /**
      * main
      * @param p_args cli arguments
-     * @throws IOException file
      */
-    public static void main( final String[] p_args ) throws IOException
+    public static void main( final String[] p_args )
     {
 
         final TestCJungEnvironment l_test = new TestCJungEnvironment();
         l_test.init();
-        //l_test.route();
-        //l_test.graph();
-        //l_test.heatmap();
-        //System.out.println( System.currentTimeMillis() );
+        l_test.route();
+        l_test.graph();
+        l_test.heatmap();
         l_test.popularHeatmap( 10 );
-        //System.out.println( System.currentTimeMillis() );
-        //l_test.testZones();
+        l_test.testZones();
     }
 }

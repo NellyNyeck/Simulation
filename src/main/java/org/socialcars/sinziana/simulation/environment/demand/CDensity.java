@@ -20,10 +20,7 @@ public class CDensity implements IDensity
     public CDensity(  final Set<CDensitypojo> p_densities )
     {
         m_densities = new HashMap<>();
-        p_densities.forEach( d ->
-        {
-            m_densities.put( String.valueOf( d.getId() ), d.getDensity() );
-        } );
+        p_densities.forEach( d -> m_densities.put( String.valueOf( d.getId() ), d.getDensity() ) );
     }
 
     @Override
@@ -37,9 +34,6 @@ public class CDensity implements IDensity
      */
     public void getAll()
     {
-        m_densities.keySet().forEach( k ->
-        {
-            System.out.println( getDensity( k ) );
-        } );
+        m_densities.keySet().forEach( k -> System.out.println( getDensity( k ) ) );
     }
 }

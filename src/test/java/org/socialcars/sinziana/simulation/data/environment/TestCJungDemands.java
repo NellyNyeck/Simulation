@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UncheckedIOException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,10 +63,9 @@ public class TestCJungDemands
 
     /**
      * initializing
-     * @throws IOException file
      */
     @Before
-    public void init() throws IOException
+    public void init()
     {
         m_env = new CJungEnvironment( INPUTG.getGraph() );
         m_demand = new ArrayList<>();
@@ -93,12 +93,9 @@ public class TestCJungDemands
         l_frame.setVisible( true );
 
         final HashMap<IEdge, Integer> l_countingmap = new HashMap<>();
-        m_demand.forEach( i ->
-        {
-            IntStream.range( 0, Math.round( i.howMany() ) ).boxed()
+        m_demand.forEach( i -> IntStream.range( 0, Math.round( i.howMany() ) ).boxed()
                 .flatMap( j -> l_env.route( l_env.randomnodebyzone( i.from() ), l_env.randomnodebyzone( i.to() ) ).stream() )
-                .forEach( j -> l_countingmap.put( j, l_countingmap.getOrDefault( j, 0 ) + 1 ) );
-        } );
+                .forEach( j -> l_countingmap.put( j, l_countingmap.getOrDefault( j, 0 ) + 1 ) ) );
 
         final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
         l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
@@ -115,9 +112,9 @@ public class TestCJungDemands
         final File l_filedir = new File( "nellys_heatmap.json" );
 
         final Writer l_out = new BufferedWriter( new OutputStreamWriter(
-            new FileOutputStream( l_filedir ), "UTF8" ) );
+            new FileOutputStream( l_filedir ), StandardCharsets.UTF_8 ) );
 
-        final HashMap<String, Object> l_result = new HashMap<String, Object>();
+        final HashMap<String, Object> l_result = new HashMap<>();
         p_values.keySet().forEach( s -> l_result.put( s.id(), p_values.get( s ) ) );
         final JSONObject l_json =  new JSONObject( l_result );
         l_out.write( l_json.toJSONString() );

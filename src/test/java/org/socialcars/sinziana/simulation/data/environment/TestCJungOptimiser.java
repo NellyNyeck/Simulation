@@ -55,10 +55,9 @@ public class TestCJungOptimiser
 
     /**
      * initializing
-     * @throws GRBException gurobi
      */
     @Before
-    public void init() throws GRBException
+    public void init()
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
         m_destinations = new ArrayList<>();
@@ -87,16 +86,13 @@ public class TestCJungOptimiser
         m_opt.getCosts();
 
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
-        m_opt = new CPSPP( m_env, Integer.valueOf( 2 ), m_destinations );
+        m_opt = new CPSPP( m_env, 2, m_destinations );
         m_opt.solve();
         m_opt.display();
         m_opt.getCosts();
         System.out.println();
         final Map<IEdge, Integer> l_countingmap2 = m_opt.returnResults();
-        l_countingmap2.keySet().forEach( k ->
-        {
-            l_countingmap.put( k, l_countingmap.getOrDefault( k, 0 ) + l_countingmap2.get( k ) );
-        } );
+        l_countingmap2.keySet().forEach( k -> l_countingmap.put( k, l_countingmap.getOrDefault( k, 0 ) + l_countingmap2.get( k ) ) );
         heatmap( l_countingmap );
     }
 
@@ -181,11 +177,9 @@ public class TestCJungOptimiser
     {
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
-        //l_test.paintWeights();
-        //l_test.randomNodes( 5 );
-        //System.out.println( System.currentTimeMillis() );
+        l_test.paintWeights();
+        l_test.randomNodes( 5 );
         l_test.testPopular( 5 );
-        //System.out.println( System.currentTimeMillis() );
     }
 
 }

@@ -52,7 +52,7 @@ public class CStreetStructure
         final HashMap<String, Object> l_map = new HashMap<>();
         l_map.put( "id", m_id );
         l_map.put( "name", m_name );
-        HashMap<String, Double> l_coord = new HashMap<String, Double>();
+        HashMap<String, Double> l_coord = new HashMap<>();
         l_coord.put( "lat", m_start.getLatitude() );
         l_coord.put( "lon", m_start.getLongitude() );
         l_map.put( "start", l_coord );

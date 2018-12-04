@@ -90,10 +90,7 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
             IntStream.range( 1, p_gr.getZones() + 1 ).boxed().forEach( i ->
             {
                 final ArrayList<INode> l_mappy = new ArrayList<>();
-                IntStream.range( l_count.get(), l_count.get() + l_npz ).boxed().forEach( j ->
-                {
-                    l_mappy.add( m_nodes.get( j.toString() ) );
-                } );
+                IntStream.range( l_count.get(), l_count.get() + l_npz ).boxed().forEach( j -> l_mappy.add( m_nodes.get( j.toString() ) ) );
                 l_count.addAndGet( l_npz );
                 m_zones.put( String.valueOf( i ), l_mappy );
             } );

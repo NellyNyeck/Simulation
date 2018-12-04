@@ -42,10 +42,7 @@ public class CPod implements IPod
         m_location = null;
         m_start = new CNode( m_pod.getStart() );
         m_finish = new CNode( m_pod.getFinish() );
-        m_pod.getMiddle().stream().forEach( m ->
-        {
-            m_middle.add( new CNode( m ) );
-        } );
+        m_pod.getMiddle().forEach( m -> m_middle.add( new CNode( m ) ) );
 
         event( new CEvent( this, EEvenType.CREATED, m_start, System.currentTimeMillis(), null ) );
     }
@@ -87,7 +84,7 @@ public class CPod implements IPod
     }
 
     @Override
-    public IElement call() throws Exception
+    public IElement call()
     {
         return null;
     }

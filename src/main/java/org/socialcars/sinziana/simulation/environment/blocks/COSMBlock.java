@@ -98,7 +98,6 @@ public class COSMBlock implements IBlockEnv
         {
             l_err.printStackTrace();
         }
-
     }
 
     private void createLongStreet( final Double p_dist, final Double p_bearing, final CStreetStructure p_struct )
@@ -154,28 +153,27 @@ public class COSMBlock implements IBlockEnv
 
     private void connecttheBlocks()
     {
-        m_blocks.values().forEach( b ->
+        m_blocks.values().forEach( b -> m_blocks.values().forEach( bl ->
         {
-            m_blocks.values().forEach( bl ->
-            {
-                if ( ( ( calculateDistance( new GeoPosition( b.get1(), b.get2() ), new GeoPosition( bl.get1(), bl.get2() ) ) ) < 0.000009004 )
+            if ( ( ( calculateDistance( new GeoPosition( b.get1(), b.get2() ), new GeoPosition( bl.get1(), bl.get2() ) ) ) < 0.000009004 )
                     && ( !b.isNeighbour( bl ) ) )
-                {
-                    connectwithBearing( calculateBearing( new GeoPosition( b.get1(), b.get2() ), new GeoPosition( bl.get1(), bl.get2() ) ), b, bl );
-                }
-            } );
-        } );
+            {
+                connectwithBearing( calculateBearing( new GeoPosition( b.get1(), b.get2() ), new GeoPosition( bl.get1(), bl.get2() ) ), b, bl );
+            }
+        } ) );
     }
 
-    private ArrayList<CStreetStructure> readFile() throws IOException
+    /**
+     * reads the file
+     * @return the array of streets
+     * @throws IOException file
+     */
+    public ArrayList<CStreetStructure> readFile() throws IOException
     {
         final CStreetsetpojo  l_streetsinput = new ObjectMapper().readValue( new File( m_filename ), CStreetsetpojo.class );
         final Set<CStreetpojo> l_array = l_streetsinput.getStreets();
         final ArrayList<CStreetStructure> l_streets = new ArrayList<>();
-        l_array.forEach(  o ->
-        {
-            l_streets.add( new CStreetStructure( o ) );
-        } );
+        l_array.forEach(  o -> l_streets.add( new CStreetStructure( o ) ) );
 
         return l_streets;
     }
@@ -258,15 +256,9 @@ public class COSMBlock implements IBlockEnv
         final CBlock l_block = m_blocks.get( p_pos );
         System.out.println( l_block.id() );
         System.out.println();
-        l_block.left().forEach( b ->
-        {
-            System.out.println( b.id() );
-        } );
+        l_block.left().forEach( b -> System.out.println( b.id() ) );
         System.out.println();
-        l_block.right().forEach( b ->
-        {
-            System.out.println( b.id() );
-        } );
+        l_block.right().forEach( b -> System.out.println( b.id() ) );
 
     }
 }

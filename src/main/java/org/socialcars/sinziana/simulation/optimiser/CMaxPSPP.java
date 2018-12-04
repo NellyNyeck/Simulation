@@ -152,10 +152,9 @@ public class CMaxPSPP implements IPSPP
     }
 
     @Override
-    public void display() throws GRBException
+    public void display()
     {
         IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
-        {
             IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( j ->
             {
                 try
@@ -167,8 +166,7 @@ public class CMaxPSPP implements IPSPP
                 {
                     l_e1.printStackTrace();
                 }
-            } );
-        } );
+            } ) );
 
         /*p_env.edges().forEach( e ->
         {

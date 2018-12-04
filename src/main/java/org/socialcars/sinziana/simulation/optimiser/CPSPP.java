@@ -253,17 +253,14 @@ public class CPSPP implements IPSPP
         final HashMap<IEdge, Integer> l_np = new HashMap<>();
         final HashMap<Integer, Double> l_costs = new HashMap<>();
 
-        m_destinations.forEach( d ->
-        {
-            m_indivres.get( d ).forEach( e -> l_np.put( e, l_np.getOrDefault( e, 0 ) + 1 ) );
-        } );
+        m_destinations.forEach( d -> m_indivres.get( d ).forEach( e -> l_np.put( e, l_np.getOrDefault( e, 0 ) + 1 ) ) );
 
         m_indivres.keySet().forEach( k ->
         {
             final Set<IEdge> l_edges = m_indivres.get( k );
             final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
             l_edges.forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_np.get( e ) ) );
-            l_costs.put( k, l_cost.get().doubleValue() );
+            l_costs.put( k, l_cost.get() );
         } );
 
         System.out.println();
@@ -273,21 +270,19 @@ public class CPSPP implements IPSPP
         System.out.println();
 
         System.out.println( "The costs are as follows:" );
-        m_origcosts.keySet().forEach( k ->
-        {
-            System.out.println( "Destination " + k.toString() + " original cost:" + m_origcosts.get( k ).doubleValue() + " platoon cost:" + l_costs.get( k ) );
-        } );
+        m_origcosts.keySet()
+            .forEach( k -> System.out.println( "Destination " + k.toString() + " original cost:" + m_origcosts.get( k ) + " platoon cost:" + l_costs.get( k ) ) );
         System.out.println();
 
         System.out.println( "System optimum is: " + m_opt );
 
     }
 
+
     /**
      * displays the result of the optimisation problem
-     * @throws GRBException gurobi
      */
-    public void display() throws GRBException
+    public void display()
     {
         System.out.println( "Origin is: " + m_source.toString() );
         System.out.println( "Destinations are: " );
@@ -295,10 +290,7 @@ public class CPSPP implements IPSPP
         System.out.println();
         System.out.println();
 
-        m_indivres.keySet().forEach( d ->
-        {
-            m_indivres.get( d ).forEach( x -> System.out.println( "x" + d + ":" + x.id() ) );
-        } );
+        m_indivres.keySet().forEach( d -> m_indivres.get( d ).forEach( x -> System.out.println( "x" + d + ":" + x.id() ) ) );
         System.out.println();
 
 

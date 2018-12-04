@@ -39,7 +39,7 @@ public class CBike implements IBike
         m_bike = p_bike;
         m_start = new CNode( m_bike.getStart() );
         m_finish = new CNode( m_bike.getFinish() );
-        m_bike.getMiddle().stream().forEach( n -> m_middle.add( new CNode( n ) ) );
+        m_bike.getMiddle().forEach( n -> m_middle.add( new CNode( n ) ) );
 
         event( new CEvent( this, EEvenType.CREATED, m_start, System.currentTimeMillis(), null ) );
     }
@@ -81,7 +81,7 @@ public class CBike implements IBike
     }
 
     @Override
-    public IElement call() throws Exception
+    public IElement call()
     {
         return null;
     }

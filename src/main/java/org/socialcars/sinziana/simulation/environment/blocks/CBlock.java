@@ -98,8 +98,7 @@ public class CBlock implements IBlock
     @Override
     public boolean occupied()
     {
-        if ( m_occupiedby != null ) return true;
-        return false;
+        return m_occupiedby != null;
     }
 
     @Override
@@ -124,8 +123,7 @@ public class CBlock implements IBlock
         if ( m_right.contains( p_block ) ) return true;
         if ( m_left.contains( p_block ) ) return  true;
         if ( m_down.contains( p_block ) ) return  true;
-        if ( m_up.contains( p_block ) ) return true;
-        return false;
+        return m_up.contains( p_block );
     }
 
 }
