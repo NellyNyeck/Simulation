@@ -32,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 
@@ -42,7 +43,7 @@ public class TestCJungDemands
 {
     private static final CDemandsjungpojo INPUTD;
     private static final CInputpojo INPUTG;
-    //private static final CInputpojo INPUTGD;
+    private static final CInputpojo INPUTGD;
 
     private ArrayList<CInstanceJung> m_demand;
     private CJungEnvironment m_env;
@@ -53,7 +54,7 @@ public class TestCJungDemands
         {
             INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten.json" ), CInputpojo.class );
             INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_demand.json" ), CDemandsjungpojo.class );
-            //INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -141,7 +142,10 @@ public class TestCJungDemands
         System.out.println( m_env.randomnodebyzone( String.valueOf( 5 ) ).id() );
     }
 
-    /*@Test
+    /**
+     * tests densities
+     */
+    @Test
     public void testDensity()
     {
         m_env = new CJungEnvironment( INPUTGD.getGraph() );
@@ -167,7 +171,7 @@ public class TestCJungDemands
 
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
-    }*/
+    }
 
     /**
      * main
@@ -179,7 +183,7 @@ public class TestCJungDemands
         final TestCJungDemands l_test = new TestCJungDemands();
         l_test.init();
         l_test.heatmap();
-        //l_test.testDensity();
+        l_test.testDensity();
     }
 
 
