@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
+import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,9 +19,15 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UncheckedIOException;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -224,6 +231,24 @@ public final class TestCJungEnvironment
         System.out.println( m_env.randomnodebyzone( String.valueOf( 3 ) ).id() );
     }
 
+    @Test
+    public void testDensity() throws IOException {
+        final HashMap<IEdge, Double> l_density = new HashMap<>();
+        m_env.edges().forEach(  e ->
+        {
+            l_density.put( e, ( e.weight().doubleValue() / ( m_env.edgeLength( e ).doubleValue() * 10 ) ) );
+        } );
+
+        l_density.keySet().forEach( k -> System.out.println( l_density.get( k ) ) );
+
+
+        final Writer l_out = new BufferedWriter( new OutputStreamWriter(
+            new FileOutputStream( "edgeDensity.json" ), StandardCharsets.UTF_8 ) );
+        final JSONObject l_json =  new JSONObject( l_density );
+        l_out.write( l_json.toJSONString() );
+        l_out.flush();
+        l_out.close();
+    }
     /**
      * main
      * @param p_args cli arguments

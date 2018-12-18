@@ -74,6 +74,13 @@ public interface IEnvironment<V extends JPanel>
      */
     INode randomnodebyzone( final String p_zone );
 
+    /**
+     * calculates the edges length
+     * @param p_edge edge
+     * @return length
+     */
+    Number edgeLength( final IEdge p_edge);
+
      //@todo methode geändert, bitte nachvollziehen, warum das so wesentlich sinnvoller ist
     /**
      * initialize element

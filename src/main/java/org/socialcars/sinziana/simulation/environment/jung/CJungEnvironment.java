@@ -176,6 +176,16 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
         return m_zones.get( p_zone ).get( ThreadLocalRandom.current().nextInt( m_zones.get( p_zone ).size() ) );
     }
 
+    @Override
+    public Number edgeLength( final IEdge p_edge )
+    {
+        final Float l_al = Math.abs( p_edge.from().coordinate().latitude().floatValue() - p_edge.to().coordinate().latitude().floatValue() );
+        final Float l_bl = Math.abs( p_edge.from().coordinate().longitude().floatValue() - p_edge.to().coordinate().longitude().floatValue() );
+        final double l_cl = Math.sqrt( ( l_al * l_al ) + ( l_bl * l_bl ) );
+        return l_cl;
+    }
+
+
     /**
      * returns sorted map of nodes based on incoming - outgoing edges
      * @return nodes and visited map
