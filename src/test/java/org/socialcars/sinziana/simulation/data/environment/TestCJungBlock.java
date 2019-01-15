@@ -36,10 +36,9 @@ public class TestCJungBlock
 
     /**
      * initializing
-     * @throws IOException file
      */
     @Before
-    public void init() throws IOException
+    public void init()
     {
         m_jungenv = new CJungEnvironment( INPUT.getGraph() );
         m_env = new CJungBlock( m_jungenv, 1.00 );
@@ -59,9 +58,8 @@ public class TestCJungBlock
     /**
      * main
      * @param p_args cli
-     * @throws IOException file
      */
-    public static void main( final String[] p_args ) throws IOException
+    public static void main( final String[] p_args )
     {
         final TestCJungBlock l_test = new TestCJungBlock();
         l_test.init();

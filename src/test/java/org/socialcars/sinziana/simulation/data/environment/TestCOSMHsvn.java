@@ -115,8 +115,8 @@ public class TestCOSMHsvn
     {
         final TestCOSMHsvn l_test = new TestCOSMHsvn();
         l_test.init();
-        //l_test.routeMultiple();
+        l_test.routeMultiple();
         l_test.heat();
-        //l_test.check();
+        l_test.check();
     }
 }

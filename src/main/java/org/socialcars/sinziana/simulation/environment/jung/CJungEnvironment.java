@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -28,6 +29,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+
+
+
 
 /**
  * the environment class
@@ -60,6 +65,7 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
         p_gr.getEdges()
             .forEach( e ->
             {
+                //System.out.println( e.getName() );
                 l_graph.addEdge(
                     new CEdge(
                         e,
@@ -84,10 +90,7 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
             IntStream.range( 1, p_gr.getZones() + 1 ).boxed().forEach( i ->
             {
                 final ArrayList<INode> l_mappy = new ArrayList<>();
-                IntStream.range( l_count.get(), l_count.get() + l_npz ).boxed().forEach( j ->
-                {
-                    l_mappy.add( m_nodes.get( j.toString() ) );
-                } );
+                IntStream.range( l_count.get(), l_count.get() + l_npz ).boxed().forEach( j -> l_mappy.add( m_nodes.get( j.toString() ) ) );
                 l_count.addAndGet( l_npz );
                 m_zones.put( String.valueOf( i ), l_mappy );
             } );
@@ -171,6 +174,34 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     public INode randomnodebyzone( final String p_zone )
     {
         return m_zones.get( p_zone ).get( ThreadLocalRandom.current().nextInt( m_zones.get( p_zone ).size() ) );
+    }
+
+    @Override
+    public Number edgeLength( final IEdge p_edge )
+    {
+        final Float l_al = Math.abs( p_edge.from().coordinate().latitude().floatValue() - p_edge.to().coordinate().latitude().floatValue() );
+        final Float l_bl = Math.abs( p_edge.from().coordinate().longitude().floatValue() - p_edge.to().coordinate().longitude().floatValue() );
+        final double l_cl = Math.sqrt( ( l_al * l_al ) + ( l_bl * l_bl ) );
+        return l_cl;
+    }
+
+
+    /**
+     * returns sorted map of nodes based on incoming - outgoing edges
+     * @return nodes and visited map
+     */
+    public LinkedHashMap<INode, Integer> nodesPop()
+    {
+        final HashMap<INode, Integer> l_nodpop = new HashMap<>();
+        edges().forEach( e ->
+        {
+            l_nodpop.put( e.to(), l_nodpop.getOrDefault( e.to(), 0 ) + e.weight().intValue() );
+            l_nodpop.put( e.from(), l_nodpop.getOrDefault( e.from(), 0 ) - e.weight().intValue() );
+        } );
+        final LinkedHashMap<INode, Integer> l_nopo = l_nodpop.entrySet().stream().sorted( Map.Entry.comparingByValue() )
+            .collect( Collectors.toMap( e -> e.getKey(), e -> e.getValue(), ( e1, e2 ) -> e2,
+                LinkedHashMap::new ) );
+        return l_nopo;
     }
 
     @Override

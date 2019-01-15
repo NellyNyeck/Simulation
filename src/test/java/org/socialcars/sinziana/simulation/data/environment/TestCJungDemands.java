@@ -2,6 +2,8 @@ package org.socialcars.sinziana.simulation.data.environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UncheckedIOException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,10 +64,9 @@ public class TestCJungDemands
 
     /**
      * initializing
-     * @throws IOException file
      */
     @Before
-    public void init() throws IOException
+    public void init()
     {
         m_env = new CJungEnvironment( INPUTG.getGraph() );
         m_demand = new ArrayList<>();
@@ -92,12 +94,13 @@ public class TestCJungDemands
         l_frame.setVisible( true );
 
         final HashMap<IEdge, Integer> l_countingmap = new HashMap<>();
-        m_demand.forEach( i ->
-        {
-            IntStream.range( 0, Math.round( i.howMany() ) ).boxed()
+        m_demand.forEach( i -> IntStream.range( 0, Math.round( i.howMany() ) ).boxed()
                 .flatMap( j -> l_env.route( l_env.randomnodebyzone( i.from() ), l_env.randomnodebyzone( i.to() ) ).stream() )
-                .forEach( j -> l_countingmap.put( j, l_countingmap.getOrDefault( j, 0 ) + 1 ) );
-        } );
+                .forEach( j -> l_countingmap.put( j, l_countingmap.getOrDefault( j, 0 ) + 1 ) ) );
+
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
 
         writeHeat( l_countingmap );
 
@@ -107,12 +110,12 @@ public class TestCJungDemands
 
     private void writeHeat( final HashMap<IEdge, Integer> p_values ) throws IOException
     {
-        final File l_filedir = new File( "tiergarten_heatmap.json" );
+        final File l_filedir = new File( "nellys_heatmap.json" );
 
         final Writer l_out = new BufferedWriter( new OutputStreamWriter(
-            new FileOutputStream( l_filedir ), "UTF8" ) );
+            new FileOutputStream( l_filedir ), StandardCharsets.UTF_8 ) );
 
-        final HashMap<String, Object> l_result = new HashMap<String, Object>();
+        final HashMap<String, Object> l_result = new HashMap<>();
         p_values.keySet().forEach( s -> l_result.put( s.id(), p_values.get( s ) ) );
         final JSONObject l_json =  new JSONObject( l_result );
         l_out.write( l_json.toJSONString() );
@@ -128,14 +131,11 @@ public class TestCJungDemands
     public void testZones()
     {
         final HashMap<String, List<INode>> l_zones = m_env.getZones();
-        Assert.assertTrue( l_zones.size() == 26 );
+        Assert.assertEquals( 26, l_zones.size() );
         IntStream.range( 1, l_zones.size() + 1 ).forEach( i ->
         {
             final List<INode> l_test = l_zones.get( String.valueOf( i ) );
-            l_test.forEach( k ->
-            {
-                System.out.println( "node " + k.id() );
-            } );
+            l_test.forEach( k -> System.out.println( "node " + k.id() ) );
         } );
         System.out.println();
 
@@ -143,7 +143,7 @@ public class TestCJungDemands
     }
 
     /**
-     * testing routing with traffic densities implemented as edge weights
+     * tests densities
      */
     @Test
     public void testDensity()
@@ -165,6 +165,10 @@ public class TestCJungDemands
             .flatMap( i -> l_env.route( l_env.randomnodebyname(), l_env.randomnodebyname() ).stream() )
             .forEach( i -> l_countingmap.put( i, l_countingmap.getOrDefault( i, 0 ) + 1 ) );
 
+        final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
+        l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
+        l_view.setGraphMouse( l_gm );
+
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
     }
@@ -179,7 +183,7 @@ public class TestCJungDemands
         final TestCJungDemands l_test = new TestCJungDemands();
         l_test.init();
         l_test.heatmap();
-        //l_test.testDensity();
+        l_test.testDensity();
     }
 
 

@@ -5,10 +5,10 @@ package org.socialcars.sinziana.simulation.environment.demand.jung;
  */
 public interface IInstanceJung
 {
-    public String from();
+    String from();
 
-    public String to();
+    String to();
 
-    public Float howMany();
+    Float howMany();
 
 }

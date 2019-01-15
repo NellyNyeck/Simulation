@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.environment.blocks.COSMBlock;
 
-import java.io.IOException;
+
 
 /**
  * test class for osm block environment
@@ -16,10 +16,9 @@ public class TestCOSMBlock
 
     /**
      * initialisation
-     * @throws IOException file
      */
     @Before
-    public void init() throws IOException
+    public void init()
     {
         m_env = new COSMBlock( 1.00, "streets.json" );
     }
@@ -38,9 +37,8 @@ public class TestCOSMBlock
     /**
      * main
      * @param p_args cli
-     * @throws IOException file
      */
-    public static void main( final String[] p_args ) throws IOException
+    public static void main( final String[] p_args )
     {
         final TestCOSMBlock l_test = new TestCOSMBlock();
         l_test.init();

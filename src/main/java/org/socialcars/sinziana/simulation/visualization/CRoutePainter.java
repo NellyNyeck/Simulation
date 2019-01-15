@@ -29,7 +29,7 @@ public class CRoutePainter implements Painter<JXMapViewer>
      */
     public CRoutePainter( final List<GeoPosition> p_track )
     {
-        m_track = new ArrayList<GeoPosition>( p_track );
+        m_track = new ArrayList<>( p_track );
     }
 
     @Override

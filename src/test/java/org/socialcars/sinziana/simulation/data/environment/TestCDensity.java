@@ -32,10 +32,9 @@ public final class TestCDensity
 
     /**
      * initializing
-     * @throws IOException file
      */
     @Before
-    public void init() throws IOException
+    public void init()
     {
         m_densities = new CDensity( INPUT.getDensity() );
     }

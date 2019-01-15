@@ -4,7 +4,6 @@ import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
 
 import java.text.MessageFormat;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 /**
@@ -19,7 +18,7 @@ public class CEdge implements IEdge
 
     private INode m_to;
 
-    private final AtomicReference<Number> m_weight = new AtomicReference<>();
+    private final Double m_weight;
 
     /**
      * constructor
@@ -32,7 +31,7 @@ public class CEdge implements IEdge
         m_name = p_edge.getName();
         m_from = p_from;
         m_to = p_to;
-        m_weight.set( p_edge.getWeight() );
+        m_weight = p_edge.getWeight();
     }
 
     @Override
@@ -56,7 +55,7 @@ public class CEdge implements IEdge
     @Override
     public Number weight()
     {
-        return m_weight.get();
+        return m_weight;
     }
 
     @Override
@@ -74,7 +73,7 @@ public class CEdge implements IEdge
     @Override
     public String toString()
     {
-        return MessageFormat.format( "{0}({1})", m_name, m_weight.get() );
+        return MessageFormat.format( "{0}({1})", m_name, m_weight );
     }
 
     @Override

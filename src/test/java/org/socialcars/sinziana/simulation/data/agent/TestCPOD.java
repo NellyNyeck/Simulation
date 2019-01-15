@@ -28,9 +28,6 @@ public class TestCPOD
     {
         final CInputpojo l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
         final Set<CPodpojo> l_pods = l_configuration.getProviders().get( 0 ).getPods();
-        l_pods.stream().forEach( p ->
-        {
-            m_pod = new CPod( p );
-        } );
+        l_pods.forEach( p -> m_pod = new CPod( p ) );
     }
 }
