@@ -53,7 +53,7 @@ public final class TestCJungEnvironment
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_density.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -258,10 +258,10 @@ public final class TestCJungEnvironment
 
         final TestCJungEnvironment l_test = new TestCJungEnvironment();
         l_test.init();
-        l_test.route();
-        l_test.graph();
-        l_test.heatmap();
-        l_test.popularHeatmap( 10 );
-        l_test.testZones();
+        //l_test.route();
+        //l_test.graph();
+        //l_test.heatmap();
+        l_test.popularHeatmap( 2 );
+        //l_test.testZones();
     }
 }

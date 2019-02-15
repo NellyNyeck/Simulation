@@ -1,6 +1,6 @@
 package org.socialcars.sinziana.simulation.environment.jung;
 
-import org.socialcars.sinziana.simulation.data.input.CStartpojo;
+import org.socialcars.sinziana.simulation.data.input.CNodepojo;
 
 import java.util.Objects;
 
@@ -19,7 +19,7 @@ public class CNode implements INode
      * constructor
      * @param p_node the pojo node given
      */
-    public CNode( final CStartpojo p_node )
+    public CNode( final CNodepojo p_node )
     {
         m_name = p_node.getName();
         m_coordinates = new CCoordinate( p_node.getCoordinates() );

@@ -45,7 +45,7 @@ public class TestCJungOptimiser
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5HtoL.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_density.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -72,11 +72,12 @@ public class TestCJungOptimiser
     {
         final LinkedHashMap<INode, Integer> l_nodes = m_env.nodesPop();
         final List<Map.Entry<INode, Integer>> l_entries = new ArrayList<>( l_nodes.entrySet() );
+        final INode l_origin = l_nodes.keySet().iterator().next();
         IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() )
             .boxed()
             .forEach( i -> m_destinations.add( Integer.valueOf( l_entries.get( i ).getKey().id() ) ) );
         //final INode l_origin = l_nodes.keySet().iterator().next();
-        m_opt = new CPSPP( m_env, 0, m_destinations );
+        m_opt = new CPSPP( m_env, Integer.valueOf( l_origin.id() ), m_destinations );
         m_opt.solve();
 
         System.out.println();
@@ -85,7 +86,7 @@ public class TestCJungOptimiser
 
         m_opt.getCosts();
 
-        final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
+        /*final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
         m_opt = new CPSPP( m_env, 2, m_destinations );
         m_opt.solve();
         m_opt.display();
@@ -93,7 +94,7 @@ public class TestCJungOptimiser
         System.out.println();
         final Map<IEdge, Integer> l_countingmap2 = m_opt.returnResults();
         l_countingmap2.keySet().forEach( k -> l_countingmap.put( k, l_countingmap.getOrDefault( k, 0 ) + l_countingmap2.get( k ) ) );
-        heatmap( l_countingmap );
+        heatmap( l_countingmap );*/
     }
 
 
@@ -177,9 +178,9 @@ public class TestCJungOptimiser
     {
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
-        l_test.paintWeights();
-        l_test.randomNodes( 5 );
-        l_test.testPopular( 5 );
+        //l_test.paintWeights();
+        //l_test.randomNodes( 5 );
+        l_test.testPopular( 10 );
     }
 
 }
