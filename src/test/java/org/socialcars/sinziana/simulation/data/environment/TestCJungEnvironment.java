@@ -15,13 +15,10 @@ import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
 import org.socialcars.sinziana.simulation.visualization.CHeatFunction;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -164,11 +161,18 @@ public final class TestCJungEnvironment
         } );
 
         final HashMap<INode, Double> l_platooncosts = new HashMap<>();
+        final HashMap<INode, Double> l_tourcost = new HashMap<>();
         l_destinations.forEach( d ->
         {
             final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
-            l_env.route( l_origin, d ).forEach( e -> l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_countingmap.get( e ) ) );
+            final AtomicReference<Double> l_tour = new AtomicReference<>( 0.00 );
+            l_env.route( l_origin, d ).forEach( e ->
+            {
+                l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_countingmap.get( e ) );
+                l_tour.getAndUpdate( v -> v + e.weight().doubleValue() );
+            } );
             l_platooncosts.put( d, l_cost.get() );
+            l_tourcost.put( d, l_tour.get() );
         } );
 
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
@@ -181,7 +185,10 @@ public final class TestCJungEnvironment
 
         System.out.println( "The costs are as follows:" );
         l_singlecosts.keySet().forEach( k ->
-            System.out.println( "Destination " + k.id() + " original cost:" + l_singlecosts.get( k ) + " platoon cost:" + l_platooncosts.get( k ) ) );
+            System.out.println( "Destination " + k.id()
+                    + " original cost:" + l_singlecosts.get( k )
+                    + " platoon cost:" + l_platooncosts.get( k )
+                    + " tour cost:" + l_tourcost.get( k ) ) );
         System.out.println();
 
         System.out.println( "Total costs are: " );
@@ -231,13 +238,15 @@ public final class TestCJungEnvironment
         System.out.println( m_env.randomnodebyzone( String.valueOf( 3 ) ).id() );
     }
 
+    /**
+     * testing the density of the network
+     * @throws IOException file
+     */
     @Test
-    public void testDensity() throws IOException {
+    public void testDensity() throws IOException
+    {
         final HashMap<IEdge, Double> l_density = new HashMap<>();
-        m_env.edges().forEach(  e ->
-        {
-            l_density.put( e, ( e.weight().doubleValue() / ( m_env.edgeLength( e ).doubleValue() * 10 ) ) );
-        } );
+        m_env.edges().forEach(  e -> l_density.put( e, e.weight().doubleValue() / ( m_env.edgeLength( e ).doubleValue() * 10 ) ) );
 
         l_density.keySet().forEach( k -> System.out.println( l_density.get( k ) ) );
 
@@ -249,6 +258,7 @@ public final class TestCJungEnvironment
         l_out.flush();
         l_out.close();
     }
+
     /**
      * main
      * @param p_args cli arguments
@@ -261,7 +271,7 @@ public final class TestCJungEnvironment
         //l_test.route();
         //l_test.graph();
         //l_test.heatmap();
-        l_test.popularHeatmap( 2 );
+        l_test.popularHeatmap( 6 );
         //l_test.testZones();
     }
 }

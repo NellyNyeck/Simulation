@@ -25,7 +25,7 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.socialcars.sinziana.simulation.visualization.CHeatPainter;
 import org.socialcars.sinziana.simulation.visualization.CRoutePainter;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.io.BufferedWriter;
 import java.io.File;

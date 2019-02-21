@@ -4,8 +4,7 @@ import com.google.common.base.Function;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 
 import javax.annotation.Nullable;
-import java.awt.Color;
-import java.awt.Paint;
+import java.awt.*;
 import java.util.Map;
 import java.util.stream.Collectors;
 

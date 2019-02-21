@@ -7,17 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CBicyclepojo;
 import org.socialcars.sinziana.simulation.data.input.CClientpojo;
-import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
 import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
 import org.socialcars.sinziana.simulation.data.input.CFunctionpojo;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
 import org.socialcars.sinziana.simulation.data.input.CHumanpojo;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
+import org.socialcars.sinziana.simulation.data.input.CNodepojo;
 import org.socialcars.sinziana.simulation.data.input.CParameterpojo;
 import org.socialcars.sinziana.simulation.data.input.CPodpojo;
 import org.socialcars.sinziana.simulation.data.input.CProviderpojo;
-import org.socialcars.sinziana.simulation.data.input.CNodepojo;
 import org.socialcars.sinziana.simulation.data.input.CSimulationSpecificationspojo;
 import org.socialcars.sinziana.simulation.data.input.CVehiclepojo;
 

@@ -1,4 +1,4 @@
-package org.socialcars.sinziana.simulation.data.environment;
+package org.socialcars.sinziana.simulation.data.optimiser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -8,11 +8,13 @@ import gurobi.GRBException;
 import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
+import org.socialcars.sinziana.simulation.elements.CPreference;
+import org.socialcars.sinziana.simulation.elements.IPreference;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
-import org.socialcars.sinziana.simulation.optimiser.CPSPP;
+import org.socialcars.sinziana.simulation.optimiser.CPPSPP;
 import org.socialcars.sinziana.simulation.visualization.CHeatFunction;
 
 import javax.swing.*;
@@ -28,16 +30,15 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
-
 /**
- * test class for the optimiser paired with the jung environmnent
+ * testing the preference based platooning shortest path problem
  */
-public class TestCJungOptimiser
+public class TestCPPSPP
 {
     private static final CInputpojo INPUT;
     private CJungEnvironment m_env;
-    private CPSPP m_opt;
-    private ArrayList<Integer> m_destinations;
+    private CPPSPP m_opt;
+    private ArrayList<IPreference> m_preferences;
 
     static
     {
@@ -58,7 +59,7 @@ public class TestCJungOptimiser
     public void init()
     {
         m_env = new CJungEnvironment( INPUT.getGraph() );
-        m_destinations = new ArrayList<>();
+        m_preferences = new ArrayList<>();
     }
 
     /**
@@ -72,11 +73,11 @@ public class TestCJungOptimiser
         final List<Map.Entry<INode, Integer>> l_entries = new ArrayList<>( l_nodes.entrySet() );
         final INode l_origin = l_nodes.keySet().iterator().next();
         IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() )
-            .boxed()
-            .forEach( i -> m_destinations.add( Integer.valueOf( l_entries.get( i ).getKey().id() ) ) );
-        //final INode l_origin = l_nodes.keySet().iterator().next();
-        m_opt = new CPSPP( m_env, Integer.valueOf( l_origin.id() ), m_destinations );
+                .boxed()
+                .forEach( i ->  m_preferences.add( new CPreference( Integer.valueOf( l_entries.get( i ).getKey().id() ), 30.0, 50.0, 100, 100.0 ) ) );
+        m_opt = new CPPSPP( m_env, Integer.valueOf( l_origin.id() ), m_preferences );
         m_opt.solve();
+
 
         System.out.println();
 
@@ -96,8 +97,9 @@ public class TestCJungOptimiser
     @Test
     public void randomNodes( final Integer p_nbofvehicles ) throws GRBException
     {
-        IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_destinations.add( ThreadLocalRandom.current().nextInt( 1, m_env.size() ) ) );
-        m_opt = new CPSPP( m_env, 0, m_destinations );
+        IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_preferences.add(
+                new CPreference( ThreadLocalRandom.current().nextInt( 1, m_env.size() ), 30.0, 50.0, 100, 100.0 ) ) );
+        m_opt = new CPPSPP( m_env, 0, m_preferences );
         m_opt.solve();
         m_opt.display();
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
@@ -167,11 +169,10 @@ public class TestCJungOptimiser
      */
     public static void main( final String[] p_args ) throws GRBException
     {
-        final TestCJungOptimiser l_test = new TestCJungOptimiser();
+        final TestCPPSPP l_test = new TestCPPSPP();
         l_test.init();
         //l_test.paintWeights();
         //l_test.randomNodes( 5 );
-        l_test.testPopular( 10 );
+        l_test.testPopular( 5 );
     }
-
 }

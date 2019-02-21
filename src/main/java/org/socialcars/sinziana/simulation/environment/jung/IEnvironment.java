@@ -2,8 +2,8 @@ package org.socialcars.sinziana.simulation.environment.jung;
 
 import org.socialcars.sinziana.simulation.elements.IElement;
 
-import javax.swing.JPanel;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
@@ -79,7 +79,7 @@ public interface IEnvironment<V extends JPanel>
      * @param p_edge edge
      * @return length
      */
-    Number edgeLength( final IEdge p_edge);
+    Number edgeLength( final IEdge p_edge );
 
      //@todo methode geändert, bitte nachvollziehen, warum das so wesentlich sinnvoller ist
     /**

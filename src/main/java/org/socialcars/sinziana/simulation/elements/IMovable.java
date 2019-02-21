@@ -20,4 +20,5 @@ public interface IMovable extends IElement
     void move( final String p_newpostion );
 
     void event( final CEvent p_event );
+
 }

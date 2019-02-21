@@ -17,10 +17,8 @@ import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
 import org.socialcars.sinziana.simulation.visualization.CHeatFunction;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;

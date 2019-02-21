@@ -14,7 +14,7 @@ import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

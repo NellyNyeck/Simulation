@@ -1,7 +1,7 @@
 package org.socialcars.sinziana.simulation.visualization;
 
 import javax.annotation.Nonnull;
-import java.awt.Color;
+import java.awt.*;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
