@@ -74,8 +74,11 @@ public class TestCPPSPP
         final INode l_origin = l_nodes.keySet().iterator().next();
         IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() )
                 .boxed()
-                .forEach( i ->  m_preferences.add( new CPreference( Integer.valueOf( l_entries.get( i ).getKey().id() ), 30.0, 50.0, 100, 100.0 ) ) );
-        m_opt = new CPPSPP( m_env, Integer.valueOf( l_origin.id() ), m_preferences );
+                .forEach( i ->  m_preferences.add( new CPreference( Integer.valueOf( l_entries.get( i ).getKey().id() ),
+                        ThreadLocalRandom.current().nextDouble( 20, 40 ),
+                        ThreadLocalRandom.current().nextDouble( 30, 50 ),
+                        1000000000, 100000000000000.0 ) ) );
+        m_opt = new CPPSPP( m_env, Integer.valueOf( l_origin.id() ), m_preferences, 0 );
         m_opt.solve();
 
 
@@ -98,8 +101,8 @@ public class TestCPPSPP
     public void randomNodes( final Integer p_nbofvehicles ) throws GRBException
     {
         IntStream.range( 0, p_nbofvehicles ).boxed().forEach( i -> m_preferences.add(
-                new CPreference( ThreadLocalRandom.current().nextInt( 1, m_env.size() ), 30.0, 50.0, 100, 100.0 ) ) );
-        m_opt = new CPPSPP( m_env, 0, m_preferences );
+                new CPreference( ThreadLocalRandom.current().nextInt( 1, m_env.size() ), 30.0, 50.0, 1000000000, 100000000000000.0 ) ) );
+        m_opt = new CPPSPP( m_env, 0, m_preferences, 10 );
         m_opt.solve();
         m_opt.display();
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();

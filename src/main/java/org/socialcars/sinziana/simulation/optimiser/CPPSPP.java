@@ -10,7 +10,9 @@ import org.socialcars.sinziana.simulation.elements.IPreference;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,6 +33,9 @@ public class CPPSPP implements IPSPP
     private Double m_opt;
     private ArrayList<IPreference> m_preferences;
     private ArrayList<Integer> m_destinations = new ArrayList<>();
+    private Integer m_time;
+    private HashMap<Integer, Integer> m_endtimes = new HashMap<>();
+    private Double m_speed;
 
     private final HashMap<Integer, HashSet<IEdge>> m_indivres;
     private final HashMap<IEdge, Integer> m_results;
@@ -40,9 +45,10 @@ public class CPPSPP implements IPSPP
      * @param p_env jung environment
      * @param p_source origin node
      * @param p_preferences set of pod preferences
+     * @param p_time current time step
      * @throws GRBException gurobi
      */
-    public CPPSPP( final CJungEnvironment p_env, final Integer p_source, final ArrayList<IPreference> p_preferences ) throws GRBException
+    public CPPSPP( final CJungEnvironment p_env, final Integer p_source, final ArrayList<IPreference> p_preferences, final Integer p_time ) throws GRBException
     {
         m_env = new GRBEnv( "pspp.log" );
         m_model = new GRBModel( m_env );
@@ -59,6 +65,7 @@ public class CPPSPP implements IPSPP
         m_results = new HashMap<>();
         m_indivres = new HashMap<>();
         p_preferences.forEach( d -> m_indivres.put( d.destination(), new HashSet<>() ) );
+        m_time = p_time + 1;
 
         final GRBLinExpr l_obj = new GRBLinExpr();
         p_env.edges().forEach( e ->
@@ -115,6 +122,9 @@ public class CPPSPP implements IPSPP
     public void solve() throws GRBException
     {
         addConstraints();
+        addLengthConstraint();
+        addSpeedConstrain();
+        addTimeConstraint();
         m_model.optimize();
         saveResults();
         System.out.println( "Objective function solution: " + m_model.get( GRB.DoubleAttr.ObjVal ) );
@@ -149,29 +159,6 @@ public class CPPSPP implements IPSPP
             } );
         } );
 
-        //length constraint
-        m_preferences.forEach( p ->
-        {
-            try
-            {
-                final GRBVar[][] l_temp = m_xs.get( p.destination() );
-                final double l_ml = p.lengthLimit();
-                final GRBLinExpr l_dist = new GRBLinExpr();
-                IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
-                        IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( j ->
-                        {
-                            if ( l_temp[i][j] != null )
-                                l_dist.addTerm( 1.0, l_temp[i][j] );
-                        } ) );
-                m_model.addConstr( l_dist, GRB.LESS_EQUAL, l_ml, "maxdist" + p.destination() );
-            }
-            catch ( final GRBException l_err )
-            {
-                l_err.printStackTrace();
-            }
-        } );
-
-
         //x<=y
         m_graph.edges().forEach( e ->
         {
@@ -196,6 +183,68 @@ public class CPPSPP implements IPSPP
         } );
     }
 
+    private void addLengthConstraint()
+    {
+        m_preferences.forEach( p ->
+        {
+            try
+            {
+                final GRBVar[][] l_temp = m_xs.get( p.destination() );
+                final double l_ml = p.lengthLimit();
+                final GRBLinExpr l_dist = new GRBLinExpr();
+                m_graph.edges().forEach( e ->
+                        l_dist.addTerm( e.length(), l_temp[Integer.valueOf( e.from().id() )][Integer.valueOf( e.to().id() )] ) );
+                /*IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
+                        IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( j ->
+                        {
+                            if ( l_temp[i][j] != null )
+                                l_dist.addTerm( 1.0, l_temp[i][j] );
+                        } ) );*/
+                m_model.addConstr( l_dist, GRB.LESS_EQUAL, l_ml, "maxdist" + p.destination() );
+            }
+            catch ( final GRBException l_err )
+            {
+                l_err.printStackTrace();
+            }
+        } );
+    }
+
+    private void addTimeConstraint()
+    {
+        final HashMap<IEdge, Double> l_times = new HashMap<>();
+        m_graph.edges().forEach( e -> l_times.put( e, e.length() / m_speed ) );
+        m_preferences.forEach( p ->
+        {
+            try
+            {
+                final GRBVar[][] l_temp = m_xs.get( p.destination() );
+                final Integer l_tl = p.timeLimit();
+                final GRBLinExpr l_time = new GRBLinExpr();
+                m_graph.edges().forEach( e -> l_time.addTerm( l_times.get( e ), l_temp[Integer.valueOf( e.from().id() )][Integer.valueOf( e.to().id() )] ) );
+                m_model.addConstr( l_time, GRB.LESS_EQUAL, l_tl, "maxtime" + p.destination() );
+                m_model.addConstr( l_time, GRB.GREATER_EQUAL, m_time, "startime" );
+            }
+            catch ( final GRBException l_err )
+            {
+                l_err.printStackTrace();
+            }
+        } );
+    }
+
+    private void addSpeedConstrain()
+    {
+        final ArrayList<Double> l_minspeeds  = new ArrayList<>();
+        final ArrayList<Double> l_maxspeeds = new ArrayList<>();
+        m_preferences.forEach( p ->
+        {
+            l_minspeeds.add( p.minSpeed() );
+            l_maxspeeds.add( p.maxSpeed() );
+        } );
+        final Double l_maxspeed = Collections.min( l_maxspeeds );
+        final Double l_minspeed = Collections.max( l_minspeeds );
+        m_speed = Math.min( l_maxspeed, l_minspeed );
+    }
+
     private void saveResults()
     {
         m_graph.edges().forEach( e ->
@@ -213,6 +262,7 @@ public class CPPSPP implements IPSPP
                     {
                         m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
                         l_res.add( e );
+                        m_endtimes.put( d, m_endtimes.getOrDefault( d, 0 ) + Integer.valueOf( Math.toIntExact( Math.round( e.length() / m_speed ) ) ) );
                     }
                 }
                 catch ( final GRBException l_err )
@@ -259,8 +309,12 @@ public class CPPSPP implements IPSPP
                 .forEach( k -> System.out.println( "Destination " + k.toString() + " platoon cost:" + l_costs.get( k ) ) );
         System.out.println();
 
+        System.out.println( "Speed is: " + m_speed );
         System.out.println( "System optimum is: " + m_opt );
 
+        System.out.println( "Endtimes are:" );
+        m_endtimes.keySet().forEach( k ->
+                System.out.println( "Destination " + k.toString() + " endtime " + m_endtimes.get( k ) ) );
     }
 
     @Override
