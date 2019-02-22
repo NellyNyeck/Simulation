@@ -36,6 +36,7 @@ public class CPPSPP implements IPSPP
     private Integer m_time;
     private HashMap<Integer, Integer> m_endtimes = new HashMap<>();
     private Double m_speed;
+    private HashMap<Integer, Integer> m_lengths = new HashMap<>();
 
     private final HashMap<Integer, HashSet<IEdge>> m_indivres;
     private final HashMap<IEdge, Integer> m_results;
@@ -263,6 +264,7 @@ public class CPPSPP implements IPSPP
                         m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
                         l_res.add( e );
                         m_endtimes.put( d, m_endtimes.getOrDefault( d, 0 ) + Integer.valueOf( Math.toIntExact( Math.round( e.length() / m_speed ) ) ) );
+                        m_lengths.put( d, m_lengths.getOrDefault( d, 0 ) + e.length() );
                     }
                 }
                 catch ( final GRBException l_err )
@@ -315,6 +317,9 @@ public class CPPSPP implements IPSPP
         System.out.println( "Endtimes are:" );
         m_endtimes.keySet().forEach( k ->
                 System.out.println( "Destination " + k.toString() + " endtime " + m_endtimes.get( k ) ) );
+
+        System.out.println( "Distances are: " );
+        m_lengths.keySet().forEach( k -> System.out.println( "Destination " + k.toString() + "length of route " + m_lengths.get( k ) ) );
     }
 
     @Override
