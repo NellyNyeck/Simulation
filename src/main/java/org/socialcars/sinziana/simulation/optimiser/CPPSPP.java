@@ -36,7 +36,7 @@ public class CPPSPP implements IPSPP
     private Integer m_time;
     private HashMap<Integer, Integer> m_endtimes = new HashMap<>();
     private Double m_speed;
-    private HashMap<Integer, Integer> m_lengths = new HashMap<>();
+    private HashMap<Integer, Double> m_lengths = new HashMap<>();
 
     private final HashMap<Integer, HashSet<IEdge>> m_indivres;
     private final HashMap<IEdge, Integer> m_results;
@@ -66,7 +66,7 @@ public class CPPSPP implements IPSPP
         m_results = new HashMap<>();
         m_indivres = new HashMap<>();
         p_preferences.forEach( d -> m_indivres.put( d.destination(), new HashSet<>() ) );
-        m_time = p_time + 1;
+        m_time = p_time;
 
         final GRBLinExpr l_obj = new GRBLinExpr();
         p_env.edges().forEach( e ->
@@ -243,7 +243,7 @@ public class CPPSPP implements IPSPP
         } );
         final Double l_maxspeed = Collections.min( l_maxspeeds );
         final Double l_minspeed = Collections.max( l_minspeeds );
-        m_speed = Math.min( l_maxspeed, l_minspeed );
+        m_speed = Math.max( l_maxspeed, l_minspeed );
     }
 
     private void saveResults()
@@ -264,7 +264,7 @@ public class CPPSPP implements IPSPP
                         m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
                         l_res.add( e );
                         m_endtimes.put( d, m_endtimes.getOrDefault( d, 0 ) + Integer.valueOf( Math.toIntExact( Math.round( e.length() / m_speed ) ) ) );
-                        m_lengths.put( d, m_lengths.getOrDefault( d, 0 ) + e.length() );
+                        m_lengths.put( d, m_lengths.getOrDefault( d, 0.0 ) + e.length() );
                     }
                 }
                 catch ( final GRBException l_err )

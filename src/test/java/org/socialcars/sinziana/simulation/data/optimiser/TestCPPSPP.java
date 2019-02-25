@@ -44,7 +44,7 @@ public class TestCPPSPP
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/25-5x5HtoL.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_density.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -77,7 +77,7 @@ public class TestCPPSPP
                 .forEach( i ->  m_preferences.add( new CPreference( Integer.valueOf( l_entries.get( i ).getKey().id() ),
                         ThreadLocalRandom.current().nextDouble( 20, 40 ),
                         ThreadLocalRandom.current().nextDouble( 30, 50 ),
-                        100, 1000.0 ) ) );
+                        100, 10000000000000.0 ) ) );
         m_opt = new CPPSPP( m_env, Integer.valueOf( l_origin.id() ), m_preferences, 0 );
         m_opt.solve();
 
@@ -178,7 +178,7 @@ public class TestCPPSPP
         final TestCPPSPP l_test = new TestCPPSPP();
         l_test.init();
         //l_test.paintWeights();
-        l_test.randomNodes( 5 );
-        //l_test.testPopular( 5 );
+        //l_test.randomNodes( 5 );
+        l_test.testPopular( 5 );
     }
 }
