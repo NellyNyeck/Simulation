@@ -11,6 +11,7 @@ public class CPreference implements IPreference
     private final Integer m_timelimit;
     private final Double m_lengthlimit;
 
+
     /**
      * ctor
      * @param p_dest destination
@@ -19,13 +20,15 @@ public class CPreference implements IPreference
      * @param p_timelimit time limit
      * @param p_lengthlimit length limit
      */
-    public CPreference( final Integer p_dest, final Double p_minspeed, final Double p_maxspeed, final Integer p_timelimit, final Double p_lengthlimit )
+    public CPreference( final Integer p_dest, final Double p_minspeed, final Double p_maxspeed, final Integer p_timelimit,
+                        final Double p_lengthlimit )
     {
         m_dest = p_dest;
         m_minspeed = p_minspeed;
         m_maxspeed = p_maxspeed;
         m_timelimit = p_timelimit;
         m_lengthlimit = p_lengthlimit;
+
     }
 
     @Override
@@ -57,4 +60,5 @@ public class CPreference implements IPreference
     {
         return m_lengthlimit;
     }
+
 }

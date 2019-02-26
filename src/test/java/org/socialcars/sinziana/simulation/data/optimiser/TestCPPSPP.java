@@ -74,11 +74,12 @@ public class TestCPPSPP
         final INode l_origin = l_nodes.keySet().iterator().next();
         IntStream.range( l_entries.size() - p_nbofvehicles, l_entries.size() )
                 .boxed()
-                .forEach( i ->  m_preferences.add( new CPreference( Integer.valueOf( l_entries.get( i ).getKey().id() ),
+                .forEach( i -> m_preferences.add( new CPreference( Integer.valueOf( l_entries.get( i ).getKey().id() ),
                         ThreadLocalRandom.current().nextDouble( 20, 40 ),
                         ThreadLocalRandom.current().nextDouble( 30, 50 ),
                         100, 10000000000000.0 ) ) );
         m_opt = new CPPSPP( m_env, Integer.valueOf( l_origin.id() ), m_preferences, 0 );
+
         m_opt.solve();
 
 
@@ -104,7 +105,7 @@ public class TestCPPSPP
                 new CPreference( ThreadLocalRandom.current().nextInt( 0, m_env.size() ),
                         ThreadLocalRandom.current().nextDouble( 20, 40 ),
                         ThreadLocalRandom.current().nextDouble( 30, 50 ),
-                        100, 10000.0 ) ) );
+                        100, 10000000000000.0 ) ) );
         m_opt = new CPPSPP( m_env, 0, m_preferences, 0 );
         m_opt.solve();
         m_opt.display();
