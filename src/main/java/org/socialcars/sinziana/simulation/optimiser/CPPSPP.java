@@ -292,12 +292,16 @@ public class CPPSPP implements IPSPP
             final Set<IEdge> l_edges = m_indivres.get( k );
             final AtomicReference<Double> l_cost = new AtomicReference<>( 0.00 );
             final AtomicReference<Double> l_total = new AtomicReference<>( 0.00 );
+            final AtomicReference<Double> l_distcost = new AtomicReference<>( 0.00 );
+            final AtomicReference<Double> l_function = new AtomicReference<>( 0.00 );
             l_edges.forEach( e ->
             {
                 l_total.getAndUpdate( v -> v + e.weight().doubleValue() );
                 l_cost.getAndUpdate( v -> v + e.weight().doubleValue() / l_np.get( e ) );
+                l_distcost.getAndUpdate( v -> v + 2 * e.length() + ( e.length() / m_speed ) - l_cost.get() );
+                l_function.getAndUpdate( v -> v + 0.6 * e.length() / m_speed + 0.4 * e.weight().doubleValue() / l_np.get( e ) - l_cost.get() );
             } );
-            l_costs.put( k, l_cost.get() );
+            l_costs.put( k, l_function.get() );
         } );
 
         System.out.println();
