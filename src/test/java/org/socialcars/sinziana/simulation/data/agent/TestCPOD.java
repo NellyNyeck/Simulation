@@ -2,6 +2,7 @@ package org.socialcars.sinziana.simulation.data.agent;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.data.input.CPodpojo;
 import org.socialcars.sinziana.simulation.elements.CPod;
