@@ -6,7 +6,6 @@ import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
 import gurobi.GRBVar;
-import org.socialcars.sinziana.simulation.elements.IPreference;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 

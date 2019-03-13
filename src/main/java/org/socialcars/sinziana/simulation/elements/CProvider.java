@@ -39,7 +39,7 @@ public class CProvider implements IProvider
         } );
         m_provider.getPods().forEach( p ->
         {
-            final CPod l_pod = new CPod( p );
+            final CPod l_pod = new CPod( p, 0 );
             m_pods.add( l_pod );
         } );
     }

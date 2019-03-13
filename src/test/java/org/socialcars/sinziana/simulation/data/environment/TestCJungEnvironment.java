@@ -268,10 +268,10 @@ public final class TestCJungEnvironment
 
         final TestCJungEnvironment l_test = new TestCJungEnvironment();
         l_test.init();
-        //l_test.route();
-        //l_test.graph();
-        //l_test.heatmap();
+        l_test.route();
+        l_test.graph();
+        l_test.heatmap();
         l_test.popularHeatmap( 6 );
-        //l_test.testZones();
+        l_test.testZones();
     }
 }

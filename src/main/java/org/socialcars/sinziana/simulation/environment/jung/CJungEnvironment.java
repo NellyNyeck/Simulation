@@ -176,6 +176,11 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
         return m_zones.get( p_zone ).get( ThreadLocalRandom.current().nextInt( m_zones.get( p_zone ).size() ) );
     }
 
+    public INode getNodebyName( final String p_name )
+    {
+        return m_nodes.get( p_name );
+    }
+
     @Override
     public Number edgeLength( final IEdge p_edge )
     {

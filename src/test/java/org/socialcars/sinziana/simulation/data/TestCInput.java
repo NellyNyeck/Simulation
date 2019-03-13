@@ -337,7 +337,7 @@ public final class TestCInput
         Assert.assertNotNull( m_configuration.getGraph() );
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getEdges() );
-        Assert.assertTrue( l_graph.getEdges().size() == 78 );
+        Assert.assertTrue( l_graph.getEdges().size() == 765 );
         final Set<CEdgepojo> l_edges = l_graph.getEdges();
         l_edges.forEach( e ->
         {

@@ -1,7 +1,6 @@
 package org.socialcars.sinziana.simulation.events;
 
 import org.socialcars.sinziana.simulation.elements.IMovable;
-import org.socialcars.sinziana.simulation.environment.jung.CNode;
 
 import java.util.Collection;
 
@@ -13,7 +12,7 @@ public class CEvent implements IEvent
 
     private final IMovable m_who;
     private final EEvenType m_type;
-    private final CNode m_where;
+    private final String m_where;
     private final Number m_when;
     private final Collection<IMovable> m_with;
 
@@ -24,7 +23,7 @@ public class CEvent implements IEvent
      * @param p_when when
      * @param p_who with whom
      */
-    public CEvent( final IMovable p_who, final EEvenType p_type, final CNode p_where, final Number p_when, final Collection<IMovable> p_with )
+    public CEvent( final IMovable p_who, final EEvenType p_type, final String p_where, final Number p_when, final Collection<IMovable> p_with )
     {
         m_who = p_who;
         m_type = p_type;
@@ -47,7 +46,7 @@ public class CEvent implements IEvent
     }
 
     @Override
-    public CNode where()
+    public String where()
     {
         return m_where;
     }

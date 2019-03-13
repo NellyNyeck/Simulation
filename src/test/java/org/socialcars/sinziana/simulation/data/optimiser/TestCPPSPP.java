@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
 import org.socialcars.sinziana.simulation.elements.CPreference;
-import org.socialcars.sinziana.simulation.elements.IPreference;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;

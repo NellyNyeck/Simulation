@@ -1,24 +1,31 @@
 package org.socialcars.sinziana.simulation.elements;
 
-import org.socialcars.sinziana.simulation.events.CEvent;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.socialcars.sinziana.simulation.environment.jung.IEdge;
+import org.socialcars.sinziana.simulation.units.CUnits;
 
 /**
  * the interface for movable agents
  */
 public interface IMovable extends IElement
 {
-    String position();
+    String name();
 
-    Double speed();
+    String location();
 
-    Double acceleration();
+    String origin();
 
     String destination();
 
-    void accelshift( final Double p_accel );
+    Double position();
 
-    void move( final String p_newpostion );
+    void move( final CUnits p_unit );
 
-    void event( final CEvent p_event );
+    void departed( final IEdge p_edge, final Integer p_timestep );
 
+    void departed( final GeoPosition p_pos, final Integer p_timestep );
+
+    void arrived( final IEdge p_edge, final Integer p_timestep );
+
+    void arrived( final GeoPosition p_pos, final Integer p_timestep );
 }

@@ -1,7 +1,7 @@
 package org.socialcars.sinziana.simulation.elements;
 
 /**
- * interface for preference structure
+ * preference interface
  */
 public interface IPreference
 {
@@ -14,5 +14,4 @@ public interface IPreference
     Integer timeLimit();
 
     Double lengthLimit();
-
 }

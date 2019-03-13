@@ -1425,7 +1425,7 @@
             },
             "depots" : [
             ],
-            "available-pods" : 1,
+            "available-pods" : 2,
             "pods": [
                 {
                     "name" : "pod1",
@@ -1442,10 +1442,36 @@
                         }
                     },
                     "finish" : {
+                        "name" : "17",
+                        "coordinates": {
+
+                            "lat": 200,
+                            "lon": 300
+                        }
+                    },
+                    "max-speed": 1,
+                    "max-accel" : 0.5,
+                    "max-decel": 0.3
+                },
+                {
+                    "name" : "pod2",
+                    "filename" : "",
+                    "agent-type":"pod",
+                    "capacity": 1,
+                    "provider": "DHL",
+                    "start": {
                         "name" : "0",
                         "coordinates": {
 
                             "lat": 0,
+                            "lon": 0
+                        }
+                    },
+                    "finish" : {
+                        "name" : "1",
+                        "coordinates": {
+
+                            "lat": 100,
                             "lon": 0
                         }
                     },
@@ -1488,7 +1514,7 @@
             "available-pods" : 1,
             "pods": [
                 {
-                    "name" : "pod2",
+                    "name" : "pod10",
                     "filename" : "",
                     "agent-type":"pod",
                     "capacity": 1,
@@ -1502,11 +1528,11 @@
                         }
                     },
                     "finish" : {
-                        "name" : "20",
+                        "name" : "24",
                         "coordinates": {
 
-                            "lat": 0,
-                            "lon": 40
+                            "lat": 400,
+                            "lon": 400
                         }
                     },
                     "max-speed": 1,

@@ -1,7 +1,7 @@
 package org.socialcars.sinziana.simulation.elements;
 
 /**
- * Preference class
+ * preference class
  */
 public class CPreference implements IPreference
 {
@@ -60,5 +60,4 @@ public class CPreference implements IPreference
     {
         return m_lengthlimit;
     }
-
 }

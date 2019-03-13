@@ -51,6 +51,7 @@ import java.util.stream.Stream;
  */
 public class COSMEnvironment
 {
+    private static final Double RADIUS = 6371e3;
     private static final Logger LOGGER = Logger.getLogger( COSMEnvironment.class.getName() );
 
     private GraphHopper m_hopper;
@@ -365,6 +366,22 @@ public class COSMEnvironment
         final Double l_latitude = ThreadLocalRandom.current().nextDouble( m_bottomright.getLatitude(), m_topleft.getLatitude() );
         final Double l_longiture = ThreadLocalRandom.current().nextDouble( m_topleft.getLongitude(), m_bottomright.getLongitude() );
         return new GeoPosition( l_latitude, l_longiture );
+    }
+
+    /**
+     * calculates length between 2 Geographical points
+     * @param p_one first point
+     * @param p_two second point
+     * @return length
+     */
+    public Double sectionLength( final GeoPosition p_one, final GeoPosition p_two )
+    {
+        final Double l_deltalat = Math.toRadians( p_two.getLatitude() ) - Math.toRadians( p_one.getLatitude() );
+        final Double l_deltalon = Math.toRadians( p_two.getLongitude() ) - Math.toRadians( p_one.getLongitude() );
+        final Double l_alpha = Math.sin( l_deltalat / 2 ) * Math.sin( l_deltalat / 2 )
+                + Math.cos( Math.toRadians( p_one.getLatitude() ) ) * Math.cos( Math.toRadians( p_two.getLatitude() ) )
+                * Math.sin( l_deltalon / 2 ) * Math.sin( l_deltalon / 2 );
+        return RADIUS * ( 2 * Math.atan2( Math.sqrt( l_alpha ), Math.sqrt( 1 - l_alpha ) ) );
     }
 
     /**

@@ -1,7 +1,6 @@
 package org.socialcars.sinziana.simulation.events;
 
 import org.socialcars.sinziana.simulation.elements.IMovable;
-import org.socialcars.sinziana.simulation.environment.jung.CNode;
 
 import java.util.Collection;
 
@@ -14,7 +13,7 @@ public interface IEvent
 
     EEvenType what();
 
-    CNode where();
+    String where();
 
     Collection<IMovable> with();
 
