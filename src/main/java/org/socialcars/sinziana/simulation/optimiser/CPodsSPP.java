@@ -6,10 +6,9 @@ import gurobi.GRBException;
 import gurobi.GRBLinExpr;
 import gurobi.GRBModel;
 import gurobi.GRBVar;
-import org.socialcars.sinziana.simulation.elements.IPreference;
+import org.socialcars.sinziana.simulation.elements.CPod;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,52 +19,49 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
 /**
- * Preference platooning shortest path problem
+ * Shortest path optimiser based on pods with preferences
  */
-public class CPPSPP implements IPSPP
+public class CPodsSPP implements IPSPP
 {
+
     private final GRBEnv m_env;
     private final GRBModel m_model;
     private final GRBVar[][] m_ys;
-    private final HashMap<Integer, GRBVar[][]> m_xs;
+    private final HashMap<String, GRBVar[][]> m_xs;
     private final Integer m_source;
     private final CJungEnvironment m_graph;
     private Double m_opt;
-    private ArrayList<IPreference> m_preferences;
-    private ArrayList<Integer> m_destinations = new ArrayList<>();
+    private ArrayList<CPod> m_pods;
     private Integer m_time;
-    private HashMap<Integer, Integer> m_endtimes = new HashMap<>();
+    private HashMap<String, Integer> m_endtimes = new HashMap<>();
     private Double m_speed;
-    private HashMap<Integer, Double> m_lengths = new HashMap<>();
+    private HashMap<String, Double> m_lengths = new HashMap<>();
 
-    private final HashMap<Integer, HashSet<IEdge>> m_indivres;
+    private final HashMap<String, HashSet<IEdge>> m_indivres;
     private final HashMap<IEdge, Integer> m_results;
+
 
     /**
      * ctor
-     * @param p_env jung environment
-     * @param p_source origin node
-     * @param p_preferences set of pod preferences
-     * @param p_time current time step
-     * @throws GRBException gurobi
+     * @param p_env jung environemnt
+     * @param p_source source node
+     * @param p_pods pods
+     * @param p_time time step
+     * @throws GRBException gurobi exception
      */
-    public CPPSPP( final CJungEnvironment p_env, final Integer p_source, final ArrayList<IPreference> p_preferences, final Integer p_time ) throws GRBException
+    public CPodsSPP( final CJungEnvironment p_env, final Integer p_source, final ArrayList<CPod> p_pods, final Integer p_time ) throws GRBException
     {
         m_env = new GRBEnv( "pspp.log" );
         m_model = new GRBModel( m_env );
         m_ys = new GRBVar[ p_env.size() + 1][p_env.size() + 1];
         m_xs = new HashMap<>();
-        p_preferences.forEach( d ->
-        {
-            m_xs.put( d.destination(), new GRBVar[p_env.size() + 1][p_env.size() + 1] );
-            m_destinations.add( d.destination() );
-        } );
+        p_pods.forEach( p -> m_xs.put( p.name(), new GRBVar[p_env.size() + 1][p_env.size() + 1] ) );
         m_source = p_source;
-        m_preferences = p_preferences;
+        m_pods = p_pods;
         m_graph = p_env;
         m_results = new HashMap<>();
         m_indivres = new HashMap<>();
-        p_preferences.forEach( d -> m_indivres.put( d.destination(), new HashSet<>() ) );
+        p_pods.forEach( d -> m_indivres.put( d.name(), new HashSet<>() ) );
         m_time = p_time;
 
         final GRBLinExpr l_obj = new GRBLinExpr();
@@ -92,9 +88,9 @@ public class CPPSPP implements IPSPP
                 }
 
 
-                p_preferences.forEach( p ->
+                p_pods.forEach( p ->
                 {
-                    final Integer l_ds = p.destination();
+                    final String l_ds = p.name();
                     final GRBVar[][] l_temp = m_xs.get( l_ds );
                     try
                     {
@@ -116,7 +112,6 @@ public class CPPSPP implements IPSPP
         } );
         m_model.setObjective( l_obj );
         m_opt = null;
-
     }
 
     @Override
@@ -136,9 +131,9 @@ public class CPPSPP implements IPSPP
     private void addConstraints()
     {
         //flow constraint
-        m_destinations.forEach( d ->
+        m_pods.forEach( p ->
         {
-            final GRBVar[][] l_temp = m_xs.get( d );
+            final GRBVar[][] l_temp = m_xs.get( p.name() );
             IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
             {
                 final GRBLinExpr l_expr = new GRBLinExpr();
@@ -149,9 +144,12 @@ public class CPPSPP implements IPSPP
                 } );
                 try
                 {
-                    if  ( i.equals( m_source ) ) m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "Origin" +  d );
-                    else if ( i.equals( d ) ) m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "Destination" +  d );
-                    else m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "Flow" +  d );
+                    if  ( i.equals( m_source ) )
+                        m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "Origin" +  p );
+                    else if ( i == Integer.valueOf( p.destination() ) )
+                        m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "Destination" +  p );
+                    else
+                        m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "Flow" +  p );
                 }
                 catch ( final GRBException l_err )
                 {
@@ -166,10 +164,10 @@ public class CPPSPP implements IPSPP
             final Integer l_start = Integer.valueOf( e.from().id() );
             final Integer l_end = Integer.valueOf( e.to().id() );
 
-            m_destinations.forEach( d ->
+            m_pods.forEach( p ->
             {
                 final GRBLinExpr l_expr = new GRBLinExpr();
-                final GRBVar[][] l_temp = m_xs.get( d );
+                final GRBVar[][] l_temp = m_xs.get( p.name() );
                 l_expr.addTerm( 1.0, l_temp[l_start][l_end] );
                 l_expr.addTerm( -1.0, m_ys[l_start][l_end] );
                 try
@@ -186,22 +184,15 @@ public class CPPSPP implements IPSPP
 
     private void addLengthConstraint()
     {
-        m_preferences.forEach( p ->
+        m_pods.forEach( p ->
         {
             try
             {
-                final GRBVar[][] l_temp = m_xs.get( p.destination() );
-                final double l_ml = p.lengthLimit();
+                final GRBVar[][] l_temp = m_xs.get( p.name() );
+                final double l_ml = p.preferences().lengthLimit();
                 final GRBLinExpr l_dist = new GRBLinExpr();
-                m_graph.edges().forEach( e ->
-                        l_dist.addTerm( e.length(), l_temp[Integer.valueOf( e.from().id() )][Integer.valueOf( e.to().id() )] ) );
-                /*IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( i ->
-                        IntStream.range( 0, m_graph.size() + 1 ).boxed().forEach( j ->
-                        {
-                            if ( l_temp[i][j] != null )
-                                l_dist.addTerm( 1.0, l_temp[i][j] );
-                        } ) );*/
-                m_model.addConstr( l_dist, GRB.LESS_EQUAL, l_ml, "maxdist" + p.destination() );
+                m_graph.edges().forEach( e -> l_dist.addTerm( e.length(), l_temp[Integer.valueOf( e.from().id() )][Integer.valueOf( e.to().id() )] ) );
+                m_model.addConstr( l_dist, GRB.LESS_EQUAL, l_ml, "maxdist" + p.name() );
             }
             catch ( final GRBException l_err )
             {
@@ -214,15 +205,15 @@ public class CPPSPP implements IPSPP
     {
         final HashMap<IEdge, Double> l_times = new HashMap<>();
         m_graph.edges().forEach( e -> l_times.put( e, e.length() / m_speed ) );
-        m_preferences.forEach( p ->
+        m_pods.forEach( p ->
         {
             try
             {
-                final GRBVar[][] l_temp = m_xs.get( p.destination() );
-                final Integer l_tl = p.timeLimit();
+                final GRBVar[][] l_temp = m_xs.get( p.name() );
+                final Integer l_tl = p.preferences().timeLimit();
                 final GRBLinExpr l_time = new GRBLinExpr();
                 m_graph.edges().forEach( e -> l_time.addTerm( l_times.get( e ), l_temp[Integer.valueOf( e.from().id() )][Integer.valueOf( e.to().id() )] ) );
-                m_model.addConstr( l_time, GRB.LESS_EQUAL, l_tl, "maxtime" + p.destination() );
+                m_model.addConstr( l_time, GRB.LESS_EQUAL, l_tl, "maxtime" + p );
                 m_model.addConstr( l_time, GRB.GREATER_EQUAL, m_time, "startime" );
             }
             catch ( final GRBException l_err )
@@ -236,10 +227,10 @@ public class CPPSPP implements IPSPP
     {
         final ArrayList<Double> l_minspeeds  = new ArrayList<>();
         final ArrayList<Double> l_maxspeeds = new ArrayList<>();
-        m_preferences.forEach( p ->
+        m_pods.forEach( p ->
         {
-            l_minspeeds.add( p.minSpeed() );
-            l_maxspeeds.add( p.maxSpeed() );
+            l_minspeeds.add( p.preferences().minSpeed() );
+            l_maxspeeds.add( p.preferences().maxSpeed() );
         } );
         final Double l_maxspeed = Collections.min( l_maxspeeds );
         final Double l_minspeed = Collections.max( l_minspeeds );
@@ -253,18 +244,18 @@ public class CPPSPP implements IPSPP
             final Integer l_start = Integer.valueOf( e.from().id() );
             final Integer l_end = Integer.valueOf( e.to().id() );
 
-            m_destinations.forEach( d ->
+            m_pods.forEach( p ->
             {
                 try
                 {
-                    final GRBVar[][] l_temp = m_xs.get( d );
-                    final HashSet<IEdge> l_res = m_indivres.get( d );
+                    final GRBVar[][] l_temp = m_xs.get( p.name() );
+                    final HashSet<IEdge> l_res = m_indivres.get( p.name() );
                     if ( ( l_temp[l_start][l_end] != null ) && ( l_temp[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
                     {
                         m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
                         l_res.add( e );
-                        m_endtimes.put( d, m_endtimes.getOrDefault( d, 0 ) + Integer.valueOf( Math.toIntExact( Math.round( e.length() / m_speed ) ) ) );
-                        m_lengths.put( d, m_lengths.getOrDefault( d, 0.0 ) + e.length() );
+                        m_endtimes.put( p.name(), m_endtimes.getOrDefault( p.name(), 0 ) + Integer.valueOf( Math.toIntExact( Math.round( e.length() / m_speed ) ) ) );
+                        m_lengths.put( p.name(), m_lengths.getOrDefault( p.name(), 0.0 ) + e.length() );
                     }
                 }
                 catch ( final GRBException l_err )
@@ -273,8 +264,6 @@ public class CPPSPP implements IPSPP
                 }
             } );
         } );
-
-
     }
 
     /**
@@ -283,9 +272,9 @@ public class CPPSPP implements IPSPP
     public void getCosts()
     {
         final HashMap<IEdge, Integer> l_np = new HashMap<>();
-        final HashMap<Integer, Double> l_costs = new HashMap<>();
+        final HashMap<String, Double> l_costs = new HashMap<>();
 
-        m_destinations.forEach( d -> m_indivres.get( d ).forEach( e -> l_np.put( e, l_np.getOrDefault( e, 0 ) + 1 ) ) );
+        m_pods.forEach( p -> m_indivres.get( p.name() ).forEach( e -> l_np.put( e, l_np.getOrDefault( e, 0 ) + 1 ) ) );
 
         m_indivres.keySet().forEach( k ->
         {
@@ -327,20 +316,18 @@ public class CPPSPP implements IPSPP
     }
 
     @Override
-    public void display()
+    public void display() throws GRBException
     {
         System.out.println( "Origin is: " + m_source.toString() );
         System.out.println( "Destinations are: " );
-        m_destinations.forEach( d -> System.out.print( d.toString() + " " ) );
+        m_pods.forEach( p -> System.out.print( p.name() + ": " +  p.destination() + " " ) );
         System.out.println();
         System.out.println();
 
         m_indivres.keySet().forEach( d -> m_indivres.get( d ).forEach( x -> System.out.println( "x" + d + ":" + x.id() ) ) );
         System.out.println();
 
-
         m_results.keySet().forEach( y -> System.out.println( "y:" + y.id() ) );
-
     }
 
     public HashMap<IEdge, Integer> returnResults()

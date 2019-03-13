@@ -41,6 +41,8 @@ public class CPod implements IPod
     private Double m_maxdecel;
     private Double m_maxspeed;
 
+    private CPreference m_preference;
+
 
 
     private Collection<IEvent> m_events = new ArrayList<>();
@@ -68,6 +70,8 @@ public class CPod implements IPod
         m_name = p_pod.getName();
         m_provider = p_pod.getProvider();
         m_capacity = p_pod.getCapacity();
+
+        m_preference = new CPreference( Integer.valueOf( m_finish ), 0.01, m_maxspeed, 1000, 100000.0 );
     }
 
     @Override
@@ -173,6 +177,12 @@ public class CPod implements IPod
         LOGGER.log( Level.INFO, l_arrived.toString() );
         m_position = 0.0;
 
+    }
+
+    @Override
+    public IPreference preferences()
+    {
+        return m_preference;
     }
 
 

@@ -37,6 +37,8 @@ public class CBike implements IBike
     private String m_location;
     private Double m_position;
 
+    private CPreference m_preference;
+
     private Collection<IEvent> m_events;
 
 
@@ -160,5 +162,11 @@ public class CBike implements IBike
         LOGGER.log( Level.INFO, l_arrived.toString() );
         m_position = 0.0;
 
+    }
+
+    @Override
+    public IPreference preferences()
+    {
+        return m_preference;
     }
 }

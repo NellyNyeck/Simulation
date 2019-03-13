@@ -28,4 +28,6 @@ public interface IMovable extends IElement
     void arrived( final IEdge p_edge, final Integer p_timestep );
 
     void arrived( final GeoPosition p_pos, final Integer p_timestep );
+
+    IPreference preferences();
 }
