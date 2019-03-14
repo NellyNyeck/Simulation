@@ -37,7 +37,7 @@ public class CPodsSPP implements IPSPP
     private Double m_speed;
     private HashMap<String, Double> m_lengths = new HashMap<>();
 
-    private final HashMap<String, HashSet<IEdge>> m_indivres;
+    private final HashMap<CPod, HashSet<IEdge>> m_indivres;
     private final HashMap<IEdge, Integer> m_results;
 
 
@@ -61,7 +61,7 @@ public class CPodsSPP implements IPSPP
         m_graph = p_env;
         m_results = new HashMap<>();
         m_indivres = new HashMap<>();
-        p_pods.forEach( d -> m_indivres.put( d.name(), new HashSet<>() ) );
+        p_pods.forEach( p -> m_indivres.put( p, new HashSet<>() ) );
         m_time = p_time;
 
         final GRBLinExpr l_obj = new GRBLinExpr();
@@ -249,7 +249,7 @@ public class CPodsSPP implements IPSPP
                 try
                 {
                     final GRBVar[][] l_temp = m_xs.get( p.name() );
-                    final HashSet<IEdge> l_res = m_indivres.get( p.name() );
+                    final HashSet<IEdge> l_res = m_indivres.get( p );
                     if ( ( l_temp[l_start][l_end] != null ) && ( l_temp[l_start][l_end].get( GRB.DoubleAttr.X ) == 1 ) )
                     {
                         m_results.put( e, m_results.getOrDefault( e, 0 ) + 1 );
@@ -266,15 +266,20 @@ public class CPodsSPP implements IPSPP
         } );
     }
 
+    public HashMap<CPod, HashSet<IEdge>> getRoutes()
+    {
+        return m_indivres;
+    }
+
     /**
      * calculates the costs of the route
      */
     public void getCosts()
     {
         final HashMap<IEdge, Integer> l_np = new HashMap<>();
-        final HashMap<String, Double> l_costs = new HashMap<>();
+        final HashMap<CPod, Double> l_costs = new HashMap<>();
 
-        m_pods.forEach( p -> m_indivres.get( p.name() ).forEach( e -> l_np.put( e, l_np.getOrDefault( e, 0 ) + 1 ) ) );
+        m_pods.forEach( p -> m_indivres.get( p ).forEach( e -> l_np.put( e, l_np.getOrDefault( e, 0 ) + 1 ) ) );
 
         m_indivres.keySet().forEach( k ->
         {
@@ -301,7 +306,7 @@ public class CPodsSPP implements IPSPP
 
         System.out.println( "The costs are as follows:" );
         l_costs.keySet()
-                .forEach( k -> System.out.println( "Destination " + k.toString() + " platoon cost:" + l_costs.get( k ) ) );
+                .forEach( k -> System.out.println( "Destination " + k.destination() + " platoon cost:" + l_costs.get( k ) ) );
         System.out.println();
 
         System.out.println( "Speed is: " + m_speed );

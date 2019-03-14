@@ -111,7 +111,9 @@ public class TestCTotalSPP
                         try
                         {
                             runOptimiser( l_pl, Integer.valueOf( m_pods.get( i ).location() ), m_time );
-                            //change the l_routes with results
+                            final HashMap<CPod, HashSet<IEdge>> l_platroutes = m_opt.getRoutes();
+                            l_platroutes.keySet().forEach( k -> l_routes.replace( k, new ArrayList<>( l_platroutes.get( k ) ) ) );
+                            //add event
                         }
                         catch ( final GRBException l_err )
                         {
