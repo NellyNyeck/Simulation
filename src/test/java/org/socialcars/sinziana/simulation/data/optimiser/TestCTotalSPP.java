@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
 /**
  * testing the optimiser class to bring everything together
@@ -88,28 +88,55 @@ public class TestCTotalSPP
     {
         final HashMap<CPod, List<IEdge>> l_routes = new HashMap<>();
         m_pods.forEach( p -> l_routes.put( p, m_env.route( p.origin(), p.destination() ) ) );
-        final AtomicReference<Integer> l_time = new AtomicReference<>( 0 );
         final HashMap<CPod, String> l_status = new HashMap<>();
         m_pods.forEach( p -> l_status.put( p, "Incomplete" ) );
 
         while ( l_status.containsValue( "Incomplete" ) )
         {
+            IntStream.range( 0, m_pods.size() ).boxed().forEach( i ->
+            {
+                if ( ( m_pods.get( i ).position() == 0 ) & ( !m_pods.get( i ).location().contentEquals( m_pods.get( i ).destination() ) ) )
+                {
+                    final HashSet<CPod> l_platoon = new HashSet<>();
+                    l_platoon.add( m_pods.get( i ) );
+                    IntStream.range( i + 1, m_pods.size() ).boxed().forEach( j ->
+                    {
+                        if  ( ( m_pods.get( j ).position() == 0 )
+                                & ( m_pods.get( j ).location().contentEquals( m_pods.get( i ).location() ) )
+                                & ( !m_pods.get( j ).destination().contentEquals( m_pods.get( j ).location() ) ) ) l_platoon.add( m_pods.get( j ) );
+                    } );
+                    if ( l_platoon.size() > 1 )
+                    {
+                        final ArrayList<CPod> l_pl = new ArrayList<CPod>( l_platoon );
+                        try
+                        {
+                            runOptimiser( l_pl, Integer.valueOf( m_pods.get( i ).location() ), m_time );
+                            //change the l_routes with results
+                        }
+                        catch ( final GRBException l_err )
+                        {
+                            l_err.printStackTrace();
+                        }
+                    }
+                }
+            } );
+
             m_pods.forEach( p ->
             {
                 if ( l_routes.get( p ).isEmpty() ) l_status.put( p, "Complete" );
                 else
                 {
                     final IEdge l_edge = l_routes.get( p ).iterator().next();
-                    if ( p.position().equals( 0.0 ) ) p.departed( l_edge, l_time.get() );
+                    if ( p.position().equals( 0.0 ) ) p.departed( l_edge, m_time );
                     if ( p.position() < l_edge.length() ) p.move( m_unit );
                     else
                     {
-                        p.arrived( l_edge, l_time.get() );
+                        p.arrived( l_edge, m_time );
                         l_routes.get( p ).remove( 0 );
                     }
                 }
             } );
-            l_time.getAndSet( l_time.get() + 1 );
+            m_time++;
         }
     }
 
@@ -122,6 +149,7 @@ public class TestCTotalSPP
     {
         final TestCTotalSPP l_test = new TestCTotalSPP();
         l_test.init();
-        l_test.runOptimiser( l_test.m_pods, 0, l_test.m_time );
+        //l_test.runOptimiser( l_test.m_pods, 0, l_test.m_time );
+        l_test.movement();
     }
 }

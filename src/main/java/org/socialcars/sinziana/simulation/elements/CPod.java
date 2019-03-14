@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 public class CPod implements IPod
 {
 
+    // TODO: 2019-03-14 add costs and preferences to json schema
     private static final Logger LOGGER = Logger.getLogger( CPod.class.getName() );
 
     private CPodpojo m_pod;
@@ -164,6 +165,7 @@ public class CPod implements IPod
         final CEvent l_arrived = new CEvent( this, EEvenType.ARRIVED, p_edge.to().id(), p_timestep, null );
         m_events.add( l_arrived );
         System.out.println( "Pod " + m_name + " arrived at node " + p_edge.to().id() + " at timestep " + p_timestep );
+        m_location = p_edge.to().id();
         LOGGER.log( Level.INFO, l_arrived.toString() );
         m_position = 0.0;
     }
@@ -174,6 +176,7 @@ public class CPod implements IPod
         final CEvent l_arrived = new CEvent( this, EEvenType.ARRIVED, p_pos.toString(), p_timestep, null );
         m_events.add( l_arrived );
         System.out.println( "Pod " + m_name + " arrived at" + p_pos.toString() + " at timestep " + p_timestep );
+        m_location = p_pos.toString();
         LOGGER.log( Level.INFO, l_arrived.toString() );
         m_position = 0.0;
 
