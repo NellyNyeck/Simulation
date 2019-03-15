@@ -14,7 +14,7 @@ import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
 import org.socialcars.sinziana.simulation.elements.IElement;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -90,10 +90,7 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
             IntStream.range( 1, p_gr.getZones() + 1 ).boxed().forEach( i ->
             {
                 final ArrayList<INode> l_mappy = new ArrayList<>();
-                IntStream.range( l_count.get(), l_count.get() + l_npz ).boxed().forEach( j ->
-                {
-                    l_mappy.add( m_nodes.get( j.toString() ) );
-                } );
+                IntStream.range( l_count.get(), l_count.get() + l_npz ).boxed().forEach( j -> l_mappy.add( m_nodes.get( j.toString() ) ) );
                 l_count.addAndGet( l_npz );
                 m_zones.put( String.valueOf( i ), l_mappy );
             } );
@@ -178,6 +175,21 @@ public class CJungEnvironment implements IEnvironment<VisualizationViewer<INode,
     {
         return m_zones.get( p_zone ).get( ThreadLocalRandom.current().nextInt( m_zones.get( p_zone ).size() ) );
     }
+
+    public INode getNodebyName( final String p_name )
+    {
+        return m_nodes.get( p_name );
+    }
+
+    @Override
+    public Number edgeLength( final IEdge p_edge )
+    {
+        final Float l_al = Math.abs( p_edge.from().coordinate().latitude().floatValue() - p_edge.to().coordinate().latitude().floatValue() );
+        final Float l_bl = Math.abs( p_edge.from().coordinate().longitude().floatValue() - p_edge.to().coordinate().longitude().floatValue() );
+        final double l_cl = Math.sqrt( ( l_al * l_al ) + ( l_bl * l_bl ) );
+        return l_cl;
+    }
+
 
     /**
      * returns sorted map of nodes based on incoming - outgoing edges

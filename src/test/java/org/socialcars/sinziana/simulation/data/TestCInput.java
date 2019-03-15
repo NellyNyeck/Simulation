@@ -7,17 +7,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.socialcars.sinziana.simulation.data.input.CBicyclepojo;
 import org.socialcars.sinziana.simulation.data.input.CClientpojo;
-import org.socialcars.sinziana.simulation.data.input.CConfigurationpojo;
 import org.socialcars.sinziana.simulation.data.input.CCoordinatespojo;
 import org.socialcars.sinziana.simulation.data.input.CEdgepojo;
 import org.socialcars.sinziana.simulation.data.input.CFunctionpojo;
 import org.socialcars.sinziana.simulation.data.input.CGraphpojo;
 import org.socialcars.sinziana.simulation.data.input.CHumanpojo;
 import org.socialcars.sinziana.simulation.data.input.CInputpojo;
+import org.socialcars.sinziana.simulation.data.input.CNodepojo;
 import org.socialcars.sinziana.simulation.data.input.CParameterpojo;
 import org.socialcars.sinziana.simulation.data.input.CPodpojo;
 import org.socialcars.sinziana.simulation.data.input.CProviderpojo;
-import org.socialcars.sinziana.simulation.data.input.CStartpojo;
+import org.socialcars.sinziana.simulation.data.input.CSimulationSpecificationspojo;
 import org.socialcars.sinziana.simulation.data.input.CVehiclepojo;
 
 import java.io.File;
@@ -44,7 +44,7 @@ public final class TestCInput
     @Before
     public final void init() throws IOException
     {
-        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+        m_configuration = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_density.json" ), CInputpojo.class );
     }
 
     /**
@@ -72,7 +72,7 @@ public final class TestCInput
     {
         Assume.assumeNotNull( m_configuration );
         Assert.assertNotNull( m_configuration.getConfiguration() );
-        final CConfigurationpojo l_config = m_configuration.getConfiguration();
+        final CSimulationSpecificationspojo l_config = m_configuration.getConfiguration();
         Assert.assertTrue( l_config.equals( l_config ) );
         Assert.assertTrue( l_config.getLengthUnit().contentEquals( "meter" ) );
         Assert.assertTrue( l_config.getSpeedUnit().contentEquals( "m/s" ) );
@@ -295,7 +295,7 @@ public final class TestCInput
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertTrue( l_graph.equals( l_graph ) );
         Assert.assertTrue( !l_graph.toString().isEmpty() );
-        Assert.assertTrue( l_graph.getZones() == 38 );
+        Assert.assertTrue( l_graph.getZones() == 26 );
     }
 
     /**
@@ -308,7 +308,7 @@ public final class TestCInput
         Assert.assertNotNull( m_configuration.getGraph() );
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getNodes() );
-        final Set<CStartpojo> l_nodes = l_graph.getNodes();
+        final Set<CNodepojo> l_nodes = l_graph.getNodes();
         Assert.assertTrue( l_nodes.size() == 361 );
         l_nodes.forEach( j ->
         {
@@ -337,7 +337,7 @@ public final class TestCInput
         Assert.assertNotNull( m_configuration.getGraph() );
         final CGraphpojo l_graph = m_configuration.getGraph();
         Assert.assertNotNull( l_graph.getEdges() );
-        Assert.assertTrue( l_graph.getEdges().size() == 766 );
+        Assert.assertTrue( l_graph.getEdges().size() == 765 );
         final Set<CEdgepojo> l_edges = l_graph.getEdges();
         l_edges.forEach( e ->
         {

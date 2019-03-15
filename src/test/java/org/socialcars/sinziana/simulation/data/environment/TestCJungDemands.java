@@ -17,10 +17,8 @@ import org.socialcars.sinziana.simulation.environment.jung.IEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.INode;
 import org.socialcars.sinziana.simulation.visualization.CHeatFunction;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-import java.awt.Color;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,6 +26,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UncheckedIOException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +41,7 @@ public class TestCJungDemands
 {
     private static final CDemandsjungpojo INPUTD;
     private static final CInputpojo INPUTG;
-    //private static final CInputpojo INPUTGD;
+    private static final CInputpojo INPUTGD;
 
     private ArrayList<CInstanceJung> m_demand;
     private CJungEnvironment m_env;
@@ -51,9 +50,15 @@ public class TestCJungDemands
     {
         try
         {
+/*<<<<<<< HEAD
             INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/Friedrichshain-center.json" ), CInputpojo.class );
             INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/Friedrichshain-center_demand.json" ), CDemandsjungpojo.class );
            // INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/Friedrichshain_weights.json" ), CInputpojo.class );
+=======*/
+            INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten.json" ), CInputpojo.class );
+            INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_demand.json" ), CDemandsjungpojo.class );
+            INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+//>>>>>>> dc91cfacf50f48ac87624c039a7312516f9c7fe5
         }
         catch ( final IOException l_exception )
         {
@@ -63,10 +68,9 @@ public class TestCJungDemands
 
     /**
      * initializing
-     * @throws IOException file
      */
     @Before
-    public void init() throws IOException
+    public void init()
     {
         m_env = new CJungEnvironment( INPUTG.getGraph() );
         m_demand = new ArrayList<>();
@@ -94,12 +98,9 @@ public class TestCJungDemands
         l_frame.setVisible( true );
 
         final HashMap<IEdge, Integer> l_countingmap = new HashMap<>();
-        m_demand.forEach( i ->
-        {
-            IntStream.range( 0, Math.round( i.howMany() ) ).boxed()
+        m_demand.forEach( i -> IntStream.range( 0, Math.round( i.howMany() ) ).boxed()
                 .flatMap( j -> l_env.route( l_env.randomnodebyzone( i.from() ), l_env.randomnodebyzone( i.to() ) ).stream() )
-                .forEach( j -> l_countingmap.put( j, l_countingmap.getOrDefault( j, 0 ) + 1 ) );
-        } );
+                .forEach( j -> l_countingmap.put( j, l_countingmap.getOrDefault( j, 0 ) + 1 ) ) );
 
         final DefaultModalGraphMouse l_gm = new DefaultModalGraphMouse();
         l_gm.setMode( ModalGraphMouse.Mode.TRANSFORMING );
@@ -116,9 +117,9 @@ public class TestCJungDemands
         final File l_filedir = new File( "Friedrichshain_heatmap.json" );
 
         final Writer l_out = new BufferedWriter( new OutputStreamWriter(
-            new FileOutputStream( l_filedir ), "UTF8" ) );
+            new FileOutputStream( l_filedir ), StandardCharsets.UTF_8 ) );
 
-        final HashMap<String, Object> l_result = new HashMap<String, Object>();
+        final HashMap<String, Object> l_result = new HashMap<>();
         p_values.keySet().forEach( s -> l_result.put( s.id(), p_values.get( s ) ) );
         final JSONObject l_json =  new JSONObject( l_result );
         l_out.write( l_json.toJSONString() );
@@ -145,8 +146,16 @@ public class TestCJungDemands
         System.out.println( m_env.randomnodebyzone( String.valueOf( 5 ) ).id() );
     }
 
-    @Test
+//<<<<<<< HEAD
+ //   @Test
  /*   public void testDensity()
+=======
+    /**
+     * tests densities
+     */
+    @Test
+    public void testDensity()
+//>>>>>>> dc91cfacf50f48ac87624c039a7312516f9c7fe5
     {
         m_env = new CJungEnvironment( INPUTGD.getGraph() );
 
@@ -171,7 +180,7 @@ public class TestCJungDemands
 
         l_view.getRenderContext().setEdgeFillPaintTransformer( new CHeatFunction( l_countingmap ) );
         l_view.getRenderContext().setVertexFillPaintTransformer( i -> new Color( 0, 0, 0 ) );
-    }*/
+    }
 
     /**
      * main
@@ -183,7 +192,7 @@ public class TestCJungDemands
         final TestCJungDemands l_test = new TestCJungDemands();
         l_test.init();
         l_test.heatmap();
-        //l_test.testDensity();
+        l_test.testDensity();
     }
 
 

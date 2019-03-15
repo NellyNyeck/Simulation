@@ -8,8 +8,8 @@ public enum EEvenType
     CREATED,
     DEPART,
     ARRIVED,
-    STUCK,
-    WAITING,
     FORMED,
-    SPLIT;
+    SPLIT,
+    COMPLETED,
+    RETURNED;
 }

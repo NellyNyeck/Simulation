@@ -4,6 +4,7 @@ import com.codepoetics.protonpack.StreamUtils;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
+import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.EdgeIteratorState;
@@ -24,7 +25,7 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 import org.socialcars.sinziana.simulation.visualization.CHeatPainter;
 import org.socialcars.sinziana.simulation.visualization.CRoutePainter;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,7 @@ import java.util.stream.Stream;
  */
 public class COSMEnvironment
 {
+    private static final Double RADIUS = 6371e3;
     private static final Logger LOGGER = Logger.getLogger( COSMEnvironment.class.getName() );
 
     private GraphHopper m_hopper;
@@ -66,15 +69,14 @@ public class COSMEnvironment
      * @param p_south southern most point
      * @param p_east eastern most point
      * @param p_west western most point
-     * @throws IOException file
      */
     public COSMEnvironment( final String p_file, final String p_graphlocation, final Double p_north,
-                            final Double p_south, final Double p_east, final Double p_west ) throws IOException
+                            final Double p_south, final Double p_east, final Double p_west )
     {
-        //m_hopper = new GraphHopperOSM().forServer();
+        m_hopper = new GraphHopperOSM().forServer();
 
-        m_hopper = new CMyGraphHopper( "src/test/resources/Density20.json", 20.0 ).forServer();
-        m_hopper.setCHEnabled( false );
+        /*m_hopper = new CMyGraphHopper( "src/test/resources/Density20.json", 20.0 ).forServer();
+        m_hopper.setCHEnabled( false );*/
 
         /*FlagEncoder encoder = new CarFlagEncoder();
         EncodingManager em = new EncodingManager(encoder);
@@ -163,9 +165,9 @@ public class COSMEnvironment
         final DefaultTileFactory l_tilefactory = new DefaultTileFactory( l_info );
         l_mapviewer.setTileFactory( l_tilefactory );
 
-        final List<Painter<JXMapViewer>> l_painters = new ArrayList<Painter<JXMapViewer>>();
+        final List<Painter<JXMapViewer>> l_painters = new ArrayList<>();
 
-        p_routes.stream().forEach( l ->
+        p_routes.forEach( l ->
             {
                 final CRoutePainter l_routepainter = new CRoutePainter( l );
                 l_painters.add( l_routepainter );
@@ -174,12 +176,10 @@ public class COSMEnvironment
 
         l_mapviewer.zoomToBestFit( Set.of( m_bottomright, m_topleft ),  0.8 );
 
-        final CompoundPainter<JXMapViewer> l_painter = new CompoundPainter<JXMapViewer>( l_painters );
+        final CompoundPainter<JXMapViewer> l_painter = new CompoundPainter<>( l_painters );
         l_mapviewer.setOverlayPainter( l_painter );
 
-        /**
-         * the zoom
-         */
+        //interactive mouse
         final MouseInputListener l_mia = new PanMouseInputListener( l_mapviewer );
         l_mapviewer.addMouseListener( l_mia );
         l_mapviewer.addMouseMotionListener( l_mia );
@@ -206,12 +206,12 @@ public class COSMEnvironment
             final File l_filedir = new File( "info.json" );
 
             final Writer l_out = new BufferedWriter( new OutputStreamWriter(
-                new FileOutputStream( l_filedir ), "UTF8" ) );
+                new FileOutputStream( l_filedir ), StandardCharsets.UTF_8 ) );
             try
             {
 
                 l_out.write( l_resp.getBest().getInstructions().createJson().toString() );
-                l_resp.getBest().getInstructions().stream().forEach( i ->
+                l_resp.getBest().getInstructions().forEach( i ->
                 {
                     try
                     {
@@ -258,19 +258,18 @@ public class COSMEnvironment
         final DefaultTileFactory l_tilefactory = new DefaultTileFactory( l_info );
         l_mapviewer.setTileFactory( l_tilefactory );
 
-        final List<Painter<JXMapViewer>> l_painters = new ArrayList<Painter<JXMapViewer>>();
+        final List<Painter<JXMapViewer>> l_painters = new ArrayList<>();
 
         final CHeatPainter l_heatpainter = new CHeatPainter( p_routes );
         l_painters.add( l_heatpainter );
 
         l_mapviewer.zoomToBestFit( Set.of( m_bottomright, m_topleft ),  0.8 );
 
-        final CompoundPainter<JXMapViewer> l_painter = new CompoundPainter<JXMapViewer>( l_painters );
+        final CompoundPainter<JXMapViewer> l_painter = new CompoundPainter<>( l_painters );
         l_mapviewer.setOverlayPainter( l_painter );
 
-        /**
-         * the zoom
-         */
+
+        //interactive mouse
         final MouseInputListener l_mia = new PanMouseInputListener( l_mapviewer );
         l_mapviewer.addMouseListener( l_mia );
         l_mapviewer.addMouseMotionListener( l_mia );
@@ -294,7 +293,7 @@ public class COSMEnvironment
         final File l_filedir = new File( "heatmap.json" );
 
         final Writer l_out = new BufferedWriter( new OutputStreamWriter(
-            new FileOutputStream( l_filedir ), "UTF8" ) );
+            new FileOutputStream( l_filedir ), StandardCharsets.UTF_8 ) );
 
         final HashMap<Integer, CVisitedStructure> l_heats = new HashMap<>();
         final Set<GeoPosition> l_keys = p_values.keySet();
@@ -315,7 +314,7 @@ public class COSMEnvironment
                 l_new.add( p_values.get( p ) );
             }
         } );
-        final HashMap<Number, Object> l_result = new HashMap<Number, Object>();
+        final HashMap<Number, Object> l_result = new HashMap<>();
         l_heats.keySet().forEach( s -> l_result.put( s, l_heats.get( s ).toMap() ) );
         final JSONObject l_json =  new JSONObject( l_result );
         l_out.write( l_json.toJSONString() );
@@ -327,8 +326,7 @@ public class COSMEnvironment
     {
         final File l_filedir = new File( "overlap.json" );
 
-        final Writer l_out = new BufferedWriter( new OutputStreamWriter(
-            new FileOutputStream( l_filedir ), "UTF8" ) );
+        final Writer l_out = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( l_filedir ), StandardCharsets.UTF_8 ) );
         try
         {
             final HashMap<String, Integer> l_overlap = new HashMap<>();
@@ -371,6 +369,22 @@ public class COSMEnvironment
     }
 
     /**
+     * calculates length between 2 Geographical points
+     * @param p_one first point
+     * @param p_two second point
+     * @return length
+     */
+    public Double sectionLength( final GeoPosition p_one, final GeoPosition p_two )
+    {
+        final Double l_deltalat = Math.toRadians( p_two.getLatitude() ) - Math.toRadians( p_one.getLatitude() );
+        final Double l_deltalon = Math.toRadians( p_two.getLongitude() ) - Math.toRadians( p_one.getLongitude() );
+        final Double l_alpha = Math.sin( l_deltalat / 2 ) * Math.sin( l_deltalat / 2 )
+                + Math.cos( Math.toRadians( p_one.getLatitude() ) ) * Math.cos( Math.toRadians( p_two.getLatitude() ) )
+                * Math.sin( l_deltalon / 2 ) * Math.sin( l_deltalon / 2 );
+        return RADIUS * ( 2 * Math.atan2( Math.sqrt( l_alpha ), Math.sqrt( 1 - l_alpha ) ) );
+    }
+
+    /**
      * creating the panel
      * @return the map viewer
      */
@@ -393,17 +407,14 @@ public class COSMEnvironment
     }
 
 
-
-    /**
-     * function to check environment granularity of geopoints
-     */
     //public void pokingAround()
     //{
-        /*final GeoPosition l_bar = new GeoPosition( 41.398059, 2.159816 );
+        /* testing granularity of geopoints
+        final GeoPosition l_bar = new GeoPosition( 41.398059, 2.159816 );
         final GeoPosition l_restaurant = new GeoPosition( 41.397667, 2.160041 );
         System.out.println( calculateDistance( l_bar, l_restaurant ) );*/
-/*
-        IntStream.range( 0, 10 )
+
+        /*IntStream.range( 0, 10 )
             .boxed()
             .forEach( i ->
             {
@@ -451,12 +462,12 @@ public class COSMEnvironment
      * @param p_streets the streets
      * @throws IOException file
      */
-    public void writeStreets( final HashMap<Integer, CStreetStructure> p_streets ) throws IOException
+    private void writeStreets( final HashMap<Integer, CStreetStructure> p_streets ) throws IOException
     {
         final File l_filedir = new File( "streets.json" );
 
         final Writer l_out = new BufferedWriter( new OutputStreamWriter(
-            new FileOutputStream( l_filedir ), "UTF8" ) );
+            new FileOutputStream( l_filedir ), StandardCharsets.UTF_8 ) );
         try
         {
             final HashMap<String, Object> l_streets = new HashMap<>();

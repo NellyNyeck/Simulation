@@ -26,6 +26,6 @@ public class TestCBike
     {
         final CInputpojo l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
         final List<CBicyclepojo> l_bikes = l_configuration.getBikes();
-        m_bike = new CBike( l_bikes.get( 0 ) );
+        m_bike = new CBike( l_bikes.get( 0 ), 0 );
     }
 }

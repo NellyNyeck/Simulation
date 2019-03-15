@@ -26,7 +26,7 @@ public class TestCHuman
     {
         final CInputpojo l_configuration = new ObjectMapper().readValue( new File( "src/test/resources/8-3x3.json" ), CInputpojo.class );
         final List<CHumanpojo> l_humans = l_configuration.getHumans();
-        m_human = new CHuman( l_humans.get( 0 ) );
+        m_human = new CHuman( l_humans.get( 0 ), 0 );
     }
 
 }

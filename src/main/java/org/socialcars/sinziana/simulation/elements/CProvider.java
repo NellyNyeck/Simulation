@@ -32,14 +32,14 @@ public class CProvider implements IProvider
         m_provider = p_provider;
         m_depots = new HashSet<>();
         m_pods = new HashSet<>();
-        m_provider.getDepots().stream().forEach( d ->
+        m_provider.getDepots().forEach( d ->
         {
             final CNode l_dep = new CNode( d );
             m_depots.add( l_dep );
         } );
-        m_provider.getPods().stream().forEach( p ->
+        m_provider.getPods().forEach( p ->
         {
-            final CPod l_pod = new CPod( p );
+            final CPod l_pod = new CPod( p, 0 );
             m_pods.add( l_pod );
         } );
     }
@@ -51,7 +51,7 @@ public class CProvider implements IProvider
     }
 
     @Override
-    public IElement call() throws Exception
+    public IElement call()
     {
         return null;
     }

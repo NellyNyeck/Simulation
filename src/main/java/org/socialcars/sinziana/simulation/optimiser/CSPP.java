@@ -89,13 +89,13 @@ public class CSPP implements ISPP
                 if ( m_xs[i][j] != null ) l_expr.addTerm( 1.0, m_xs[i][j] );
                 if ( m_xs[j][i] != null ) l_expr.addTerm( -1.0, m_xs[j][i] );
             }
-            if ( i == Integer.valueOf( p_origin ) ) m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "OriginConstraint" );
-            else if ( i == Integer.valueOf( p_destination ) ) m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "DestinationConstraint" );
+            if ( i == p_origin ) m_model.addConstr( l_expr, GRB.EQUAL, 1.0, "OriginConstraint" );
+            else if ( i == p_destination ) m_model.addConstr( l_expr, GRB.EQUAL, -1.0, "DestinationConstraint" );
             else m_model.addConstr( l_expr, GRB.EQUAL, 0.0, "FlowConstraint" );
         }
     }
 
-    private void saveResults() throws GRBException
+    private void saveResults()
     {
         m_graph.edges().forEach( e ->
         {
@@ -119,9 +119,8 @@ public class CSPP implements ISPP
 
     /**
      * displays the result
-     * @throws GRBException gurobi
      */
-    public void display() throws GRBException
+    public void display()
     {
         m_results.forEach( e -> System.out.println( e.id() ) );
     }
