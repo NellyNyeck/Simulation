@@ -31,6 +31,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 
@@ -50,9 +51,9 @@ public class TestCJungDemands
     {
         try
         {
-            INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten.json" ), CInputpojo.class );
-            INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_demand.json" ), CDemandsjungpojo.class );
-            //INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUTG = new ObjectMapper().readValue( new File( "src/test/resources/Friedrichshain-center.json" ), CInputpojo.class );
+            INPUTD = new ObjectMapper().readValue( new File( "src/test/resources/Friedrichshain-center_demand.json" ), CDemandsjungpojo.class );
+           // INPUTGD = new ObjectMapper().readValue( new File( "src/test/resources/Friedrichshain_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -112,7 +113,7 @@ public class TestCJungDemands
 
     private void writeHeat( final HashMap<IEdge, Integer> p_values ) throws IOException
     {
-        final File l_filedir = new File( "nellys_heatmap.json" );
+        final File l_filedir = new File( "Friedrichshain_heatmap.json" );
 
         final Writer l_out = new BufferedWriter( new OutputStreamWriter(
             new FileOutputStream( l_filedir ), "UTF8" ) );
@@ -144,8 +145,8 @@ public class TestCJungDemands
         System.out.println( m_env.randomnodebyzone( String.valueOf( 5 ) ).id() );
     }
 
-    /*@Test
-    public void testDensity()
+    @Test
+ /*   public void testDensity()
     {
         m_env = new CJungEnvironment( INPUTGD.getGraph() );
 

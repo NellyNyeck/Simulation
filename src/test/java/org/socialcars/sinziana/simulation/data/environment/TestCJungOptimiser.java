@@ -44,7 +44,7 @@ public class TestCJungOptimiser
     {
         try
         {
-            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/tiergarten_weights.json" ), CInputpojo.class );
+            INPUT = new ObjectMapper().readValue( new File( "src/test/resources/mitte-center_weights.json" ), CInputpojo.class );
         }
         catch ( final IOException l_exception )
         {
@@ -95,14 +95,14 @@ public class TestCJungOptimiser
         m_destinations.add( 210 );
         m_destinations.add( 29 );
         m_destinations.add( 215 );
-        //m_destinations.add( 326 );
-        //m_destinations.add( 16 );
+        m_destinations.add( 326 );
+        m_destinations.add( 16 );
         //m_destinations.add( 5 );
         //m_destinations.add( 158 );
         //m_destinations.add( 192 );
         //m_destinations.add( 250 );
         //m_destinations.add( 347 );
-        m_opt = new CPSPP( m_env, 353, m_destinations );
+        m_opt = new CPSPP( m_env, 398, m_destinations );
         m_opt.solve();
         m_opt.display();
         final Map<IEdge, Integer> l_countingmap = m_opt.returnResults();
@@ -117,7 +117,7 @@ public class TestCJungOptimiser
     {
         //creates frame
         final JFrame l_frame = new JFrame();
-        l_frame.setSize( new Dimension( 1200, 1200 ) );
+        l_frame.setSize( new Dimension( 1850, 1010 ) );
         l_frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
 
         //adds graph to frame
@@ -147,8 +147,8 @@ public class TestCJungOptimiser
     {
         final TestCJungOptimiser l_test = new TestCJungOptimiser();
         l_test.init();
-        //l_test.randomNodes( 10 );
-        //l_test.testPopular( 2 );
+        //l_test.randomNodes( 5 );
+        l_test.testPopular( 10  );
     }
 
 }
