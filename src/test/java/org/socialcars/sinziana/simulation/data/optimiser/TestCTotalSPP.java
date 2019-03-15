@@ -90,7 +90,7 @@ public class TestCTotalSPP
         m_pods.forEach( p -> l_routes.put( p, m_env.route( p.origin(), p.destination() ) ) );
         final HashMap<CPod, String> l_status = new HashMap<>();
         m_pods.forEach( p -> l_status.put( p, "Incomplete" ) );
-
+        //TODO: 2019-03-15 break this down, is A MESS 
         while ( l_status.containsValue( "Incomplete" ) )
         {
             IntStream.range( 0, m_pods.size() ).boxed().forEach( i ->
@@ -113,7 +113,13 @@ public class TestCTotalSPP
                             runOptimiser( l_pl, Integer.valueOf( m_pods.get( i ).location() ), m_time );
                             final HashMap<CPod, HashSet<IEdge>> l_platroutes = m_opt.getRoutes();
                             l_platroutes.keySet().forEach( k -> l_routes.replace( k, new ArrayList<>( l_platroutes.get( k ) ) ) );
-                            //add event
+                            l_pl.forEach( p ->
+                            {
+                                final ArrayList<CPod> l_lp = new ArrayList<>();
+                                l_pl.forEach( meh -> l_lp.add( meh ) );
+                                l_lp.remove( p );
+                                p.formed( p.location(), m_time, l_lp );
+                            } );
                         }
                         catch ( final GRBException l_err )
                         {
@@ -121,6 +127,16 @@ public class TestCTotalSPP
                         }
                     }
                 }
+                /*else if ( m_pods.get( i ).location().contentEquals( m_pods.get( i ).destination() ) )
+                {
+                    final Collection<IEvent> l_ev = m_pods.get( i ).events();
+                    final Boolean[] l_bool = {false};
+                    l_ev.forEach( e ->
+                    {
+                        if ( e.what().equals( EEvenType.FORMED ) ) l_bool[0] = true;
+                    });
+                    if ( l_bool[0] ) m_pods.get( i ).split( m_pods.get( i ).location(), m_time );
+                } todo event management */
             } );
 
             m_pods.forEach( p ->

@@ -11,7 +11,6 @@ import org.socialcars.sinziana.simulation.units.CUnits;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -63,7 +62,7 @@ public class CPod implements IPod
         m_pod.getMiddle().forEach( m -> m_middle.add( new CNode( m ) ) );
         final CEvent l_created = new CEvent( this, EEvenType.CREATED, m_start, p_timestep, null );
         m_events.add( l_created );
-        LOGGER.log( Level.INFO, l_created.toString() );
+        //LOGGER.log( Level.INFO, l_created.toString() );
         m_position = 0.0;
         m_maxaccel = p_pod.getMaxAccel();
         m_maxdecel = p_pod.getMaxDecel();
@@ -145,7 +144,7 @@ public class CPod implements IPod
         final CEvent l_departed = new CEvent( this, EEvenType.DEPART, p_edge.from().id(), p_timestep, null );
         m_events.add( l_departed );
         System.out.println( "Pod " + m_name + " departed node " + p_edge.from().id() + " at timestep " + p_timestep );
-        LOGGER.log( Level.INFO, l_departed.toString() );
+        //LOGGER.log( Level.INFO, l_departed.toString() );
         m_location = p_edge.id();
     }
 
@@ -155,7 +154,7 @@ public class CPod implements IPod
         final CEvent l_departed = new CEvent( this, EEvenType.DEPART, p_pos.toString(), p_timestep, null );
         m_events.add( l_departed );
         System.out.println( "Pod " + m_name + " departed " + p_pos.toString() + " at timestep " + p_timestep );
-        LOGGER.log( Level.INFO, l_departed.toString() );
+        //LOGGER.log( Level.INFO, l_departed.toString() );
         m_location = p_pos.toString();
     }
 
@@ -166,7 +165,7 @@ public class CPod implements IPod
         m_events.add( l_arrived );
         System.out.println( "Pod " + m_name + " arrived at node " + p_edge.to().id() + " at timestep " + p_timestep );
         m_location = p_edge.to().id();
-        LOGGER.log( Level.INFO, l_arrived.toString() );
+        //LOGGER.log( Level.INFO, l_arrived.toString() );
         m_position = 0.0;
     }
 
@@ -177,10 +176,39 @@ public class CPod implements IPod
         m_events.add( l_arrived );
         System.out.println( "Pod " + m_name + " arrived at" + p_pos.toString() + " at timestep " + p_timestep );
         m_location = p_pos.toString();
-        LOGGER.log( Level.INFO, l_arrived.toString() );
+        //LOGGER.log( Level.INFO, l_arrived.toString() );
         m_position = 0.0;
 
     }
+
+    /**
+     * formed event
+     * @param p_pos position
+     * @param p_timestep timestep
+     * @param p_platoon platoon
+     */
+    public void formed( final String p_pos, final Integer p_timestep, final ArrayList<CPod> p_platoon )
+    {
+        final Collection<IMovable> l_plat = new ArrayList<>( p_platoon );
+        final CEvent l_formed = new CEvent( this, EEvenType.FORMED, p_pos, p_timestep, l_plat );
+        m_events.add( l_formed );
+        System.out.println( "Pod " + m_name + " has joined a platoon." );
+        //LOGGER.log( Level.INFO, l_formed.toString() );
+    }
+
+    /**
+     * split event
+     * @param p_pos position
+     * @param p_timestep timestep
+     */
+    public void split( final String p_pos, final Integer p_timestep )
+    {
+        final CEvent l_split = new CEvent( this, EEvenType.SPLIT, p_pos, p_timestep, null );
+        m_events.add( l_split );
+        System.out.println( "Pod " + m_name + " has split from a platoon." );
+        //LOGGER.log( Level.INFO, l_split.toString() );
+    }
+
 
     @Override
     public IPreference preferences()
@@ -189,8 +217,8 @@ public class CPod implements IPod
     }
 
 
-    public void seeEvent()
+    public Collection<IEvent> events()
     {
-        m_events.forEach( e -> System.out.println( e.what() ) );
+        return m_events;
     }
 }

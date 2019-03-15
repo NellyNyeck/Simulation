@@ -10,7 +10,6 @@ import org.socialcars.sinziana.simulation.elements.IPreference;
 import org.socialcars.sinziana.simulation.environment.jung.CJungEnvironment;
 import org.socialcars.sinziana.simulation.environment.jung.IEdge;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
