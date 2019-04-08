@@ -1,0 +1,149 @@
+{
+  "road_segments" :
+          [
+            {
+              "name" : "Hildesheimer",
+              "coordinates": {
+                "lat": 52.356502,
+                "lon": 9.753258
+              },
+              "up" : 10826,
+              "down" : 625
+            },
+            {
+              "name" : "Altenbekener Damm",
+              "coordinates": {
+                "lat": 52.356156,
+                "lon": 9.757659
+              },
+              "up" : 3078,
+              "down" : 0
+            },
+            {
+              "name" : "Geibel",
+              "coordinates": {
+                "lat": 52.359928,
+                "lon": 9.752854
+              },
+              "up" : 1801,
+              "down" : 462
+            },
+            {
+              "name" : "Buergermeister Fink",
+              "coordinates": {
+                "lat": 52.361265,
+                "lon": 9.746544
+              },
+              "up" : 984,
+              "down" : 331
+            },
+            {
+              "name" : "Friedrichswall",
+              "coordinates": {
+                "lat": 52.368327,
+                "lon": 9.738295
+              },
+              "up" : 13991,
+              "down" : 5162
+            },
+            {
+              "name" : "Georg",
+              "coordinates": {
+                "lat": 52.374820,
+                "lon": 9.737050
+              },
+              "up" : 0,
+              "down" : 1766
+            },
+            {
+              "name" : "Schiffgraben",
+              "coordinates": {
+                "lat": 52.373490,
+                "lon": 9.746765
+              },
+              "up" : 0,
+              "down" : 10289
+            },
+            {
+              "name" : "Berlinerallee",
+              "coordinates": {
+                "lat": 52.376261,
+                "lon": 9.750082
+              },
+              "up" : 0,
+              "down" : 14386
+            },
+            {
+              "name" : "Marien",
+              "coordinates": {
+                "lat": 52.369794,
+                "lon": 9.752446
+              },
+              "up" : 10078,
+              "down" : 8178
+            },
+            {
+              "name" : "Luther",
+              "coordinates": {
+                "lat": 52.367058,
+                "lon": 9.753230
+              },
+              "up" : 700,
+              "down" : 38
+            },
+            {
+              "name" : "Krausen",
+              "coordinates": {
+                "lat": 52.363280,
+                "lon": 9.753648
+              },
+              "up" : 1415,
+              "down" : 1942
+            },
+            {
+              "name" : "Lindenmannallee",
+              "coordinates": {
+                "lat": 52.360577,
+                "lon": 9.772117
+              },
+              "up" : 1,
+              "down" : 7925
+            },
+            {
+              "name" : "Mainzer",
+              "coordinates": {
+                "lat": 52.354446,
+                "lon": 9.770032
+              },
+              "up" : 5075,
+              "down" : 0
+            },
+            {
+              "name" : "Stressemannallee",
+              "coordinates": {
+                "lat": 52.356529,
+                "lon": 9.763314
+              },
+              "up" : 2037,
+              "down" : 156
+            },
+            {
+              "name" : "Stueves",
+              "coordinates": {
+                "lat": 52.360166,
+                "lon": 9.756697
+              },
+              "up" : 1527,
+              "down" : 209
+            },
+            {
+              "name" : "An der Tiefeneriede",
+              "coordinates": {
+                "lat": 52.356440,
+                "lon": 9.757746
+              },
+              "up" : 1584,
+              "down" : 68
+            }
+          ]
+}
